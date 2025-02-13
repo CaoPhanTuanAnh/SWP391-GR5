@@ -182,7 +182,7 @@
             </c:choose>
             
 	</div>
-            <form action="change_password" method="post">
+        <form action="change_password" method="post" style="margin-left: 20px">
                 <p><input type="password" name="oldPassword" placeholder="Enter old password"></p>
                 <p><input type="password" name="newPassword" placeholder="Enter new password"></p>
                 <p><input type="password" name="reNewPassword" placeholder="Re-enter new password"></p>
