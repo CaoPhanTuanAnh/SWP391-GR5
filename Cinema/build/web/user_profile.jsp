@@ -61,6 +61,28 @@
                 color: var(--theme-rose); /* Chuyển sang màu theme rose khi hover */
                 background: #f0f0f0;
             }
+
+            .maincontent{
+                margin-top: 90px;
+                justify-items: anchor-center;
+            }
+            .maincontent table{
+                margin: 20px 0 20px 0;
+                height: 30vh;
+                align-content: center;
+            }
+            .maincontent th, .maincontent td {
+                padding: 5px 10px;
+            }
+            .maincontent input{
+                margin: 5px 5px;
+                border-radius: 5px;
+            }
+            .mess{
+                margin-top: 90px;
+                height: 28px;
+            }
+
         </style>
     </head>
 
@@ -170,14 +192,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                    <div class="header__top__right__auth">
-                                        <a href="logout"><i class="fa fa-user"></i> Logout</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="logout"><i class="fa fa-user"></i> Logout</a>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                    <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
@@ -212,13 +234,36 @@
             </nav>
         </header>
 
-        <div class="w3l-main-slider">
-            <p class="col-md-3 col-6 footer-img mb-lg-0 mb-4">Full name:${sessionScope.acc.getFullname()}</p>
-            <p class="col-md-3 col-6 footer-img mb-lg-0 mb-4">Username:${sessionScope.acc.getUsername()}</p>
-            <p class="col-md-3 col-6 footer-img mb-lg-0 mb-4">Email:${sessionScope.acc.getEmail()}</p>
-            <p class="col-md-3 col-6 footer-img mb-lg-0 mb-4">Phone number:${sessionScope.acc.getPhone()}</p>
-            <p class="col-md-3 col-6 footer-img mb-lg-0 mb-4">Address:${sessionScope.acc.getAddress()}</p>
-            <p><a class="col-md-3 col-6 footer-img mb-lg-0 mb-4" href="change_password.jsp">Change password</a></p>
+        <div class="maincontent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Full name:</td>
+                        <td>${sessionScope.acc.getFullname()}</td>
+                    </tr>
+                    <tr>
+                        <td>Username:</td>
+                        <td>${sessionScope.acc.getUsername()}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>${sessionScope.acc.getEmail()}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone number:</td>
+                        <td>${sessionScope.acc.getPhone()}</td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td>${sessionScope.acc.getAddress()}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><a class="col-md-3 col-6 footer-img mb-lg-0 mb-4" href="change_password.jsp">Change password</a></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
 
         <!-- footer-66 -->

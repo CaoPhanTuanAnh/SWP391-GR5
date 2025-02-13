@@ -53,6 +53,7 @@ public class ChangePasswordControl extends HttpServlet {
                         mess = "Something go wrong!";
                     } else {
                         mess = "Change password successfully!";
+                        user.setPassword(newPassword);
                     }
                 }
             }

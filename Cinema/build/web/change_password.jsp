@@ -61,6 +61,28 @@
                 color: var(--theme-rose); /* Chuyển sang màu theme rose khi hover */
                 background: #f0f0f0;
             }
+            
+            
+            .maincontent{
+                margin-top: 90px;
+                justify-items: anchor-center;
+            }
+            .maincontent form{
+                margin: 20px 0 20px 0;
+                height: 30vh;
+                align-content: center;
+            }
+            .maincontent th, .maincontent td {
+                padding: 5px 10px;
+            }
+            .maincontent input{
+                margin: 5px 5px;
+                border-radius: 5px;
+            }
+            .mess{
+                margin-top: 90px;
+                height: 28px;
+            }
         </style>
     </head>
 
@@ -212,21 +234,39 @@
             </nav>
         </header>
 
-        <div class="w3l-main-slider">
+        <div class="maincontent">
             <c:choose>
                 <c:when test="${requestScope.mess != null}">
-                    <p>${requestScope.mess}</p>
+                    <p class="mess">${requestScope.mess}</p>
                 </c:when>
+                <c:otherwise>
+                    <p class="mess">     </p>
+                </c:otherwise>
             </c:choose>
-            
-	</div>
-        <form action="change_password" method="post" style="margin-left: 20px">
-                <p><input type="password" name="oldPassword" placeholder="Enter old password"></p>
-                <p><input type="password" name="newPassword" placeholder="Enter new password"></p>
-                <p><input type="password" name="reNewPassword" placeholder="Re-enter new password"></p>
+            <form  action="change_password" method="post">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Enter old password:</td>
+                        <td><input type="password" name="oldPassword" ></td>
+                    </tr>
+                    <tr>
+                        <td>Enter new password:</td>
+                        <td><input type="password" name="newPassword" ></td>
+                    </tr>
+                    <tr>
+                        <td>Re-enter new password:</td>
+                        <td><input type="password" name="reNewPassword"</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
                 <p><input type="submit" name="submit" value="Change"></p>
             </form>
-        </div>
+	</div>
 
         <!-- footer-66 -->
         <footer class="w3l-footer">
