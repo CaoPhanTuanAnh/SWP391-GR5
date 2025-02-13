@@ -19,7 +19,49 @@
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
               rel="stylesheet">
-        
+        <style>
+            /* CSS cho menu */
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            li a:hover {
+                background: #0056b3;
+                width: 100%;
+            }
+
+            /* CSS cho dropdown menu */
+            .dropdown {
+                display: none;
+                position: absolute;
+                top: 65%;
+                left: 750px;
+                background: white;
+                border: 1px solid #ccc;
+                width: 150px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            }
+
+
+
+            /* Hiển thị dropdown khi hover */
+            li:hover .dropdown {
+                display: block;
+            }
+            .dropdown li a {
+                display: block;
+                color: black; /* Màu chữ mặc định */
+                background: white;
+                padding: 10px;
+                transition: color 0.1s ease; /* Hiệu ứng chuyển đổi màu */
+            }
+            .dropdown li a:hover {
+                color: var(--theme-rose); /* Chuyển sang màu theme rose khi hover */
+                background: #f0f0f0;
+            }
+        </style>
     </head>
 
     <body>
