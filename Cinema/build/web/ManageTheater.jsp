@@ -383,18 +383,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                <li>
                                     <div class="header__top__right__auth">
                                         <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
                                     </div>
-                                </li>
                             </c:when>
                             <c:otherwise>
-                                <li>
                                     <div class="header__top__right__auth">
                                         <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
                                     </div>
-                                </li>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
