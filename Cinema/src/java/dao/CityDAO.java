@@ -25,7 +25,7 @@ public class CityDAO {
     
     public List<City> listCity(){
         ArrayList<City> cityList = new ArrayList<>();
-        String query = "select top 5 c.*,count(t.theater_id) as numOfTheater "
+        String query = "select c.*,count(t.theater_id) as numOfTheater "
                 + "from cities c left join theaters t "
                 + "on t.city_id=c.city_id group by c.city_id,c.city_name";
         try {
