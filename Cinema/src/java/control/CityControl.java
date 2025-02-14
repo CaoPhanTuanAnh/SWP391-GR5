@@ -39,7 +39,7 @@ public class CityControl extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(true);
             User admin = (User) session.getAttribute("acc");
-            if (admin != null && admin.getRole()== 1) {
+            if (admin != null && admin.getRole() == 1) {
                 String service = request.getParameter("service");
                 if (service == null) {
                     service = "listCity";
@@ -56,14 +56,18 @@ public class CityControl extends HttpServlet {
             request.getRequestDispatcher("list_city.jsp").forward(request, response);
         }
     }
-    
+
     private void editCity(HttpServletRequest request) {
         String mess = "";
         try {
             int cityID = Integer.parseInt(request.getParameter("cityID"));
             String cityName = request.getParameter("cityName");
             CityDAO dao = new CityDAO();
-            if (!dao.editCity(cityID,cityName)) {
+            if (cityName == null) {
+                mess = "City name can't be null!";
+            } else if (cityName.isBlank()) {
+                mess = "City name can't be empty!";
+            } else if (!dao.editCity(cityID, cityName)) {
                 mess = "Something go wrong!";
             } else {
                 mess = "City edited successfully!";
