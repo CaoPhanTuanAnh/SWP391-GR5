@@ -106,3 +106,60 @@ FROM rooms r,
  SELECT N'K', 5 UNION ALL SELECT N'K', 6 UNION ALL SELECT N'K', 7 UNION ALL SELECT N'K', 8 UNION ALL
  SELECT N'K', 9 UNION ALL SELECT N'K', 10 UNION ALL SELECT N'K', 11 UNION ALL SELECT N'K', 12 
 ) AS s;
+INSERT INTO genres (genre_name) VALUES
+('Action'),
+('Romance'),
+('Comedy'),
+('Horror'),
+('Commedy'),
+('Animation'),
+('Adventure'),
+('Thriller');
+
+INSERT INTO movies (title, genre_id, director, actors, description, trailer_url, poster_url, duration, release_date) VALUES
+('A Wednesday', 8, 'Anthony Russo, Joe Russo', 'Robert Downey Jr., Chris Evans, Scarlett Johansson', 'The film depicts a confrontation between a police commissioner and an anonymous caller who threatens to detonate bombs throughout Mumbai if four terrorists are not freed from police custody.', 'https://youtu.be/oII-vaL3mZg?si=7bpSH8AZDnLF74Gv', './assets/images/wednesday.jpeg', 140, '2019-04-26'),
+('Commando-3', 1, 'James Cameron', 'Leonardo DiCaprio, Kate Winslet', 'Karan goes to London to stop a terrorist attack on India. A mysterious man is on an impending mission to attack the country from his base in London. Karan Singh Dogra sets out to hunt down the antagonist aided by the British Intelligence.', 'https://youtu.be/m-JIofHHU6s?si=7cEgaUdnLC53j_Rc', './assets/images/commando.jpeg', 195, '1997-12-19'),
+('Gujjubhai Most Wanted', 5, 'Christopher Nolan', 'Leonardo DiCaprio, Joseph Gordon-Levitt', 'Gujjubhai and his son Khagesh try a shortcut to earn money which gets them into trouble with terrorists and cops. Gujjubhai and his son Khagesh try a shortcut to earn money which gets them into trouble with terrorists and cops.', 'https://youtu.be/rdu8aLHcVsU?si=uCPVF_DMRfBqCa_X', './assets/images/gujjubhai.jpeg', 148, '2010-07-16'),
+('Joker', 4, 'Todd Phillips', 'Joaquin Phoenix', 'The Joker is a DC Comics supervillain who is a psychopathic criminal mastermind, anarchist, and nihilist. He is known for his colorful clothing, clown makeup, and menacing appearance. ', 'https://youtu.be/zAGVQLHvwOY?si=W4F88mCTo98mpOBo', './assets/images/m9.jpg', 122, '2019-10-04'),
+('Avatar', 7, 'Phill Foen', 'Joaquin Phoenix', ' It is set in the mid-22nd century, when humans are colonizing Pandora, a lush habitable moon of a gas giant in the Alpha Centauri star system, in order to mine the valuable unobtanium,a room-temperature superconductor mineral. ', 'https://youtu.be/d9MyW72ELq0?si=wyx1BKNRMckJRbfE', './assets/images/avtar-2.jpeg', 210, '2012-11-02'),
+('Knives Out', 5, 'Rian Johnson', 'Daniel Craig, Chris Evans, Ana de Armas, Jamie Lee Curtis, Michael Shannon, Don Johnson, Toni Collette, Lakeith Stanfield, Katherine Langford, Jaeden Martell, and Christopher Plummer.', 'Knives Out is a 2019 American mystery film written and directed by Rian Johnson, and produced by Johnson and Ram Bergman. It follows a master detective investigating the death of the patriarch of a wealthy, dysfunctional family. ', 'https://youtu.be/qGqiHJTsRkQ?si=YE9vCFyMcrkAjweh', './assets/images/m3.jpg', 152, '2009-10-04'),
+('Rocketman', 7, 'Dexter Fletcher', 'Bernie Taupin, Richard Madden,Joaquin Phoenix,Taron Egerton', 'The film follows John in his early days in England as a prodigy at the Royal Academy of Music through his musical partnership with Taupin, and is titled after John 1972 song "Rocket Man". ', 'https://youtu.be/mpOGT3GTO84?si=m7DY49WZGpAGcUq4', './assets/images/n3.jpg', 190, '2018-03-09'),
+('Doctor Sleep', 4, 'Stanley Kubrick', 'Rebecca Ferguson,Kyliegh Curran, and Cliff Curtis', 'Doctor Sleep is a 2019 American supernatural horror film written and directed by Mike Flanagan. It is based on the 2013 novel of the same name by Stephen King, a sequel to King 1977 novel The Shining. The film, which also serves as a direct sequel to the 1980 film adaptation. ', 'https://youtu.be/BOzFZxB-8cw?si=aftNf86t4famzTgW', './assets/images/m2.jpg', 135, '2019-12-24'),
+('Toy Story 4', 6, 'Pixar Animation Studios', 'John Lasseter,Rashida Jones, Will McCormack, Valerie LaPointe', ' It is the fourth and final installment in Pixar Toy Story series and the sequel of Toy Story 3 (2010). ', 'https://youtu.be/LDXYRzerjzU?si=e3b4ZU6hCfkCjUic', './assets/images/m8.jpg', 220, '2015-10-14'),
+('Mulan', 1, 'Barry Cook and Tony Bancroft', 'Ming-Na Wen,Eddie Murphy,BD Wong,Harvey Fierstein', 'Mulan is a responsible young woman, seen as a fearless warrior, leader, and beloved role model among her people, both men, and women. ', 'https://youtu.be/KK8FHdFluOQ?si=gf5gKBa2izo2aRyl', './assets/images/n2.jpg', 240, '2019-09-22');
+
+INSERT INTO showtimes (movie_id, room_id, showtime) VALUES
+(1, 1, '2024-10-15 18:00:00'),
+(2, 2, '2024-10-16 20:00:00'),
+(3, 3, '2024-10-17 19:30:00'),
+(4, 4, '2024-10-18 21:00:00');
+
+
+INSERT INTO tickets (showtime_id, seat_id, user_id, price, status) VALUES
+(1, 1, 3, 120000.00, 'Booked'),
+(2, 2, 4, 100000.00, 'Booked'),
+(3, 3, 5, 150000.00, 'Booked'),
+(4, 4, 6, 130000.00, 'Booked');
+
+INSERT INTO coupons (coupon_code, discount_percentage, expiry_date) VALUES
+('SUMMER2024', 10.00, '2024-12-31'),
+('WELCOME10', 15.00, '2024-11-30'),
+('MOVIELOVER', 20.00, '2024-10-31');
+
+INSERT INTO bookings (user_id, total_amount, coupon_id) VALUES
+(3, 240000.00, 1),
+(4, 200000.00, NULL),
+(5, 300000.00, 2),
+(6, 260000.00, NULL);
+
+INSERT INTO booking_items (booking_id, ticket_id, quantity) VALUES
+(1, 1, 2),
+(2, 2, 1),
+(3, 3, 2),
+(4, 4, 1);
+
+INSERT INTO reviews (user_id, movie_id, rating, comment) VALUES
+(3, 1, 5, 'Amazing movie, great acting!'),
+(4, 2, 4, 'Very touching, great soundtrack.'),
+(5, 3, 5, 'Brilliant script, excellent direction.'),
+(6, 4, 4, 'Joker was phenomenal!');
