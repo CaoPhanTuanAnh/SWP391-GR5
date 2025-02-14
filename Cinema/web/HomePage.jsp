@@ -37,7 +37,7 @@
                 display: none;
                 position: absolute;
                 top: 65%;
-                left: 750px;
+                left: 58vw;
                 background: white;
                 border: 1px solid #ccc;
                 width: 150px;
