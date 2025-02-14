@@ -47,9 +47,11 @@ public class ChangePasswordControl extends HttpServlet {
                 if (!newPassword.equals(reNewPassword)) {
                     mess = "Incorrect re-enter new password!";
                 } else {
-                    //check password policies
                     UserDAO dao = new UserDAO();
-                    if (!dao.changePassword(user.getID(), newPassword)) {
+                    //check password policies
+                    if (newPassword.isBlank()){
+                        mess = "Password can't be empty!";
+                    } else if (!dao.changePassword(user.getID(), newPassword)) {
                         mess = "Something go wrong!";
                     } else {
                         mess = "Change password successfully!";
