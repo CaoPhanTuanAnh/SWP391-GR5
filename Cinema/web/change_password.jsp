@@ -37,7 +37,7 @@
                 display: none;
                 position: absolute;
                 top: 65%;
-                left: 750px;
+                left: 58vw;
                 background: white;
                 border: 1px solid #ccc;
                 width: 150px;
@@ -68,6 +68,8 @@
                 justify-items: anchor-center;
             }
             .maincontent form{
+                
+                box-shadow: 0px 0px 5px grey;
                 margin: 20px 0 20px 0;
                 height: 30vh;
                 align-content: center;
