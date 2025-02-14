@@ -109,7 +109,7 @@ FROM rooms r,
 INSERT INTO genres (genre_name) VALUES
 ('Action'),
 ('Romance'),
-('Comedy'),
+('Drama'),
 ('Horror'),
 ('Commedy'),
 ('Animation'),
