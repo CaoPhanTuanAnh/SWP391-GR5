@@ -63,26 +63,56 @@
             }
 
             .maincontent{
+                color:black;
+                font-size: medium;
                 margin-top: 90px;
-                justify-items: anchor-center;
+                justify-items: center;
             }
             .maincontent table{
-                
-                box-shadow: 0px 0px 5px grey;
+                box-shadow: 0px 5px 15px lightgrey;
                 margin: 20px 0 20px 0;
                 height: 30vh;
-                align-content: center;
-            }
-            .maincontent th, .maincontent td {
-                padding: 5px 10px;
-            }
-            .maincontent input{
-                margin: 5px 5px;
-                border-radius: 5px;
+                width: 55vw;
             }
             .mess{
                 margin-top: 90px;
                 height: 28px;
+            }
+            .form-button{
+                display: inline-block;
+                width: 5em;
+                text-align: center;
+                padding: 4px;
+                border-width: 2px;
+                border-style: solid;
+                border-radius: 5px;
+                color: #fff;
+                background-color: #5bc0de;
+                border-color: #46b8da;
+            }
+            .form-button:hover, .form-button:focus {
+                color: #fff;
+                background-color: #31b0d5;
+                border-color: #269abc;
+            }
+            .form-button:active{
+                color: #fff;
+                background-color: #269abc;
+                border-color: #269abc;
+            }
+            .field-name{
+                padding: 25px 0px 0px 30px;
+            }
+            .field{
+                padding: 5px 25px 0px 30px;
+            }
+            .field-value{
+                width: 100%;
+                padding: 4px 6px 4px 6px;
+                color: grey;
+                background-color: lightgray;
+                border: 2px solid grey;
+                border-radius: 7px;
             }
 
         </style>
@@ -237,35 +267,52 @@
         </header>
 
         <div class="maincontent">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Full name:</td>
-                        <td>${sessionScope.acc.getFullname()}</td>
-                    </tr>
-                    <tr>
-                        <td>Username:</td>
-                        <td>${sessionScope.acc.getUsername()}</td>
-                    </tr>
-                    <tr>
-                        <td>Email:</td>
-                        <td>${sessionScope.acc.getEmail()}</td>
-                    </tr>
-                    <tr>
-                        <td>Phone number:</td>
-                        <td>${sessionScope.acc.getPhone()}</td>
-                    </tr>
-                    <tr>
-                        <td>Address:</td>
-                        <td>${sessionScope.acc.getAddress()}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><a class="col-md-3 col-6 footer-img mb-lg-0 mb-4" href="change_password.jsp">Change password</a></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-
+            <c:choose>
+                <c:when test="${requestScope.mess != null}">
+                    <p class="mess">${requestScope.mess}</p>
+                </c:when>
+                <c:otherwise>
+                    <p class="mess">     </p>
+                </c:otherwise>
+            </c:choose>
+            <form action="user_profile" method="post">
+                <input type="hidden" name="service" value="editProfile">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="field-name">Full name</td>
+                            <td class="field-name">Address</td>
+                        </tr>
+                        <tr>
+                            <td class="field"><input class="field-value" type="text" name="fullName" value="${sessionScope.acc.getFullname()}" readonly required></td>
+                            <td class="field"><input class="field-value" type="text" name="address" value="${sessionScope.acc.getAddress()}" readonly required></td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">Email</td>
+                            <td class="field-name">Phone number</td>
+                        </tr>
+                        <tr>
+                            <td class="field"><input class="field-value" type="email" name="email" value="${sessionScope.acc.getEmail()}" readonly required></td>
+                            <td class="field"><input class="field-value" type="number" name="phone" value="${sessionScope.acc.getPhone()}" readonly required></td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">Username</td>
+                            <td class="field-name">Password</td>
+                        </tr>
+                        <tr>
+                            <td class="field"><p class="field-value">${sessionScope.acc.getUsername()}</p></td>
+                            <td class="field"><a class="form-button" style="width: 9em;" href="change_password.jsp">Change password</a></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="text-align: right; padding: 10px 25px 15px 0px">
+                                <button class="form-button" hidden>Submit</button>
+                                <div class="form-button" onclick="editOrCancel(this)">Edit</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
         </div>
 
         <!-- footer-66 -->
@@ -374,7 +421,6 @@
                     window.onscroll = function () {
                         scrollFunction()
                     };
-
                     function scrollFunction() {
                         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                             document.getElementById("movetop").style.display = "block";
@@ -396,66 +442,94 @@
     </body>
 
 </html>
+
+<!-- Allow edit -->
+<script>
+    let info = []
+            , unlock = "color: black; background-color: white; border-color: black;"
+            , lock = "color: grey; background-color: lightgrey; border-color: grey;";
+    function editOrCancel(button) {
+        let submit = document.querySelector(".maincontent button");
+        let oldInfo = document.querySelectorAll(".maincontent input");
+        if (button.innerHTML === "Edit") {
+            for (let i = 1; i < 5; i++) {
+                info[i] = oldInfo[i].value;
+                oldInfo[i].readOnly = false;
+                oldInfo[i].style = unlock;
+            }
+            button.innerHTML = "Cancel";
+            submit.hidden = false;
+        } else {
+            for (let i = 1; i < 5; i++) {
+                oldInfo[i].value = info[i];
+                oldInfo[i].readOnly = true;
+                oldInfo[i].style = lock;
+            }
+            button.innerHTML = "Edit";
+            submit.hidden = true;
+        }
+    }
+</script>
+
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-                    $(document).ready(function () {
-                        //Horizontal Tab
-                        $('#parentHorizontalTab').easyResponsiveTabs({
-                            type: 'default', //Types: default, vertical, accordion
-                            width: 'auto', //auto or any width like 600px
-                            fit: true, // 100% fit in a container
-                            tabidentify: 'hor_1', // The tab groups identifier
-                            activate: function (event) { // Callback function if tab is switched
-                                var $tab = $(this);
-                                var $info = $('#nested-tabInfo');
-                                var $name = $('span', $info);
-                                $name.text($tab.text());
-                                $info.show();
-                            }
-                        });
-                    });
-</script>
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });</script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-                    $(document).ready(function () {
-                        $('.owl-one').owlCarousel({
-                            stagePadding: 280,
-                            loop: true,
-                            margin: 20,
-                            nav: true,
-                            responsiveClass: true,
-                            autoplay: true,
-                            autoplayTimeout: 5000,
-                            autoplaySpeed: 1000,
-                            autoplayHoverPause: false,
-                            responsive: {
-                                0: {
-                                    items: 1,
-                                    stagePadding: 40,
-                                    nav: false
-                                },
-                                480: {
-                                    items: 1,
-                                    stagePadding: 60,
-                                    nav: true
-                                },
-                                667: {
-                                    items: 1,
-                                    stagePadding: 80,
-                                    nav: true
-                                },
-                                1000: {
-                                    items: 1,
-                                    nav: true
-                                }
-                            }
-                        })
-                    })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {
@@ -527,59 +601,46 @@
     $(document).ready(function () {
         $('.popup-with-zoom-anim').magnificPopup({
             type: 'inline',
-
             fixedContentPos: false,
             fixedBgPos: true,
-
             overflowY: 'auto',
-
             closeBtnInside: true,
             preloader: false,
-
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-zoom-in'
         });
-
         $('.popup-with-move-anim').magnificPopup({
             type: 'inline',
-
             fixedContentPos: false,
             fixedBgPos: true,
-
             overflowY: 'auto',
-
             closeBtnInside: true,
             preloader: false,
-
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-slide-bottom'
         });
-    });
-</script>
+    });</script>
 <!-- disable body scroll which navbar is in active -->
 <script>
     $(function () {
         $('.navbar-toggler').click(function () {
             $('body').toggleClass('noscroll');
         })
-    });
-</script>
+    });</script>
 <!-- disable body scroll which navbar is in active -->
 
 <!--/MENU-JS-->
 <script>
     $(window).on("scroll", function () {
         var scroll = $(window).scrollTop();
-
         if (scroll >= 80) {
             $("#site-header").addClass("nav-fixed");
         } else {
             $("#site-header").removeClass("nav-fixed");
         }
     });
-
     //Main navigation Active Class Add Remove
     $(".navbar-toggler").on("click", function () {
         $("header").toggleClass("active");
@@ -593,8 +654,7 @@
                 $("header").removeClass("active");
             }
         });
-    });
-</script>
+    });</script>
 
 <script src="assets/js/bootstrap.min.js"></script>
 

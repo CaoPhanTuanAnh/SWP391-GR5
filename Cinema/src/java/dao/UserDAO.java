@@ -61,4 +61,21 @@ public class UserDAO extends DBContext{
         }
         return false;
     }
+    
+    public boolean editProfile(int ID, String fullName, String email, String phone, String address){
+        String query = "update users set full_name=?, email=?, phone=?, address=? where user_id=?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, fullName);
+            ps.setString(2, email);
+            ps.setString(3, phone);
+            ps.setString(4, address);
+            ps.setInt(5, ID);
+            return ps.executeUpdate()==1;
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }

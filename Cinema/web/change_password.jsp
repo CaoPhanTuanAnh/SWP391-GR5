@@ -61,30 +61,60 @@
                 color: var(--theme-rose); /* Chuyển sang màu theme rose khi hover */
                 background: #f0f0f0;
             }
-            
-            
+
             .maincontent{
+                color:black;
+                font-size: medium;
                 margin-top: 90px;
-                justify-items: anchor-center;
+                justify-items: center;
             }
-            .maincontent form{
-                
-                box-shadow: 0px 0px 5px grey;
+            .maincontent table{
+                box-shadow: 0px 5px 15px lightgrey;
                 margin: 20px 0 20px 0;
                 height: 30vh;
-                align-content: center;
-            }
-            .maincontent th, .maincontent td {
-                padding: 5px 10px;
-            }
-            .maincontent input{
-                margin: 5px 5px;
-                border-radius: 5px;
+                width: 30vw;
             }
             .mess{
                 margin-top: 90px;
                 height: 28px;
             }
+            .form-button{
+                display: inline-block;
+                width: 5em;
+                text-align: center;
+                padding: 4px;
+                border-width: 2px;
+                border-style: solid;
+                border-radius: 5px;
+                color: #fff;
+                background-color: #5bc0de;
+                border-color: #46b8da;
+            }
+            .form-button:hover, .form-button:focus {
+                color: #fff;
+                background-color: #31b0d5;
+                border-color: #269abc;
+            }
+            .form-button:active{
+                color: #fff;
+                background-color: #269abc;
+                border-color: #269abc;
+            }
+            .field-name{
+                padding: 25px 0px 0px 30px;
+            }
+            .field{
+                padding: 5px 25px 0px 30px;
+            }
+            .field-value{
+                width: 100%;
+                padding: 4px 6px 4px 6px;
+                color: black;
+                background-color: white;
+                border: 2px solid black;
+                border-radius: 7px;
+            }
+
         </style>
     </head>
 
@@ -194,14 +224,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                    <div class="header__top__right__auth">
-                                        <a href="logout"><i class="fa fa-user"></i> Logout</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="logout"><i class="fa fa-user"></i> Logout</a>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                    <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
@@ -245,30 +275,36 @@
                     <p class="mess">     </p>
                 </c:otherwise>
             </c:choose>
-            <form  action="change_password" method="post">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Enter old password:</td>
-                        <td><input type="password" name="oldPassword" ></td>
-                    </tr>
-                    <tr>
-                        <td>Enter new password:</td>
-                        <td><input type="password" name="newPassword" ></td>
-                    </tr>
-                    <tr>
-                        <td>Re-enter new password:</td>
-                        <td><input type="password" name="reNewPassword"</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-                <p><input type="submit" name="submit" value="Change"></p>
+            <form  action="user_profile" method="post">
+                <input type="hidden" name="service" value="changePassword">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="field-name">Enter old password:</td>
+                        </tr>
+                        <tr>
+                            <td class="field"><input class="field-value" type="password" name="oldPassword" ></td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">Enter new password:</td>
+                        </tr>
+                        <tr>
+                            <td class="field"><input class="field-value" type="password" name="newPassword" ></td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">Re-enter new password:</td>
+                        </tr>
+                        <tr>
+                            <td class="field"><input class="field-value" type="password" name="reNewPassword"</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; padding: 10px 25px 15px 0px"><button class="form-button">Change</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </form>
-	</div>
+        </div>
 
         <!-- footer-66 -->
         <footer class="w3l-footer">
