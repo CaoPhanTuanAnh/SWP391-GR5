@@ -1,8 +1,8 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package control;
+package controller.customer;
 
 import dao.DAO;
 import entity.User;
@@ -13,14 +13,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
-/**
- *
- * @author 84912
- */
-@WebServlet(name = "HomeControl", urlPatterns = {"/home"})
-public class HomeControl extends HttpServlet {
+@WebServlet(name = "LoginControl", urlPatterns = {"/login"})
+public class LoginControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,7 +31,21 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("HomePage.jsp").forward(request, response);
+        try {
+            String user = request.getParameter("username");
+            String pass = request.getParameter("password");
+            DAO dao = new DAO();
+            User a = dao.login(user, pass);
+            if(a == null){
+                request.setAttribute("mess", "Wrong username or password");
+                request.getRequestDispatcher("sign_in.jsp").forward(request, response);
+            }else{
+                HttpSession session = request.getSession();
+                session.setAttribute("acc", a);
+                response.sendRedirect("home");
+            }
+        }catch(Exception e){
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,7 +74,18 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String user = request.getParameter("username");
+        String pass = request.getParameter("password");
+        DAO dao = new DAO();
+        User a = dao.login(user, pass);
+        if(a == null){
+            request.setAttribute("mess", "Wrong username or password");
+            request.getRequestDispatcher("sign_in.jsp").forward(request, response);
+        }else{
+            HttpSession session = request.getSession();
+            session.setAttribute("acc", a);
+            response.sendRedirect("home");
+        }
     }
 
     /**

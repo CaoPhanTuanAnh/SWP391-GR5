@@ -3,9 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package control;
+package controller.admin;
 
 import dao.DAO;
+import entity.City;
+import entity.Theater;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +15,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author 84912
  */
-@WebServlet(name="AddTheater", urlPatterns={"/AddTheater"})
-public class AddTheater extends HttpServlet {
+@WebServlet(name="ManageTheater", urlPatterns={"/ManageTheater"})
+public class ManageTheater extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,12 +34,12 @@ public class AddTheater extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String idCity = request.getParameter("city");
-        String theaterName = request.getParameter("name");
-        String theaterAddress = request.getParameter("address");
         DAO dao = new DAO();
-        dao.insertTheater(idCity, theaterName, theaterAddress);
-        response.sendRedirect("ManageTheater");
+        List<Theater> list = dao.getAllTheater();
+        List<City> listC = dao.getAllCity();
+        request.setAttribute("listCC", listC);
+        request.setAttribute("listP", list);
+        request.getRequestDispatcher("ManageTheater.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

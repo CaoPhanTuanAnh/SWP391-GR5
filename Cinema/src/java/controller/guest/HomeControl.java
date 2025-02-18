@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control;
+package controller.guest;
 
 import dao.DAO;
 import entity.User;
@@ -13,15 +13,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import java.util.List;
 
 /**
  *
- * @author default
+ * @author 84912
  */
-@WebServlet(name = "ResetPasswordControl", urlPatterns = {"/reset_password"})
-public class ResetPasswordControl extends HttpServlet {
-    
+@WebServlet(name = "HomeControl", urlPatterns = {"/home"})
+public class HomeControl extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,18 +34,7 @@ public class ResetPasswordControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ResetPasswordControl</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ResetPasswordControl at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        request.getRequestDispatcher("HomePage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,7 +49,7 @@ public class ResetPasswordControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("ResetPassword.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -74,25 +63,7 @@ public class ResetPasswordControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO daoUser = new DAO();
-        String email= request.getParameter("resetpassword_email");
-        User user = daoUser.getUserByEmail(email);
-        if(user == null) {
-            request.setAttribute("mess", "not found");
-            request.getRequestDispatcher("ResetPassword.jsp").forward(request, response);
-            return;
-        }
-        resetService service = new resetService();
-        String linkReset = "http://localhost:8080/Cinema/new_password.jsp";
-        
-        boolean isSend = service.sendEmail(email, linkReset, user.getFullname());
-        if(!isSend) {
-            request.setAttribute("mess", "Can not send request");
-            request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
-            return;
-        }
-        request.setAttribute("mess", "ok");
-        request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
