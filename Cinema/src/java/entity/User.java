@@ -32,6 +32,26 @@ public class User {
         this.address = address;
     }
 
+    public User(int ID, int role, String username, String fullname, String email, String phone, String address) {
+        this.ID = ID;
+        this.role = role;
+        this.username = username;
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+    }
+
+    public User(int role, String username, String password, String fullname, String email, String phone, String address) {
+        this.role = role;
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+    }
+
     public int getID() {
         return ID;
     }
@@ -96,7 +116,7 @@ public class User {
         this.address = address;
     }
 
-    
+   
 
     @Override
     public String toString() {
