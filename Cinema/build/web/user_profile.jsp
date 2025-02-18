@@ -87,18 +87,18 @@
                 border-style: solid;
                 border-radius: 5px;
                 color: #fff;
-                background-color: #5bc0de;
-                border-color: #46b8da;
+                background-color: #df0e62;
+                border-color: #c01050;
             }
             .form-button:hover, .form-button:focus {
                 color: #fff;
-                background-color: #31b0d5;
-                border-color: #269abc;
+                background-color: #ff2e82;
+                border-color: #df0e62;
             }
             .form-button:active{
                 color: #fff;
-                background-color: #269abc;
-                border-color: #269abc;
+                background-color: #c01050;
+                border-color: #ff2e82;
             }
             .field-name{
                 padding: 25px 0px 0px 30px;

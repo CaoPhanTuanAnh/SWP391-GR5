@@ -7,9 +7,12 @@
             <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/src/java/control/CityControl.java</file>
             <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/web/list_city.jsp</file>
             <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/CityDAO.java</file>
+            <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/UserDAO.java</file>
             <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/src/java/context/DBContext.java</file>
-            <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/src/java/control/ChangePasswordControl.java</file>
             <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/web/user_profile.jsp</file>
+            <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/src/java/control/UserProfileControl.java</file>
+            <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/web/HomePage.jsp</file>
+            <file>file:/D:/FPTU/25_1_SP/SWP391/SWP391-GR5/Cinema/src/java/tool/TypeValidator.java</file>
         </group>
     </open-files>
 </project-private>
