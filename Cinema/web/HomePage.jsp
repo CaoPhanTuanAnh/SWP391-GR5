@@ -1,8 +1,3 @@
-<%-- 
-    Document   : index_1
-    Created on : Feb 8, 2025, 3:58:20 PM
-    Author     : bolac
---%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -71,11 +66,13 @@
             <!--/nav-->
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
-                    <h1><a class="navbar-brand" href="index.html"><span class="fa fa-play icon-log"
+                    <h1><a class="navbar-brand" href="index.jsp
+                           "><span class="fa fa-play icon-log"
                                                                         aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
-                                    <a class="navbar-brand" href="#index.html">
+                                    <a class="navbar-brand" href="#index.jsp
+                    ">
                                             <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
                                     </a> -->
                     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
@@ -89,18 +86,18 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="home">Home</a>
+                                <a class="nav-link" href="HomePageController">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="movies.html">Movies</a>
+                                <a class="nav-link" href="ViewAllController">Movies</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="about.html">About</a>
+                                <a class="nav-link" href="about.jsp">About</a>
                             </li>
 
 
                             <li class="nav-item">
-                                <a class="nav-link" href="Contact_Us.html">Contact</a>
+                                <a class="nav-link" href="Contact_Us.jsp">Contact</a>
                             </li>
                             <c:if test="${sessionScope.acc.role == 1}">
                                 <li class="nav-item">
@@ -142,22 +139,38 @@
                                     <div class="browse-items">
                                         <h3 class="hny-title two mt-md-5 mt-4">Browse all:</h3>
                                         <ul class="search-items">
-                                            <li><a href="movies.html">Action</a></li>
-                                            <li><a href="movies.html">Drama</a></li>
-                                            <li><a href="movies.html">Family</a></li>
-                                            <li><a href="movies.html">Thriller</a></li>
-                                            <li><a href="movies.html">Commedy</a></li>
-                                            <li><a href="movies.html">Romantic</a></li>
-                                            <li><a href="movies.html">Tv-Series</a></li>
-                                            <li><a href="movies.html">Horror</a></li>
-                                            <li><a href="movies.html">Action</a></li>
-                                            <li><a href="movies.html">Drama</a></li>
-                                            <li><a href="movies.html">Family</a></li>
-                                            <li><a href="movies.html">Thriller</a></li>
-                                            <li><a href="movies.html">Commedy</a></li>
-                                            <li><a href="movies.html">Romantic</a></li>
-                                            <li><a href="movies.html">Tv-Series</a></li>
-                                            <li><a href="movies.html">Horror</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Action</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Drama</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Family</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Thriller</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Commedy</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Romantic</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Tv-Series</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Horror</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Action</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Drama</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Family</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Thriller</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Commedy</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Romantic</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Tv-Series</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Horror</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -307,7 +320,7 @@
             </div>
         </section>
         <!-- main-slider -->
-        <!--grids-sec1-->
+       <!--grids-sec1-->
         <section class="w3l-grids">
             <div class="grids-main py-5">
                 <div class="container py-lg-3">
@@ -317,88 +330,42 @@
                                 <h3 class="hny-title">Popular Movies</h3>
                             </div>
                             <div class="headerhny-right text-lg-right">
-                                <h4><a class="show-title" href="movies.html">Show all</a></h4>
+                                <h4><a class="show-title" href="ViewAllController">Show all</a></h4>
                             </div>
                         </div>
                     </div>
+
                     <div class="w3l-populohny-grids">
-                        <div class="item vhny-grid">
-                            <div class="box16">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/wednesday.jpeg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-                                        <h3 class="title">A Wednesday</h3>
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 1 Hr 4min
+                        <c:forEach items="${requestScope.listPopulars}" var="LP">
+                            <div class="item vhny-grid">
+                                <div class="box16">
+                                    <a href="movies.jsp">
+                                        <figure>
+                                            <img class="img-fluid" src="${LP.getPoster_url()}" alt="">
+                                        </figure>
+                                        <div class="box-content">
+                                            <h3 class="title">${LP.getTitle()}</h3>
+                                            <h4> <span class="post"><span class="fa fa-clock-o"> </span> ${LP.getDuration()}min
 
-                                            </span>
+                                                </span>
 
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
+                                                <span class="post fa fa-heart text-right"></span>
+                                            </h4>
+                                        </div>
+                                        <span class="fa fa-play video-icon" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            <div class="button-center text-center mt-4">
+                                <a href="movies.jsp" class="btn watch-button">Buy Ticket</a>
+                                <a href="movies.jsp" class="btn watch-button">Detail Movie</a>
                             </div>
-                        </div>
-                        <div class="item vhny-grid">
-                            <div class="box16">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/commando2.jpeg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-                                        <h3 class="title">Commando-3</h3>
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 1 Hr 4min
-
-                                            </span>
-
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
                             </div>
-                        </div>
-                        <div class="item vhny-grid">
-                            <div class="box16">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/gujju2.jpeg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-                                        <h3 class="title">Gujjubhai Most Wanted</h3>
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 1 Hr 4min
-
-                                            </span>
-
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item vhny-grid">
-                            <div class="box16">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/avtar-2.jpeg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-                                        <h3 class="title">Avatar</h3>
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 1 Hr 4min
-
-                                            </span>
-
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
+
+
+
+
                 </div>
             </div>
         </section>
@@ -413,156 +380,40 @@
                                 <h3 class="hny-title">New Releases</h3>
                             </div>
                             <div class="headerhny-right text-lg-right">
-                                <h4><a class="show-title" href="movies.html">Show all</a></h4>
+                                <h4><a class="show-title" href="ViewAllController">Show all</a></h4>
                             </div>
                         </div>
                     </div>
                     <div class="owl-three owl-carousel owl-theme">
-                        <div class="item vhny-grid">
-                            <div class="box16 mb-0">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/n1.jpg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 2 Hr 4min
 
-                                            </span>
+                        <c:forEach items="${requestScope.listNew}" var="LP">
+                            <div class="item vhny-grid">
+                                <div class="box16 mb-0">
+                                    <a href="movies.jsp">
+                                        <figure>
+                                            <img class="img-fluid" src="${LP.getPoster_url()}" alt="">
+                                        </figure>
+                                        <div class="box-content">
+                                            <h4> <span class="post"><span class="fa fa-clock-o"> </span> ${LP.getDuration()}min
 
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
+                                                </span>
+
+                                                <span class="post fa fa-heart text-right"></span>
+                                            </h4>
+                                        </div>
+                                        <span class="fa fa-play video-icon" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                                <h3> <a class="title-gd" href="movies.jsp"></a>${LP.getTitle()}</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                                <div class="button-center text-center mt-4">
+                                    <a href="movies.jsp" class="btn watch-button">Buy Ticket</a>
+                                    <a href="movies.jsp" class="btn watch-button">Detail Movie</a>
+                                </div>
+
                             </div>
-                            <h3> <a class="title-gd" href="movies.html">No Time to Die</a></h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
-                            <div class="button-center text-center mt-4">
-                                <a href="movies.html" class="btn watch-button">Watch now</a>
-                            </div>
+                        </c:forEach>
 
-                        </div>
-                        <div class="item vhny-grid">
-                            <div class="box16 mb-0">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/n2.jpg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 2 Hr 4min
-
-                                            </span>
-
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
-                            </div>
-                            <h3> <a class="title-gd" href="movies.html">Mulan</a></h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
-                            <div class="button-center text-center mt-4">
-                                <a href="movies.html" class="btn watch-button">Watch now</a>
-                            </div>
-                        </div>
-                        <div class="item vhny-grid">
-                            <div class="box16 mb-0">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/n3.jpg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 2 Hr 4min
-
-                                            </span>
-
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
-                            </div>
-                            <h3> <a class="title-gd" href="movies.html">Free Guy</a></h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
-                            <div class="button-center text-center mt-4">
-                                <a href="movies.html" class="btn watch-button">Watch now</a>
-                            </div>
-                        </div>
-                        <div class="item vhny-grid">
-                            <div class="box16 mb-0">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/n4.jpg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 2 Hr 4min
-
-                                            </span>
-
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
-                            </div>
-                            <h3> <a class="title-gd" href="movies.html">My Spy</a></h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
-                            <div class="button-center text-center mt-4">
-                                <a href="movies.html" class="btn watch-button">Watch now</a>
-                            </div>
-
-                        </div>
-                        <div class="item vhny-grid">
-                            <div class="box16 mb-0">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/n5.jpg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 2 Hr 4min
-
-                                            </span>
-
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
-                            </div>
-                            <h3> <a class="title-gd" href="movies.html">Scoob</a></h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
-                            <div class="button-center text-center mt-4">
-                                <a href="movies.html" class="btn watch-button">Watch now</a>
-                            </div>
-                        </div>
-                        <div class="item vhny-grid">
-                            <div class="box16 mb-0">
-                                <a href="movies.html">
-                                    <figure>
-                                        <img class="img-fluid" src="assets/images/n6.jpg" alt="">
-                                    </figure>
-                                    <div class="box-content">
-
-                                        <h4> <span class="post"><span class="fa fa-clock-o"> </span> 2 Hr 4min
-
-                                            </span>
-
-                                            <span class="post fa fa-heart text-right"></span>
-                                        </h4>
-                                    </div>
-                                    <span class="fa fa-play video-icon" aria-hidden="true"></span>
-                                </a>
-                            </div>
-                            <h3> <a class="title-gd" href="movies.html">Downhill</a></h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
-                            <div class="button-center text-center mt-4">
-                                <a href="movies.html" class="btn watch-button">Watch now</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -581,7 +432,8 @@
                                         <span class="sub-text">Comedy</span>
                                         <h3>Jumanji: The Next Level</h3>
                                         <p>2019 ‧ Comedy/Action ‧ 2h 3m</p>
-                                        <a class="watch" href="movies.html"><span class="fa fa-play"
+                                        <a class="watch" href="movies.jsp
+                                           "><span class="fa fa-play"
                                                                                   aria-hidden="true"></span>
                                             Watch Trailer</a>
                                     </div>
@@ -597,7 +449,8 @@
                                         <span class="sub-text">Adventure</span>
                                         <h3>Dolittle</h3>
                                         <p>2020 ‧ Family/Adventure ‧ 1h 41m</p>
-                                        <a class="watch" href="movies.html"><span class="fa fa-play"
+                                        <a class="watch" href="movies.jsp
+                                           "><span class="fa fa-play"
                                                                                   aria-hidden="true"></span>
                                             Watch Trailer</a>
                                     </div>
@@ -613,7 +466,8 @@
                                         <span class="sub-text">Action</span>
                                         <h3>Bad Boys for Life</h3>
                                         <p>2020 ‧ Comedy/Action ‧ 2h 4m</p>
-                                        <a class="watch" href="movies.html"><span class="fa fa-play"
+                                        <a class="watch" href="movies.jsp
+                                           "><span class="fa fa-play"
                                                                                   aria-hidden="true"></span>
                                             Watch Trailer</a>
                                     </div>
@@ -633,19 +487,23 @@
                             <div class="right-side">
                                 <div class="row footer-about">
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.html"><img class="img-fluid" src="assets/images/banner1.jpg"
+                                        <a href="movies.jsp
+                                           "><img class="img-fluid" src="assets/images/banner1.jpg"
                                                                    alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.html"><img class="img-fluid" src="assets/images/banner2.jpg"
+                                        <a href="movies.jsp
+                                           "><img class="img-fluid" src="assets/images/banner2.jpg"
                                                                    alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.html"><img class="img-fluid" src="assets/images/banner3.jpg"
+                                        <a href="movies.jsp
+                                           "><img class="img-fluid" src="assets/images/banner3.jpg"
                                                                    alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.html"><img class="img-fluid" src="assets/images/banner4.jpg"
+                                        <a href="movies.jsp
+                                           "><img class="img-fluid" src="assets/images/banner4.jpg"
                                                                    alt=""></a>
                                     </div>
                                 </div>
@@ -660,29 +518,40 @@
                                             <li><a href="#">English Movies</a></li>
                                             <li><a href="#">Tailor</a></li>
                                             <li><a href="#">Upcoming Movies</a></li>
-                                            <li><a href="Contact_Us.html">Contact Us</a></li>
+                                            <li><a href="Contact_Us.jsp
+                                                   ">Contact Us</a></li>
                                         </ul>
                                     </div>
                                     <div class="col-md-3 col-sm-6 sub-two-right mt-5">
                                         <h6>Information</h6>
                                         <ul>
-                                            <li><a href="index.html">Home</a> </li>
-                                            <li><a href="about.html">About</a> </li>
+                                            <li><a href="index.jsp
+                                                   ">Home</a> </li>
+                                            <li><a href="about.jsp
+                                                   ">About</a> </li>
                                             <li><a href="#">Tv Series</a> </li>
                                             <li><a href="#">Blogs</a> </li>
-                                            <li><a href="sign_in.html">Login</a></li>
-                                            <li><a href="Contact_Us.html">Contact</a></li>
+                                            <li><a href="sign_in.jsp
+                                                   ">Login</a></li>
+                                            <li><a href="Contact_Us.jsp
+                                                   ">Contact</a></li>
                                         </ul>
                                     </div>
                                     <div class="col-md-3 col-sm-6 sub-two-right mt-5">
                                         <h6>Locations</h6>
                                         <ul>
-                                            <li><a href="movies.html">Asia</a></li>
-                                            <li><a href="movies.html">France</a></li>
-                                            <li><a href="movies.html">Taiwan</a></li>
-                                            <li><a href="movies.html">United States</a></li>
-                                            <li><a href="movies.html">Korea</a></li>
-                                            <li><a href="movies.html">United Kingdom</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Asia</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">France</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Taiwan</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">United States</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">Korea</a></li>
+                                            <li><a href="movies.jsp
+                                                   ">United Kingdom</a></li>
                                         </ul>
                                     </div>
                                     <div class="col-md-3 col-sm-6 sub-two-right mt-5">
