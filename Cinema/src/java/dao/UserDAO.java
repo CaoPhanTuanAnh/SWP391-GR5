@@ -78,4 +78,100 @@ public class UserDAO extends DBContext{
         }
         return false;
     }
+
+    public List<User> getAllUser() {
+        List<User> users = new ArrayList<>();
+        String query = "SELECT user_id, role_id, username, [full_name], email, phone, address FROM users";
+
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                users.add(new User(
+                        rs.getInt("user_id"),
+                        rs.getInt("role_id"),
+                        rs.getString("username"),
+                        rs.getString("full_name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address")
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi lấy danh sách người dùng: " + e.getMessage());
+        }
+        return users;
+    }
+    
+    
+
+    public User getAccountById(int id) {
+        String query = "SELECT user_id, role_id, username, full_name, email, phone, address FROM users WHERE user_id = ?";
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                            rs.getInt("user_id"),
+                            rs.getInt("role_id"),
+                            rs.getString("username"),
+                            rs.getString("full_name"),
+                            rs.getString("email"),
+                            rs.getString("phone"),
+                            rs.getString("address")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi lấy tài khoản theo ID: " + e.getMessage());
+        }
+        return null;
+    }
+    
+    public static void main(String[] args) {
+        UserDAO userDao = new UserDAO();
+        User users = userDao.getAccountById(1);
+        System.out.println(users);
+    }
+
+    public boolean createUser(User user) {
+        String query = "INSERT INTO users (role_id, username, full_name, email, phone, address, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, user.getRole());
+            ps.setString(2, user.getUsername());
+            ps.setString(3, user.getFullname());
+            ps.setString(4, user.getEmail());
+            ps.setString(5, user.getPhone());
+            ps.setString(6, user.getAddress());
+            ps.setString(7, user.getPassword());
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (Exception e) {
+            System.out.println("Lỗi khi tạo người dùng: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean updateUserInDatabase(String fullname, String email, String phone, String address) {
+        String query = "UPDATE users SET full_name = ?, phone = ?, address = ? WHERE email = ?";
+
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, fullname);
+            ps.setString(2, phone);
+            ps.setString(3, address);
+            ps.setString(4, email);
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật người dùng: " + e.getMessage());
+        }
+        return false;
+    }
 }

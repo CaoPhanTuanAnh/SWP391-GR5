@@ -290,7 +290,7 @@
                         </tr>
                         <tr>
                             <td class="field">
-                                <input class="field-value" id="password" oninput="checkPassword(this)" type="password" name="newPassword" >
+                                <input class="field-value" id="password" oninput="checkPassword();checkRePassword()" type="password" name="newPassword" >
                                 <p style="color:red;font-size:small;"></p>
                             </td>
                         </tr>
@@ -299,7 +299,7 @@
                         </tr>
                         <tr>
                             <td class="field"">
-                                <input class="field-value" id="rePassword" oninput="checkRePassword(this)" type="password" name="reNewPassword" >
+                                <input class="field-value" id="re-password" oninput="checkRePassword()" type="password" name="reNewPassword" >
                                 <p style="color:red;font-size:small;"></p>
                             </td>
                         </tr>
