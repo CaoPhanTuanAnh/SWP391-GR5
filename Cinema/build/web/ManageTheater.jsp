@@ -332,11 +332,11 @@
             <!--/nav-->
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
-                    <h1><a class="navbar-brand" href="index.html"><span class="fa fa-play icon-log"
+                    <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
                                                                         aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
-                                    <a class="navbar-brand" href="#index.html">
+                                    <a class="navbar-brand" href="#index.jsp">
                                             <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
                                     </a> -->
                     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
@@ -366,16 +366,16 @@
 
                             <c:if test="${sessionScope.acc.getRole() == 2}">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="index.html">Home</a>
+                                    <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.html">Manage Room</a>
+                                    <a class="nav-link" href="about.jsp">Manage Room</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="movies.html">Manage Seat</a>
+                                    <a class="nav-link" href="movies.jsp">Manage Seat</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.html">Manage Show Time</a>
+                                    <a class="nav-link" href="about.jsp">Manage Show Time</a>
                                 </li>
                             </c:if>
 

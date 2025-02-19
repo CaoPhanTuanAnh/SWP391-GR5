@@ -22,6 +22,22 @@ public class DBContext {
     private final String portNumber = "1433";
     private final String instance = "";//LEAVE THIS ONE EMPTY IF YOUR SQL IS A SINGLE INSTANCE
     private final String userID = "sa";
-    private final String password = "12345678";
+    private final String password = "123";
 
+     public static void main(String[] args) {
+        DBContext dbContext = new DBContext();
+        try {
+            Connection conn = dbContext.getConnection();
+            if (conn != null) {
+                System.out.println("✅ Kết nối thành công đến database!");
+                conn.close();
+            } else {
+                System.out.println("❌ Kết nối thất bại.");
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi kết nối: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
 }

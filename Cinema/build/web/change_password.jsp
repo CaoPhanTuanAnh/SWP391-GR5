@@ -125,11 +125,11 @@
             <!--/nav-->
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
-                    <h1><a class="navbar-brand" href="index.html"><span class="fa fa-play icon-log"
+                    <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
                                                                         aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
-                                    <a class="navbar-brand" href="#index.html">
+                                    <a class="navbar-brand" href="#index.jsp">
                                             <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
                                     </a> -->
                     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
@@ -146,15 +146,15 @@
                                 <a class="nav-link" href="home">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="movies.html">Movies</a>
+                                <a class="nav-link" href="movies.jsp">Movies</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="about.html">About</a>
+                                <a class="nav-link" href="about.jsp">About</a>
                             </li>
 
 
                             <li class="nav-item">
-                                <a class="nav-link" href="Contact_Us.html">Contact</a>
+                                <a class="nav-link" href="Contact_Us.jsp">Contact</a>
                             </li>
                             <c:if test="${sessionScope.acc.role == 1}">
                                 <li class="nav-item">
@@ -196,22 +196,22 @@
                                     <div class="browse-items">
                                         <h3 class="hny-title two mt-md-5 mt-4">Browse all:</h3>
                                         <ul class="search-items">
-                                            <li><a href="movies.html">Action</a></li>
-                                            <li><a href="movies.html">Drama</a></li>
-                                            <li><a href="movies.html">Family</a></li>
-                                            <li><a href="movies.html">Thriller</a></li>
-                                            <li><a href="movies.html">Commedy</a></li>
-                                            <li><a href="movies.html">Romantic</a></li>
-                                            <li><a href="movies.html">Tv-Series</a></li>
-                                            <li><a href="movies.html">Horror</a></li>
-                                            <li><a href="movies.html">Action</a></li>
-                                            <li><a href="movies.html">Drama</a></li>
-                                            <li><a href="movies.html">Family</a></li>
-                                            <li><a href="movies.html">Thriller</a></li>
-                                            <li><a href="movies.html">Commedy</a></li>
-                                            <li><a href="movies.html">Romantic</a></li>
-                                            <li><a href="movies.html">Tv-Series</a></li>
-                                            <li><a href="movies.html">Horror</a></li>
+                                            <li><a href="movies.jsp">Action</a></li>
+                                            <li><a href="movies.jsp">Drama</a></li>
+                                            <li><a href="movies.jsp">Family</a></li>
+                                            <li><a href="movies.jsp">Thriller</a></li>
+                                            <li><a href="movies.jsp">Commedy</a></li>
+                                            <li><a href="movies.jsp">Romantic</a></li>
+                                            <li><a href="movies.jsp">Tv-Series</a></li>
+                                            <li><a href="movies.jsp">Horror</a></li>
+                                            <li><a href="movies.jsp">Action</a></li>
+                                            <li><a href="movies.jsp">Drama</a></li>
+                                            <li><a href="movies.jsp">Family</a></li>
+                                            <li><a href="movies.jsp">Thriller</a></li>
+                                            <li><a href="movies.jsp">Commedy</a></li>
+                                            <li><a href="movies.jsp">Romantic</a></li>
+                                            <li><a href="movies.jsp">Tv-Series</a></li>
+                                            <li><a href="movies.jsp">Horror</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -321,19 +321,19 @@
                             <div class="right-side">
                                 <div class="row footer-about">
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.html"><img class="img-fluid" src="assets/images/banner1.jpg"
+                                        <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner1.jpg"
                                                                    alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.html"><img class="img-fluid" src="assets/images/banner2.jpg"
+                                        <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner2.jpg"
                                                                    alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.html"><img class="img-fluid" src="assets/images/banner3.jpg"
+                                        <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner3.jpg"
                                                                    alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.html"><img class="img-fluid" src="assets/images/banner4.jpg"
+                                        <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner4.jpg"
                                                                    alt=""></a>
                                     </div>
                                 </div>
@@ -348,29 +348,29 @@
                                             <li><a href="#">English Movies</a></li>
                                             <li><a href="#">Tailor</a></li>
                                             <li><a href="#">Upcoming Movies</a></li>
-                                            <li><a href="Contact_Us.html">Contact Us</a></li>
+                                            <li><a href="Contact_Us.jsp">Contact Us</a></li>
                                         </ul>
                                     </div>
                                     <div class="col-md-3 col-sm-6 sub-two-right mt-5">
                                         <h6>Information</h6>
                                         <ul>
-                                            <li><a href="index.html">Home</a> </li>
-                                            <li><a href="about.html">About</a> </li>
+                                            <li><a href="index.jsp">Home</a> </li>
+                                            <li><a href="about.jsp">About</a> </li>
                                             <li><a href="#">Tv Series</a> </li>
                                             <li><a href="#">Blogs</a> </li>
-                                            <li><a href="sign_in.html">Login</a></li>
-                                            <li><a href="Contact_Us.html">Contact</a></li>
+                                            <li><a href="sign_in.jsp">Login</a></li>
+                                            <li><a href="Contact_Us.jsp">Contact</a></li>
                                         </ul>
                                     </div>
                                     <div class="col-md-3 col-sm-6 sub-two-right mt-5">
                                         <h6>Locations</h6>
                                         <ul>
-                                            <li><a href="movies.html">Asia</a></li>
-                                            <li><a href="movies.html">France</a></li>
-                                            <li><a href="movies.html">Taiwan</a></li>
-                                            <li><a href="movies.html">United States</a></li>
-                                            <li><a href="movies.html">Korea</a></li>
-                                            <li><a href="movies.html">United Kingdom</a></li>
+                                            <li><a href="movies.jsp">Asia</a></li>
+                                            <li><a href="movies.jsp">France</a></li>
+                                            <li><a href="movies.jsp">Taiwan</a></li>
+                                            <li><a href="movies.jsp">United States</a></li>
+                                            <li><a href="movies.jsp">Korea</a></li>
+                                            <li><a href="movies.jsp">United Kingdom</a></li>
                                         </ul>
                                     </div>
                                     <div class="col-md-3 col-sm-6 sub-two-right mt-5">

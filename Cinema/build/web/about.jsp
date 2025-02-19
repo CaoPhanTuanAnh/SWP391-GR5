@@ -28,11 +28,11 @@
 		<!--/nav-->
 		<nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
 			<div class="container">
-				<h1><a class="navbar-brand" href="index.html"><span class="fa fa-play icon-log"
+				<h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
 							aria-hidden="true"></span>
 						MyShowz </a></h1>
 				<!-- if logo is image enable this   
-							<a class="navbar-brand" href="#index.html">
+							<a class="navbar-brand" href="#index.jsp">
 								<img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
 							</a> -->
 				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
@@ -46,18 +46,18 @@
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="index.html">Home</a>
+							<a class="nav-link" href="index.jsp">Home</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="movies.html">movies</a>
+							<a class="nav-link" href="movies.jsp">movies</a>
 						</li>
 
 						<li class="nav-item active">
-							<a class="nav-link" href="about.html">About</a>
+							<a class="nav-link" href="about.jsp">About</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" href="Contact_Us.html">Contact</a>
+							<a class="nav-link" href="Contact_Us.jsp">Contact</a>
 						</li>
 					</ul>
 
@@ -67,7 +67,7 @@
 					<div class="Login_SignUp" id="login"
 						style="font-size: 2rem ; display: inline-block; position: relative;">
 						<!-- <li class="nav-item"> -->
-						<a class="nav-link" href="sign_in.html"><i class="fa fa-user-circle-o"></i></a>
+						<a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
 						<!-- </li> -->
 					</div>
 				</div>
@@ -92,7 +92,7 @@
 	<div class="w3l-breadcrumbs">
 		<nav id="breadcrumbs" class="breadcrumbs">
 			<div class="container page-wrapper">
-				<a href="index.html">Home</a> » <span class="breadcrumb_last" aria-current="page">About</span>
+				<a href="index.jsp">Home</a> » <span class="breadcrumb_last" aria-current="page">About</span>
 			</div>
 		</nav>
 	</div>
@@ -165,10 +165,10 @@
 	<div class="swiper-wrapper">
 		<div class="swiper-slide">
 			<div class="imgBx">
-				<img src="assets/images/kishan.PNG" style="width :100%; height: 100%">
+				<img src="assets/images/gao-bac.jpg" style="width :100%; height: 100%">
 			</div>
 			<div class="details">
-				<h3 id="details-h3-1">Kishan Patel<br></h3>
+				<h3 id="details-h3-1">Nguyen Tuan Kiet<br></h3>
 				<div class="p-sm">
 					<a href="https://www.linkedin.com/in/kishan-patel-a95827176/"><i class="fa fa-linkedin"></i></a>
 					<a href="https://www.instagram.com/kishann_20/"><i class="fa fa-instagram"></i></a>
@@ -178,10 +178,10 @@
 		</div>
 		<div class="swiper-slide">
 			<div class="imgBx">
-				<img src="assets/images/sharvil.jpg" style="width :100%; height: 100%">
+				<img src="assets/images/gao-xanh.jpg" style="width :100%; height: 100%">
 			</div>
 			<div class="details">
-				<h3 id="details-h3-2">Sharvil Patel<br></h3>
+				<h3 id="details-h3-2">Nguyen Trong Vu<br></h3>
 				<div class="p-sm">
 					<a href="https://www.linkedin.com/in/sharvil-patel/"><i class="fa fa-linkedin"></i></a>
 					<a href="https://www.instagram.com/sharvil551/"><i class="fa fa-instagram"></i></a>
@@ -191,10 +191,10 @@
 		</div>
 		<div class="swiper-slide">
 			<div class="imgBx">
-				<img src="assets/images/Harsh (2).jpg" style="width :100%; height: 100%">
+				<img src="assets/images/gao-vang.jpg" style="width :100%; height: 100%">
 			</div>
 			<div class="details">
-				<h3 id="details-h3-3">Harsh Mange<br></h3>
+				<h3 id="details-h3-3">Cao Phan Tuan Anh<br></h3>
 				<div class="p-sm">
 					<a href="https://in.linkedin.com/in/harshmange"><i class="fa fa-linkedin"></i></a>
 					<a href="https://www.instagram.com/im.h_r_s_h/"><i class="fa fa-instagram"></i></a>
@@ -204,10 +204,23 @@
 		</div>
 		<div class="swiper-slide">
 			<div class="imgBx">
-				<img src="assets/images/chavda.PNG" style="width :100%; height: 100%">
+				<img src="assets/images/gao-do.jpg" style="width :100%; height: 100%">
 			</div>
 			<div class="details">
-				<h3 id="details-h3-4">Yugam Chavda<br></h3>
+				<h3 id="details-h3-4">Nguyen Hoang Khoi<br></h3>
+				<div class="p-sm">
+					<a href="https://www.linkedin.com/in/yugamsinh-chavda-2b06ab18b/"><i class="fa fa-linkedin"></i></a>
+					<a href="https://www.instagram.com/yugamsinh_chavda/"><i class="fa fa-instagram"></i></a>
+					<a href="https://github.com/YugamsinhChavda"><i class="fa fa-github"></i></a>
+				</div>
+			</div>
+		</div>
+		<div class="swiper-slide">
+			<div class="imgBx">
+				<img src="assets/images/gao-den.jpg" style="width :100%; height: 100%">
+			</div>
+			<div class="details">
+				<h3 id="details-h3-5">Phan Van Giap<br></h3>
 				<div class="p-sm">
 					<a href="https://www.linkedin.com/in/yugamsinh-chavda-2b06ab18b/"><i class="fa fa-linkedin"></i></a>
 					<a href="https://www.instagram.com/yugamsinh_chavda/"><i class="fa fa-instagram"></i></a>
@@ -352,19 +365,19 @@
 						<div class="right-side">
 							<div class="row footer-about">
 								<div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-									<a href="movies.html"><img class="img-fluid" src="assets/images/banner1.jpg"
+									<a href="movies.jsp"><img class="img-fluid" src="assets/images/banner1.jpg"
 											alt=""></a>
 								</div>
 								<div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-									<a href="movies.html"><img class="img-fluid" src="assets/images/banner2.jpg"
+									<a href="movies.jsp"><img class="img-fluid" src="assets/images/banner2.jpg"
 											alt=""></a>
 								</div>
 								<div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-									<a href="movies.html"><img class="img-fluid" src="assets/images/banner3.jpg"
+									<a href="movies.jsp"><img class="img-fluid" src="assets/images/banner3.jpg"
 											alt=""></a>
 								</div>
 								<div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-									<a href="movies.html"><img class="img-fluid" src="assets/images/banner4.jpg"
+									<a href="movies.jsp"><img class="img-fluid" src="assets/images/banner4.jpg"
 											alt=""></a>
 								</div>
 							</div>
@@ -379,29 +392,29 @@
 										<li><a href="#">English Movies</a></li>
 										<li><a href="#">Tailor</a></li>
 										<li><a href="#">Upcoming Movies</a></li>
-										<li><a href="Contact_Us.html">Contact Us</a></li>
+										<li><a href="Contact_Us.jsp">Contact Us</a></li>
 									</ul>
 								</div>
 								<div class="col-md-3 col-sm-6 sub-two-right mt-5">
 									<h6>Information</h6>
 									<ul>
-										<li><a href="index.html">Home</a> </li>
-										<li><a href="about.html">About</a> </li>
+										<li><a href="index.jsp">Home</a> </li>
+										<li><a href="about.jsp">About</a> </li>
 										<li><a href="#">Tv Series</a> </li>
 										<li><a href="#">Blogs</a> </li>
-										<li><a href="sign_in.html">Login</a></li>
-										<li><a href="Contact_Us.html">Contact</a></li>
+										<li><a href="sign_in.jsp">Login</a></li>
+										<li><a href="Contact_Us.jsp">Contact</a></li>
 									</ul>
 								</div>
 								<div class="col-md-3 col-sm-6 sub-two-right mt-5">
 									<h6>Locations</h6>
 									<ul>
-										<li><a href="movies.html">Asia</a></li>
-										<li><a href="movies.html">France</a></li>
-										<li><a href="movies.html">Taiwan</a></li>
-										<li><a href="movies.html">United States</a></li>
-										<li><a href="movies.html">Korea</a></li>
-										<li><a href="movies.html">United Kingdom</a></li>
+										<li><a href="movies.jsp">Asia</a></li>
+										<li><a href="movies.jsp">France</a></li>
+										<li><a href="movies.jsp">Taiwan</a></li>
+										<li><a href="movies.jsp">United States</a></li>
+										<li><a href="movies.jsp">Korea</a></li>
+										<li><a href="movies.jsp">United Kingdom</a></li>
 									</ul>
 								</div>
 								<div class="col-md-3 col-sm-6 sub-two-right mt-5">

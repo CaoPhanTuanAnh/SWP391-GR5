@@ -21,10 +21,10 @@
     <!--/nav-->
     <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
       <div class="container">
-        <h1><a class="navbar-brand" href="index.html"><span class="fa fa-play icon-log" aria-hidden="true"></span>
+        <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log" aria-hidden="true"></span>
           MyShowz </a></h1>
         <!-- if logo is image enable this   
-                    <a class="navbar-brand" href="#index.html">
+                    <a class="navbar-brand" href="#index.jsp">
                         <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
                     </a> -->
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
@@ -38,17 +38,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="HomePage.jsp">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="movies.html">Movies</a>
+              <a class="nav-link" href="movies.jsp">Movies</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="about.jsp">About</a>
             </li>
 
             <li class="nav-item active">
-              <a class="nav-link" href="Contact_Us.html">Contact</a>
+              <a class="nav-link" href="Contact_Us.jsp">Contact</a>
             </li>
           </ul>
 
@@ -57,7 +57,7 @@
 
           <div class="Login_SignUp" id="login" style="font-size: 2rem ; display: inline-block; position: relative;">
             <!-- <li class="nav-item"> -->
-            <a class="nav-link" href="sign_in.html"><i class="fa fa-user-circle-o"></i></a>
+            <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
             <!-- </li> -->
           </div>
         </div>

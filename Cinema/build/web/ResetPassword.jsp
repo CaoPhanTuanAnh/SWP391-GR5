@@ -26,7 +26,7 @@
 		<!--/nav-->
 		<nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
 			<div class="container">
-				<h1><a class="navbar-brand" href="index.html"><span class="fa fa-play icon-log"
+				<h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
 							aria-hidden="true"></span>
 							MyShowz </a></h1>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">

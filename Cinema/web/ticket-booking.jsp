@@ -31,7 +31,7 @@
     <!--/nav-->
     <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
       <div class="container">
-        <h1><a class="navbar-brand" href="index.html"><span class="fa fa-play icon-log" aria-hidden="true"></span>
+        <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log" aria-hidden="true"></span>
             MyShowz </a></h1>
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -40,7 +40,7 @@
         <div class="Login_SignUp" id="login_s">
           <!-- style="font-size: 2rem ; display: inline-block; position: relative;" -->
           <!-- <li class="nav-item"> -->
-          <a class="nav-link" href="sign_in.html"><i class="fa fa-user-circle-o"></i></a>
+          <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
           <!-- </li> -->
         </div>
         <!-- toggle switch for light and dark theme -->
@@ -202,7 +202,7 @@
               <div>
                 <iframe id="seat-sel-iframe"
                   style="  box-shadow: 0 14px 12px 0 var(--theme-border), 0 10px 50px 0 var(--theme-border); width: 800px; height: 550px; display: block; margin-left: auto; margin-right: auto;"
-                  src="seat_selection/seat_sel.html"></iframe>
+                  src="seat_selection/seat_sel.jsp"></iframe>
               </div>
               <br>
               <input type="button" name="next-step" class="next-step" value="Proceed to Payment" />
@@ -282,7 +282,7 @@
               </div>
               <input type="button" name="next-step" class="next-step pay-btn" value="Confirm Payment" />
               <input type="button" name="previous-step" class="cancel-pay-btn" value="Cancel Payment"
-                onclick="location.href='index.html';" />
+                onclick="location.href='index.jsp';" />
             </fieldset>
             <fieldset>
               <h2>E-Ticket</h2>
@@ -475,7 +475,7 @@
                 </div>
               </div>
               <input type="button" name="previous-step" class="home-page-btn" value="Browse to Home Page"
-                onclick="location.href='index.html';" />
+                onclick="location.href='index.jsp';" />
             </fieldset>
           </form>
         </div>

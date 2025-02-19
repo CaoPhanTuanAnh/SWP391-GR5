@@ -13,18 +13,21 @@ import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author PCASUS
  */
 public class moviesDAO extends DBContext {
-    Connection connection = null;
+    
     public List<movies> getAllMoviesWithPaging(int page, int PAGE_SIZE) {
-        List<movies> productList = new ArrayList<>();
+        List<movies> movieList = new ArrayList<>();
         String sql = "SELECT * FROM  movies ORDER BY movie_id ASC OFFSET ((? - 1) * ?) ROW FETCH NEXT ? ROWS ONLY;";
 
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();
+             PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, page);
             st.setInt(2, PAGE_SIZE);
             st.setInt(3, PAGE_SIZE);
@@ -41,38 +44,45 @@ public class moviesDAO extends DBContext {
                     movies.setTitle(title);
                     movies.setDuration(duration);
                     movies.setPoster_url(poster_url);
-                    productList.add(movies);
+                    movieList.add(movies);
                 }
             }
-        } catch (SQLException e) {
-            System.err.println("Error retrieving products: " + e.getMessage());
+         } catch (SQLException e) {
+            System.err.println("Lỗi truy vấn getAllMoviesWithPaging: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Lỗi kết nối DB: " + e.getMessage());
         }
-
-        return productList;
+        return movieList;
     }
 
     public int getTotalMovies() {
         int total = 0;
         String sql = "SELECT COUNT(movie_id) AS total FROM movies";
-        try (PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+        try (Connection connection = getConnection();
+             PreparedStatement st = connection.prepareStatement(sql);
+                ResultSet rs = st.executeQuery()) {
 
             if (rs.next()) {
                 total = rs.getInt("total");
             }
-        } catch (SQLException e) {
-            System.err.println("Error retrieving products: " + e.getMessage());
+         } catch (SQLException e) {
+            System.err.println("Lỗi truy vấn getTotalMovies: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Lỗi kết nối DB: " + e.getMessage());
         }
         return total;
     }
 
     public List<movies> getPopular() {
-        List<movies> productList = new ArrayList<>();
+        List<movies> movieList = new ArrayList<>();
         String sql = "select top 10  m.movie_id, m.title, m.duration, m.poster_url, count(s.movie_id) as popular from movies m join showtimes s on m.movie_id = s.movie_id\n"
                 + "group by  m.director,m.duration, \n"
                 + "m.movie_id, m.poster_url, m.title, s.movie_id\n"
                 + "ORDER BY popular DESC";
 
-        try (PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+        try (Connection connection = getConnection();
+             PreparedStatement st = connection.prepareStatement(sql);
+                ResultSet rs = st.executeQuery()) {
 
             while (rs.next()) {
                 int movie_id = rs.getInt("movie_id");
@@ -85,22 +95,25 @@ public class moviesDAO extends DBContext {
                 movies.setTitle(title);
                 movies.setDuration(duration);
                 movies.setPoster_url(poster_url);
-                productList.add(movies);
+                movieList.add(movies);
             }
 
-        } catch (SQLException e) {
-            // Handle the exception appropriately, e.g., log or rethrow
-            System.err.println("Error retrieving products: " + e.getMessage());
+         } catch (SQLException e) {
+            System.err.println("Lỗi truy vấn getPopular: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Lỗi kết nối DB: " + e.getMessage());
         }
 
-        return productList;
+        return movieList;
     }
 
     public List<movies> getNew() {
-        List<movies> productList = new ArrayList<>();
+        List<movies> movieList = new ArrayList<>();
         String sql = "select top 7 movie_id, title, duration, poster_url from movies order by release_date desc";
 
-        try (PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+        try (Connection connection = getConnection();
+             PreparedStatement st = connection.prepareStatement(sql);
+                ResultSet rs = st.executeQuery()) {
 
             while (rs.next()) {
                 int movie_id = rs.getInt("movie_id");
@@ -113,22 +126,23 @@ public class moviesDAO extends DBContext {
                 movies.setTitle(title);
                 movies.setDuration(duration);
                 movies.setPoster_url(poster_url);
-                productList.add(movies);
+                movieList.add(movies);
             }
 
-        } catch (SQLException e) {
-            // Handle the exception appropriately, e.g., log or rethrow
-            System.err.println("Error retrieving products: " + e.getMessage());
+         } catch (SQLException e) {
+            System.err.println("Lỗi truy vấn getNew: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Lỗi kết nối DB: " + e.getMessage());
         }
-
-        return productList;
+        return movieList;
     }
 
     public List<movies> searchMovies(int[] cid, String showDate, String showTimeFrom, String showTimeTo, int page, int PAGE_SIZE, String name) {
         List<movies> movieList = new ArrayList<>();
         String sql = buildQuery(showDate, showTimeFrom, showTimeTo, cid, name);
 
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();
+             PreparedStatement st = connection.prepareStatement(sql)) {
             int paramIndex = 1;
 
             // Set category IDs if provided
@@ -176,10 +190,11 @@ public class moviesDAO extends DBContext {
                     movieList.add(movie);
                 }
             }
-        } catch (SQLException e) {
-            System.err.println("Error retrieving movies: " + e.getMessage());
+         } catch (SQLException e) {
+            System.err.println("Lỗi truy vấn searchMovies: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Lỗi kết nối DB: " + e.getMessage());
         }
-
         return movieList;
     }
 
