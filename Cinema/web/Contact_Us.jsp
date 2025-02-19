@@ -84,8 +84,8 @@
     <h3>Leave a Message</h3>
     <p>If you have a question regarding our services,
       feel free to contact us using the form below.</p>
-
-    <form name="contact-us-form" action="#" onsubmit="return validateForm()">
+    
+    <form name="contact-us-form" action="https://formsubmit.co/dualeocay8@gmail.com" method="POST" onsubmit="return validateForm()">
       <div class="row100" id="fname-row100">
         <div class="col">
           <div class="inputBox" id="fname-inputBox">
@@ -127,6 +127,7 @@
           </div>
         </div>
       </div>
+      <input type="hidden" name="_captcha" value="false">
       <div class="row100">
         <div class="col">
           <div class="submitbutton">
