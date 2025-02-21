@@ -6,6 +6,7 @@
 package controller.admin;
 
 import dao.DAO;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -31,6 +33,15 @@ public class AddTheater extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        // Lấy session và kiểm tra user
+        HttpSession session = request.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("acc") : null;
+
+        // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
+        if (user == null || (user.getRole() != 1)) {
+            response.sendRedirect("AccessDenied.jsp");
+            return;
+        }
         String idCity = request.getParameter("city");
         String theaterName = request.getParameter("name");
         String theaterAddress = request.getParameter("address");
