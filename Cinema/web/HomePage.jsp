@@ -189,7 +189,7 @@
                             </c:when>
                             <c:otherwise>
                                     <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> LoginN / Sign up</a>
+                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
                                     </div>
                             </c:otherwise>
                         </c:choose>
