@@ -84,7 +84,7 @@ CREATE TABLE users (
     email NVARCHAR(100) UNIQUE NOT NULL,
     phone CHAR(10),
     birth_date DATE NOT NULL,
-	theater_id INT FOREIGN KEY REFERENCES theaters(theater_id) NOT NULL, -- Doi voi customer, day la rap phim thuong den, Doi voi manager va admin, day la noi lam viec
+	theater_id INT FOREIGN KEY REFERENCES theaters(theater_id), -- Doi voi customer, day la rap phim thuong den, Doi voi manager va admin, day la noi lam viec
 	status NVARCHAR(20) NOT NULL DEFAULT(N'Active') -- Active: TK con hoat dong, Banned: bi ban
 );
 INSERT INTO users (role_id, username, password, full_name, email, phone, birth_date, theater_id) VALUES
@@ -272,7 +272,7 @@ GO
 CREATE TABLE movie_genres (
     movie_genre_id INT PRIMARY KEY IDENTITY,
     movie_id INT FOREIGN KEY REFERENCES movies(movie_id),
-    genre_id INT FOREIGN KEY REFERENCES rooms(room_id),
+    genre_id INT FOREIGN KEY REFERENCES genres(genre_id),
 );
 INSERT INTO movie_genres(movie_id, genre_id) VALUES
 (1,8),
