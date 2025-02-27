@@ -245,8 +245,6 @@ GO
 CREATE TABLE movies (
     movie_id INT PRIMARY KEY IDENTITY,
     title NVARCHAR(255) NOT NULL,
-    director NVARCHAR(255) NOT NULL,
-    actors NVARCHAR(MAX) NOT NULL,
     description NVARCHAR(MAX) NOT NULL,
     trailer_url VARCHAR(255),
     poster_url VARCHAR(255) NOT NULL,
@@ -254,17 +252,17 @@ CREATE TABLE movies (
     release_date DATE NOT NULL,
 	status NVARCHAR(20) NOT NULL DEFAULT(N'Future') -- future: chua chieu | present: dang chieu | past: da chieu
 );
-INSERT INTO movies (title, director, actors, description, trailer_url, poster_url, duration, release_date, status) VALUES
-('A Wednesday', 'Anthony Russo, Joe Russo', 'Robert Downey Jr., Chris Evans, Scarlett Johansson', 'The film depicts a confrontation between a police commissioner and an anonymous caller who threatens to detonate bombs throughout Mumbai if four terrorists are not freed from police custody.', 'https://youtu.be/oII-vaL3mZg?si=7bpSH8AZDnLF74Gv', './assets/images/wednesday.jpeg', 140, '2019-04-26', N'Present'),
-('Commando-3', 'James Cameron', 'Leonardo DiCaprio, Kate Winslet', 'Karan goes to London to stop a terrorist attack on India. A mysterious man is on an impending mission to attack the country from his base in London. Karan Singh Dogra sets out to hunt down the antagonist aided by the British Intelligence.', 'https://youtu.be/m-JIofHHU6s?si=7cEgaUdnLC53j_Rc', './assets/images/commando.jpeg', 195, '1997-12-19', N'Present'),
-('Gujjubhai Most Wanted', 'Christopher Nolan', 'Leonardo DiCaprio, Joseph Gordon-Levitt', 'Gujjubhai and his son Khagesh try a shortcut to earn money which gets them into trouble with terrorists and cops. Gujjubhai and his son Khagesh try a shortcut to earn money which gets them into trouble with terrorists and cops.', 'https://youtu.be/rdu8aLHcVsU?si=uCPVF_DMRfBqCa_X', './assets/images/gujjubhai.jpeg', 148, '2010-07-16', N'Present'),
-('Joker', 'Todd Phillips', 'Joaquin Phoenix', 'The Joker is a DC Comics supervillain who is a psychopathic criminal mastermind, anarchist, and nihilist. He is known for his colorful clothing, clown makeup, and menacing appearance. ', 'https://youtu.be/zAGVQLHvwOY?si=W4F88mCTo98mpOBo', './assets/images/m9.jpg', 122, '2019-10-04', N'Present'),
-('Avatar', 'Phill Foen', 'Joaquin Phoenix', ' It is set in the mid-22nd century, when humans are colonizing Pandora, a lush habitable moon of a gas giant in the Alpha Centauri star system, in order to mine the valuable unobtanium,a room-temperature superconductor mineral. ', 'https://youtu.be/d9MyW72ELq0?si=wyx1BKNRMckJRbfE', './assets/images/avtar-2.jpeg', 210, '2012-11-02', N'Present'),
-('Knives Out', 'Rian Johnson', 'Daniel Craig, Chris Evans, Ana de Armas, Jamie Lee Curtis, Michael Shannon, Don Johnson, Toni Collette, Lakeith Stanfield, Katherine Langford, Jaeden Martell, and Christopher Plummer.', 'Knives Out is a 2019 American mystery film written and directed by Rian Johnson, and produced by Johnson and Ram Bergman. It follows a master detective investigating the death of the patriarch of a wealthy, dysfunctional family. ', 'https://youtu.be/qGqiHJTsRkQ?si=YE9vCFyMcrkAjweh', './assets/images/m3.jpg', 152, '2009-10-04', N'Present'),
-('Rocketman', 'Dexter Fletcher', 'Bernie Taupin, Richard Madden,Joaquin Phoenix,Taron Egerton', 'The film follows John in his early days in England as a prodigy at the Royal Academy of Music through his musical partnership with Taupin, and is titled after John 1972 song "Rocket Man". ', 'https://youtu.be/mpOGT3GTO84?si=m7DY49WZGpAGcUq4', './assets/images/n3.jpg', 190, '2018-03-09', N'Present'),
-('Doctor Sleep', 'Stanley Kubrick', 'Rebecca Ferguson,Kyliegh Curran, and Cliff Curtis', 'Doctor Sleep is a 2019 American supernatural horror film written and directed by Mike Flanagan. It is based on the 2013 novel of the same name by Stephen King, a sequel to King 1977 novel The Shining. The film, which also serves as a direct sequel to the 1980 film adaptation. ', 'https://youtu.be/BOzFZxB-8cw?si=aftNf86t4famzTgW', './assets/images/m2.jpg', 135, '2019-12-24', N'Present'),
-('Toy Story 4', 'Pixar Animation Studios', 'John Lasseter,Rashida Jones, Will McCormack, Valerie LaPointe', ' It is the fourth and final installment in Pixar Toy Story series and the sequel of Toy Story 3 (2010). ', 'https://youtu.be/LDXYRzerjzU?si=e3b4ZU6hCfkCjUic', './assets/images/m8.jpg', 220, '2015-10-14', N'Future'),
-('Mulan', 'Barry Cook and Tony Bancroft', 'Ming-Na Wen,Eddie Murphy,BD Wong,Harvey Fierstein', 'Mulan is a responsible young woman, seen as a fearless warrior, leader, and beloved role model among her people, both men, and women. ', 'https://youtu.be/KK8FHdFluOQ?si=gf5gKBa2izo2aRyl', './assets/images/n2.jpg', 240, '2019-09-22', N'Future');
+INSERT INTO movies (title, description, trailer_url, poster_url, duration, release_date, status) VALUES
+('A Wednesday', 'The film depicts a confrontation between a police commissioner and an anonymous caller who threatens to detonate bombs throughout Mumbai if four terrorists are not freed from police custody.', 'https://youtu.be/oII-vaL3mZg?si=7bpSH8AZDnLF74Gv', './assets/images/wednesday.jpeg', 140, '2019-04-26', N'Present'),
+('Commando-3', 'Karan goes to London to stop a terrorist attack on India. A mysterious man is on an impending mission to attack the country from his base in London. Karan Singh Dogra sets out to hunt down the antagonist aided by the British Intelligence.', 'https://youtu.be/m-JIofHHU6s?si=7cEgaUdnLC53j_Rc', './assets/images/commando.jpeg', 195, '1997-12-19', N'Present'),
+('Gujjubhai Most Wanted', 'Gujjubhai and his son Khagesh try a shortcut to earn money which gets them into trouble with terrorists and cops. Gujjubhai and his son Khagesh try a shortcut to earn money which gets them into trouble with terrorists and cops.', 'https://youtu.be/rdu8aLHcVsU?si=uCPVF_DMRfBqCa_X', './assets/images/gujjubhai.jpeg', 148, '2010-07-16', N'Present'),
+('Joker', 'The Joker is a DC Comics supervillain who is a psychopathic criminal mastermind, anarchist, and nihilist. He is known for his colorful clothing, clown makeup, and menacing appearance. ', 'https://youtu.be/zAGVQLHvwOY?si=W4F88mCTo98mpOBo', './assets/images/m9.jpg', 122, '2019-10-04', N'Present'),
+('Avatar', ' It is set in the mid-22nd century, when humans are colonizing Pandora, a lush habitable moon of a gas giant in the Alpha Centauri star system, in order to mine the valuable unobtanium,a room-temperature superconductor mineral. ', 'https://youtu.be/d9MyW72ELq0?si=wyx1BKNRMckJRbfE', './assets/images/avtar-2.jpeg', 210, '2012-11-02', N'Present'),
+('Knives Out', 'Knives Out is a 2019 American mystery film written and directed by Rian Johnson, and produced by Johnson and Ram Bergman. It follows a master detective investigating the death of the patriarch of a wealthy, dysfunctional family. ', 'https://youtu.be/qGqiHJTsRkQ?si=YE9vCFyMcrkAjweh', './assets/images/m3.jpg', 152, '2009-10-04', N'Present'),
+('Rocketman', 'The film follows John in his early days in England as a prodigy at the Royal Academy of Music through his musical partnership with Taupin, and is titled after John 1972 song "Rocket Man". ', 'https://youtu.be/mpOGT3GTO84?si=m7DY49WZGpAGcUq4', './assets/images/n3.jpg', 190, '2018-03-09', N'Present'),
+('Doctor Sleep', 'Doctor Sleep is a 2019 American supernatural horror film written and directed by Mike Flanagan. It is based on the 2013 novel of the same name by Stephen King, a sequel to King 1977 novel The Shining. The film, which also serves as a direct sequel to the 1980 film adaptation. ', 'https://youtu.be/BOzFZxB-8cw?si=aftNf86t4famzTgW', './assets/images/m2.jpg', 135, '2019-12-24', N'Present'),
+('Toy Story 4', ' It is the fourth and final installment in Pixar Toy Story series and the sequel of Toy Story 3 (2010). ', 'https://youtu.be/LDXYRzerjzU?si=e3b4ZU6hCfkCjUic', './assets/images/m8.jpg', 220, '2015-10-14', N'Future'),
+('Mulan', 'Mulan is a responsible young woman, seen as a fearless warrior, leader, and beloved role model among her people, both men, and women. ', 'https://youtu.be/KK8FHdFluOQ?si=gf5gKBa2izo2aRyl', './assets/images/n2.jpg', 240, '2019-09-22', N'Future');
 GO
 
 
@@ -375,4 +373,52 @@ INSERT INTO reviews (user_id, ticket_id, rating, comment) VALUES
 (8, 2, 4, 'Very touching, great soundtrack.'),
 (8, 3, 5, 'Brilliant script, excellent direction.'),
 (8, 4, 4, 'Joker was phenomenal!');
+GO
+
+
+-- dien vien va dao dien
+CREATE TABLE participants (
+    participant_id INT PRIMARY KEY IDENTITY,
+    participant_name NVARCHAR(100) NOT NULL,
+	portrait_url NVARCHAR(100),
+    birth_date DATE,
+	nationality NVARCHAR(50) DEFAULT('Updating'),
+    about NVARCHAR(MAX) DEFAULT('Updating'),
+);
+--INSERT INTO participants (participant_id, participant_name, portrait_url, birth_date, nationality, about) VALUES
+--, 'Anthony Russo, Joe Russo', 'Robert Downey Jr., Chris Evans, Scarlett Johansson'
+--, 'James Cameron', 'Leonardo DiCaprio, Kate Winslet'
+--, 'Christopher Nolan', 'Leonardo DiCaprio, Joseph Gordon-Levitt'
+--, 'Todd Phillips', 'Joaquin Phoenix'
+--, 'Phill Foen', 'Joaquin Phoenix'
+--, 'Rian Johnson', 'Daniel Craig, Chris Evans, Ana de Armas, Jamie Lee Curtis, Michael Shannon, Don Johnson, Toni Collette, Lakeith Stanfield, Katherine Langford, Jaeden Martell, and Christopher Plummer.'
+--, 'Dexter Fletcher', 'Bernie Taupin, Richard Madden,Joaquin Phoenix,Taron Egerton'
+--, 'Stanley Kubrick', 'Rebecca Ferguson,Kyliegh Curran, and Cliff Curtis'
+--, 'Pixar Animation Studios', 'John Lasseter,Rashida Jones, Will McCormack, Valerie LaPointe'
+--, 'Barry Cook and Tony Bancroft', 'Ming-Na Wen,Eddie Murphy,BD Wong,Harvey Fierstein'
+GO
+
+
+-- tham gia bo phim nao
+CREATE TABLE movie_participants (
+    movie_id INT FOREIGN KEY REFERENCES movies(movie_id) NOT NULL,
+    participant_id INT FOREIGN KEY REFERENCES participants(participant_id) NOT NULL,
+    role_in_movie NVARCHAR(20) NOT NULL, -- Actor | Director
+	PRIMARY KEY (movie_id,participant_id)
+);
+--INSERT INTO participants (person_id, person_name, portrait_url, birth_date, nationality, about) VALUES
+GO
+
+
+-- tin tuc
+CREATE TABLE posts (
+    post_id INT PRIMARY KEY,
+    user_id INT FOREIGN KEY REFERENCES users(user_id) NOT NULL,
+	title NVARCHAR(100) NOT NULL,
+	photo_url NVARCHAR(100),
+	content NVARCHAR(MAX) NOT NULL,
+	created_date DATE NOT NULL DEFAULT(GETDATE()),
+	content_type NVARCHAR(MAX) NOT NULL -- Ad: content quang cao uu dai | Info: content lien quan noi dung phim va dien vien dao dien
+);
+--INSERT INTO participants (person_id, person_name, portrait_url, birth_date, nationality, about) VALUES
 GO
