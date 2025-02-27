@@ -36,8 +36,15 @@ public class CityControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("acc") : null;
+
+        // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
+        if (user == null || (user.getRole() != 1)) {
+            response.sendRedirect("AccessDenied.jsp");
+            return;
+        }
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession(true);
             User admin = (User) session.getAttribute("acc");
             if (admin != null && admin.getRole() == 1) {
                 String service = request.getParameter("service");
