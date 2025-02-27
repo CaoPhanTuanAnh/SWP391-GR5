@@ -420,5 +420,27 @@ CREATE TABLE posts (
 	created_date DATE NOT NULL DEFAULT(GETDATE()),
 	content_type NVARCHAR(MAX) NOT NULL -- Ad: content quang cao uu dai | Info: content lien quan noi dung phim va dien vien dao dien
 );
+--INSERT INTO posts (person_id, person_name, portrait_url, birth_date, nationality, about) VALUES
+GO
+
+
+-- do an do uong
+CREATE TABLE combos (
+    combo_id INT PRIMARY KEY,
+	combo_name NVARCHAR(30) NOT NULL,
+	detail NVARCHAR(100) NOT NULL,
+	combo_price DECIMAL(10,2) NOT NULL
+);
+--INSERT INTO participants (person_id, person_name, portrait_url, birth_date, nationality, about) VALUES
+GO
+
+
+-- kep vao 
+CREATE TABLE booking_combos (
+    booking_id INT FOREIGN KEY REFERENCES bookings(booking_id) NOT NULL,
+    combo_id INT FOREIGN KEY REFERENCES combos(combo_id) NOT NULL,
+	quantity INT NOT NULL,
+	PRIMARY KEY (booking_id,combo_id)
+);
 --INSERT INTO participants (person_id, person_name, portrait_url, birth_date, nationality, about) VALUES
 GO
