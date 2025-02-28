@@ -255,7 +255,6 @@ public class DAO {
         return null;
     }
     
-<<<<<<< Updated upstream
     public ResultSet select(String sql){
         try {
             conn = new DBContext().getConnection();
@@ -263,7 +262,10 @@ public class DAO {
             return ps.executeQuery();
         } catch (Exception ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
-=======
+        }
+    
+        return null;
+    }
     public User checkEmailExist(String email) {
         String query = "select * from users\n"
                 + "where email = ?\n";
@@ -280,10 +282,12 @@ public class DAO {
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
             }
         } catch (Exception e) {
->>>>>>> Stashed changes
+            System.out.println(e);
         }
         return null;
     }
