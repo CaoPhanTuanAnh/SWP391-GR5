@@ -4,8 +4,8 @@
  */
 package controller.admin;
 
-import dao.CityDAO;
-import entity.City;
+import dao.citiesDAO;
+import entity.cities;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,13 +40,13 @@ public class CityControl extends HttpServlet {
         User user = (session != null) ? (User) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
-        if (user == null || (user.getRole() != 1)) {
+        if (user == null || (user.getRole_id() != 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         try (PrintWriter out = response.getWriter()) {
             User admin = (User) session.getAttribute("acc");
-            if (admin != null && admin.getRole() == 1) {
+            if (admin != null && admin.getRole_id() == 1) {
                 String service = request.getParameter("service");
                 if (service == null) {
                     service = "listCity";
@@ -69,7 +69,7 @@ public class CityControl extends HttpServlet {
         try {
             int cityID = Integer.parseInt(request.getParameter("cityID"));
             String cityName = request.getParameter("cityName");
-            CityDAO dao = new CityDAO();
+            citiesDAO dao = new citiesDAO();
             if (cityName == null) {
                 mess = "City name can't be null!";
             } else if (cityName.isBlank()) {
@@ -89,7 +89,7 @@ public class CityControl extends HttpServlet {
         String mess = "";
         try {
             int cityID = Integer.parseInt(request.getParameter("cityID"));
-            CityDAO dao = new CityDAO();
+            citiesDAO dao = new citiesDAO();
             if (!dao.deleteCity(cityID)) {
                 mess = "Something go wrong!";
             } else {
@@ -110,7 +110,7 @@ public class CityControl extends HttpServlet {
             mess = "City name can't be empty!";
         } else {
             //check name policy
-            CityDAO dao = new CityDAO();
+            citiesDAO dao = new citiesDAO();
             if (!dao.addCity(cityName)) {
                 mess = "Something go wrong!";
             } else {
@@ -121,8 +121,8 @@ public class CityControl extends HttpServlet {
     }
 
     private void listCity(HttpServletRequest request) {
-        CityDAO dao = new CityDAO();
-        List<City> cityList = dao.listCity();
+        citiesDAO dao = new citiesDAO();
+        List<cities> cityList = dao.listCity();
         request.setAttribute("cityList", cityList);
     }
 
@@ -168,20 +168,20 @@ public class CityControl extends HttpServlet {
 }
 /*<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="entity.City" %>
+<%@page import="entity.cities" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>City List</title>
+        <title>cities List</title>
     </head>
     <body>
         <h1>List of Cities</h1>
         <table border="1">
             <thead>
                 <tr>
-                    <th>City ID</th>
-                    <th>City Name</th>
+                    <th>cities ID</th>
+                    <th>cities Name</th>
                     <th>Number of Theater</th>
                     <th>Edit</th>
                 </tr>

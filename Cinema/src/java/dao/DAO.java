@@ -5,7 +5,7 @@
 package dao;
 
 import context.DBContext;
-import entity.City;
+import entity.cities;
 import entity.Theater;
 import entity.User;
 import java.sql.Connection;
@@ -39,10 +39,13 @@ public class DAO {
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
                 return a;
             }
         } catch (Exception e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
@@ -81,7 +84,9 @@ public class DAO {
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
             }
         } catch (Exception e) {
         }
@@ -107,8 +112,8 @@ public class DAO {
         return list;
     }
     
-    public List<City> getAllCity() {
-        List<City> listC = new ArrayList<>();
+    public List<cities> getAllCity() {
+        List<cities> listC = new ArrayList<>();
         String query = "select top 5 c.*,count(t.theater_id) as numOfTheater \n" 
                 + "from cities c left join theaters t \n"
                 + "on t.city_id=c.city_id group by c.city_id,c.city_name";
@@ -117,7 +122,7 @@ public class DAO {
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                listC.add(new City(rs.getInt(1),
+                listC.add(new cities(rs.getInt(1),
                         rs.getString(2),rs.getInt("numOfTheater")));
             }
         } catch (Exception e) {
@@ -240,10 +245,23 @@ public class DAO {
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
             }
         } catch (SQLException e) {
             System.out.println(e);
+        }
+        return null;
+    }
+    
+    public ResultSet select(String sql){
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            return ps.executeQuery();
+        } catch (Exception ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

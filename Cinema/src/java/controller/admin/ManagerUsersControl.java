@@ -111,7 +111,7 @@ public class ManagerUsersControl extends HttpServlet {
 
             // Gọi DAO để lưu user vào database
             UserDAO userDao = new UserDAO();
-            boolean success = userDao.createUser(new User(roleid, username, password, fullname, email, phone, address));
+            boolean success = userDao.createUser(new User(roleid, username, password, fullname, email, phone, address, 0, null));
 
             if (success) {
                 response.sendRedirect("users?action=list"); // Chuyển hướng lại danh sách user

@@ -38,7 +38,7 @@ public class AddTheater extends HttpServlet {
         User user = (session != null) ? (User) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
-        if (user == null || (user.getRole() != 1)) {
+        if (user == null || (user.getRole_id() != 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }

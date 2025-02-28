@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author LENOVO
  */
-public class UserDAO extends DBContext{
+public class UserDAO extends DBContext {
 
     Connection conn = null; // kết nối vs sql
     PreparedStatement ps = null; // ném query sang sql
@@ -40,39 +40,42 @@ public class UserDAO extends DBContext{
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
     }
-    
-    public boolean changePassword(int ID, String newPassword){
+
+    public boolean changePassword(int ID, String newPassword) {
         String query = "update users set password=? where user_id=?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, newPassword);
             ps.setInt(2, ID);
-            return ps.executeUpdate()==1;
+            return ps.executeUpdate() == 1;
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-    
-    public boolean editProfile(int ID, String fullName, String email, String phone, String address){
-        String query = "update users set full_name=?, email=?, phone=?, address=? where user_id=?";
+
+    public boolean editProfile(int ID, String fullName, String email, String phone, String birth_date, int theater_id) {
+        String query = "update users set full_name=?, email=?, phone=?, birth_date=?, theater_id=? where user_id=?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, fullName);
             ps.setString(2, email);
             ps.setString(3, phone);
-            ps.setString(4, address);
-            ps.setInt(5, ID);
-            return ps.executeUpdate()==1;
+            ps.setString(4, birth_date);
+            ps.setInt(5, theater_id);
+            ps.setInt(6, ID);
+            return ps.executeUpdate() == 1;
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -93,7 +96,9 @@ public class UserDAO extends DBContext{
                         rs.getString("full_name"),
                         rs.getString("email"),
                         rs.getString("phone"),
-                        rs.getString("address")
+                        rs.getString("address"),
+                        rs.getInt("theater_id"),
+                        rs.getString("status")
                 ));
             }
         } catch (Exception e) {
@@ -101,8 +106,6 @@ public class UserDAO extends DBContext{
         }
         return users;
     }
-    
-    
 
     public User getAccountById(int id) {
         String query = "SELECT user_id, role_id, username, full_name, email, phone, address FROM users WHERE user_id = ?";
@@ -118,7 +121,9 @@ public class UserDAO extends DBContext{
                             rs.getString("full_name"),
                             rs.getString("email"),
                             rs.getString("phone"),
-                            rs.getString("address")
+                            rs.getString("address"),
+                            rs.getInt("theater_id"),
+                            rs.getString("status")
                     );
                 }
             }
@@ -127,7 +132,7 @@ public class UserDAO extends DBContext{
         }
         return null;
     }
-    
+
     public static void main(String[] args) {
         UserDAO userDao = new UserDAO();
         User users = userDao.getAccountById(1);
@@ -139,12 +144,12 @@ public class UserDAO extends DBContext{
 
         try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
-            ps.setInt(1, user.getRole());
+            ps.setInt(1, user.getRole_id());
             ps.setString(2, user.getUsername());
             ps.setString(3, user.getFullname());
             ps.setString(4, user.getEmail());
             ps.setString(5, user.getPhone());
-            ps.setString(6, user.getAddress());
+            ps.setString(6, user.getBirth_date());
             ps.setString(7, user.getPassword());
 
             int rowsAffected = ps.executeUpdate();

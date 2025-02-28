@@ -8,34 +8,34 @@ package entity;
  *
  * @author GIGABYTE
  */
-public class City {
-    private int cityID;
-    private String cityName;
+public class cities {
+    private int city_id;
+    private String city_name;
     private int numOfTheater;
 
-    public City() {
+    public cities() {
     }
 
-    public City(int cityID, String cityName, int numOfTheater) {
-        this.cityID = cityID;
-        this.cityName = cityName;
+    public cities(int city_id, String city_name, int numOfTheater) {
+        this.city_id = city_id;
+        this.city_name = city_name;
         this.numOfTheater = numOfTheater;
     }
 
-    public int getCityID() {
-        return cityID;
+    public int getCity_id() {
+        return city_id;
     }
 
-    public void setCityID(int CityID) {
-        this.cityID = CityID;
+    public void setCity_id(int city_id) {
+        this.city_id = city_id;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getCity_name() {
+        return city_name;
     }
 
-    public void setCityName(String CityName) {
-        this.cityName = CityName;
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
     }
 
     public int getNumOfTheater() {
@@ -45,6 +45,7 @@ public class City {
     public void setNumOfTheater(int numOfTheater) {
         this.numOfTheater = numOfTheater;
     }
+
     
     
     

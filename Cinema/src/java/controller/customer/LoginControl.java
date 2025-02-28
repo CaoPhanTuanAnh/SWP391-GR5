@@ -5,6 +5,7 @@
 package controller.customer;
 
 import dao.DAO;
+import dao.UserDAO;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name = "LoginControl", urlPatterns = {"/login"})
 public class LoginControl extends HttpServlet {
@@ -45,6 +48,7 @@ public class LoginControl extends HttpServlet {
                 response.sendRedirect("home");
             }
         }catch(Exception e){
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 

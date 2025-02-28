@@ -126,7 +126,7 @@
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
+                                                                       aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp">
@@ -156,7 +156,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="Contact_Us.jsp">Contact</a>
                             </li>
-                            <c:if test="${sessionScope.acc.role == 1}">
+                            <c:if test="${sessionScope.acc.role_id == 1}">
                                 <li class="nav-item">
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
@@ -166,7 +166,7 @@
                                     </ul>
                                 </li>
                             </c:if>
-                            <c:if test="${sessionScope.acc.role == 2}">
+                            <c:if test="${sessionScope.acc.role_id == 2}">
                                 <li class="nav-item">
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
@@ -239,7 +239,7 @@
                             <!-- <li class="nav-item"> -->
                             <c:choose>
                                 <c:when test="${sessionScope.acc != null}">
-                                    <a class="nav-link" href="user_profile.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
                                     </c:when>
                                     <c:otherwise>
                                     <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
@@ -322,19 +322,19 @@
                                 <div class="row footer-about">
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner1.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner2.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner3.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner4.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                 </div>
                                 <div class="row footer-links">
