@@ -333,7 +333,7 @@
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
+                                                                       aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp">
@@ -383,14 +383,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                    <div class="header__top__right__auth">
-                                        <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                    <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
@@ -428,20 +428,46 @@
                             </div>
                         </div>
                     </div>
-                    <form action="EditTheater" method="post">
+                    <form name="theaterForm" action="EditTheater" method="post" onsubmit="return validateForm()">
                         <c:set value="${requestScope.theater}" var="theater"/>
                         <table class="table table-striped table-hover">
                             <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
                                 <div class="form-group">
-                                    <label>ID</label>
+                                    <label>ID Theater</label>
                                     <input value="${theater.idTheater}" name="id" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Name</label>
+                                    <label>Manager</label>
+                                    <c:set var="managerInfo" value=""/>
+                                    <c:forEach items="${listUU}" var="u">
+                                        <c:if test="${u.getID() == theater.idManager}">
+                                            <c:set var="managerInfo" value="ID: ${u.getID()} - Name: ${u.getFullname()}"/>
+                                        </c:if>
+                                    </c:forEach>
+                                    <input value="${managerInfo}" name="managername" type="text" class="form-control" readonly required>
+                                </div>
+                                <!-- Đặt div này ẩn mặc định -->
+                                <div id="managerListDiv" class="form-group">
+                                    <input list="managerList" name="manager" class="form-control" required>
+                                    <datalist id="managerList">
+                                        <c:forEach items="${listUU}" var="u">
+                                            <option value="${u.getID()} - ${u.getFullname()}"
+                                                    <c:if test="${u.getID() == theater.idManager}">
+                                                        selected
+                                                    </c:if>
+                                                    >
+                                                ID: ${u.getID()} - Name: ${u.getFullname()}
+                                            </option>
+                                        </c:forEach>
+                                    </datalist>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Theater's Name</label>
                                     <textarea name="name" class="form-control" required>${theater.theaterName}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>Address</label>
+                                    <label>Theater's Address</label>
                                     <textarea name="address" class="form-control" required>${theater.theaterAddress}</textarea>
                                 </div>
                                 <div class="form-group">
@@ -453,7 +479,6 @@
                                             </option>
                                         </c:forEach>
                                     </select>
-
                                 </div>
                             </div>
                         </table>
@@ -472,63 +497,110 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script type="text/javascript">
-                                $(document).ready(function () {
-                                    //Horizontal Tab
-                                    $('#parentHorizontalTab').easyResponsiveTabs({
-                                        type: 'default', //Types: default, vertical, accordion
-                                        width: 'auto', //auto or any width like 600px
-                                        fit: true, // 100% fit in a container
-                                        tabidentify: 'hor_1', // The tab groups identifier
-                                        activate: function (event) { // Callback function if tab is switched
-                                            var $tab = $(this);
-                                            var $info = $('#nested-tabInfo');
-                                            var $name = $('span', $info);
-                                            $name.text($tab.text());
-                                            $info.show();
-                                        }
-                                    });
+<script>
+                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
+                                    var managerListDiv = document.getElementById('managerListDiv');
+
+                                    // Toggle hiển thị/ẩn div managerListDiv
+                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
+                                        managerListDiv.style.display = 'block';  // Hiển thị div
+                                    } else {
+                                        managerListDiv.style.display = 'none';  // Ẩn div
+                                    }
                                 });
+</script>
+
+<script>
+    function validateForm() {
+        // Kiểm tra trường Manager
+        var managerInput = document.forms["theaterForm"]["manager"].value;
+        var isValidManager = false;
+        
+        // Kiểm tra xem giá trị người dùng nhập có tồn tại trong danh sách
+        var managerOptions = document.getElementById("managerList").options;
+        for (var i = 0; i < managerOptions.length; i++) {
+            if (managerInput === managerOptions[i].value) {
+                isValidManager = true;
+                break;
+            }
+        }
+
+        if (!isValidManager) {
+            alert("Vui lòng chọn một người quản lý từ danh sách hoặc nhập thông tin hợp lệ.");
+            return false; // Không gửi biểu mẫu nếu dữ liệu không hợp lệ
+        }
+
+        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
+        var name = document.forms["theaterForm"]["name"].value;
+        var address = document.forms["theaterForm"]["address"].value;
+        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
+
+        if (specialCharOrNumber.test(name) || specialCharOrNumber.test(address)) {
+            alert("Tên rạp và địa chỉ không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
+            return false;
+        }
+
+        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-                                $(document).ready(function () {
-                                    $('.owl-one').owlCarousel({
-                                        stagePadding: 280,
-                                        loop: true,
-                                        margin: 20,
-                                        nav: true,
-                                        responsiveClass: true,
-                                        autoplay: true,
-                                        autoplayTimeout: 5000,
-                                        autoplaySpeed: 1000,
-                                        autoplayHoverPause: false,
-                                        responsive: {
-                                            0: {
-                                                items: 1,
-                                                stagePadding: 40,
-                                                nav: false
-                                            },
-                                            480: {
-                                                items: 1,
-                                                stagePadding: 60,
-                                                nav: true
-                                            },
-                                            667: {
-                                                items: 1,
-                                                stagePadding: 80,
-                                                nav: true
-                                            },
-                                            1000: {
-                                                items: 1,
-                                                nav: true
-                                            }
-                                        }
-                                    })
-                                })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {
@@ -670,3 +742,5 @@
 </script>
 
 <script src="assets/js/bootstrap.min.js"></script>
+
+

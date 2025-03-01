@@ -333,7 +333,7 @@
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                       aria-hidden="true"></span>
+                                                                        aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp">
@@ -349,12 +349,12 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.getRole() == 1}">
+                            <c:if test="${sessionScope.acc.role == 1}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="home">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#needlink">Manage Account</a>
+                                    <a class="nav-link" href="about.jsp">Manage Account</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="city_control">Manage City</a>
@@ -364,7 +364,7 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="${sessionScope.acc.getRole() == 2}">
+                            <c:if test="${sessionScope.acc.role == 2}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
@@ -383,27 +383,20 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                <div class="header__top__right__auth">
-                                    <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
-                                </div>
+                                    <div class="header__top__right__auth">
+                                        <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
+                                    </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="header__top__right__auth">
-                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                </div>
+                                    <div class="header__top__right__auth">
+                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                    </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
                              style="font-size: 2rem ; display: inline-block; position: relative;">
                             <!-- <li class="nav-item"> -->
-                            <c:choose>
-                                <c:when test="${sessionScope.acc != null}">
-                                    <a class="nav-link" href="user_profile.jsp"><i class="fa fa-user-circle-o"></i></a>
-                                    </c:when>
-                                    <c:otherwise>
-                                    <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
-                                    </c:otherwise>
-                                </c:choose>
+                            <a class="nav-link" href="#"><i class="fa fa-user-circle-o"></i></a>
                             <!-- </li> -->
                         </div>
                     </div>
@@ -431,116 +424,46 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Manage <b>Theater</b></h2>
-                            </div>
-                            <div class="col-sm-6">
-                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Theater</span></a>						
+                                <h2>Edit <b>Product</b></h2>
                             </div>
                         </div>
                     </div>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th style="width: 120px !important;">Manager</th>
-                                <th style="width: 120px !important;">Name</th>
-                                <th style="width: 300px !important;">Address</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${listP}" var="o">
-                                <tr>
-                                    <td>${o.idTheater}</td>
-                                    <td>
-                                        <c:forEach items="${listUU}" var="u">
-                                            <c:if test="${u.getID() == o.idManager}">
-                                                ${u.getFullname()}
-                                            </c:if>
+                    <form action="EditTheater" method="post">
+                        <c:set value="${requestScope.theater}" var="theater"/>
+                        <table class="table table-striped table-hover">
+                            <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
+                                <div class="form-group">
+                                    <label>ID</label>
+                                    <input value="${theater.idTheater}" name="id" type="text" class="form-control" readonly required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <textarea name="name" class="form-control" required>${theater.theaterName}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <textarea name="address" class="form-control" required>${theater.theaterAddress}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <select name="city" class="form-select" aria-label="Default select example">
+                                        <c:forEach items="${listCC}" var="o">
+                                            <option value="${o.getCityID()}" ${o.getCityID() == theater.idCity ? 'selected="selected"' : ''}>
+                                                ${o.getCityName()}
+                                            </option>
                                         </c:forEach>
-                                    </td>
-                                    <td>${o.theaterName}</td>
-                                    <td>${o.theaterAddress}</td>
-                                    <td>
-                                        <a href="LoadTheater?theaterid=${o.idTheater}" class="edit"  ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="DeleteTheater?theaterid=${o.idTheater}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>        
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="AddTheater" method="post">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Add New Theater</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <textarea name="name" class="form-control" required></textarea>
+                                    </select>
+
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea name="address" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>City</label>
-                                <select name="city" style="padding: 3px" name="category" class="form-select" aria-label="Default select example" >
-                                    <c:forEach items="${listCC}" var="o">
-                                        <option value="${o.getCityID()}">${o.getCityName()}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
+                        </table>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Edit Employee</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" required>
-                            </div>					
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageTheater'">Cancel</button>
                             <input type="submit" class="btn btn-info" value="Save">
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>        
         </div>
 
     </body>
@@ -550,62 +473,62 @@
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-            $(document).ready(function () {
-                //Horizontal Tab
-                $('#parentHorizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion
-                    width: 'auto', //auto or any width like 600px
-                    fit: true, // 100% fit in a container
-                    tabidentify: 'hor_1', // The tab groups identifier
-                    activate: function (event) { // Callback function if tab is switched
-                        var $tab = $(this);
-                        var $info = $('#nested-tabInfo');
-                        var $name = $('span', $info);
-                        $name.text($tab.text());
-                        $info.show();
-                    }
-                });
-            });
+                                $(document).ready(function () {
+                                    //Horizontal Tab
+                                    $('#parentHorizontalTab').easyResponsiveTabs({
+                                        type: 'default', //Types: default, vertical, accordion
+                                        width: 'auto', //auto or any width like 600px
+                                        fit: true, // 100% fit in a container
+                                        tabidentify: 'hor_1', // The tab groups identifier
+                                        activate: function (event) { // Callback function if tab is switched
+                                            var $tab = $(this);
+                                            var $info = $('#nested-tabInfo');
+                                            var $name = $('span', $info);
+                                            $name.text($tab.text());
+                                            $info.show();
+                                        }
+                                    });
+                                });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-            $(document).ready(function () {
-                $('.owl-one').owlCarousel({
-                    stagePadding: 280,
-                    loop: true,
-                    margin: 20,
-                    nav: true,
-                    responsiveClass: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    autoplaySpeed: 1000,
-                    autoplayHoverPause: false,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            stagePadding: 40,
-                            nav: false
-                        },
-                        480: {
-                            items: 1,
-                            stagePadding: 60,
-                            nav: true
-                        },
-                        667: {
-                            items: 1,
-                            stagePadding: 80,
-                            nav: true
-                        },
-                        1000: {
-                            items: 1,
-                            nav: true
-                        }
-                    }
-                })
-            })
+                                $(document).ready(function () {
+                                    $('.owl-one').owlCarousel({
+                                        stagePadding: 280,
+                                        loop: true,
+                                        margin: 20,
+                                        nav: true,
+                                        responsiveClass: true,
+                                        autoplay: true,
+                                        autoplayTimeout: 5000,
+                                        autoplaySpeed: 1000,
+                                        autoplayHoverPause: false,
+                                        responsive: {
+                                            0: {
+                                                items: 1,
+                                                stagePadding: 40,
+                                                nav: false
+                                            },
+                                            480: {
+                                                items: 1,
+                                                stagePadding: 60,
+                                                nav: true
+                                            },
+                                            667: {
+                                                items: 1,
+                                                stagePadding: 80,
+                                                nav: true
+                                            },
+                                            1000: {
+                                                items: 1,
+                                                nav: true
+                                            }
+                                        }
+                                    })
+                                })
 </script>
 <script>
     $(document).ready(function () {

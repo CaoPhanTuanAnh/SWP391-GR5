@@ -37,7 +37,7 @@ public class EditTheater extends HttpServlet {
         HttpSession session = request.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("acc") : null;
 
-        // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
+        // Nếu chưa đăng nhập hoặc không phải Admin thì chặn
         if (user == null || (user.getRole() != 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
@@ -46,8 +46,12 @@ public class EditTheater extends HttpServlet {
         String idCity = request.getParameter("city");
         String theaterName = request.getParameter("name");
         String theaterAddress = request.getParameter("address");
+        String idmanager = request.getParameter("manager");
+        // Tách chuỗi để lấy giá trị ID
+        String[] parts = idmanager.split(" - ");
+        String idManager = parts[0].replace("ID: ", "").trim();  // Lấy ID sau "ID: "
         DAO dao = new DAO();
-        dao.editTheater(id, idCity, theaterName, theaterAddress);
+        dao.editTheater(id, idCity, theaterName, theaterAddress, idManager);
         response.sendRedirect("ManageTheater");
 
     }

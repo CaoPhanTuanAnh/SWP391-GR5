@@ -11,15 +11,17 @@ package entity;
 public class Theater {
     private int idTheater;
     private int idCity;
+    private int idManager;
     private String theaterName;
     private String theaterAddress;
     
     public Theater(){
     }
 
-    public Theater(int idTheater, int idCity, String theaterName, String theaterAddress) {
+    public Theater(int idTheater, int idCity, int idManager, String theaterName, String theaterAddress) {
         this.idTheater = idTheater;
         this.idCity = idCity;
+        this.idManager = idManager;
         this.theaterName = theaterName;
         this.theaterAddress = theaterAddress;
     }
@@ -40,6 +42,14 @@ public class Theater {
         this.idCity = idCity;
     }
 
+    public int getIdManager() {
+        return idManager;
+    }
+
+    public void setIdManager(int idManager) {
+        this.idManager = idManager;
+    }
+
     public String getTheaterName() {
         return theaterName;
     }
@@ -58,8 +68,10 @@ public class Theater {
 
     @Override
     public String toString() {
-        return "Theater{" + "idTheater=" + idTheater + ", idCity=" + idCity + ", theaterName=" + theaterName + ", theaterAddress=" + theaterAddress + '}';
+        return "Theater{" + "idTheater=" + idTheater + ", idCity=" + idCity + ", idManager=" + idManager + ", theaterName=" + theaterName + ", theaterAddress=" + theaterAddress + '}';
     }
+
+    
     
     
 }

@@ -51,6 +51,8 @@ public class ManageTheater extends HttpServlet {
         DAO dao = new DAO();
         List<Theater> list = dao.getAllTheater();
         List<City> listC = dao.getAllCity();
+        List<User> listU = dao.getAllUser();
+        request.setAttribute("listUU", listU);
         request.setAttribute("listCC", listC);
         request.setAttribute("listP", list);
         request.getRequestDispatcher("ManageTheater.jsp").forward(request, response);

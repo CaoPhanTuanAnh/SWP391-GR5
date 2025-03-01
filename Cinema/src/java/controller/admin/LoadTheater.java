@@ -47,6 +47,8 @@ public class LoadTheater extends HttpServlet {
         }
         String id = request.getParameter("theaterid");
         DAO dao = new DAO();
+        List<User> listU = dao.getAllUser();
+        request.setAttribute("listUU", listU);
         List<City> listC = dao.getAllCity();
         request.setAttribute("listCC", listC);
         Theater t = dao.getTheaterByID(id);

@@ -18,7 +18,7 @@ public class User {
     private String phone;
     private String address;
     
-    public User(){
+    public User(int aInt, int aInt1, String string, String string1, String string2){
     }
 
     public User(int ID,int role,String username,String password,String fullname,String email,String phone,String address) {

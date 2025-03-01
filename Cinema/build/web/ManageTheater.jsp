@@ -333,7 +333,7 @@
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
+                                                                       aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp">
@@ -383,14 +383,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                    <div class="header__top__right__auth">
-                                        <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                    <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
@@ -442,6 +442,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th style="width: 120px !important;">Manager</th>
                                 <th style="width: 120px !important;">Name</th>
                                 <th style="width: 300px !important;">Address</th>
                                 <th>Actions</th>
@@ -451,6 +452,13 @@
                             <c:forEach items="${listP}" var="o">
                                 <tr>
                                     <td>${o.idTheater}</td>
+                                    <td>
+                                        <c:forEach items="${listUU}" var="u">
+                                            <c:if test="${u.getID() == o.idManager}">
+                                                ${u.getFullname()}
+                                            </c:if>
+                                        </c:forEach>
+                                    </td>
                                     <td>${o.theaterName}</td>
                                     <td>${o.theaterAddress}</td>
                                     <td>
