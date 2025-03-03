@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
 import java.sql.Date;
@@ -13,10 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- *
- * @author PCASUS
- */
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,6 +29,7 @@ public class movies {
     private Date release_date;
     private LocalDateTime create_at;
     private LocalDateTime updated_at;
+    private String[] participants;
     
     
     
