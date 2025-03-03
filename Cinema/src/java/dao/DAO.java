@@ -100,7 +100,8 @@ public class DAO {
                         rs.getInt(2),
                         rs.getInt(3),
                         rs.getString(4),
-                        rs.getString(5)));
+                        rs.getString(5),
+                        rs.getString(6)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -151,139 +152,27 @@ public class DAO {
     }
 
     public void deleteTheater(String theaterid) {
-        String query = "ALTER TABLE reviews NOCHECK CONSTRAINT FK__reviews__ticket___787EE5A0;\n"
-                + "ALTER TABLE tickets NOCHECK CONSTRAINT FK__tickets__seat_id__71D1E811;\n"
-                + "ALTER TABLE tickets NOCHECK CONSTRAINT FK__tickets__showtim__70DDC3D8;\n"
-                + "ALTER TABLE theaters NOCHECK CONSTRAINT FK__theaters__direct__45F365D3;\n"
-                + "ALTER TABLE seats NOCHECK CONSTRAINT FK__seats__room_id__5441852A;\n"
-                + "ALTER TABLE users NOCHECK CONSTRAINT FK__users__theater_i__440B1D61;\n"
-                + "ALTER TABLE rooms NOCHECK CONSTRAINT FK__rooms__manager_i__4CA06362;\n"
-                + "ALTER TABLE showtimes NOCHECK CONSTRAINT FK__showtimes__room___6383C8BA;\n"
-                + "ALTER TABLE coupons NOCHECK CONSTRAINT FK__coupons__user_id__68487DD7;\n"
-                + "ALTER TABLE bookings NOCHECK CONSTRAINT FK__bookings__coupon__6D0D32F4;\n"
-                + "ALTER TABLE bookings NOCHECK CONSTRAINT FK__bookings__user_i__6B24EA82;\n"
-                + "ALTER TABLE tickets NOCHECK CONSTRAINT FK__tickets__booking__73BA3083;\n"
-                + "ALTER TABLE reviews NOCHECK CONSTRAINT FK__reviews__user_id__778AC167;\n"
-                + "BEGIN TRANSACTION;\n"
-                + "DELETE FROM reviews\n"
-                + "WHERE ticket_id IN (\n"
-                + "    SELECT ticket_id\n"
-                + "    FROM tickets\n"
-                + "    WHERE showtime_id IN (\n"
-                + "        SELECT showtime_id\n"
-                + "        FROM showtimes\n"
-                + "        WHERE room_id IN (\n"
-                + "            SELECT room_id\n"
-                + "            FROM rooms\n"
-                + "            WHERE theater_id = ?\n"
-                + "        )\n"
-                + "    )\n"
-                + ") OR user_id IN (\n"
-                + "    SELECT user_id\n"
-                + "    FROM users\n"
-                + "    WHERE theater_id = ?\n"
-                + ");\n"
-                + "DELETE FROM tickets\n"
-                + "WHERE seat_id IN (\n"
-                + "    SELECT seat_id\n"
-                + "    FROM seats\n"
-                + "    WHERE room_id IN (\n"
-                + "        SELECT room_id\n"
-                + "        FROM rooms\n"
-                + "        WHERE theater_id = ?\n"
-                + "    )\n"
-                + ") OR showtime_id IN (\n"
-                + "    SELECT showtime_id\n"
-                + "    FROM showtimes\n"
-                + "    WHERE room_id IN (\n"
-                + "        SELECT room_id\n"
-                + "        FROM rooms\n"
-                + "        WHERE theater_id = ?\n"
-                + "    )\n"
-                + ") OR booking_id IN (\n"
-                + "    SELECT booking_id\n"
-                + "    FROM bookings\n"
-                + "    WHERE user_id IN (\n"
-                + "        SELECT user_id\n"
-                + "        FROM users\n"
-                + "        WHERE theater_id = ?\n"
-                + "    )\n"
-                + ");\n"
-                + "DELETE FROM bookings\n"
-                + "WHERE coupon_id IN (\n"
-                + "    SELECT coupon_id\n"
-                + "    FROM coupons\n"
-                + "    WHERE user_id IN (\n"
-                + "        SELECT user_id\n"
-                + "        FROM users\n"
-                + "        WHERE theater_id = ?\n"
-                + "    )\n"
-                + ") OR user_id IN (\n"
-                + "    SELECT user_id\n"
-                + "    FROM users\n"
-                + "    WHERE theater_id = ?\n"
-                + ");\n"
-                + "DELETE FROM coupons\n"
-                + "WHERE user_id IN (\n"
-                + "    SELECT user_id\n"
-                + "    FROM users\n"
-                + "    WHERE theater_id = ?\n"
-                + ");\n"
-                + "DELETE FROM users\n"
-                + "WHERE theater_id = ?;\n"
-                + "DELETE FROM showtimes\n"
-                + "WHERE room_id IN (\n"
-                + "    SELECT room_id\n"
-                + "    FROM rooms\n"
-                + "    WHERE theater_id = ?\n"
-                + ");\n"
-                + "DELETE FROM rooms\n"
-                + "WHERE theater_id = ?;\n"
-                + "DELETE FROM theaters\n"
-                + "WHERE theater_id = ?;\n"
-                + "COMMIT;\n"
-                + "ALTER TABLE reviews CHECK CONSTRAINT FK__reviews__ticket___787EE5A0;\n"
-                + "ALTER TABLE tickets CHECK CONSTRAINT FK__tickets__seat_id__71D1E811;\n"
-                + "ALTER TABLE tickets CHECK CONSTRAINT FK__tickets__showtim__70DDC3D8;\n"
-                + "ALTER TABLE theaters CHECK CONSTRAINT FK__theaters__direct__45F365D3;\n"
-                + "ALTER TABLE seats CHECK CONSTRAINT FK__seats__room_id__5441852A;\n"
-                + "ALTER TABLE users CHECK CONSTRAINT FK__users__theater_i__440B1D61;\n"
-                + "ALTER TABLE rooms CHECK CONSTRAINT FK__rooms__manager_i__4CA06362;\n"
-                + "ALTER TABLE showtimes CHECK CONSTRAINT FK__showtimes__room___6383C8BA;\n"
-                + "ALTER TABLE coupons CHECK CONSTRAINT FK__coupons__user_id__68487DD7;\n"
-                + "ALTER TABLE bookings CHECK CONSTRAINT FK__bookings__coupon__6D0D32F4;\n"
-                + "ALTER TABLE bookings CHECK CONSTRAINT FK__bookings__user_i__6B24EA82;\n"
-                + "ALTER TABLE tickets CHECK CONSTRAINT FK__tickets__booking__73BA3083;\n"
-                + "ALTER TABLE reviews CHECK CONSTRAINT FK__reviews__user_id__778AC167;";
+        String query = "DELETE FROM [dbo].[theaters] WHERE theater_id = ?";
         try {
             conn = new DBContext().getConnection();//mo ket noi voi sql
             ps = conn.prepareStatement(query);
             ps.setString(1, theaterid);
-            ps.setString(2, theaterid);
-            ps.setString(3, theaterid);
-            ps.setString(4, theaterid);
-            ps.setString(5, theaterid);
-            ps.setString(6, theaterid);
-            ps.setString(7, theaterid);
-            ps.setString(8, theaterid);
-            ps.setString(9, theaterid);
-            ps.setString(10, theaterid);
-            ps.setString(11, theaterid);
-            ps.setString(12, theaterid);
             ps.executeUpdate();
         } catch (Exception e) {
         }
     }
 
-    public void insertTheater(String city, String name, String address) {
-        String query = "INSERT INTO theaters (city_id, theater_name, address)\n"
-                + "VALUES (?,?,?)";
+    public void insertTheater(String city,String manager, String name, String address) {
+        String query = "INSERT INTO [dbo].[theaters] (city_id, director_id, theater_name, img, [address])\n"
+                + "VALUES \n"
+                + "(?, ?, ?, NULL, ?)";
         try {
             conn = new DBContext().getConnection();//mo ket noi voi sql
             ps = conn.prepareStatement(query);
             ps.setString(1, city);
-            ps.setString(2, name);
-            ps.setString(3, address);
+            ps.setString(2, manager);
+            ps.setString(3, name);
+            ps.setString(4, address);
             ps.executeUpdate();
         } catch (Exception e) {
         }
@@ -302,7 +191,8 @@ public class DAO {
                         rs.getInt(2),
                         rs.getInt(3),
                         rs.getString(4),
-                        rs.getString(5));
+                        rs.getString(5),
+                        rs.getString(6));
             }
         } catch (Exception e) {
         }

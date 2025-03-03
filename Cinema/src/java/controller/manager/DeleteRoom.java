@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.admin;
+package controller.manager;
 
 import dao.DAO;
+import dao.roomsDAO;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,8 +21,8 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author 84912
  */
-@WebServlet(name="AddTheater", urlPatterns={"/AddTheater"})
-public class AddTheater extends HttpServlet {
+@WebServlet(name="DeleteRoom", urlPatterns={"/DeleteRoom"})
+public class DeleteRoom extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,25 +34,19 @@ public class AddTheater extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // Lấy session và kiểm tra user
         HttpSession session = request.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("acc") : null;
 
-        // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
-        if (user == null || (user.getRole() != 1)) {
+        // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
+        if (user == null || (user.getRole() != 2)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
-        String idCity = request.getParameter("city");
-        String idmanager = request.getParameter("manager");
-        // Tách chuỗi để lấy giá trị ID
-        String[] parts = idmanager.split(" - ");
-        String idManager = parts[0].replace("ID: ", "").trim();  // Lấy ID sau "ID: "
-        String theaterName = request.getParameter("name");
-        String theaterAddress = request.getParameter("address");
-        DAO dao = new DAO();
-        dao.insertTheater(idCity, idManager, theaterName, theaterAddress);
-        response.sendRedirect("ManageTheater");
+        roomsDAO roomsDAO = new roomsDAO();
+        int theaterId = Integer.parseInt(request.getParameter("theaterid"));
+        String roomid = request.getParameter("roomid");
+        roomsDAO.deleteRoom(roomid);
+        response.sendRedirect("ManageRoomDetail?theaterId=" + theaterId);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

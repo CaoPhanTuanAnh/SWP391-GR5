@@ -349,12 +349,12 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.role == 1}">
+                            <c:if test="${sessionScope.acc.getRole() == 1}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="home">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Account</a>
+                                    <a class="nav-link" href="#needlink">Manage Account</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="city_control">Manage City</a>
@@ -364,7 +364,7 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="${sessionScope.acc.role == 2}">
+                            <c:if test="${sessionScope.acc.getRole() == 2}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
@@ -396,7 +396,14 @@
                         <div class="Login_SignUp" id="login"
                              style="font-size: 2rem ; display: inline-block; position: relative;">
                             <!-- <li class="nav-item"> -->
-                            <a class="nav-link" href="#"><i class="fa fa-user-circle-o"></i></a>
+                            <c:choose>
+                                <c:when test="${sessionScope.acc != null}">
+                                    <a class="nav-link" href="user_profile.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    </c:otherwise>
+                                </c:choose>
                             <!-- </li> -->
                         </div>
                     </div>
@@ -424,50 +431,106 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Edit <b>Room</b></h2>
+                                <h2>Manage <b>Room</b></h2>
+                                <h2>Theater: ${selectedTheater.theaterName}</h2>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Room</span></a>						
                             </div>
                         </div>
                     </div>
-                    <form name="theaterForm" action="EditRoom" method="post" onsubmit="return validateForm()">
-                        <c:set value="${requestScope.room}" var="room"/>
-                        <table class="table table-striped table-hover">
-                            <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
-                                <div class="form-group">
-                                    <label>ID Room</label>
-                                    <input value="${room.room_id}" name="id" type="text" class="form-control" readonly required>
-                                </div>
-                                <div class="form-group" style="display: none;">
-                                    <label>ID Theater</label>
-                                    <input value="${room.theater_id}" name="theaterId" type="text" class="form-control" readonly required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Room's Name</label>
-                                    <textarea name="name" class="form-control" required>${room.room_name}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Capacity</label>
-                                    <textarea name="capacity" class="form-control" required>${room.capacity}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Type</label>
-                                    <select name="type" class="form-select" aria-label="Default select example">
-                                        <c:forEach items="${type}" var="type">
-                                            <option value="${type.getType_id()}" ${type.getType_id() == room.type_id ? 'selected="selected"' : ''}>
-                                                ${type.getType_name()}
-                                            </option>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th style="width: 100px !important;">Name</th>
+                                <th style="width: 140px !important;">Theater</th>
+                                <th style="width: 140px !important;">Manager</th>
+                                <th style="width: 50px !important;">Capacity</th>
+                                <th style="width: 50px !important;">Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${listR}" var="r">
+                                <tr>
+                                    <td>${r.room_id}</td>
+                                    <td>${r.room_name}</td>
+                                    <td>
+                                        <c:forEach items="${listT}" var="t">
+                                            <c:if test="${t.getIdTheater() == r.theater_id}">
+                                                ${t.getTheaterName()}
+                                            </c:if>
                                         </c:forEach>
-                                    </select>
-                                </div>
+                                    </td>
+                                    <td>
+                                        <c:forEach items="${listU}" var="u">
+                                            <c:if test="${u.getID() == r.manager_id}">
+                                                ${u.getFullname()}
+                                            </c:if>
+                                        </c:forEach>
+                                    </td>
+                                    <td>${r.capacity}</td>
+                                    <td>
+                                        <c:forEach items="${type}" var="type">
+                                            <c:if test="${type.getType_id() == r.type_id}">
+                                                ${type.getType_name()}
+                                            </c:if>
+                                        </c:forEach> 
+                                    </td>
+                                    <td>
+                                        <a href="LoadRoom?roomid=${r.room_id}" class="edit"  ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="DeleteRoom?roomid=${r.room_id}&theaterid=${selectedTheater.idTheater}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>        
+        </div>
+        <!-- Edit Modal HTML -->
+        <div id="addEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form name="theaterForm" action="AddRoom" method="post" onsubmit="return validateForm()">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Add New Room</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group" style="display: none;">
+                                <label>ID Theater</label>
+                                <input value="${selectedTheater.idTheater}" name="theaterId" type="text" class="form-control" readonly required>
                             </div>
-                        </table>
+                            <div class="form-group" style="display: none;">
+                                <label>ID Manager</label>
+                                <input value="${selectedTheater.idManager}" name="managerid" type="text" class="form-control" readonly required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <textarea name="roomname" class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Capacity</label>
+                                <input name="capacity" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select name="type" style="padding: 3px" name="category" class="form-select" aria-label="Default select example" >
+                                    <c:forEach items="${type}" var="type">
+                                        <option value="${type.getType_id()}">${type.getType_name()}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageTheater'">Cancel</button>
-                            <input type="submit" class="btn btn-info" value="Save">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-success" value="Add">
                         </div>
                     </form>
                 </div>
-            </div>        
+            </div>
         </div>
 
     </body>
@@ -476,39 +539,25 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script>
-                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
-                                    var managerListDiv = document.getElementById('managerListDiv');
-
-                                    // Toggle hiển thị/ẩn div managerListDiv
-                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
-                                        managerListDiv.style.display = 'block';  // Hiển thị div
-                                    } else {
-                                        managerListDiv.style.display = 'none';  // Ẩn div
-                                    }
-                                });
-</script>
 
 <script>
-    function validateForm() {
+                        function validateForm() {
+                            // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
+                            var roomname = document.forms["theaterForm"]["roomname"].value;
+                            var capacity = document.forms["theaterForm"]["capacity"].value;
+                            var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
+                            var naturalNumber = /^[1-9]\d*$/
+                            if (specialCharOrNumber.test(roomname)) {
+                                alert("Tên phòng không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
+                                return false;
+                            }
+                            if (!naturalNumber.test(capacity)) {
+                                alert("Số lượng ghế chỉ là số tự nhiên. Vui lòng nhập lại.");
+                                return false;
+                            }
 
-        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
-        var name = document.forms["theaterForm"]["name"].value;
-        var capacity = document.forms["theaterForm"]["capacity"].value;
-        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
-        var naturalNumber = /^[1-9]\d*$/
-
-        if (specialCharOrNumber.test(name)) {
-            alert("Tên phòng không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-        if (!naturalNumber.test(capacity)) {
-            alert("Số lượng ghế chỉ là số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-
-        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
-    }
+                            return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
+                        }
 </script>
 
 <script type="text/javascript">
@@ -709,5 +758,3 @@
 </script>
 
 <script src="assets/js/bootstrap.min.js"></script>
-
-

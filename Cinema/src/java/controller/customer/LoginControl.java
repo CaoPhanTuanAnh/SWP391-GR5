@@ -42,6 +42,7 @@ public class LoginControl extends HttpServlet {
             }else{
                 HttpSession session = request.getSession();
                 session.setAttribute("acc", a);
+                session.setAttribute("managerId", a.getID()); // Lưu ID của manager
                 response.sendRedirect("home");
             }
         }catch(Exception e){
