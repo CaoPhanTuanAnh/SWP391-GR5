@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <servlet>
+        <servlet-name>VerifyOTPSignUp</servlet-name>
+        <servlet-class>controller.guest.VerifyOTPSignUp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageNews</servlet-name>
+        <servlet-class>controller.admin.ManageNews</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VerifyOTPSignUp</servlet-name>
+        <url-pattern>/verify_otp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageNews</servlet-name>
+        <url-pattern>/ManageNews</url-pattern>
+    </servlet-mapping>
+</web-app>

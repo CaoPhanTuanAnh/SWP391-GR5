@@ -83,7 +83,7 @@ public class ResetPasswordControl extends HttpServlet {
             return;
         }
         resetService service = new resetService();
-        String linkReset = "http://localhost:8080/Cinema/new_password.jsp";
+        String linkReset = "http://localhost:8080/Cinema_3/new_password.jsp";
         
         boolean isSend = service.sendEmail(email, linkReset, user.getFullname());
         if(!isSend) {
@@ -91,8 +91,8 @@ public class ResetPasswordControl extends HttpServlet {
             request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
             return;
         }
-        request.setAttribute("mess", "ok");
-        request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+        request.setAttribute("mess", "email has been sent");
+        request.getRequestDispatcher("ResetPassword.jsp").forward(request, response);
     }
 
     /**
