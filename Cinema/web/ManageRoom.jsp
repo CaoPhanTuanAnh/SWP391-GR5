@@ -333,7 +333,7 @@
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
+                                                                       aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp">
@@ -383,14 +383,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                    <div class="header__top__right__auth">
-                                        <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                    <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
@@ -431,108 +431,18 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Manage <b>Theater</b></h2>
+                                <h2>Manage <b>Room</b></h2>
                             </div>
-                            <div class="col-sm-6">
-                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Theater</span></a>						
+                            <div class="col-sm-6">				
                             </div>
                         </div>
                     </div>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th style="width: 120px !important;">Name</th>
-                                <th style="width: 300px !important;">Address</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${listP}" var="o">
-                                <tr>
-                                    <td>${o.idTheater}</td>
-                                    <td>${o.theaterName}</td>
-                                    <td>${o.theaterAddress}</td>
-                                    <td>
-                                        <a href="LoadTheater?theaterid=${o.idTheater}" class="edit"  ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="DeleteTheater?theaterid=${o.idTheater}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                    <c:forEach items="${listT}" var="t">
+                        <a class="nav-link" href="ManageRoomDetail?theaterId=${t.idTheater}">${t.theaterName}</a>
+                    </c:forEach>
+                        
                 </div>
             </div>        
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="AddTheater" method="post">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Add New Theater</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <textarea name="name" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea name="address" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>City</label>
-                                <select name="city" style="padding: 3px" name="category" class="form-select" aria-label="Default select example" >
-                                    <c:forEach items="${listCC}" var="o">
-                                        <option value="${o.getCityID()}">${o.getCityName()}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Edit Employee</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" required>
-                            </div>					
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-info" value="Save">
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
 
     </body>

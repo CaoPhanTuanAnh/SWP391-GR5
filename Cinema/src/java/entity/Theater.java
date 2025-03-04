@@ -14,6 +14,7 @@ public class Theater {
     private int idCity;
     private int idManager;
     private String theaterName;
+    private String theaterImage;
     private String theaterAddress;
     private String img;
 
@@ -27,12 +28,19 @@ public class Theater {
 
     public Theater() {
     }
-
-    public Theater(int idTheater, int idCity, int idManager, String theaterName, String theaterAddress) {
+    
+    public Theater(int idTheater, String theaterName, int idManager){
+        this.idTheater = idTheater;
+        this.theaterName = theaterName;
+        this.idManager = idManager;
+    }
+    
+    public Theater(int idTheater, int idCity, int idManager, String theaterName, String theaterImage, String theaterAddress) {
         this.idTheater = idTheater;
         this.idCity = idCity;
         this.idManager = idManager;
         this.theaterName = theaterName;
+        this.theaterImage = theaterImage;
         this.theaterAddress = theaterAddress;
     }
 
@@ -76,6 +84,14 @@ public class Theater {
         this.theaterName = theaterName;
     }
 
+    public String getTheaterImage() {
+        return theaterImage;
+    }
+
+    public void setTheaterImage(String theaterImage) {
+        this.theaterImage = theaterImage;
+    }
+
     public String getTheaterAddress() {
         return theaterAddress;
     }
@@ -86,7 +102,7 @@ public class Theater {
 
     @Override
     public String toString() {
-        return "Theater{" + "idTheater=" + idTheater + ", idCity=" + idCity + ", idManager=" + idManager + ", theaterName=" + theaterName + ", theaterAddress=" + theaterAddress + '}';
+        return "Theater{" + "idTheater=" + idTheater + ", idCity=" + idCity + ", idManager=" + idManager + ", theaterName=" + theaterName + ", theaterImage=" + theaterImage + ", theaterAddress=" + theaterAddress + '}';
     }
 
 }

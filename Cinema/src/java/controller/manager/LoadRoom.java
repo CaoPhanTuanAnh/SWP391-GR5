@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package controller.manager;
 
-package controller.admin;
-
-import dao.DAO;
+import dao.roomsDAO;
 import entity.User;
+import entity.rooms;
+import entity.types;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,48 +16,48 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
  * @author 84912
  */
-@WebServlet(name="AddTheater", urlPatterns={"/AddTheater"})
-public class AddTheater extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+@WebServlet(name = "LoadRoom", urlPatterns = {"/LoadRoom"})
+public class LoadRoom extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // Lấy session và kiểm tra user
         HttpSession session = request.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("acc") : null;
 
-        // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
-        if (user == null || (user.getRole() != 1)) {
+        // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
+        if (user == null || (user.getRole() != 2)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
-        String idCity = request.getParameter("city");
-        String idmanager = request.getParameter("manager");
-        // Tách chuỗi để lấy giá trị ID
-        String[] parts = idmanager.split(" - ");
-        String idManager = parts[0].replace("ID: ", "").trim();  // Lấy ID sau "ID: "
-        String theaterName = request.getParameter("name");
-        String theaterAddress = request.getParameter("address");
-        DAO dao = new DAO();
-        dao.insertTheater(idCity, idManager, theaterName, theaterAddress);
-        response.sendRedirect("ManageTheater");
-    } 
+        String id = request.getParameter("roomid");
+        roomsDAO roomsDAO = new roomsDAO();
+        List<types> type = roomsDAO.getAllTypes();
+        request.setAttribute("type", type);
+        rooms r = roomsDAO.getRoomByRoomID(id);
+        request.setAttribute("room", r);
+        request.getRequestDispatcher("EditRoom.jsp").forward(request, response);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -64,12 +65,13 @@ public class AddTheater extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -77,12 +79,13 @@ public class AddTheater extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

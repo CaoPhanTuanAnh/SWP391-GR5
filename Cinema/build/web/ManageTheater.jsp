@@ -476,10 +476,25 @@
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="AddTheater" method="post">
+                    <form name="theaterForm" action="AddTheater" method="post" onsubmit="return validateForm()">
                         <div class="modal-header">						
                             <h4 class="modal-title">Add New Theater</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div id="managerListDiv" class="modal-body">
+                            <label>Manager</label>
+                            <input list="managerList" name="manager" class="form-control" required>
+                            <datalist id="managerList">
+                                <c:forEach items="${listUU}" var="u">
+                                    <option value="${u.getID()} - ${u.getFullname()}"
+                                            <c:if test="${u.getID() == theater.idManager}">
+                                                selected
+                                            </c:if>
+                                            >
+                                        ID: ${u.getID()} - Name: ${u.getFullname()}
+                                    </option>
+                                </c:forEach>
+                            </datalist>
                         </div>
                         <div class="modal-body">					
                             <div class="form-group">
@@ -549,6 +564,41 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
+
+<script>
+    function validateForm() {
+        // Kiểm tra trường Manager
+        var managerInput = document.forms["theaterForm"]["manager"].value;
+        var isValidManager = false;
+        
+        // Kiểm tra xem giá trị người dùng nhập có tồn tại trong danh sách
+        var managerOptions = document.getElementById("managerList").options;
+        for (var i = 0; i < managerOptions.length; i++) {
+            if (managerInput === managerOptions[i].value) {
+                isValidManager = true;
+                break;
+            }
+        }
+
+        if (!isValidManager) {
+            alert("Vui lòng chọn một người quản lý từ danh sách hoặc nhập thông tin hợp lệ.");
+            return false; // Không gửi biểu mẫu nếu dữ liệu không hợp lệ
+        }
+
+        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
+        var name = document.forms["theaterForm"]["name"].value;
+        var address = document.forms["theaterForm"]["address"].value;
+        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
+
+        if (specialCharOrNumber.test(name) || specialCharOrNumber.test(address)) {
+            alert("Tên rạp và địa chỉ không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
+            return false;
+        }
+
+        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
+    }
+</script>
+
 <script type="text/javascript">
             $(document).ready(function () {
                 //Horizontal Tab
