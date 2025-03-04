@@ -9,24 +9,14 @@ package entity;
  * @author 84912
  */
 public class Theater {
-
     private int idTheater;
     private int idCity;
     private int idManager;
     private String theaterName;
     private String theaterImage;
     private String theaterAddress;
-    private String img;
-
-    public Theater(int idTheater, int idCity, String theaterName, String theaterAddress, String img) {
-        this.idTheater = idTheater;
-        this.idCity = idCity;
-        this.theaterName = theaterName;
-        this.theaterAddress = theaterAddress;
-        this.img = img;
-    }
-
-    public Theater() {
+    
+    public Theater(){
     }
     
     public Theater(int idTheater, String theaterName, int idManager){
@@ -42,14 +32,6 @@ public class Theater {
         this.theaterName = theaterName;
         this.theaterImage = theaterImage;
         this.theaterAddress = theaterAddress;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
     }
 
     public int getIdTheater() {
@@ -105,4 +87,7 @@ public class Theater {
         return "Theater{" + "idTheater=" + idTheater + ", idCity=" + idCity + ", idManager=" + idManager + ", theaterName=" + theaterName + ", theaterImage=" + theaterImage + ", theaterAddress=" + theaterAddress + '}';
     }
 
+    
+    
+    
 }
