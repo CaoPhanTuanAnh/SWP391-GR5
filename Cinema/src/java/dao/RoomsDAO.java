@@ -5,7 +5,7 @@
 package dao;
 
 import context.DBContext;
-import entity.Rooms;
+import entity.rooms;
 import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.Date;
@@ -20,10 +20,10 @@ import java.util.List;
  *
  * @author PCASUS
  */
-public class RoomsDAO extends DBContext {
+public class roomsDAO extends DBContext {
 
-    public List<Rooms> getAllRoom(int mid, int branchId, Date startDate, Time startTime) {
-    List<Rooms> movieList = new ArrayList<>();
+    public List<rooms> getAllRoom(int mid, int branchId, Date startDate, Time startTime) {
+    List<rooms> movieList = new ArrayList<>();
     
     // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
     String sql = "SELECT DISTINCT " +
@@ -57,7 +57,7 @@ public class RoomsDAO extends DBContext {
                 int capacity = rs.getInt("capacity");
                 String img = rs.getString("img");
 
-                Rooms room = new Rooms();
+                rooms room = new rooms();
                 room.setRoom_id(room_id);
                 room.setRoom_name(room_name);
                 room.setImg(img);
@@ -74,8 +74,8 @@ public class RoomsDAO extends DBContext {
     return movieList;
 }
 
-    public Rooms getRoom(int roomId) {
-    Rooms room = null;
+    public rooms getRoom(int roomId) {
+    rooms room = null;
     String sql = "SELECT room_id, theater_id, manager_id, room_name, type_id, capacity, img FROM rooms WHERE room_id = ?";
 
     try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
@@ -89,7 +89,7 @@ public class RoomsDAO extends DBContext {
                 int capacity = rs.getInt("capacity");
                 String img = rs.getString("img");
 
-                room = new Rooms();
+                room = new rooms();
                 room.setRoom_id(roomId);
                 room.setTheater_id(theater_id);
                 room.setManager_id(manager_id);

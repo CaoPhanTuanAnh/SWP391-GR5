@@ -4,8 +4,8 @@
  */
 package controller.guest;
 
-import dao.RoomsDAO;
-import entity.Rooms;
+import dao.roomsDAO;
+import entity.rooms;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -57,9 +57,9 @@ public class RoomController extends HttpServlet {
             String formattedTime = sdf24.format(sdf12.parse(startTime_raw));
             Time startTime = Time.valueOf(formattedTime);
 
-            List<Rooms> listRooms = new RoomsDAO().getAllRoom(mid, branchId, startDate, startTime);
+            List<rooms> listrooms = new roomsDAO().getAllRoom(mid, branchId, startDate, startTime);
 
-            request.setAttribute("listRooms", listRooms);
+            request.setAttribute("listrooms", listrooms);
             request.setAttribute("startDate", startDate_raw);
             request.setAttribute("startTime", startTime_raw);
             request.setAttribute("mid", mid);

@@ -143,7 +143,7 @@
 <br>
 
 <div class="d-flex justify-content-between flex-wrap container">
-    <c:forEach items="${listRooms}" var="room">
+    <c:forEach items="${listrooms}" var="room">
     <div class="card branch-item" style="width:500px; margin-bottom:50px">
         <img class="card-img-top img-branch"
              src="${room.getImg()}"

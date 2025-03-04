@@ -4,38 +4,31 @@
  */
 package entity;
 
-import java.util.logging.Logger;
-
 /**
  *
- * @author PCASUS
+ * @author 84912
  */
-public class Rooms {
-
+public class rooms {
     private int room_id;
     private int theater_id;
     private int manager_id;
     private String room_name;
-    private int type_id;
-    private int capacity;
     private String img;
-
-    public Rooms() {
+    private int capacity;
+    private int type_id;
+    
+    public rooms(){
     }
 
-    public Rooms(int room_id, int theater_id, int manager_id, String room_name, int type_id, int capacity, String img) {
+    public rooms(int room_id, int theater_id, int manager_id, String room_name, String img, int capacity, int type_id) {
         this.room_id = room_id;
         this.theater_id = theater_id;
         this.manager_id = manager_id;
         this.room_name = room_name;
-        this.type_id = type_id;
-        this.capacity = capacity;
         this.img = img;
+        this.capacity = capacity;
+        this.type_id = type_id;
     }
-    
-    
-    
-    
 
     public int getRoom_id() {
         return room_id;
@@ -69,12 +62,12 @@ public class Rooms {
         this.room_name = room_name;
     }
 
-    public int getType_id() {
-        return type_id;
+    public String getImg() {
+        return img;
     }
 
-    public void setType_id(int type_id) {
-        this.type_id = type_id;
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public int getCapacity() {
@@ -85,14 +78,19 @@ public class Rooms {
         this.capacity = capacity;
     }
 
-    public String getImg() {
-        return img;
+    public int getType_id() {
+        return type_id;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setType_id(int type_id) {
+        this.type_id = type_id;
+    }
+
+    @Override
+    public String toString() {
+        return "rooms{" + "room_id=" + room_id + ", theater_id=" + theater_id + ", manager_id=" + manager_id + ", room_name=" + room_name + ", img=" + img + ", capacity=" + capacity + ", type_id=" + type_id + '}';
     }
     
     
-
+    
 }
