@@ -438,7 +438,7 @@
                         </div>
                     </div>
                     <c:forEach items="${listT}" var="t">
-                        <a class="nav-link" href="ManageRoomDetail?theaterId=${t.idTheater}">${t.theaterName}</a>
+                        <a class="nav-link" href="ManageRoomDetail?theaterId=${t.theater_id}">${t.theater_name}</a>
                     </c:forEach>
                         
                 </div>
