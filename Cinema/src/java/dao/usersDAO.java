@@ -5,7 +5,7 @@
 package dao;
 
 import context.DBContext;
-import entity.User;
+import entity.users;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,13 +18,13 @@ import java.util.logging.Logger;
  *
  * @author LENOVO
  */
-public class UserDAO extends DBContext{
+public class usersDAO extends DBContext{
 
     Connection conn = null; // kết nối vs sql
     PreparedStatement ps = null; // ném query sang sql
     ResultSet rs = null; // nhận kết quả trả về
 
-    public User getAccountByUser(String username, String password) {
+    public users getAccountByUser(String username, String password) {
         String query = "select * from users where username = ? AND password = ?";
         try {
             conn = new DBContext().getConnection();//mo ket noi voi sql
@@ -33,14 +33,16 @@ public class UserDAO extends DBContext{
             ps.setString(2, password);
             rs = ps.executeQuery();
             if (rs.next()) {
-                return new User(rs.getInt(1),
+                return new users(rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -57,7 +59,7 @@ public class UserDAO extends DBContext{
             ps.setInt(2, ID);
             return ps.executeUpdate()==1;
         } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(usersDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -74,27 +76,29 @@ public class UserDAO extends DBContext{
             ps.setInt(5, ID);
             return ps.executeUpdate()==1;
         } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(usersDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
-    public List<User> getAllUser() {
-        List<User> users = new ArrayList<>();
+    public List<users> getAllUser() {
+        List<users> users = new ArrayList<>();
         String query = "SELECT user_id, role_id, username, [full_name], email, phone, address FROM users";
 
         try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                users.add(new User(
-                        rs.getInt("user_id"),
-                        rs.getInt("role_id"),
-                        rs.getString("username"),
-                        rs.getString("full_name"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("address")
-                ));
+                users.add(new users(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10))
+                );
             }
         } catch (Exception e) {
             System.out.println("Lỗi khi lấy danh sách người dùng: " + e.getMessage());
@@ -104,22 +108,23 @@ public class UserDAO extends DBContext{
     
     
 
-    public User getAccountById(int id) {
+    public users getAccountById(int id) {
         String query = "SELECT user_id, role_id, username, full_name, email, phone, address FROM users WHERE user_id = ?";
         try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new User(
-                            rs.getInt("user_id"),
-                            rs.getInt("role_id"),
-                            rs.getString("username"),
-                            rs.getString("full_name"),
-                            rs.getString("email"),
-                            rs.getString("phone"),
-                            rs.getString("address")
-                    );
+                    return new users(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
                 }
             }
         } catch (Exception e) {
@@ -129,22 +134,22 @@ public class UserDAO extends DBContext{
     }
     
     public static void main(String[] args) {
-        UserDAO userDao = new UserDAO();
-        User users = userDao.getAccountById(1);
+        usersDAO userDao = new usersDAO();
+        users users = userDao.getAccountById(1);
         System.out.println(users);
     }
 
-    public boolean createUser(User user) {
-        String query = "INSERT INTO users (role_id, username, full_name, email, phone, address, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public boolean createUser(users user) {
+        String query = "INSERT INTO users (role_id, username, full_name, email, phone, birth_date, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
-            ps.setInt(1, user.getRole());
+            ps.setInt(1, user.getRole_id());
             ps.setString(2, user.getUsername());
             ps.setString(3, user.getFullname());
             ps.setString(4, user.getEmail());
             ps.setString(5, user.getPhone());
-            ps.setString(6, user.getAddress());
+            ps.setString(6, user.getBirth_date());
             ps.setString(7, user.getPassword());
 
             int rowsAffected = ps.executeUpdate();

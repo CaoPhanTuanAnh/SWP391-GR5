@@ -8,7 +8,8 @@ package entity;
  *
  * @author PCASUS
  */
-public class Seats {
+public class seats {
+
     private int seat_id;
     private int room_id;
     private int level_id;
@@ -16,10 +17,10 @@ public class Seats {
     private int seat_number;
     private String status;
 
-    public Seats() {
+    public seats() {
     }
 
-    public Seats(int seat_id, int room_id, int level_id, String seat_row, int seat_number, String status) {
+    public seats(int seat_id, int room_id, int level_id, String seat_row, int seat_number, String status) {
         this.seat_id = seat_id;
         this.room_id = room_id;
         this.level_id = level_id;
@@ -75,8 +76,5 @@ public class Seats {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
-    
-          
+
 }

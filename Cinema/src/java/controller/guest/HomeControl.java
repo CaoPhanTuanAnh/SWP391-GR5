@@ -5,7 +5,7 @@
 package controller.guest;
 
 import dao.DAO;
-import entity.User;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

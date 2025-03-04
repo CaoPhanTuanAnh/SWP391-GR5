@@ -4,8 +4,8 @@
  */
 package controller.guest;
 
-import dao.TheaterDAO;
-import entity.Theater;
+import dao.theatersDAO;
+import entity.theaters;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -38,7 +38,7 @@ public class BranchController extends HttpServlet {
 
             String mid = request.getParameter("mid");
 
-            List<Theater> listPopulars = new TheaterDAO().getAllTheater();
+            List<theaters> listPopulars = new theatersDAO().getAllTheater();
 
             request.setAttribute("listPopulars", listPopulars);
             request.setAttribute("mid", mid);

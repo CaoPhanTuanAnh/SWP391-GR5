@@ -5,7 +5,7 @@
 package controller.customer;
 
 import dao.DAO;
-import entity.User;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -35,14 +35,14 @@ public class LoginControl extends HttpServlet {
             String user = request.getParameter("username");
             String pass = request.getParameter("password");
             DAO dao = new DAO();
-            User a = dao.login(user, pass);
+            users a = dao.login(user, pass);
             if(a == null){
                 request.setAttribute("mess", "Wrong username or password");
                 request.getRequestDispatcher("sign_in.jsp").forward(request, response);
             }else{
                 HttpSession session = request.getSession();
                 session.setAttribute("acc", a);
-                session.setAttribute("managerId", a.getID()); // Lưu ID của manager
+                session.setAttribute("managerId", a.getUser_id()); // Lưu ID của manager
                 response.sendRedirect("home");
             }
         }catch(Exception e){
@@ -78,7 +78,7 @@ public class LoginControl extends HttpServlet {
         String user = request.getParameter("username");
         String pass = request.getParameter("password");
         DAO dao = new DAO();
-        User a = dao.login(user, pass);
+        users a = dao.login(user, pass);
         if(a == null){
             request.setAttribute("mess", "Wrong username or password");
             request.getRequestDispatcher("sign_in.jsp").forward(request, response);

@@ -5,9 +5,9 @@
 package dao;
 
 import context.DBContext;
-import entity.City;
-import entity.Theater;
-import entity.User;
+import entity.cities;
+import entity.theaters;
+import entity.users;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ public class DAO {
     PreparedStatement ps = null; // ném query sang sql
     ResultSet rs = null; // nhận kết quả trả về
 
-    public User login(String user, String pass) {
+    public users login(String user, String pass) {
         try {
             String query = "select * from users where username = ? and password = ?";
             conn = new DBContext().getConnection();//mo ket noi voi sql
@@ -32,14 +32,16 @@ public class DAO {
             ps.setString(2, pass);
             rs = ps.executeQuery();
             while (rs.next()) {
-                User a = new User(rs.getInt(1),
+                users a = new users(rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
                 return a;
             }
         } catch (Exception e) {
@@ -65,7 +67,7 @@ public class DAO {
         }
     }
 
-    public User checkUserExist(String user) {
+    public users checkUserExist(String user) {
         String query = "select * from users\n"
                 + "where username = ?\n";
         try {
@@ -74,29 +76,31 @@ public class DAO {
             ps.setString(1, user);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new User(rs.getInt(1),
+                return new users(rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
             }
         } catch (Exception e) {
         }
         return null;
     }
 
-    public List<Theater> getAllTheater() {
-        List<Theater> list = new ArrayList<>();
+    public List<theaters> getAllTheater() {
+        List<theaters> list = new ArrayList<>();
         String query = "select * from theaters";
         try {
             conn = new DBContext().getConnection();//mo ket noi voi sql
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Theater(rs.getInt(1),
+                list.add(new theaters(rs.getInt(1),
                         rs.getInt(2),
                         rs.getInt(3),
                         rs.getString(4),
@@ -109,8 +113,8 @@ public class DAO {
         return list;
     }
 
-    public List<City> getAllCity() {
-        List<City> listC = new ArrayList<>();
+    public List<cities> getAllCity() {
+        List<cities> listC = new ArrayList<>();
         String query = "select top 5 c.*,count(t.theater_id) as numOfTheater \n"
                 + "from cities c left join theaters t \n"
                 + "on t.city_id=c.city_id group by c.city_id,c.city_name";
@@ -119,7 +123,7 @@ public class DAO {
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                listC.add(new City(rs.getInt(1),
+                listC.add(new cities(rs.getInt(1),
                         rs.getString(2), rs.getInt("numOfTheater")));
             }
         } catch (Exception e) {
@@ -128,22 +132,24 @@ public class DAO {
         return listC;
     }
 
-    public List<User> getAllUser() {
-        List<User> listU = new ArrayList<>();
+    public List<users> getAllUser() {
+        List<users> listU = new ArrayList<>();
         String query = "select * from users";
         try {
             conn = new DBContext().getConnection();//mo ket noi voi sql
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                listU.add(new User(rs.getInt(1),
+                listU.add(new users(rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8)));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -178,7 +184,7 @@ public class DAO {
         }
     }
 
-    public Theater getTheaterByID(String id) {
+    public theaters getTheaterByID(String id) {
         String query = "select * from theaters\n"
                 + "where theater_id = ?";
         try {
@@ -187,7 +193,7 @@ public class DAO {
             ps.setString(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Theater(rs.getInt(1),
+                return new theaters(rs.getInt(1),
                         rs.getInt(2),
                         rs.getInt(3),
                         rs.getString(4),
@@ -221,7 +227,7 @@ public class DAO {
         }
     }
 
-    public User getUserByEmail(String email) {
+    public users getUserByEmail(String email) {
         String query = "Select * from users where email = ?";
         try {
             try {
@@ -233,14 +239,16 @@ public class DAO {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new User(rs.getInt(1),
+                return new users(rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
             }
         } catch (SQLException e) {
             System.out.println(e);

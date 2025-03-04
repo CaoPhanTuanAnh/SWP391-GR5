@@ -4,8 +4,8 @@
  */
 package controller.customer;
 
-import dao.UserDAO;
-import entity.User;
+import dao.usersDAO;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -37,7 +37,7 @@ public class UserProfileControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("acc");
+            users user = (users) session.getAttribute("acc");
             String mess = null;
             String service = request.getParameter("service");
             if (service.equals("editProfile")) {
@@ -51,26 +51,26 @@ public class UserProfileControl extends HttpServlet {
     }
 
     private void editProfile(HttpServletRequest request, HttpServletResponse response,
-            HttpSession session, User user, String mess)
+            HttpSession session, users user, String mess)
             throws ServletException, IOException {
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
-        String address = request.getParameter("address");
+        String birth_date = request.getParameter("address");
         String phone = request.getParameter("phone");
         try {
             if (TypeValidator.validateFullName(fullName)
                     && TypeValidator.validateEmail(email)
                     && TypeValidator.validatePhone(phone)
-                    && TypeValidator.validateAddress(address)) {
-                UserDAO dao = new UserDAO();
-                if (!dao.editProfile(user.getID(), fullName, email, phone, address)) {
+                    && TypeValidator.validateAddress(birth_date)) {
+                usersDAO dao = new usersDAO();
+                if (!dao.editProfile(user.getUser_id(), fullName, email, phone, birth_date)) {
                     mess = "Something go wrong!";
                 } else {
                     mess = "Profile have been updated successfully!";
                     user.setFullname(fullName);
                     user.setEmail(email);
                     user.setPhone(phone);
-                    user.setAddress(address);
+                    user.setBirth_date(birth_date);
                 }
             }
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class UserProfileControl extends HttpServlet {
     }
 
     private void changePassword(HttpServletRequest request, HttpServletResponse response,
-            HttpSession session, User user, String mess)
+            HttpSession session, users user, String mess)
             throws ServletException, IOException {
         String oldPassword = request.getParameter("oldPassword");
         if (!user.getPassword().equals(oldPassword)) {
@@ -94,8 +94,8 @@ public class UserProfileControl extends HttpServlet {
             } else {
                 try {
                     if (TypeValidator.validatePassword(newPassword)) {
-                        UserDAO dao = new UserDAO();
-                        if (!dao.changePassword(user.getID(), newPassword)) {
+                        usersDAO dao = new usersDAO();
+                        if (!dao.changePassword(user.getUser_id(), newPassword)) {
                             mess = "Something go wrong!";
                         } else {
                             mess = "Change password successfully!";

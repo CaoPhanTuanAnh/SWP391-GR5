@@ -12,7 +12,8 @@ import java.sql.Time;
  *
  * @author PCASUS
  */
-public class Showtimes {
+public class showtimes {
+    
     private int showtime_id;
     private int movie_id;
     private int room_id;
@@ -20,10 +21,10 @@ public class Showtimes {
     private Time time;
     private String status;
 
-    public Showtimes() {
+    public showtimes() {
     }
 
-    public Showtimes(int showtime_id, int movie_id, int room_id, Date date, Time time, String status) {
+    public showtimes(int showtime_id, int movie_id, int room_id, Date date, Time time, String status) {
         this.showtime_id = showtime_id;
         this.movie_id = movie_id;
         this.room_id = room_id;
@@ -82,9 +83,5 @@ public class Showtimes {
         this.status = status;
     }
 
-   
-
-   
-    
     
 }

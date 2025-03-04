@@ -5,7 +5,7 @@
 package controller.guest;
 
 import dao.DAO;
-import entity.User;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -48,7 +48,7 @@ public class SignupControl extends HttpServlet {
             request.getRequestDispatcher("sign_up.jsp").forward(request, response);
         }else{
             DAO dao = new DAO();
-            User a = dao.checkUserExist(user);
+            users a = dao.checkUserExist(user);
             if(a==null){
                 dao.signup(user, pass,fullname,email,phone,address);
                 response.sendRedirect("home");

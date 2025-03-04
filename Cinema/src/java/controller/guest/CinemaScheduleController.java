@@ -5,8 +5,8 @@
 package controller.guest;
 
 import com.google.gson.Gson;
-import dao.ShowtimesDAO;
-import entity.Showtimes;
+import dao.showtimesDAO;
+import entity.showtimes;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -50,8 +50,8 @@ public class CinemaScheduleController extends HttpServlet {
             int mid = Integer.parseInt(mid_raw);
             int branchId = Integer.parseInt(branchId_raw);
 
-            List<Showtimes> listDates = new ShowtimesDAO().getAllDateByBrand(mid, branchId);
-            List<Showtimes> listStartTimes = new ShowtimesDAO().getAllTimeByBrand(mid, branchId);
+            List<showtimes> listDates = new showtimesDAO().getAllDateByBrand(mid, branchId);
+            List<showtimes> listStartTimes = new showtimesDAO().getAllTimeByBrand(mid, branchId);
             Gson gson = new Gson();
             String listStartTimesJson = gson.toJson(listStartTimes);
             request.setAttribute("listStartTimesJson", listStartTimesJson);

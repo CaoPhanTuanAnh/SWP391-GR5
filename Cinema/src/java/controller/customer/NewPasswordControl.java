@@ -5,7 +5,7 @@
 package controller.customer;
 
 import dao.DAO;
-import entity.User;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -40,7 +40,7 @@ public class NewPasswordControl extends HttpServlet {
             String new_password  = request.getParameter("new_password");
             String re_new_password  = request.getParameter("re_new_password");
             dao.DAO dao = new DAO();
-            User user = dao.getUserByEmail(email);
+            users user = dao.getUserByEmail(email);
             if(user==null){
                 mess = "Wrong email";
                 request.getRequestDispatcher("new_password.jsp").forward(request, response);

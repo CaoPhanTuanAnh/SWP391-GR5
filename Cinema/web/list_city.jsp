@@ -349,7 +349,7 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.getRole() == 1}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 1}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="home">Home</a>
                                 </li>
@@ -364,7 +364,7 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="${sessionScope.acc.getRole() == 2}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 2}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
@@ -450,12 +450,12 @@
                         <tbody>
                             <c:forEach items="${cityList}" var="city">
                                 <tr>
-                                    <td>${city.getCityID()}</td>
-                                    <td>${city.getCityName()}</td>
-                                    <td>${city.getNumOfTheater()}</td>
+                                    <td>${city.getCity_id()}</td>
+                                    <td>${city.getCity_name()}</td>
+                                    <td>${city.getNum_of_theater()}</td>
                                     <td>
-                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeCityInfo(${city.getCityID()},'${city.getCityName()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="city_control?service=deleteCity&cityID=${city.getCityID()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeCityInfo(${city.getCity_id()},'${city.getCity_name()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="city_control?service=deleteCity&cityID=${city.getCity_id()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     </td>
                                 </tr>
                             </c:forEach>

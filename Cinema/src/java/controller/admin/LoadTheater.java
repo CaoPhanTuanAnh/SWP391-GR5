@@ -5,9 +5,9 @@
 package controller.admin;
 
 import dao.DAO;
-import entity.City;
-import entity.Theater;
-import entity.User;
+import entity.cities;
+import entity.theaters;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -38,20 +38,20 @@ public class LoadTheater extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
-        User user = (session != null) ? (User) session.getAttribute("acc") : null;
+        users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
-        if (user == null || (user.getRole() != 1)) {
+        if (user == null || (user.getRole_id()!= 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         String id = request.getParameter("theaterid");
         DAO dao = new DAO();
-        List<User> listU = dao.getAllUser();
+        List<users> listU = dao.getAllUser();
         request.setAttribute("listUU", listU);
-        List<City> listC = dao.getAllCity();
+        List<cities> listC = dao.getAllCity();
         request.setAttribute("listCC", listC);
-        Theater t = dao.getTheaterByID(id);
+        theaters t = dao.getTheaterByID(id);
         request.setAttribute("theater", t);
         request.getRequestDispatcher("EditTheater.jsp").forward(request, response);
     }

@@ -4,8 +4,8 @@
  */
 package controller.guest;
 
-import dao.SeatsDAO;
-import entity.Seats;
+import dao.seatsDAO;
+import entity.seats;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -56,11 +56,11 @@ public class SeatController extends HttpServlet {
             String formattedTime = sdf24.format(sdf12.parse(startTime_raw));
             Time startTime = Time.valueOf(formattedTime);
 
-            List<Seats> listA = new SeatsDAO().getAllSeatA(mid, branchId, startDate, startTime, roomId);
-            List<Seats> listB = new SeatsDAO().getAllSeatB(mid, branchId, startDate, startTime, roomId);
-            List<Seats> listC = new SeatsDAO().getAllSeatC(mid, branchId, startDate, startTime, roomId);
-            List<Seats> listD = new SeatsDAO().getAllSeatD(mid, branchId, startDate, startTime, roomId);
-            List<Seats> listE = new SeatsDAO().getAllSeatE(mid, branchId, startDate, startTime, roomId);
+            List<seats> listA = new seatsDAO().getAllSeatA(mid, branchId, startDate, startTime, roomId);
+            List<seats> listB = new seatsDAO().getAllSeatB(mid, branchId, startDate, startTime, roomId);
+            List<seats> listC = new seatsDAO().getAllSeatC(mid, branchId, startDate, startTime, roomId);
+            List<seats> listD = new seatsDAO().getAllSeatD(mid, branchId, startDate, startTime, roomId);
+            List<seats> listE = new seatsDAO().getAllSeatE(mid, branchId, startDate, startTime, roomId);
             request.setAttribute("listA", listA);
             request.setAttribute("listB", listB);
             request.setAttribute("listC", listC);

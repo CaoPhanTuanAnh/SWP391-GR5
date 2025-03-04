@@ -5,10 +5,10 @@
 package controller.guest;
 
 import dao.roomsDAO;
-import dao.TheaterDAO;
+import dao.theatersDAO;
 import dao.moviesDAO;
 import entity.rooms;
-import entity.Theater;
+import entity.theaters;
 import entity.movies;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,7 +43,7 @@ public class BillController extends HttpServlet {
         String roomId_raw = request.getParameter("roomId");
         String[] selectedSeats = request.getParameterValues("seats");
         moviesDAO a = new moviesDAO();
-        TheaterDAO b = new TheaterDAO();
+        theatersDAO b = new theatersDAO();
         roomsDAO c = new roomsDAO();
         
         try {
@@ -52,7 +52,7 @@ public class BillController extends HttpServlet {
             int roomId = Integer.parseInt(roomId_raw);
 
             movies movie = a.getMovie(mid);
-            Theater brand = b.getBrand(branchId);
+            theaters brand = b.getBrand(branchId);
             rooms room = c.getRoom(roomId);
           
             request.setAttribute("room", room);

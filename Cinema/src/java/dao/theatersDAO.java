@@ -4,7 +4,7 @@
  */
 package dao;
 
-import entity.Theater;
+import entity.theaters;
 import context.DBContext;
 import java.sql.Connection;
 import java.sql.Date;
@@ -18,10 +18,10 @@ import java.sql.SQLException;
  *
  * @author PCASUS
  */
-public class TheaterDAO extends DBContext {
+public class theatersDAO extends DBContext {
 
-    public List<Theater> getAllTheater() {
-        List<Theater> movieList = new ArrayList<>();
+    public List<theaters> getAllTheater() {
+        List<theaters> movieList = new ArrayList<>();
         String sql = "SELECT DISTINCT\n"
                 + "    t.address, t.img, t.theater_id, t.theater_name\n"
                 + "FROM movies m \n"
@@ -41,12 +41,11 @@ public class TheaterDAO extends DBContext {
                     String img = rs.getString("img");
                     String address = rs.getString("address");
 
-                    Theater movies = new Theater();
-                    movies.setIdTheater(theater_id);
-
+                    theaters movies = new theaters();
+                    movies.setTheater_id(theater_id);
                     movies.setImg(img);
-                    movies.setTheaterAddress(theater_name);
-                    movies.setTheaterName(theater_name);
+                    movies.setAddress(theater_name);
+                    movies.setTheater_name(theater_name);
 
                     movieList.add(movies);
                 }
@@ -60,14 +59,14 @@ public class TheaterDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        List<Theater> a = new TheaterDAO().getAllTheater();
-        for (Theater theater : a) {
-            System.out.println(theater.getTheaterName());
+        List<theaters> a = new theatersDAO().getAllTheater();
+        for (theaters theater : a) {
+            System.out.println(theater.getTheater_name());
         }
 
     }
 
-    public Theater getBrand(int branchId) throws Exception {
+    public theaters getBrand(int branchId) throws Exception {
         String sql = "SELECT theater_id, city_id, theater_name, img, address FROM theaters WHERE theater_id = ?";
 
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
@@ -81,7 +80,7 @@ public class TheaterDAO extends DBContext {
                     String img = rs.getString("img");
                     String theaterAddress = rs.getString("address");
 
-                    return new Theater(idTheater, idCity, theaterName, theaterAddress, img);
+                    return new theaters(idTheater, idCity, theaterName, theaterAddress, img);
                 }
             }
         } catch (SQLException e) {

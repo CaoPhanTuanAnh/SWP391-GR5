@@ -4,8 +4,6 @@
  */
 package entity;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +13,7 @@ import lombok.ToString;
 
 /**
  *
- * @author PCASUS
+ * @author GIGABYTE
  */
 @Builder
 @NoArgsConstructor
@@ -23,15 +21,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class movies {
+public class cities {
 
-    private int movie_id;
-    private String title;
-    private String description;
-    private String trailer_url;
-    private String poster_url;
-    private int duration;
-    private Date release_date;
-    private String status;
+    private int city_id;
+    private String city_name;
+    private int num_of_theater;
 
 }

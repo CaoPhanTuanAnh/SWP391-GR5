@@ -5,7 +5,7 @@
 package dao;
 
 import context.DBContext;
-import entity.Showtimes;
+import entity.showtimes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,10 +19,10 @@ import java.sql.Time;
  *
  * @author PCASUS
  */
-public class ShowtimesDAO extends DBContext {
+public class showtimesDAO extends DBContext {
 
-   public List<Showtimes> getAllDateByBrand(int mid, int branchId) {
-    List<Showtimes> movieList = new ArrayList<>();
+   public List<showtimes> getAllDateByBrand(int mid, int branchId) {
+    List<showtimes> movieList = new ArrayList<>();
     String sql = "SELECT DISTINCT " +
                  "    s.movie_id, " +
                  "    CAST(s.showtime AS DATE) AS show_date, " +
@@ -48,7 +48,7 @@ public class ShowtimesDAO extends DBContext {
                 int showtime_id = rs.getInt("showtime_id");
                 String status = rs.getString("status");
 
-                Showtimes movies = new Showtimes();
+                showtimes movies = new showtimes();
                 movies.setDate(date);
                 movies.setMovie_id(movie_id);
                 movies.setStatus(status);
@@ -66,8 +66,8 @@ public class ShowtimesDAO extends DBContext {
     return movieList;
 }
 
-public List<Showtimes> getAllTimeByBrand(int mid, int branchId) {
-    List<Showtimes> movieList = new ArrayList<>();
+public List<showtimes> getAllTimeByBrand(int mid, int branchId) {
+    List<showtimes> movieList = new ArrayList<>();
     String sql = "SELECT DISTINCT " +
                  "    s.movie_id, " +
                  "    CAST(s.showtime AS DATE) AS show_date, " +
@@ -95,7 +95,7 @@ public List<Showtimes> getAllTimeByBrand(int mid, int branchId) {
                 int showtime_id = rs.getInt("showtime_id");
                 String status = rs.getString("status");
 
-                Showtimes movies = new Showtimes();
+                showtimes movies = new showtimes();
                 movies.setDate(date);
                 movies.setMovie_id(movie_id);
                 movies.setTime(time);

@@ -10,7 +10,8 @@ import java.sql.Date;
  *
  * @author PCASUS
  */
-public class Participant {
+public class participants {
+
     private int participant_id;
     private String participant_name;
     private String portrait_url;
@@ -18,7 +19,7 @@ public class Participant {
     private String nationality;
     private String about;
 
-    public Participant(int participant_id, String participant_name, String portrait_url, Date birth_date, String nationality, String about) {
+    public participants(int participant_id, String participant_name, String portrait_url, Date birth_date, String nationality, String about) {
         this.participant_id = participant_id;
         this.participant_name = participant_name;
         this.portrait_url = portrait_url;
@@ -27,7 +28,7 @@ public class Participant {
         this.about = about;
     }
 
-    public Participant() {
+    public participants() {
     }
 
     public int getParticipant_id() {
@@ -77,6 +78,5 @@ public class Participant {
     public void setAbout(String about) {
         this.about = about;
     }
-    
-    
+
 }

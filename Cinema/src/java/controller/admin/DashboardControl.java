@@ -5,7 +5,7 @@
 
 package controller.admin;
 
-import entity.User;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -59,7 +59,7 @@ public class DashboardControl extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("acc");
+        users user = (users) session.getAttribute("acc");
 
 //        if (user == null || !"1".equals(user.getUserRole())) {
 //            session.setAttribute("error", "Bạn không có quyền truy cập!");

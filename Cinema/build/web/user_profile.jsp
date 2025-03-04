@@ -6,7 +6,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="entity.User" %>
 <!doctype html>
 <html lang="zxx">
 
@@ -156,7 +155,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="Contact_Us.jsp">Contact</a>
                             </li>
-                            <c:if test="${sessionScope.acc.role == 1}">
+                            <c:if test="${sessionScope.acc.role_id == 1}">
                                 <li class="nav-item">
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
@@ -166,7 +165,7 @@
                                     </ul>
                                 </li>
                             </c:if>
-                            <c:if test="${sessionScope.acc.role == 2}">
+                            <c:if test="${sessionScope.acc.role_id == 2}">
                                 <li class="nav-item">
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
@@ -281,11 +280,11 @@
                     <tbody>
                         <tr>
                             <td class="field-name">Full name</td>
-                            <td class="field-name">Address</td>
+                            <td class="field-name">Birth Date</td>
                         </tr>
                         <tr>
                             <td class="field"><input class="field-value" type="text" name="fullName" value="${sessionScope.acc.getFullname()}" readonly required></td>
-                            <td class="field"><input class="field-value" type="text" name="address" value="${sessionScope.acc.getAddress()}" readonly required></td>
+                            <td class="field"><input class="field-value" type="text" name="address" value="${sessionScope.acc.getBirth_date()}" readonly required></td>
                         </tr>
                         <tr>
                             <td class="field-name">Email</td>

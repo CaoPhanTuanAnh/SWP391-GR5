@@ -5,7 +5,7 @@
 package dao;
 
 import context.DBContext;
-import entity.City;
+import entity.cities;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,13 +18,13 @@ import java.util.logging.Logger;
  *
  * @author GIGABYTE
  */
-public class CityDAO {
+public class citiesDAO {
     Connection conn = null; // kết nối vs sql
     PreparedStatement ps = null; // ném query sang sql
     ResultSet rs = null; // nhận kết quả trả về
     
-    public List<City> listCity(){
-        ArrayList<City> cityList = new ArrayList<>();
+    public List<cities> listCity(){
+        ArrayList<cities> cityList = new ArrayList<>();
         String query = "select c.*,count(t.theater_id) as numOfTheater "
                 + "from cities c left join theaters t "
                 + "on t.city_id=c.city_id group by c.city_id,c.city_name";
@@ -33,12 +33,12 @@ public class CityDAO {
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while(rs.next()){
-                City city = new City(rs.getInt("city_id"),rs.getString("city_name"),rs.getInt("numOfTheater"));
+                cities city = new cities(rs.getInt("city_id"),rs.getString("city_name"),rs.getInt("numOfTheater"));
                 cityList.add(city);
             }
             return cityList;
         } catch (Exception ex) {
-            Logger.getLogger(CityDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(citiesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cityList;
     }
@@ -52,7 +52,7 @@ public class CityDAO {
             int check = ps.executeUpdate();
             if(check==1)return true;
         } catch (Exception ex) {
-            Logger.getLogger(CityDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(citiesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -66,7 +66,7 @@ public class CityDAO {
             int check = ps.executeUpdate();
             if(check==1)return true;
         } catch (Exception ex) {
-            Logger.getLogger(CityDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(citiesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -81,7 +81,7 @@ public class CityDAO {
             int check = ps.executeUpdate();
             if(check==1)return true;
         } catch (Exception ex) {
-            Logger.getLogger(CityDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(citiesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
