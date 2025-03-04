@@ -1,6 +1,7 @@
+
 <%-- 
-    Document   : change_password
-    Created on : Feb 13, 2025, 12:35:39 AM
+    Document   : list_user_booking
+    Created on : Feb 28, 2025, 10:25:47 AM
     Author     : GIGABYTE
 --%>
 
@@ -13,7 +14,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Home</title>
+        <title>Booking History</title>
 
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
@@ -65,16 +66,20 @@
                 color:black;
                 font-size: medium;
                 margin-top: 90px;
-                justify-items: center;
+                display: flex;
+                justify-content: center; /* aligns the items horizontally */
+                align-items: baseline;
+                flex-wrap: wrap;
             }
             .maincontent table{
-                box-shadow: 0px 5px 15px lightgrey;
+                box-shadow:10px 0px 15px lightgrey;
                 margin: 20px 0 20px 0;
                 height: 30vh;
-                width: 30vw;
+                width: 55vw;
             }
             .mess{
-                margin-top: 90px;
+                width: 100vw;
+                text-align: center;
                 height: 28px;
             }
             .form-button{
@@ -103,15 +108,33 @@
                 padding: 25px 0px 0px 30px;
             }
             .field{
-                padding: 5px 25px 0px 30px;
+                padding: 15px 25px 5px 30px;
             }
             .field-value{
+                display: grid;
+                grid-template-columns: auto auto;
                 width: 100%;
                 padding: 4px 6px 4px 6px;
                 color: black;
-                background-color: white;
-                border: 2px solid black;
+                background-color: whitesmoke;
+                border: 2px solid grey;
                 border-radius: 7px;
+            }
+            .field-value p{
+                display: inline;
+                width: 100%;
+            }
+            .sidenav{
+
+            }
+            .navoption{
+                display: block;
+                padding: 10px 15px;
+                border-width: 3px 0px 0px 5px;
+                border-color: #c01050;
+                border-style: solid;
+                border-radius: 5px 0px 0px 5px;
+                background-color: white;
             }
 
         </style>
@@ -125,7 +148,7 @@
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
+                                                                       aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp">
@@ -268,46 +291,37 @@
         <div class="maincontent">
             <c:choose>
                 <c:when test="${requestScope.mess != null}">
-                    <p class="mess" id="form-mess">${requestScope.mess}</p>
+                    <p class="mess" style="width: 100vw">${requestScope.mess}</p>
                 </c:when>
                 <c:otherwise>
-                    <p class="mess">     </p>
+                    <p class="mess" style="width: 100vw">     </p>
                 </c:otherwise>
             </c:choose>
-            <form  action="user_profile" method="post">
-                <input type="hidden" name="service" value="changePassword">
+            <div class="sidenav" style="display:inline-block">
+                <a class="navoption" id="currentnavoption" href="user_profile?service=editProfile">User Profile</a>
+                <a class="navoption" href="user_profile?service=listUserBooking">Booking History</a>
+            </div>
+            <form action="user_profile" method="post" style="display:inline-block">
+                <input type="hidden" name="service" value="editProfile">
                 <table>
                     <tbody>
-                        <tr>
-                            <td class="field-name">Enter old password:</td>
-                        </tr>
-                        <tr>
-                            <td class="field"><input class="field-value" type="password" name="oldPassword" ></td>
-                        </tr>
-                        <tr>
-                            <td class="field-name">Enter new password:</td>
-                        </tr>
+                        <c:forEach var="booking" items="${requestScope.userBookingList}">
                         <tr>
                             <td class="field">
-                                <input class="field-value" id="password" oninput="checkPassword();checkRePassword()" type="password" name="newPassword" >
-                                <p style="color:red;font-size:small;"></p>
+                                <a class="field-value" href="">
+                                    <p style="grid-column: 1 / span 2"><em>Movie:</em> ${booking.title}</p>
+                                    <p><em>Number of Tickets:</em> ${booking.num_of_tickets}</p>
+                                    <p><em>Number of Combos:</em> ${booking.num_of_combos}</p>
+                                    <p><em>Seats:</em> ${booking.seats_info}</p>
+                                    <p><em>Combos:</em> ${booking.combos_info}</p>
+                                    <p><em>Create at:</em> ${booking.booking_date}</p>
+                                    <p><em>Total Amount:</em> ${booking.total_amount}</p>
+                                </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="field-name">Re-enter new password:</td>
-                        </tr>
-                        <tr>
-                            <td class="field"">
-                                <input class="field-value" id="re-password" oninput="checkRePassword()" type="password" name="reNewPassword" >
-                                <p style="color:red;font-size:small;"></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right; padding: 10px 25px 15px 0px"><button class="form-button" id="form-submit" disabled="" >Change</button></td>
-                        </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
-
             </form>
         </div>
 
@@ -321,19 +335,19 @@
                                 <div class="row footer-about">
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner1.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner2.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner3.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner4.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                 </div>
                                 <div class="row footer-links">
@@ -417,7 +431,6 @@
                     window.onscroll = function () {
                         scrollFunction()
                     };
-
                     function scrollFunction() {
                         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                             document.getElementById("movetop").style.display = "block";
@@ -440,69 +453,67 @@
 
 </html>
 
-<!-- password checking -->
-<script src="assets/js/type-validator.js"></script>
+<!-- Allow edit -->
 
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-                    $(document).ready(function () {
-                        //Horizontal Tab
-                        $('#parentHorizontalTab').easyResponsiveTabs({
-                            type: 'default', //Types: default, vertical, accordion
-                            width: 'auto', //auto or any width like 600px
-                            fit: true, // 100% fit in a container
-                            tabidentify: 'hor_1', // The tab groups identifier
-                            activate: function (event) { // Callback function if tab is switched
-                                var $tab = $(this);
-                                var $info = $('#nested-tabInfo');
-                                var $name = $('span', $info);
-                                $name.text($tab.text());
-                                $info.show();
-                            }
-                        });
-                    });
-</script>
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });</script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-                    $(document).ready(function () {
-                        $('.owl-one').owlCarousel({
-                            stagePadding: 280,
-                            loop: true,
-                            margin: 20,
-                            nav: true,
-                            responsiveClass: true,
-                            autoplay: true,
-                            autoplayTimeout: 5000,
-                            autoplaySpeed: 1000,
-                            autoplayHoverPause: false,
-                            responsive: {
-                                0: {
-                                    items: 1,
-                                    stagePadding: 40,
-                                    nav: false
-                                },
-                                480: {
-                                    items: 1,
-                                    stagePadding: 60,
-                                    nav: true
-                                },
-                                667: {
-                                    items: 1,
-                                    stagePadding: 80,
-                                    nav: true
-                                },
-                                1000: {
-                                    items: 1,
-                                    nav: true
-                                }
-                            }
-                        })
-                    })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {
@@ -574,59 +585,46 @@
     $(document).ready(function () {
         $('.popup-with-zoom-anim').magnificPopup({
             type: 'inline',
-
             fixedContentPos: false,
             fixedBgPos: true,
-
             overflowY: 'auto',
-
             closeBtnInside: true,
             preloader: false,
-
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-zoom-in'
         });
-
         $('.popup-with-move-anim').magnificPopup({
             type: 'inline',
-
             fixedContentPos: false,
             fixedBgPos: true,
-
             overflowY: 'auto',
-
             closeBtnInside: true,
             preloader: false,
-
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-slide-bottom'
         });
-    });
-</script>
+    });</script>
 <!-- disable body scroll which navbar is in active -->
 <script>
     $(function () {
         $('.navbar-toggler').click(function () {
             $('body').toggleClass('noscroll');
         })
-    });
-</script>
+    });</script>
 <!-- disable body scroll which navbar is in active -->
 
 <!--/MENU-JS-->
 <script>
     $(window).on("scroll", function () {
         var scroll = $(window).scrollTop();
-
         if (scroll >= 80) {
             $("#site-header").addClass("nav-fixed");
         } else {
             $("#site-header").removeClass("nav-fixed");
         }
     });
-
     //Main navigation Active Class Add Remove
     $(".navbar-toggler").on("click", function () {
         $("header").toggleClass("active");
@@ -640,8 +638,6 @@
                 $("header").removeClass("active");
             }
         });
-    });
-</script>
+    });</script>
 
 <script src="assets/js/bootstrap.min.js"></script>
-
