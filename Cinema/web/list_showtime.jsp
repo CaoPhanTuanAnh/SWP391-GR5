@@ -1,6 +1,6 @@
 <%-- 
-    Document   : list_city
-    Created on : Feb 13, 2025, 1:32:44 AM
+    Document   : list_showtime
+    Created on : Mar 5, 2025, 10:29:22 AM
     Author     : GIGABYTE
 --%>
 
@@ -14,7 +14,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Manage City</title>
+        <title>Manage Showtime</title>
 
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
@@ -333,7 +333,7 @@
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
+                                                                       aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp">
@@ -383,14 +383,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                    <div class="header__top__right__auth">
-                                        <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                    <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
@@ -431,31 +431,71 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Manage <b>City</b></h2>
+                                <h2>Manage <b>Showtime</b></h2>
                             </div>
                             <div class="col-sm-6">
-                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New City</span></a>						
+                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Showtime</span></a>						
                             </div>
                         </div>
+                    </div>
+                    <div class="search-section">
+                        <form action="ShowtimeURL" method="post">
+                            
+                            
+                            <!--Them loc theo date, status-->
+                            
+                            
+                            
+                            <input type="hidden" name="service" value="listShowtimeByRoom">
+                            Room: <select name="room_id">
+                                <c:forEach items="${roomList}" var="room">
+                                    <c:choose>
+                                        <c:when test="${room_id == room.getRoom_id()}">
+                                            <option value="${room.room_id}" selected>${room.room_name}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${room.room_id}">${room.room_name}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </select>
+                            Movie: <select name="movie_id">
+                                <option value="0">All</option>
+                                <c:forEach items="${movieList}" var="movie">
+                                    <c:choose>
+                                        <c:when test="${movie_id == movie.getMovie_id()}">
+                                            <option value="${movie.movie_id}" selected>${movie.title}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${movie.movie_id}">${movie.title}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </select>
+                            <input type="submit" name="submit" value="Search">
+                        </form>
                     </div>
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>City ID</th>
-                                <th style="width: 120px !important;">City Name</th>
-                                <th style="width: 300px !important;">Number of Theater</th>
+                                <th>Showtime</th>
+                                <th style="width: 120px !important;">Room</th>
+                                <th style="width: 300px !important;">Movie</th>
+                                <th style="width: 300px !important;">Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${cityList}" var="city">
+                            <c:forEach items="${showtimeList}" var="showtime">
                                 <tr>
-                                    <td>${city.getCity_id()}</td>
-                                    <td>${city.getCity_name()}</td>
-                                    <td>${city.getNum_of_theater()}</td>
+                                    <td>${showtime.getDate()} ${showtime.getTime()} ${showtime.getDuration()}minutes</td>
+                                    <td>${showtime.getRoom_name()}</td>
+                                    <td>${showtime.getTitle()}</td>
+                                    <td>${showtime.getStatus()}</td>
                                     <td>
-                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeCityInfo(${city.getCity_id()},'${city.getCity_name()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="city_control?service=deleteCity&cityID=${city.getCity_id()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="city_control?service=deleteCity&cityID=" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <a href="city_control?service=deleteCity&cityID=" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Submit">&#xE871;</i></a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -468,16 +508,51 @@
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="city_control" method="post">
-                        <input type="hidden" name="service" value="addCity">
+                    <form action="ShowtimeURL" method="post">
+                        <input type="hidden" name="service" value="addShowtime">
                         <div class="modal-header">						
-                            <h4 class="modal-title">Add New City</h4>
+                            <h4 class="modal-title">Add Showtime</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
                             <div class="form-group">
-                                <label>City Name</label>
-                                <textarea name="cityName" class="form-control" required></textarea>
+                                <label>Room</label>
+                                <select name="room_id">
+                                    <c:forEach items="${roomList}" var="room">
+                                        <c:choose>
+                                            <c:when test="${room_id == room.getRoom_id()}">
+                                                <option value="${room.room_id}" selected>${room.room_name}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${room.room_id}">${room.room_name}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
+                            </div>				
+                            <div class="form-group">
+                                <label>Movie</label>
+                                <select name="movie_id">
+                                    <option value="0">All</option>
+                                    <c:forEach items="${movieList}" var="movie">
+                                        <c:choose>
+                                            <c:when test="${movie_id == movie.getMovie_id()}">
+                                                <option value="${movie.movie_id}" selected>${movie.title}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${movie.movie_id}">${movie.title}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" name="date" class="form-control" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Start Time</label>
+                                <input type="time" name="time" class="form-control" value="" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -495,7 +570,7 @@
                     <form action="city_control" method="post">
                         <input type="hidden" name="service" value="editCity">
                         <div class="modal-header">						
-                            <h4 class="modal-title">Edit City</h4>
+                            <h4 class="modal-title">Edit Showtime</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
@@ -523,72 +598,72 @@
 
 </html>
 <script>
-    function takeCityInfo(oldCityID,oldCityName){
+    function takeCityInfo(oldCityID, oldCityName) {
         console.log("run");
-        document.getElementById("cityEditCityID").value=oldCityID;
-        document.getElementById("cityEditCityName").value=oldCityName;
+        document.getElementById("cityEditCityID").value = oldCityID;
+        document.getElementById("cityEditCityName").value = oldCityName;
     }
 </script>
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-            $(document).ready(function () {
-                //Horizontal Tab
-                $('#parentHorizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion
-                    width: 'auto', //auto or any width like 600px
-                    fit: true, // 100% fit in a container
-                    tabidentify: 'hor_1', // The tab groups identifier
-                    activate: function (event) { // Callback function if tab is switched
-                        var $tab = $(this);
-                        var $info = $('#nested-tabInfo');
-                        var $name = $('span', $info);
-                        $name.text($tab.text());
-                        $info.show();
-                    }
-                });
-            });
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-            $(document).ready(function () {
-                $('.owl-one').owlCarousel({
-                    stagePadding: 280,
-                    loop: true,
-                    margin: 20,
-                    nav: true,
-                    responsiveClass: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    autoplaySpeed: 1000,
-                    autoplayHoverPause: false,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            stagePadding: 40,
-                            nav: false
-                        },
-                        480: {
-                            items: 1,
-                            stagePadding: 60,
-                            nav: true
-                        },
-                        667: {
-                            items: 1,
-                            stagePadding: 80,
-                            nav: true
-                        },
-                        1000: {
-                            items: 1,
-                            nav: true
-                        }
-                    }
-                })
-            })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {

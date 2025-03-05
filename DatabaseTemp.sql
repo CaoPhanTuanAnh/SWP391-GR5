@@ -14481,9 +14481,9 @@ GO
 SET IDENTITY_INSERT [dbo].[tickets] ON 
 
 INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (1, 1, 1, 8, 1, CAST(120000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (2, 2, 2, 8, 1, CAST(100000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (3, 3, 3, 8, 1, CAST(150000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (4, 4, 4, 8, 1, CAST(130000.00 AS Decimal(10, 2)), N'Booked')
+INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (2, 1, 2, 8, 1, CAST(100000.00 AS Decimal(10, 2)), N'Booked')
+INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (3, 1, 3, 8, 1, CAST(150000.00 AS Decimal(10, 2)), N'Booked')
+INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (4, 1, 4, 8, 1, CAST(130000.00 AS Decimal(10, 2)), N'Booked')
 SET IDENTITY_INSERT [dbo].[tickets] OFF
 GO
 SET IDENTITY_INSERT [dbo].[types] ON 

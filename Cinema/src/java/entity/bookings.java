@@ -4,7 +4,6 @@
  */
 package entity;
 
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +25,7 @@ public class bookings {
 
     private int booking_id;
     private int user_id;
-    private Date booking_date;
+    private String booking_date;
     private double sub_total_amount;
     private int coupon_id;
     private double total_amount;
