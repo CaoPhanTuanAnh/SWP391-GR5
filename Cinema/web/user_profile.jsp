@@ -6,7 +6,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="entity.User" %>
 <!doctype html>
 <html lang="zxx">
 
@@ -66,16 +65,32 @@
                 color:black;
                 font-size: medium;
                 margin-top: 90px;
-                justify-items: center;
+                display: flex;
+                justify-content: center; /* aligns the items horizontally */
+                align-items: baseline;
+                flex-wrap: wrap;
             }
             .maincontent table{
-                box-shadow: 0px 5px 15px lightgrey;
+                box-shadow: 10px 0px 15px lightgrey;
                 margin: 20px 0 20px 0;
                 height: 30vh;
                 width: 55vw;
             }
+            .sidenav{
+
+            }
+            .navoption{
+                display: block;
+                padding: 10px 15px;
+                border-width: 3px 0px 0px 5px;
+                border-color: #c01050;
+                border-style: solid;
+                border-radius: 5px 0px 0px 5px;
+                background-color: white;
+            }
             .mess{
-                margin-top: 90px;
+                width: 100vw;
+                text-align: center;
                 height: 28px;
             }
             .form-button{
@@ -126,7 +141,7 @@
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
+                                                                       aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp">
@@ -156,7 +171,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="Contact_Us.jsp">Contact</a>
                             </li>
-                            <c:if test="${sessionScope.acc.role == 1}">
+                            <c:if test="${sessionScope.acc.role_id == 1}">
                                 <li class="nav-item">
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
@@ -166,7 +181,7 @@
                                     </ul>
                                 </li>
                             </c:if>
-                            <c:if test="${sessionScope.acc.role == 2}">
+                            <c:if test="${sessionScope.acc.role_id == 2}">
                                 <li class="nav-item">
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
@@ -239,7 +254,7 @@
                             <!-- <li class="nav-item"> -->
                             <c:choose>
                                 <c:when test="${sessionScope.acc != null}">
-                                    <a class="nav-link" href="user_profile.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
                                     </c:when>
                                     <c:otherwise>
                                     <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
@@ -275,17 +290,21 @@
                     <p class="mess">     </p>
                 </c:otherwise>
             </c:choose>
-            <form action="user_profile" method="post">
+            <div class="sidenav" style="display:inline-block">
+                <a class="navoption" id="currentnavoption" href="user_profile?service=editProfile">User Profile</a>
+                <a class="navoption" href="user_profile?service=listUserBooking">Booking History</a>
+            </div>
+            <form action="user_profile" method="post" style="display:inline-block">
                 <input type="hidden" name="service" value="editProfile">
                 <table>
                     <tbody>
                         <tr>
                             <td class="field-name">Full name</td>
-                            <td class="field-name">Address</td>
+                            <td class="field-name">Birth Date</td>
                         </tr>
                         <tr>
                             <td class="field"><input class="field-value" type="text" name="fullName" value="${sessionScope.acc.getFullname()}" readonly required></td>
-                            <td class="field"><input class="field-value" type="text" name="address" value="${sessionScope.acc.getAddress()}" readonly required></td>
+                            <td class="field"><input class="field-value" type="text" name="address" value="${sessionScope.acc.getBirth_date()}" readonly required></td>
                         </tr>
                         <tr>
                             <td class="field-name">Email</td>
@@ -302,6 +321,34 @@
                         <tr>
                             <td class="field"><p class="field-value">${sessionScope.acc.getUsername()}</p></td>
                             <td class="field"><a class="form-button" style="width: 9em;" href="change_password.jsp">Change password</a></td>
+                        </tr>
+                        <tr>
+                            <td class="field-name" colspan="2">
+                                <c:choose>
+                                    <c:when test="${sessionScope.acc.role_id == 3}">
+                                        <span>Favor Theater</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span>Working Theater</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="field">
+                                <select name="theater_id" class="field-value" disabled required>
+                                    <c:forEach var="theater" items="${theaterList}">
+                                        <c:choose>
+                                            <c:when test="${sessionScope.acc.getTheater_id() == theater.getTheater_id()}">
+                                                <option value="${theater.getTheater_id()}" selected>${theater.getAddress()}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${theater.getTheater_id()}">${theater.getAddress()}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -325,19 +372,19 @@
                                 <div class="row footer-about">
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner1.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner2.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner3.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp"><img class="img-fluid" src="assets/images/banner4.jpg"
-                                                                   alt=""></a>
+                                                                  alt=""></a>
                                     </div>
                                 </div>
                                 <div class="row footer-links">
@@ -447,16 +494,21 @@
 <script>
     let info = []
             , unlock = "color: black; background-color: white; border-color: black;"
-            , lock = "color: grey; background-color: lightgrey; border-color: grey;";
+            , lock = "color: grey; background-color: lightgrey; border-color: grey;"
+            , infoSelect;
     function editOrCancel(button) {
         let submit = document.querySelector(".maincontent button");
         let oldInfo = document.querySelectorAll(".maincontent input");
+        let oldInfoSelect = document.querySelectorAll(".maincontent select");
         if (button.innerHTML === "Edit") {
             for (let i = 1; i < 5; i++) {
                 info[i] = oldInfo[i].value;
                 oldInfo[i].readOnly = false;
                 oldInfo[i].style = unlock;
             }
+            infoSelect = oldInfoSelect[0].value;
+            oldInfoSelect[0].disabled = false;
+            oldInfoSelect[0].style = unlock;
             button.innerHTML = "Cancel";
             submit.hidden = false;
         } else {
@@ -465,6 +517,9 @@
                 oldInfo[i].readOnly = true;
                 oldInfo[i].style = lock;
             }
+            oldInfoSelect[0].value = infoSelect;
+            oldInfoSelect[0].disabled = true;
+            oldInfoSelect[0].style = lock;
             button.innerHTML = "Edit";
             submit.hidden = true;
         }

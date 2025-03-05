@@ -24,22 +24,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class movies {
+
     private int movie_id;
     private String title;
-    private int genre_id;
-    private String director;
-    private String actors;
     private String description;
     private String trailer_url;
     private String poster_url;
     private int duration;
     private Date release_date;
-    private LocalDateTime create_at;
-    private LocalDateTime updated_at;
-    
-    
-    
-    
-    
-    
+    private String status;
+
 }

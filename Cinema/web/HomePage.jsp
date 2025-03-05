@@ -99,7 +99,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="Contact_Us.jsp">Contact</a>
                             </li>
-                            <c:if test="${sessionScope.acc.role == 1}">
+                            <c:if test="${sessionScope.acc.role_id == 1}">
                                 <li class="nav-item">
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
@@ -109,7 +109,7 @@
                                     </ul>
                                 </li>
                             </c:if>
-                            <c:if test="${sessionScope.acc.role == 2}">
+                            <c:if test="${sessionScope.acc.role_id == 2}">
                                 <li class="nav-item">
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
@@ -198,7 +198,7 @@
                             <!-- <li class="nav-item"> -->
                             <c:choose>
                                 <c:when test="${sessionScope.acc != null}">
-                                    <a class="nav-link" href="user_profile.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
                                     </c:when>
                                     <c:otherwise>
                                     <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>

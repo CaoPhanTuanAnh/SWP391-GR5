@@ -5,7 +5,7 @@
 package controller.manager;
 
 import dao.roomsDAO;
-import entity.User;
+import entity.users;
 import entity.rooms;
 import entity.types;
 import java.io.IOException;
@@ -38,10 +38,10 @@ public class LoadRoom extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
-        User user = (session != null) ? (User) session.getAttribute("acc") : null;
+        users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole() != 2)) {
+        if (user == null || (user.getRole_id()!= 2)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }

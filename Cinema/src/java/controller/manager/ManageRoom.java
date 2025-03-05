@@ -6,8 +6,8 @@
 package controller.manager;
 
 import dao.roomsDAO;
-import entity.Theater;
-import entity.User;
+import entity.theaters;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -37,15 +37,15 @@ public class ManageRoom extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         // Lấy session và kiểm tra user
         HttpSession session = request.getSession(false);
-        User user = (session != null) ? (User) session.getAttribute("acc") : null;
+        users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole() != 2)) {
+        if (user == null || (user.getRole_id()!= 2)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         roomsDAO roomsDAO = new roomsDAO();
-        List<Theater> listT = roomsDAO.getTheaterByManagerID(user.getID());
+        List<theaters> listT = roomsDAO.getTheaterByManagerID(user.getUser_id());
         request.setAttribute("listT", listT);
         request.getRequestDispatcher("ManageRoom.jsp").forward(request, response);
     } 

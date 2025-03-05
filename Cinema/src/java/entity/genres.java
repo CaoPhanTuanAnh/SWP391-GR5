@@ -22,7 +22,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class genres {
+
     private int genre_id;
     private String genre_name;
-    
+
 }

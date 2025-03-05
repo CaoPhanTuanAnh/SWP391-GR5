@@ -5,9 +5,9 @@
 package controller.admin;
 
 import dao.DAO;
-import entity.City;
-import entity.Theater;
-import entity.User;
+import entity.cities;
+import entity.theaters;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -39,19 +39,19 @@ public class ManageTheater extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         // Lấy session và kiểm tra user
         HttpSession session = request.getSession(false);
-        User user = (session != null) ? (User) session.getAttribute("acc") : null;
+        users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
-        if (user == null || (user.getRole() != 1)) {
+        if (user == null || (user.getRole_id()!= 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
 
-        // Nếu hợp lệ, lấy dữ liệu Theater & City
+        // Nếu hợp lệ, lấy dữ liệu theaters & cities
         DAO dao = new DAO();
-        List<Theater> list = dao.getAllTheater();
-        List<City> listC = dao.getAllCity();
-        List<User> listU = dao.getAllUser();
+        List<theaters> list = dao.getAllTheater();
+        List<cities> listC = dao.getAllCity();
+        List<users> listU = dao.getAllUser();
         request.setAttribute("listUU", listU);
         request.setAttribute("listCC", listC);
         request.setAttribute("listP", list);

@@ -9,6 +9,7 @@ package entity;
  * @author 84912
  */
 public class rooms {
+
     private int room_id;
     private int theater_id;
     private int manager_id;
@@ -16,8 +17,8 @@ public class rooms {
     private String img;
     private int capacity;
     private int type_id;
-    
-    public rooms(){
+
+    public rooms() {
     }
 
     public rooms(int room_id, int theater_id, int manager_id, String room_name, String img, int capacity, int type_id) {
@@ -90,7 +91,5 @@ public class rooms {
     public String toString() {
         return "rooms{" + "room_id=" + room_id + ", theater_id=" + theater_id + ", manager_id=" + manager_id + ", room_name=" + room_name + ", img=" + img + ", capacity=" + capacity + ", type_id=" + type_id + '}';
     }
-    
-    
-    
+
 }

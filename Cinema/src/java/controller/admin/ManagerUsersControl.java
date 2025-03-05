@@ -4,8 +4,8 @@
  */
 package controller.admin;
 
-import dao.UserDAO;
-import entity.User;
+import dao.usersDAO;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -62,9 +62,9 @@ public class ManagerUsersControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserDAO userDAO = new UserDAO();
+        usersDAO userDAO = new usersDAO();
         // list user
-        List<User> listUser = userDAO.getAllUser();
+        List<users> listUser = userDAO.getAllUser();
         request.setAttribute("listUser", listUser);
 
         // view detail
@@ -73,7 +73,7 @@ public class ManagerUsersControl extends HttpServlet {
             if (action.equals("view-detail")) {
 
                 int id = Integer.parseInt(request.getParameter("id"));
-                User user = userDAO.getAccountById(id);
+                users user = userDAO.getAccountById(id);
                 request.setAttribute("userDetail", user);
                 request.getRequestDispatcher("manager_users_detail.jsp").forward(request, response);
                 return;
@@ -101,7 +101,7 @@ public class ManagerUsersControl extends HttpServlet {
             String username = request.getParameter("username");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
-            String address = request.getParameter("address");
+            String birth_date = request.getParameter("birth_date");
             String role = request.getParameter("role");
             int roleid = 2;
             if (role.equals("admin")) {
@@ -110,8 +110,8 @@ public class ManagerUsersControl extends HttpServlet {
             String password = request.getParameter("password");
 
             // Gọi DAO để lưu user vào database
-            UserDAO userDao = new UserDAO();
-            boolean success = userDao.createUser(new User(roleid, username, password, fullname, email, phone, address));
+            usersDAO userDao = new usersDAO();
+            boolean success = userDao.createUser(new users(roleid, username, password, fullname, email, phone, birth_date));
 
             if (success) {
                 response.sendRedirect("users?action=list"); // Chuyển hướng lại danh sách user
@@ -126,7 +126,7 @@ public class ManagerUsersControl extends HttpServlet {
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
             String address = request.getParameter("address");
-            UserDAO userDao = new UserDAO();
+            usersDAO userDao = new usersDAO();
 
             boolean isUpdated = userDao.updateUserInDatabase(fullname, email, phone, address);
             if (isUpdated) {

@@ -5,7 +5,7 @@
 package controller.customer;
 
 import dao.DAO;
-import entity.User;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -76,7 +76,7 @@ public class ResetPasswordControl extends HttpServlet {
             throws ServletException, IOException {
         DAO daoUser = new DAO();
         String email= request.getParameter("resetpassword_email");
-        User user = daoUser.getUserByEmail(email);
+        users user = daoUser.getUserByEmail(email);
         if(user == null) {
             request.setAttribute("mess", "not found");
             request.getRequestDispatcher("ResetPassword.jsp").forward(request, response);

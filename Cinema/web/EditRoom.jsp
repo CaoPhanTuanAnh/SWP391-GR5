@@ -349,7 +349,7 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.role == 1}">
+                            <c:if test="${sessionScope.acc.role_id == 1}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="home">Home</a>
                                 </li>
@@ -364,7 +364,7 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="${sessionScope.acc.role == 2}">
+                            <c:if test="${sessionScope.acc.role_id == 2}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>

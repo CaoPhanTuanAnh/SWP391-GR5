@@ -349,7 +349,7 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.getRole() == 1}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 1}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="home">Home</a>
                                 </li>
@@ -364,7 +364,7 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="${sessionScope.acc.getRole() == 2}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 2}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
@@ -398,7 +398,7 @@
                             <!-- <li class="nav-item"> -->
                             <c:choose>
                                 <c:when test="${sessionScope.acc != null}">
-                                    <a class="nav-link" href="user_profile.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
                                     </c:when>
                                     <c:otherwise>
                                     <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
@@ -432,7 +432,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <h2>Manage <b>Room</b></h2>
-                                <h2>Theater: ${selectedTheater.theaterName}</h2>
+                                <h2>Theater: ${selectedTheater.theater_name}</h2>
                             </div>
                             <div class="col-sm-6">
                                 <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Room</span></a>						
@@ -458,14 +458,14 @@
                                     <td>${r.room_name}</td>
                                     <td>
                                         <c:forEach items="${listT}" var="t">
-                                            <c:if test="${t.getIdTheater() == r.theater_id}">
-                                                ${t.getTheaterName()}
+                                            <c:if test="${t.getTheater_id() == r.theater_id}">
+                                                ${t.getTheater_name()}
                                             </c:if>
                                         </c:forEach>
                                     </td>
                                     <td>
                                         <c:forEach items="${listU}" var="u">
-                                            <c:if test="${u.getID() == r.manager_id}">
+                                            <c:if test="${u.getUser_id() == r.manager_id}">
                                                 ${u.getFullname()}
                                             </c:if>
                                         </c:forEach>
@@ -480,7 +480,7 @@
                                     </td>
                                     <td>
                                         <a href="LoadRoom?roomid=${r.room_id}" class="edit"  ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="DeleteRoom?roomid=${r.room_id}&theaterid=${selectedTheater.idTheater}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <a href="DeleteRoom?roomid=${r.room_id}&theaterid=${selectedTheater.theater_id}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -489,7 +489,7 @@
                 </div>
             </div>        
         </div>
-        <!-- Edit Modal HTML -->
+        <!-- Add Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -501,11 +501,11 @@
                         <div class="modal-body">
                             <div class="form-group" style="display: none;">
                                 <label>ID Theater</label>
-                                <input value="${selectedTheater.idTheater}" name="theaterId" type="text" class="form-control" readonly required>
+                                <input value="${selectedTheater.theater_id}" name="theaterId" type="text" class="form-control" readonly required>
                             </div>
                             <div class="form-group" style="display: none;">
                                 <label>ID Manager</label>
-                                <input value="${selectedTheater.idManager}" name="managerid" type="text" class="form-control" readonly required>
+                                <input value="${selectedTheater.director_id}" name="managerid" type="text" class="form-control" readonly required>
                             </div>
                             <div class="form-group">
                                 <label>Name</label>

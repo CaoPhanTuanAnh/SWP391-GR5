@@ -5,7 +5,7 @@
 package dao;
 
 import context.DBContext;
-import entity.Seats;
+import entity.seats;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -20,10 +20,10 @@ import java.util.List;
  *
  * @author PCASUS
  */
-public class SeatsDAO extends DBContext {
+public class seatsDAO extends DBContext {
 
-    public List<Seats> getAllSeatA(int mid, int branchId, Date startDate, Time startTime, int roomId) {
-        List<Seats> movieList = new ArrayList<>();
+    public List<seats> getAllSeatA(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+        List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
@@ -62,7 +62,7 @@ public class SeatsDAO extends DBContext {
                     String seat_row = rs.getString("seat_row");
                     String status = rs.getString("status");
 
-                    Seats room = new Seats();
+                    seats room = new seats();
 
                     room.setSeat_id(seat_id);
                     room.setSeat_number(seat_number);
@@ -82,7 +82,7 @@ public class SeatsDAO extends DBContext {
     
     public static void main(String[] args) {
         // Tạo đối tượng DAO
-        SeatsDAO seatsDAO = new SeatsDAO();
+        seatsDAO seatsDAO = new seatsDAO();
 
         // Khai báo các tham số test
         int movieId = 4;  // Thay bằng ID phim thực tế trong DB
@@ -92,14 +92,14 @@ public class SeatsDAO extends DBContext {
         int roomId = 4; // Thay bằng ID phòng thực tế
 
         // Gọi phương thức getAllSeatA
-        List<Seats> seatsList = seatsDAO.getAllSeatA(movieId, branchId, startDate, startTime, roomId);
+        List<seats> seatsList = seatsDAO.getAllSeatA(movieId, branchId, startDate, startTime, roomId);
 
         // Kiểm tra kết quả
         if (seatsList.isEmpty()) {
             System.out.println("Không tìm thấy ghế nào cho suất chiếu này.");
         } else {
             System.out.println("Danh sách ghế hàng A:");
-            for (Seats seat : seatsList) {
+            for (seats seat : seatsList) {
                 System.out.println("ID: " + seat.getSeat_id() +
                         ", Số ghế: " + seat.getSeat_number() +
                         ", Hàng: " + seat.getSeat_row() +
@@ -110,8 +110,8 @@ public class SeatsDAO extends DBContext {
     
     
 
-    public List<Seats> getAllSeatB(int mid, int branchId, Date startDate, Time startTime, int roomId) {
-        List<Seats> movieList = new ArrayList<>();
+    public List<seats> getAllSeatB(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+        List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
@@ -150,7 +150,7 @@ public class SeatsDAO extends DBContext {
                     String seat_row = rs.getString("seat_row");
                     String status = rs.getString("status");
 
-                    Seats room = new Seats();
+                    seats room = new seats();
 
                     room.setSeat_id(seat_id);
                     room.setSeat_number(seat_number);
@@ -168,8 +168,8 @@ public class SeatsDAO extends DBContext {
         return movieList;
     }
 
-    public List<Seats> getAllSeatC(int mid, int branchId, Date startDate, Time startTime, int roomId) {
-        List<Seats> movieList = new ArrayList<>();
+    public List<seats> getAllSeatC(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+        List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
@@ -208,7 +208,7 @@ public class SeatsDAO extends DBContext {
                     String seat_row = rs.getString("seat_row");
                     String status = rs.getString("status");
 
-                    Seats room = new Seats();
+                    seats room = new seats();
 
                     room.setSeat_id(seat_id);
                     room.setSeat_number(seat_number);
@@ -226,8 +226,8 @@ public class SeatsDAO extends DBContext {
         return movieList;
     }
 
-    public List<Seats> getAllSeatD(int mid, int branchId, Date startDate, Time startTime, int roomId) {
-        List<Seats> movieList = new ArrayList<>();
+    public List<seats> getAllSeatD(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+        List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
@@ -266,7 +266,7 @@ public class SeatsDAO extends DBContext {
                     String seat_row = rs.getString("seat_row");
                     String status = rs.getString("status");
 
-                    Seats room = new Seats();
+                    seats room = new seats();
 
                     room.setSeat_id(seat_id);
                     room.setSeat_number(seat_number);
@@ -284,8 +284,8 @@ public class SeatsDAO extends DBContext {
         return movieList;
     }
 
-    public List<Seats> getAllSeatE(int mid, int branchId, Date startDate, Time startTime, int roomId) {
-        List<Seats> movieList = new ArrayList<>();
+    public List<seats> getAllSeatE(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+        List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
@@ -323,7 +323,7 @@ public class SeatsDAO extends DBContext {
                     String seat_row = rs.getString("seat_row");
                     String status = rs.getString("status");
 
-                    Seats room = new Seats();
+                    seats room = new seats();
 
                     room.setSeat_id(seat_id);
                     room.setSeat_number(seat_number);

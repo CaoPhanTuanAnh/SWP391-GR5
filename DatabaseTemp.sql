@@ -374,6 +374,11 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
+INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (1, 'Big1', '1 big popcorn, 1 big soda', 100.00)
+INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (2, 'Big2', '2 big popcorn, 1 big soda', 150.00)
+
+GO
 SET IDENTITY_INSERT [dbo].[bookings] ON 
 
 INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (1, 8, CAST(N'2025-02-27' AS Date), CAST(240000.00 AS Decimal(10, 2)), 1, CAST(216000.00 AS Decimal(10, 2)), N'Paid')
@@ -381,6 +386,11 @@ INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amo
 INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (3, 8, CAST(N'2025-02-27' AS Date), CAST(300000.00 AS Decimal(10, 2)), 2, CAST(255000.00 AS Decimal(10, 2)), N'Paid')
 INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (4, 8, CAST(N'2025-02-27' AS Date), CAST(260000.00 AS Decimal(10, 2)), NULL, CAST(260000.00 AS Decimal(10, 2)), N'Paid')
 SET IDENTITY_INSERT [dbo].[bookings] OFF
+GO
+
+INSERT [dbo].[booking_combos] ([booking_id], [combo_id], [quantity]) VALUES (1, 1, 3)
+INSERT [dbo].[booking_combos] ([booking_id], [combo_id], [quantity]) VALUES (1, 2, 1)
+
 GO
 SET IDENTITY_INSERT [dbo].[cities] ON 
 
@@ -14446,9 +14456,9 @@ GO
 SET IDENTITY_INSERT [dbo].[showtimes] ON 
 
 INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (1, 1, 1, CAST(N'2024-10-15T18:00:00.000' AS DateTime), N'Saved')
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (2, 2, 2, CAST(N'2024-10-16T20:00:00.000' AS DateTime), N'Saved')
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (3, 3, 3, CAST(N'2024-10-17T19:30:00.000' AS DateTime), N'Saved')
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (4, 4, 4, CAST(N'2024-10-18T21:00:00.000' AS DateTime), N'Saved')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (2, 1, 1, CAST(N'2024-10-16T20:00:00.000' AS DateTime), N'Saved')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (3, 1, 1, CAST(N'2024-10-17T19:30:00.000' AS DateTime), N'Saved')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (4, 1, 1, CAST(N'2024-10-18T21:00:00.000' AS DateTime), N'Saved')
 SET IDENTITY_INSERT [dbo].[showtimes] OFF
 GO
 SET IDENTITY_INSERT [dbo].[theaters] ON 
@@ -14471,9 +14481,9 @@ GO
 SET IDENTITY_INSERT [dbo].[tickets] ON 
 
 INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (1, 1, 1, 8, 1, CAST(120000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (2, 2, 2, 8, 1, CAST(100000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (3, 3, 3, 8, 1, CAST(150000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (4, 4, 4, 8, 1, CAST(130000.00 AS Decimal(10, 2)), N'Booked')
+INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (2, 1, 2, 8, 1, CAST(100000.00 AS Decimal(10, 2)), N'Booked')
+INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (3, 1, 3, 8, 1, CAST(150000.00 AS Decimal(10, 2)), N'Booked')
+INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (4, 1, 4, 8, 1, CAST(130000.00 AS Decimal(10, 2)), N'Booked')
 SET IDENTITY_INSERT [dbo].[tickets] OFF
 GO
 SET IDENTITY_INSERT [dbo].[types] ON 

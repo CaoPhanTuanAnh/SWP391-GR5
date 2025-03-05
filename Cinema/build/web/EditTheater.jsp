@@ -349,7 +349,7 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.role == 1}">
+                            <c:if test="${sessionScope.acc.role_id == 1}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="home">Home</a>
                                 </li>
@@ -364,7 +364,7 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="${sessionScope.acc.role == 2}">
+                            <c:if test="${sessionScope.acc.role_id == 2}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
@@ -434,14 +434,14 @@
                             <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
                                 <div class="form-group">
                                     <label>ID Theater</label>
-                                    <input value="${theater.idTheater}" name="id" type="text" class="form-control" readonly required>
+                                    <input value="${theater.theater_id}" name="id" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
                                     <label>Manager</label>
                                     <c:set var="managerInfo" value=""/>
                                     <c:forEach items="${listUU}" var="u">
-                                        <c:if test="${u.getID() == theater.idManager}">
-                                            <c:set var="managerInfo" value="ID: ${u.getID()} - Name: ${u.getFullname()}"/>
+                                        <c:if test="${u.getUser_id() == theater.director_id}">
+                                            <c:set var="managerInfo" value="ID: ${u.getUser_id()} - Name: ${u.getFullname()}"/>
                                         </c:if>
                                     </c:forEach>
                                     <input value="${managerInfo}" name="managername" type="text" class="form-control" readonly required>
@@ -451,12 +451,12 @@
                                     <input list="managerList" name="manager" class="form-control" required>
                                     <datalist id="managerList">
                                         <c:forEach items="${listUU}" var="u">
-                                            <option value="${u.getID()} - ${u.getFullname()}"
-                                                    <c:if test="${u.getID() == theater.idManager}">
+                                            <option value="${u.getUser_id()} - ${u.getFullname()}"
+                                                    <c:if test="${u.getUser_id() == theater.director_id}">
                                                         selected
                                                     </c:if>
                                                     >
-                                                ID: ${u.getID()} - Name: ${u.getFullname()}
+                                                ID: ${u.getUser_id()} - Name: ${u.getFullname()}
                                             </option>
                                         </c:forEach>
                                     </datalist>
@@ -464,18 +464,18 @@
 
                                 <div class="form-group">
                                     <label>Theater's Name</label>
-                                    <textarea name="name" class="form-control" required>${theater.theaterName}</textarea>
+                                    <textarea name="name" class="form-control" required>${theater.theater_name}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Theater's Address</label>
-                                    <textarea name="address" class="form-control" required>${theater.theaterAddress}</textarea>
+                                    <textarea name="address" class="form-control" required>${theater.address}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>City</label>
                                     <select name="city" class="form-select" aria-label="Default select example">
                                         <c:forEach items="${listCC}" var="o">
-                                            <option value="${o.getCityID()}" ${o.getCityID() == theater.idCity ? 'selected="selected"' : ''}>
-                                                ${o.getCityName()}
+                                            <option value="${o.getCity_id()}" ${o.getCity_id() == theater.city_id ? 'selected="selected"' : ''}>
+                                                ${o.getCity_name()}
                                             </option>
                                         </c:forEach>
                                     </select>

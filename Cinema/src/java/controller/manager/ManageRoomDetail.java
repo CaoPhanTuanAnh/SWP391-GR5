@@ -6,9 +6,9 @@ package controller.manager;
 
 import dao.DAO;
 import dao.roomsDAO;
-import entity.City;
-import entity.Theater;
-import entity.User;
+import entity.cities;
+import entity.theaters;
+import entity.users;
 import entity.rooms;
 import entity.types;
 import java.io.IOException;
@@ -42,10 +42,10 @@ public class ManageRoomDetail extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         // Lấy session và kiểm tra user
         HttpSession session = request.getSession(false);
-        User user = (session != null) ? (User) session.getAttribute("acc") : null;
+        users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole() != 2)) {
+        if (user == null || (user.getRole_id()!= 2)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
@@ -58,15 +58,15 @@ public class ManageRoomDetail extends HttpServlet {
             DAO dao = new DAO();
             List<types> type = roomsDAO.getAllTypes();
             request.setAttribute("type", type);
-            List<User> listU = dao.getAllUser();
-            List<Theater> listT = dao.getAllTheater();
+            List<users> listU = dao.getAllUser();
+            List<theaters> listT = dao.getAllTheater();
             request.setAttribute("listT", listT);
             request.setAttribute("listU", listU);
             // Lấy danh sách phòng của rạp
-            List<rooms> listR = roomsDAO.getAllRoomByManagerIDAndTheaterID(user.getID(), theaterId);
+            List<rooms> listR = roomsDAO.getAllRoomByManagerIDAndTheaterID(user.getUser_id(), theaterId);
             request.setAttribute("listR", listR);
             // Lấy thông tin rạp
-            Theater selectedTheater = roomsDAO.getTheaterById(theaterId);
+            theaters selectedTheater = roomsDAO.getTheaterById(theaterId);
             request.setAttribute("selectedTheater", selectedTheater);
 
         }
