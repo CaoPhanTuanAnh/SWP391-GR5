@@ -3,10 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/dao/moviesDAO.java</file>
-            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/entity/types.java</file>
-            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/dao/roomsDAO.java</file>
-            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/web/movies.jsp</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/entity/Theater.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/dao/SeatsDAO.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/entity/Showtimes.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/dao/TheaterDAO.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/entity/rooms.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/entity/Seats.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/entity/City.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/guest/BranchController.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/guest/SeatController.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/guest/ViewAllController.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/dao/RoomsDAO.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/dao/ShowtimesDAO.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/guest/CinemaScheduleController.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/guest/BillController.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/entity/Participant.java</file>
         </group>
     </open-files>
 </project-private>
