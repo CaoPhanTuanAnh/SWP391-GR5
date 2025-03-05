@@ -57,7 +57,7 @@
 
 	<div class="container_signup_signin" id="container_signup_signin">
 		<div class="form-container sign-in-container">
-			<form name="sign-in-form" style="color: var(--theme-title);" action="reset_password" method="post">
+			<form name="sign-in-form" style="color: var(--theme-title);" action="reset_password_control" method="post">
                             <h2>Send to email</h2>
                                 <c:if test="${not empty mess}">
                                     <p style="color: red;">${mess}</p>

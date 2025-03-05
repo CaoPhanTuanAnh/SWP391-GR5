@@ -56,12 +56,11 @@
 
 	<div class="container_signup_signin" id="container_signup_signin">
 		<div class="form-container sign-in-container">
-			<form name="sign-in-form" style="color: var(--theme-title);" action="new_password" method="post">
+			<form name="sign-in-form" style="color: var(--theme-title);" action="reset_password" method="post">
                             <h2>New password</h2>
                                 <c:if test="${not empty mess}">
                                     <p style="color: red;">${mess}</p>
                                 </c:if>
-                                <input name="email" type="email" placeholder="Email" required >
                                 <input name="new_password" type="password" placeholder="New Password" required >
                                 <input name="re_new_password" type="password" placeholder="Re-enter New Password" required >
 				<button type="submit">Send</button>
