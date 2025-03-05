@@ -309,13 +309,15 @@
                         <tr>
                             <td class="field">
                                 <a class="field-value" href="">
-                                    <p style="grid-column: 1 / span 2"><em>Movie:</em> ${booking.title}</p>
+                                    <p><em>Movie:</em> ${booking.title}</p>
+                                    <p><em>Showtime:</em> ${booking.showtime}</p>
+                                    <p><em>Create at:</em> ${booking.booking_date}</p>
+                                    <p><em>Total Amount:</em> ${booking.total_amount}</p>
+                                    <p><em>Room:</em> ${booking.room_name}</p>
                                     <p><em>Number of Tickets:</em> ${booking.num_of_tickets}</p>
                                     <p><em>Number of Combos:</em> ${booking.num_of_combos}</p>
                                     <p><em>Seats:</em> ${booking.seats_info}</p>
                                     <p><em>Combos:</em> ${booking.combos_info}</p>
-                                    <p><em>Create at:</em> ${booking.booking_date}</p>
-                                    <p><em>Total Amount:</em> ${booking.total_amount}</p>
                                 </a>
                             </td>
                         </tr>

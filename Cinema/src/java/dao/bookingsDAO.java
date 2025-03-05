@@ -27,14 +27,15 @@ public class bookingsDAO {
 
     public List<user_bookings> listUserBooking(int user_id) {
         ArrayList<user_bookings> userBookingList = new ArrayList<>();
-        String query = "select b.*, t.title, count(t.ticket_id) as num_of_tickets, count(bc.combo_id) as num_of_combos\n"
+        String query = "select distinct b.*, t.*\n"
                 + "from bookings b \n"
-                + "left join (select tk.*, m.title from tickets tk \n"
+                + "left join (select distinct tk.booking_id, r.room_name, st.showtime, m.title from tickets tk \n"
                 + "	join showtimes st on st.showtime_id = tk.showtime_id\n"
-                + "	join movies m on m.movie_id = st.movie_id) as t on t.booking_id = b.booking_id \n"
+                + "	join rooms r on r.room_id = st.room_id\n"
+                + "	join movies m on m.movie_id = st.movie_id\n"
+                + ") as t on t.booking_id = b.booking_id\n"
                 + "left join booking_combos bc on bc.booking_id = b.booking_id\n"
-                + "where b.user_id = ? \n"
-                + "group by b.booking_id,b.booking_date,b.coupon_id,b.status,b.sub_total_amount,b.total_amount,b.user_id, t.title\n"
+                + "where b.user_id = ?\n"
                 + "order by booking_date";
         String query_seat = "select s.seat_row,s.seat_number from tickets t\n"
                 + "join seats s on s.seat_id = t.seat_id\n"
@@ -59,12 +60,12 @@ public class bookingsDAO {
                 ResultSet rs1 = ps1.executeQuery();
                 ResultSet rs2 = ps2.executeQuery();
                 while (rs1.next()) {
-                    seats_info += rs1.getString(1)+rs1.getString(2)+", ";
+                    seats_info += rs1.getString(1) + rs1.getString(2) + ", ";
                     num_of_tickets++;
                 }
                 while (rs2.next()) {
-                    combos_info += rs2.getString(1)+" x " + rs2.getInt(2)+", ";
-                    num_of_combos+=rs2.getInt(2);
+                    combos_info += rs2.getString(1) + " x " + rs2.getInt(2) + ", ";
+                    num_of_combos += rs2.getInt(2);
                 }
                 user_bookings user_bookings;
                 user_bookings = new user_bookings(num_of_tickets,
@@ -72,9 +73,11 @@ public class bookingsDAO {
                         num_of_combos,
                         combos_info,
                         rs.getString("title"),
+                        rs.getString("showtime"),
+                        rs.getString("room_name"),
                         rs.getInt("booking_id"),
                         rs.getInt("user_id"),
-                        rs.getDate("booking_date"),
+                        rs.getString("booking_date"),
                         rs.getDouble("sub_total_amount"),
                         rs.getInt("coupon_id"),
                         rs.getDouble("total_amount"),
@@ -83,7 +86,7 @@ public class bookingsDAO {
             }
             return userBookingList;
         } catch (Exception ex) {
-            Logger.getLogger(citiesDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return userBookingList;
     }

@@ -4,7 +4,8 @@
  */
 package entity;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 /**
  *
@@ -17,17 +18,21 @@ public class user_bookings extends bookings{
     private int num_of_combos;
     private String combos_info;
     private String title;
+    private String showtime;
+    private String room_name;
 
     public user_bookings() {
     }
 
-    public user_bookings(int num_of_tickets, String seats_info, int num_of_combos, String combos_info, String title, int booking_id, int user_id, Date booking_date, double sub_total_amount, int coupon_id, double total_amount, String status) {
+    public user_bookings(int num_of_tickets, String seats_info, int num_of_combos, String combos_info, String title, String showtime, String room_name, int booking_id, int user_id, String booking_date, double sub_total_amount, int coupon_id, double total_amount, String status) {
         super(booking_id, user_id, booking_date, sub_total_amount, coupon_id, total_amount, status);
         this.num_of_tickets = num_of_tickets;
         this.seats_info = seats_info;
         this.num_of_combos = num_of_combos;
         this.combos_info = combos_info;
         this.title = title;
+        this.showtime = showtime;
+        this.room_name = room_name;
     }
 
     public int getNum_of_tickets() {
@@ -69,6 +74,21 @@ public class user_bookings extends bookings{
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
+    public String getShowtime() {
+        return showtime;
+    }
+
+    public void setShowtime(String showtime) {
+        this.showtime = showtime;
+    }
+
+    public String getRoom_name() {
+        return room_name;
+    }
+
+    public void setRoom_name(String room_name) {
+        this.room_name = room_name;
+    }
     
 }
