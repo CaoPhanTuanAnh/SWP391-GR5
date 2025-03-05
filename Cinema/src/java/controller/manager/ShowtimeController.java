@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -64,9 +65,14 @@ public class ShowtimeController extends HttpServlet {
         if (submit != null) {
             int room_id = Integer.parseInt(request.getParameter("room_id"));
             int movie_id = Integer.parseInt(request.getParameter("movie_id"));
+            String dateString = request.getParameter("date");
+            Date date = dateString==null||dateString.isBlank()?null:Date.valueOf(request.getParameter("date"));
+            String status = request.getParameter("status");
             request.setAttribute("room_id", room_id);
             request.setAttribute("movie_id", movie_id);
-            List<extend_showtimes> showtimeList = dao.listShowtimeByRoom(room_id,movie_id);
+            request.setAttribute("date", date);
+            request.setAttribute("status", status);
+            List<extend_showtimes> showtimeList = dao.listShowtimeByRoom(room_id,movie_id,date,status);
             request.setAttribute("showtimeList", showtimeList);
         }
         List<rooms> roomList = dao.listRoomByDirector(user.getUser_id());
