@@ -53,6 +53,8 @@ public class UserProfileControl extends HttpServlet {
                 changePassword(request, response, session, user, mess);
             } else if (service.equals("listUserBooking")) {
                 listUserBooking(request, response, session, user, mess);
+            } else if (service.equals("viewBookingHistory")) {
+                viewBookingDetail(request, response, session, user, mess);
             } else {
                 response.sendRedirect("error.html");
             }
@@ -133,6 +135,16 @@ public class UserProfileControl extends HttpServlet {
         List<user_bookings> userBookingList = dao.listUserBooking(user.getUser_id());
         request.setAttribute("userBookingList", userBookingList);
         request.getRequestDispatcher("list_user_booking.jsp").forward(request, response);
+    }
+    
+    private void viewBookingDetail(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, users user, String mess)
+            throws ServletException, IOException {
+        int booking_id = Integer.parseInt(request.getParameter("booking_id"));
+        bookingsDAO dao = new bookingsDAO();
+        user_bookings userBooking = dao.viewBookingDetail(booking_id);
+        request.setAttribute("userBooking", userBooking);
+        request.getRequestDispatcher("view_booking_detail.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

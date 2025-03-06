@@ -277,7 +277,7 @@ CREATE TABLE [dbo].[seats](
 	[level_id] [int] NULL,
 	[seat_row] [nvarchar](10) NOT NULL,
 	[seat_number] [int] NOT NULL,
-	[status] [nvarchar](10) NOT NULL,-- Available: con co the su dung, Unavailable: Bi hong
+	[status] [nvarchar](15) NOT NULL,-- Available: con co the su dung, Unavailable: Bi hong
 PRIMARY KEY CLUSTERED 
 (
 	[seat_id] ASC
@@ -375,23 +375,86 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 GO
 
-INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (1, 'Big1', '1 big popcorn, 1 big soda', 100.00)
-INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (2, 'Big2', '2 big popcorn, 1 big soda', 150.00)
+--Trigger tu dong tao ve sau khi chot showtime
+create trigger createTickets
+on showtimes
+after insert, update
+as
+begin
+insert into tickets(showtime_id,seat_id,price,status)
+select i.showtime_id,seat_id,50000*(1+0.1*r.type_id)*(1+0.1*s.level_id),'Available' -- Cong thuc tinh tien ve co the cap nhat sau
+from inserted i
+join rooms r on r.room_id = i.showtime_id
+join seats s on s.room_id = r.room_id
+where i.status = 'Submitted'
+end
+
+go
+
+--Trigger tu dong cong gia tien ve cua booking
+create trigger calTicketPrice
+on tickets
+after update
+as
+begin
+update bookings
+set sub_total_amount = sub_total_amount + (select SUM(i.price) from inserted i),
+total_amount = total_amount + (select SUM(i.price) from inserted i)
+where booking_id = (select top 1 i.booking_id from inserted i)
+end
+
+go
+
+--Trigger tu dong cong gia tien combo cua booking
+create trigger calComboPrice
+on booking_combos
+after insert
+as
+begin
+update bookings
+set sub_total_amount = sub_total_amount + (select SUM(c.combo_price*i.quantity) from inserted i join combos c on c.combo_id=i.combo_id),
+total_amount = total_amount + (select SUM(c.combo_price*i.quantity) from inserted i join combos c on c.combo_id=i.combo_id)
+where booking_id = (select top 1 i.booking_id from inserted i)
+end
+
+go
+
+--Trigger tu dong giam gia bang coupon cua booking
+create trigger calCoupon
+on bookings
+after update
+as
+begin
+if((select i.coupon_id from inserted i) is not null)
+begin
+update bookings
+set total_amount = total_amount * (select 1-discount_percentage/100 from inserted i join coupons c on c.coupon_id=i.coupon_id)
+where booking_id = (select top 1 i.booking_id from inserted i)
+end
+end
+
+go
+SET IDENTITY_INSERT [dbo].[showtimes] off
+SET IDENTITY_INSERT [dbo].[seats] OFF
+go
+
+INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (1, 'Big1', '1 big popcorn, 1 big soda', 100000.00)
+INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (2, 'Big2', '2 big popcorn, 1 big soda', 160000.00)
 
 GO
 SET IDENTITY_INSERT [dbo].[bookings] ON 
 
-INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (1, 8, CAST(N'2025-02-27' AS Date), CAST(240000.00 AS Decimal(10, 2)), 1, CAST(216000.00 AS Decimal(10, 2)), N'Paid')
-INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (2, 8, CAST(N'2025-02-27' AS Date), CAST(200000.00 AS Decimal(10, 2)), NULL, CAST(200000.00 AS Decimal(10, 2)), N'Paid')
-INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (3, 8, CAST(N'2025-02-27' AS Date), CAST(300000.00 AS Decimal(10, 2)), 2, CAST(255000.00 AS Decimal(10, 2)), N'Paid')
-INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (4, 8, CAST(N'2025-02-27' AS Date), CAST(260000.00 AS Decimal(10, 2)), NULL, CAST(260000.00 AS Decimal(10, 2)), N'Paid')
+INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (1, 8, CAST(N'2025-02-27' AS Date), CAST(0 AS Decimal(10, 2)), NULL, CAST(0 AS Decimal(10, 2)), N'Paid')
+INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (2, 8, CAST(N'2025-02-27' AS Date), CAST(0 AS Decimal(10, 2)), NULL, CAST(0 AS Decimal(10, 2)), N'Paid')
+INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (3, 8, CAST(N'2025-02-27' AS Date), CAST(0 AS Decimal(10, 2)), NULL, CAST(0 AS Decimal(10, 2)), N'Paid')
+INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (4, 8, CAST(N'2025-02-27' AS Date), CAST(0 AS Decimal(10, 2)), NULL, CAST(0 AS Decimal(10, 2)), N'Paid')
 SET IDENTITY_INSERT [dbo].[bookings] OFF
 GO
 
-INSERT [dbo].[booking_combos] ([booking_id], [combo_id], [quantity]) VALUES (1, 1, 3)
-INSERT [dbo].[booking_combos] ([booking_id], [combo_id], [quantity]) VALUES (1, 2, 1)
+----INSERT [dbo].[booking_combos] ([booking_id], [combo_id], [quantity]) VALUES (1, 1, 3)
+----INSERT [dbo].[booking_combos] ([booking_id], [combo_id], [quantity]) VALUES (1, 2, 1)
 
-GO
+--GO
 SET IDENTITY_INSERT [dbo].[cities] ON 
 
 INSERT [dbo].[cities] ([city_id], [city_name]) VALUES (5, N'Cần Thơ')
@@ -14451,14 +14514,22 @@ INSERT [dbo].[seats] ([seat_id], [room_id], [level_id], [seat_row], [seat_number
 INSERT [dbo].[seats] ([seat_id], [room_id], [level_id], [seat_row], [seat_number], [status]) VALUES (13726, 104, NULL, N'K', 10, N'Available')
 INSERT [dbo].[seats] ([seat_id], [room_id], [level_id], [seat_row], [seat_number], [status]) VALUES (13727, 104, NULL, N'K', 11, N'Available')
 INSERT [dbo].[seats] ([seat_id], [room_id], [level_id], [seat_row], [seat_number], [status]) VALUES (13728, 104, NULL, N'K', 12, N'Available')
+
 SET IDENTITY_INSERT [dbo].[seats] OFF
+update seats set level_id = 1;
+GO
+SET IDENTITY_INSERT [dbo].[types] ON 
+
+INSERT [dbo].[types] ([type_id], [type_name]) VALUES (1, N'2D')
+INSERT [dbo].[types] ([type_id], [type_name]) VALUES (2, N'3D')
+SET IDENTITY_INSERT [dbo].[types] OFF
 GO
 SET IDENTITY_INSERT [dbo].[showtimes] ON 
 
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (1, 1, 1, CAST(N'2024-10-15T18:00:00.000' AS DateTime), N'Saved')
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (2, 1, 1, CAST(N'2024-10-16T20:00:00.000' AS DateTime), N'Saved')
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (3, 1, 1, CAST(N'2024-10-17T19:30:00.000' AS DateTime), N'Saved')
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (4, 1, 1, CAST(N'2024-10-18T21:00:00.000' AS DateTime), N'Saved')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (1, 1, 1, CAST(N'2024-10-15T18:00:00.000' AS DateTime), N'Submitted')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (2, 2, 1, CAST(N'2024-10-16T20:00:00.000' AS DateTime), N'Submitted')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (3, 5, 1, CAST(N'2024-10-17T19:30:00.000' AS DateTime), N'Submitted')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (4, 6, 1, CAST(N'2024-10-18T21:00:00.000' AS DateTime), N'Submitted')
 SET IDENTITY_INSERT [dbo].[showtimes] OFF
 GO
 SET IDENTITY_INSERT [dbo].[theaters] ON 
@@ -14478,20 +14549,14 @@ INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name],
 INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (13, 3, 7, N'SWP Ton Duc Thang', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'171 Ton Duc Thang, Lien Chieu, Da Nang')
 SET IDENTITY_INSERT [dbo].[theaters] OFF
 GO
-SET IDENTITY_INSERT [dbo].[tickets] ON 
+--SET IDENTITY_INSERT [dbo].[tickets] ON 
 
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (1, 1, 1, 8, 1, CAST(120000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (2, 1, 2, 8, 1, CAST(100000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (3, 1, 3, 8, 1, CAST(150000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (4, 1, 4, 8, 1, CAST(130000.00 AS Decimal(10, 2)), N'Booked')
-SET IDENTITY_INSERT [dbo].[tickets] OFF
-GO
-SET IDENTITY_INSERT [dbo].[types] ON 
-
-INSERT [dbo].[types] ([type_id], [type_name]) VALUES (1, N'2D')
-INSERT [dbo].[types] ([type_id], [type_name]) VALUES (2, N'3D')
-SET IDENTITY_INSERT [dbo].[types] OFF
-GO
+--INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (1, 1, 1, 8, 1, CAST(120000.00 AS Decimal(10, 2)), N'Booked')
+--INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (2, 1, 2, 8, 1, CAST(100000.00 AS Decimal(10, 2)), N'Booked')
+--INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (3, 1, 3, 8, 1, CAST(150000.00 AS Decimal(10, 2)), N'Booked')
+--INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (4, 1, 4, 8, 1, CAST(130000.00 AS Decimal(10, 2)), N'Booked')
+--SET IDENTITY_INSERT [dbo].[tickets] OFF
+--GO
 SET IDENTITY_INSERT [dbo].[users] ON 
 
 INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (1, 1, N'admin', N'1', N'Nguyễn Văn Hùng', N'nguyen.hung@cinema.com', N'0912345678', CAST(N'2000-10-12' AS Date), 1, N'Active')
@@ -14701,6 +14766,9 @@ GO
 ALTER TABLE [dbo].[reviews]  WITH CHECK ADD CHECK  (([rating]>=(1) AND [rating]<=(5)))
 GO
 
+delete from tickets
+where seat_id in (select seat_id from seats where seat_row NOT IN (N'A', N'B', N'C', N'D', N'E')
+   OR seat_number NOT BETWEEN 1 AND 8);
 DELETE FROM [dbo].[seats]
 WHERE seat_row NOT IN (N'A', N'B', N'C', N'D', N'E')
    OR seat_number NOT BETWEEN 1 AND 8;
@@ -14754,3 +14822,27 @@ VALUES
 (8, 8, '2025-08-20 19:15:00', 'Saved'),
 (9, 1, '2025-09-05 18:45:00', 'Saved'),
 (10, 2, '2025-10-10 20:00:00', 'Saved');
+
+update tickets
+set booking_id = 1
+where ticket_id in (1,2,3,5,6);
+insert booking_combos values (1,2,2);
+insert booking_combos values (1,1,1);
+update bookings set coupon_id=1 where booking_id=1;
+
+update tickets
+set booking_id = 2
+where ticket_id in (143,144,145);
+insert booking_combos values (2,1,3);
+update bookings set coupon_id=3 where booking_id=2;
+
+update tickets
+set booking_id = 3
+where ticket_id in (284,285);
+insert booking_combos values (3,2,1);
+update bookings set coupon_id=2 where booking_id=3;
+
+update tickets
+set booking_id = 4
+where ticket_id in (438);
+insert booking_combos values (4,1,1);

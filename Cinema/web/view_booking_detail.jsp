@@ -1,7 +1,6 @@
-
 <%-- 
-    Document   : list_user_booking
-    Created on : Feb 28, 2025, 10:25:47 AM
+    Document   : booking_detail
+    Created on : Mar 6, 2025, 11:10:02 PM
     Author     : GIGABYTE
 --%>
 
@@ -14,7 +13,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Booking History</title>
+        <title>View Booking Detail</title>
 
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
@@ -75,7 +74,7 @@
                 box-shadow:10px 0px 15px lightgrey;
                 margin: 20px 0 20px 0;
                 height: 30vh;
-                width: 55vw;
+                width: 70vw;
             }
             .mess{
                 width: 100vw;
@@ -84,7 +83,7 @@
             }
             .form-button{
                 display: inline-block;
-                width: 5em;
+                width: auto;
                 text-align: center;
                 padding: 4px;
                 border-width: 2px;
@@ -112,23 +111,25 @@
             }
             .field-value{
                 display: grid;
-                grid-template-columns: auto auto;
+                grid-template-columns: auto auto auto;
                 width: 100%;
-                padding: 4px 6px 4px 6px;
+                padding: 10px 6px 4px 6px;
                 color: black;
                 background-color: whitesmoke;
                 border: 2px solid grey;
                 border-radius: 7px;
                 justify-content: space-evenly;
+                justify-items: center;
             }
             .field-value p{
                 display: inline;
+                padding: 3px;
                 width: 100%;
             }
             .field-value img{
                 display: inline;
-                padding: 0px 8px 0px 0px;
-                height: 10vh;
+                padding: 3px;
+                height: 30vh;
             }
             .sidenav{
 
@@ -153,34 +154,42 @@
         <div class="maincontent">
             <c:choose>
                 <c:when test="${requestScope.mess != null}">
-                    <p class="mess" style="width: 100vw">${requestScope.mess}</p>
+                    <p class="mess" id="form-mess">${requestScope.mess}</p>
                 </c:when>
                 <c:otherwise>
-                    <p class="mess" style="width: 100vw">     </p>
+                    <p class="mess">     </p>
                 </c:otherwise>
             </c:choose>
-            <div class="sidenav" style="display:inline-block">
-                <a class="navoption" id="currentnavoption" href="user_profile?service=editProfile">User Profile</a>
-                <a class="navoption" href="user_profile?service=listUserBooking">Booking History</a>
-            </div>
-            <form action="user_profile" method="post" style="display:inline-block">
-                <input type="hidden" name="service" value="editProfile">
+            <form  action="user_profile" method="post">
+                <input type="hidden" name="service" value="changePassword">
                 <table>
                     <tbody>
-                        <c:forEach var="booking" items="${requestScope.userBookingList}">
-                            <tr>
-                                <td class="field">
-                                    <a class="field-value" href="user_profile?service=viewBookingHistory&booking_id=${booking.booking_id}">
-                                        <img style="grid-row: 1 / span 3;" src="${booking.poster_url}" alt="${booking.title}"/>
-                                        <p><em>${booking.title}</em></p>
-                                        <p>${booking.theater_name} ${booking.room_name}</p>
-                                        <p><em>Showtime:</em> ${booking.showtime}</p>
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <tr>
+                    <a class="form-button" href="user_profile?service=listUserBooking">Back to History</a>
+                    </tr>
+                    <tr>
+                        <td class="field">
+                            <div class="field-value">
+                                <img style="grid-row: 1 / span 5;" src="${userBooking.poster_url}" alt="${userBooking.title}"/>
+                                <p><em style="font-size: 1.2em">${userBooking.title}</em></p>
+                                <p><em>Create at:</em> ${userBooking.booking_date}</p>
+                                <p><em>Theater:</em> ${userBooking.theater_name}</p>
+                                <p><em>Room:</em> ${userBooking.room_name}</p>
+                                <p style="grid-column: 2 / span 2"><em>Showtime:</em> ${userBooking.showtime}</p>
+                                <p><em>Number of Tickets:</em> ${userBooking.num_of_tickets}</p>
+                                <p><em>Number of Combos:</em> ${userBooking.num_of_combos}</p>
+                                <p><em>Seats:</em> ${userBooking.seats_info}</p>
+                                <p><em>Combos:</em> ${userBooking.combos_info}</p>
+                                <p><em>Sub Total Amount:</em> ${userBooking.sub_total_amount}VND</p>
+                                <p><em>Coupon:</em> ${userBooking.coupon_code} ${userBooking.discount_percentage}%</p>
+                                <p><em>Total Amount:</em> ${userBooking.total_amount}VND</p>
+                                <p style="grid-column: 1 / span 3;">QR code</p>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
+
             </form>
         </div>
 
@@ -290,6 +299,7 @@
                     window.onscroll = function () {
                         scrollFunction()
                     };
+
                     function scrollFunction() {
                         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                             document.getElementById("movetop").style.display = "block";
@@ -312,8 +322,6 @@
 
 </html>
 
-<!-- Allow edit -->
-
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
@@ -333,7 +341,8 @@
                                 $info.show();
                             }
                         });
-                    });</script>
+                    });
+</script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
@@ -444,46 +453,59 @@
     $(document).ready(function () {
         $('.popup-with-zoom-anim').magnificPopup({
             type: 'inline',
+
             fixedContentPos: false,
             fixedBgPos: true,
+
             overflowY: 'auto',
+
             closeBtnInside: true,
             preloader: false,
+
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-zoom-in'
         });
+
         $('.popup-with-move-anim').magnificPopup({
             type: 'inline',
+
             fixedContentPos: false,
             fixedBgPos: true,
+
             overflowY: 'auto',
+
             closeBtnInside: true,
             preloader: false,
+
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-slide-bottom'
         });
-    });</script>
+    });
+</script>
 <!-- disable body scroll which navbar is in active -->
 <script>
     $(function () {
         $('.navbar-toggler').click(function () {
             $('body').toggleClass('noscroll');
         })
-    });</script>
+    });
+</script>
 <!-- disable body scroll which navbar is in active -->
 
 <!--/MENU-JS-->
 <script>
     $(window).on("scroll", function () {
         var scroll = $(window).scrollTop();
+
         if (scroll >= 80) {
             $("#site-header").addClass("nav-fixed");
         } else {
             $("#site-header").removeClass("nav-fixed");
         }
     });
+
     //Main navigation Active Class Add Remove
     $(".navbar-toggler").on("click", function () {
         $("header").toggleClass("active");
@@ -497,6 +519,7 @@
                 $("header").removeClass("active");
             }
         });
-    });</script>
+    });
+</script>
 
 <script src="assets/js/bootstrap.min.js"></script>
