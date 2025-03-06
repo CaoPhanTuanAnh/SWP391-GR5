@@ -472,6 +472,12 @@
                                     </c:choose>
                                 </c:forEach>
                             </select>
+                            Date: <input type="date" name="date" value="${date}">
+                            Status: <select name="status">
+                                <option value="Saved">Saved</option>
+                                <option value="Submitted">Submitted</option>
+                                <option value="0">All</option>
+                            </select>
                             <input type="submit" name="submit" value="Search">
                         </form>
                     </div>

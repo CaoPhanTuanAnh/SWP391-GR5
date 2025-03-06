@@ -13,7 +13,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Random;
+import service.EmailService;
 
 /**
  *
@@ -40,23 +43,66 @@ public class SignupControl extends HttpServlet {
         String fullname = request.getParameter("sign-up-fullname");
         String email = request.getParameter("sign-up-email");
         String phone = request.getParameter("sign-up-phone");
-        String address = request.getParameter("sign-up-address");
+        String birthdate = request.getParameter("sign-up-birthdate");
         
-        
-        if(!pass.equals(re_pass)){
+        if (user == null || user.trim().isEmpty() ||
+            pass == null || pass.trim().isEmpty() ||
+            re_pass == null || re_pass.trim().isEmpty() ||
+            fullname == null || fullname.trim().isEmpty() ||
+            email == null || email.trim().isEmpty() ||
+            phone == null || phone.trim().isEmpty()) {
+
+            request.setAttribute("mess", "All fields must be filled.");
+            request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+            return;
+        }else if(!pass.equals(re_pass)){
             request.setAttribute("mess", "Password do not match.");
+            request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+        }else if (pass.contains(" ")) {
+            request.setAttribute("mess", "Username should not contain spaces.");
+            request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+        } else if (user.contains(" ")) {
+            request.setAttribute("mess", "Password should not contain spaces.");
+            request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+        } else if (!pass.matches("[a-zA-Z0-9]+")) {  // Chỉ cho phép chữ cái và số
+            request.setAttribute("mess", "Password must not contain special characters.");
             request.getRequestDispatcher("sign_up.jsp").forward(request, response);
         }else{
             DAO dao = new DAO();
             users a = dao.checkUserExist(user);
-            if(a==null){
-                dao.signup(user, pass,fullname,email,phone,address);
-                response.sendRedirect("home");
-            }else{
+            users b = dao.checkEmailExist(email);
+            
+            HttpSession session = request.getSession();
+            if(a==null&&b==null){
+                 String otp = String.format("%06d", new Random().nextInt(999999));
+
+                // Lưu OTP và thông tin vào session
+                users newUser = new users(user, pass, fullname, email, phone);
+                newUser.setRole_id(3);
+                newUser.setStatus("Active");
+                newUser.setBirth_date(birthdate);
+                session.setAttribute("otp", otp);
+             
+                session.setAttribute("signupUser", newUser);
+                session.setAttribute("otpExpireTime", System.currentTimeMillis() + 120000); // Hết hạn sau 2 phút
+
+                // Gửi OTP qua email
+                EmailService.sendOTP(email, otp);
+
+                response.sendRedirect("otp_verification.jsp");
+                //response.sendRedirect("home");
+            }else if(a!=null){
                 request.setAttribute("mess", "Username already exists.");
                 request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+            }else if(b!=null){
+                request.setAttribute("mess", "Email already exists.");
+                request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+                }
+            else{
+                request.setAttribute("mess", "error.");
+                request.getRequestDispatcher("sign_up.jsp").forward(request, response);
             }
-        }
+    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

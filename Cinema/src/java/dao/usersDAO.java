@@ -178,4 +178,23 @@ public class usersDAO extends DBContext {
         }
         return false;
     }
+    
+    public boolean updatePassword(String email, String password) {
+        String query = "update users set password=? where email = ?";
+        try {
+            try {
+                conn = new DBContext().getConnection();//mo ket noi voi sql
+                ps = conn.prepareStatement(query);
+                
+                ps.setString(1, password);
+                ps.setString(2, email);
+                return ps.executeUpdate() == 1;
+            } catch (Exception ex) {
+                Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
 }

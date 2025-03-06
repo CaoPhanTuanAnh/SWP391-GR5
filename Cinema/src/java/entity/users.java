@@ -44,6 +44,12 @@ public class users {
         this.birth_date = birth_date;
     }
 
-    
+    public users(String user, String pass, String fullname, String email, String phone) {
+        this.username = user;
+        this.password = pass;
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
+    }
     
 }

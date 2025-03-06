@@ -68,7 +68,7 @@
                                 <input name="sign-up-fullname" type="text" placeholder="Full name" />
 				<input name="sign-up-email" type="text" placeholder="Email" />
                                 <input name="sign-up-phone" type="text" placeholder="Phone" />
-				<input name="sign-up-address" type="text" placeholder="Address" />
+                                <input name="sign-up-birthdate" type="date" placeholder="Birth" required />
 				<button type="submit">Sign Up</button>
 			</form>
 		</div>

@@ -28,7 +28,7 @@
 			<div class="container">
 				<h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
 							aria-hidden="true"></span>
-							MyShowz </a></h1>
+                                        MyShowz ${sessionScope.msg} </a></h1>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				</div>
 				<div class="Login_SignUp" id="login_s">

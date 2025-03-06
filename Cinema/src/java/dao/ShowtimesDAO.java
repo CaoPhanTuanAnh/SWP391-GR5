@@ -117,18 +117,28 @@ public class showtimesDAO extends DBContext {
         return movieList;
     }
 
-    public List<extend_showtimes> listShowtimeByRoom(int room_id, int movie_id) {
+    public List<extend_showtimes> listShowtimeByRoom(int room_id, int movie_id, Date date, String status) {
         List<extend_showtimes> showtimeList = new ArrayList<>();
         String sql = "select st.*,r.room_name, m.title,m.poster_url,m.duration, CAST(st.showtime AS DATE) AS show_date, CAST(st.showtime AS TIME) AS show_time\n"
                 + "from showtimes st\n"
                 + "join movies m on m.movie_id = st.movie_id\n"
                 + "join rooms r on r.room_id=st.room_id\n"
                 + "where st.room_id = ? ";
-        if(movie_id!=0)sql+="and st.movie_id = ?";
+        if (movie_id != 0) {
+            sql += "and st.movie_id = ? ";
+        }
+        if (date != null) {
+            sql += "and CAST(st.showtime AS DATE) like '"+date+"' ";
+        }
+        if (status != null && !status.isBlank()) {
+            sql += "and st.status like '"+status+"' ";
+        }
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
             st.setInt(1, room_id);
-            if(movie_id!=0)st.setInt(2, movie_id);
+            if (movie_id != 0) {
+                st.setInt(2, movie_id);
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 showtimeList.add(new extend_showtimes(rs.getString("room_name"),
@@ -196,13 +206,12 @@ public class showtimesDAO extends DBContext {
         }
         return roomList;
     }
-    
+
     public List<movies> listMovie() {
         List<movies> movieList = new ArrayList<>();
         String sql = "SELECT * FROM movies where status like 'Present'";
 
-        try (Connection connection = getConnection();
-             PreparedStatement st = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
@@ -219,7 +228,7 @@ public class showtimesDAO extends DBContext {
                     movieList.add(movies);
                 }
             }
-         } catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.println("Lỗi truy vấn getAllMoviesWithPaging: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Lỗi kết nối DB: " + e.getMessage());
