@@ -1,5 +1,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="entity.rooms" %>
+<%@ page import="entity.seats" %>
+<%@ page import="entity.types" %>
+<%@ page import="entity.theaters" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.List,java.util.ArrayList, java.util.Map, java.util.LinkedHashMap" %>
+<%
+    List<seats> seats = (List<seats>) request.getAttribute("seats");
+    Map<String, List<seats>> seatMap = new LinkedHashMap<>();
+
+    // Nhóm ghế theo hàng và sắp xếp theo số ghế
+    for (seats s : seats) {
+        seatMap.computeIfAbsent(s.getSeat_row(), k -> new ArrayList<>()).add(s);
+    }
+
+    // Sắp xếp số ghế theo thứ tự tăng dần
+    for (List<seats> seatList : seatMap.values()) {
+        seatList.sort((a, b) -> Integer.compare(a.getSeat_number(), b.getSeat_number()));
+    }
+%>
 <!doctype html>
 <html lang="zxx">
 
@@ -14,6 +35,7 @@
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
               rel="stylesheet">
         <style>
+
             /* CSS cho menu */
             ul {
                 list-style-type: none;
@@ -55,6 +77,7 @@
                 color: var(--theme-rose); /* Chuyển sang màu theme rose khi hover */
                 background: #f0f0f0;
             }
+
         </style>
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
@@ -317,6 +340,33 @@
             });
         </script>
 
+        <style>
+            .seat {
+                width: 40px;
+                height: 40px;
+                text-align: center;
+                font-weight: bold;
+                cursor: pointer;
+                border: 1px solid black;
+                display: inline-block;
+                line-height: 40px;
+            }
+            .available {
+                background-color: green;
+                color: white;
+            }
+            .unavailable {
+                background-color: red;
+                color: white;
+            }
+            .selected {
+                border: 3px solid yellow !important;
+            }
+            .hidden {
+                display: none;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -360,13 +410,13 @@
 
                             <c:if test="${sessionScope.acc.getRole_id() == 2}">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="index.jsp">Home</a>
+                                    <a class="nav-link" href="HomePageController">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Room</a>
+                                    <a class="nav-link" href="ManageRoom">Manage Room</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="movies.jsp">Manage Seat</a>
+                                    <a class="nav-link" href="ManageSeat">Manage Seat</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="about.jsp">Manage Show Time</a>
@@ -425,16 +475,44 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Manage <b>Room</b></h2>
+                                <h2>Manage <b>Seat</b></h2>
                             </div>
                             <div class="col-sm-6">				
                             </div>
                         </div>
                     </div>
-                    <c:forEach items="${listT}" var="t">
-                        <a class="nav-link" href="ManageRoomDetail?theaterId=${t.theater_id}">${t.theater_name}</a>
-                    </c:forEach>
-                        
+                    <form id="seatForm" action="UpdateSeatStatus" method="POST">
+                        <!-- Truyền roomId ẩn -->
+                        <input type="hidden" name="roomId" value="<%= request.getParameter("roomId") %>">
+
+                        <table border="1">
+                            <% for (Map.Entry<String, List<seats>> entry : seatMap.entrySet()) { %>
+                            <tr>
+                                <td><strong><%= entry.getKey() %></strong></td>
+                                <% for (seats s : entry.getValue()) { %>
+                                <td>
+                                    <div class="seat <%= s.getStatus().equals("Available") ? "available" : "unavailable" %>"
+                                         data-seat="<%= s.getSeat_id() %>">
+                                        <%= s.getSeat_number() %>
+                                        <input type="checkbox" name="selectedSeats" value="<%= s.getSeat_id() %>" class="seat-checkbox hidden">
+                                    </div>
+                                </td>
+                                <% } %>
+                            </tr>
+                            <% } %>
+                        </table>
+
+                        <!-- Option chọn trạng thái -->
+                        <div id="statusOptions" class="hidden">
+                            <label for="status">Choose Status:</label>
+                            <select name="status" id="status">
+                                <option value="Available">Available</option>
+                                <option value="Unavailable">Unavailable</option>
+                            </select>
+                            <button type="button" id="cancel">Cancel</button>
+                            <button type="submit">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>        
         </div>
@@ -445,63 +523,98 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script type="text/javascript">
-            $(document).ready(function () {
-                //Horizontal Tab
-                $('#parentHorizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion
-                    width: 'auto', //auto or any width like 600px
-                    fit: true, // 100% fit in a container
-                    tabidentify: 'hor_1', // The tab groups identifier
-                    activate: function (event) { // Callback function if tab is switched
-                        var $tab = $(this);
-                        var $info = $('#nested-tabInfo');
-                        var $name = $('span', $info);
-                        $name.text($tab.text());
-                        $info.show();
-                    }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const seats = document.querySelectorAll(".seat");
+                const checkboxes = document.querySelectorAll(".seat-checkbox");
+                const statusOptions = document.getElementById("statusOptions");
+                const cancelBtn = document.getElementById("cancel");
+
+                seats.forEach(seat => {
+                    seat.addEventListener("click", function () {
+                        const checkbox = this.querySelector(".seat-checkbox");
+                        checkbox.checked = !checkbox.checked;
+                        this.classList.toggle("selected", checkbox.checked);
+
+                        updateStatusOptionsVisibility();
+                    });
                 });
+
+                cancelBtn.addEventListener("click", function () {
+                    checkboxes.forEach(cb => {
+                        cb.checked = false;
+                        cb.closest(".seat").classList.remove("selected");
+                    });
+                    statusOptions.classList.add("hidden");
+                });
+
+                function updateStatusOptionsVisibility() {
+                    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                    statusOptions.classList.toggle("hidden", !anyChecked);
+                }
             });
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-            $(document).ready(function () {
-                $('.owl-one').owlCarousel({
-                    stagePadding: 280,
-                    loop: true,
-                    margin: 20,
-                    nav: true,
-                    responsiveClass: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    autoplaySpeed: 1000,
-                    autoplayHoverPause: false,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            stagePadding: 40,
-                            nav: false
-                        },
-                        480: {
-                            items: 1,
-                            stagePadding: 60,
-                            nav: true
-                        },
-                        667: {
-                            items: 1,
-                            stagePadding: 80,
-                            nav: true
-                        },
-                        1000: {
-                            items: 1,
-                            nav: true
-                        }
-                    }
-                })
-            })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {

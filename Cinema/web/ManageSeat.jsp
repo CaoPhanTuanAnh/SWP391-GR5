@@ -363,10 +363,10 @@
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Room</a>
+                                    <a class="nav-link" href="ManageRoom">Manage Room</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="movies.jsp">Manage Seat</a>
+                                    <a class="nav-link" href="ManageSeat">Manage Seat</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="about.jsp">Manage Show Time</a>
@@ -425,14 +425,14 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Manage <b>Room</b></h2>
+                                <h2>Manage <b>Seat</b></h2>
                             </div>
                             <div class="col-sm-6">				
                             </div>
                         </div>
                     </div>
                     <c:forEach items="${listT}" var="t">
-                        <a class="nav-link" href="ManageRoomDetail?theaterId=${t.theater_id}">${t.theater_name}</a>
+                        <a class="nav-link" href="ManageSeatDetail?theaterId=${t.theater_id}">${t.theater_name}</a>
                     </c:forEach>
                         
                 </div>

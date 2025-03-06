@@ -79,7 +79,7 @@ public class seatsDAO extends DBContext {
 
         return movieList;
     }
-    
+
     public static void main(String[] args) {
         // Tạo đối tượng DAO
         seatsDAO seatsDAO = new seatsDAO();
@@ -100,15 +100,13 @@ public class seatsDAO extends DBContext {
         } else {
             System.out.println("Danh sách ghế hàng A:");
             for (seats seat : seatsList) {
-                System.out.println("ID: " + seat.getSeat_id() +
-                        ", Số ghế: " + seat.getSeat_number() +
-                        ", Hàng: " + seat.getSeat_row() +
-                        ", Trạng thái: " + seat.getStatus());
+                System.out.println("ID: " + seat.getSeat_id()
+                        + ", Số ghế: " + seat.getSeat_number()
+                        + ", Hàng: " + seat.getSeat_row()
+                        + ", Trạng thái: " + seat.getStatus());
             }
         }
     }
-    
-    
 
     public List<seats> getAllSeatB(int mid, int branchId, Date startDate, Time startTime, int roomId) {
         List<seats> movieList = new ArrayList<>();
@@ -203,7 +201,7 @@ public class seatsDAO extends DBContext {
 
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                  int seat_id = rs.getInt("seat_id");
+                    int seat_id = rs.getInt("seat_id");
                     int seat_number = rs.getInt("seat_number");
                     String seat_row = rs.getString("seat_row");
                     String status = rs.getString("status");
@@ -261,7 +259,7 @@ public class seatsDAO extends DBContext {
 
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-           int seat_id = rs.getInt("seat_id");
+                    int seat_id = rs.getInt("seat_id");
                     int seat_number = rs.getInt("seat_number");
                     String seat_row = rs.getString("seat_row");
                     String status = rs.getString("status");
@@ -318,7 +316,7 @@ public class seatsDAO extends DBContext {
             st.setInt(6, roomId);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                  int seat_id = rs.getInt("seat_id");
+                    int seat_id = rs.getInt("seat_id");
                     int seat_number = rs.getInt("seat_number");
                     String seat_row = rs.getString("seat_row");
                     String status = rs.getString("status");
@@ -339,6 +337,45 @@ public class seatsDAO extends DBContext {
         }
 
         return movieList;
+    }
+
+    Connection conn = null; // kết nối vs sql
+    PreparedStatement ps = null; // ném query sang sql
+    ResultSet rs = null; // nhận kết quả trả về
+
+    public List<seats> getSeatsByRoom(String room_id) {
+        List<seats> seats = new ArrayList<>();
+        String query = "SELECT * FROM [dbo].[seats]\n"
+                + "WHERE [room_id] = ?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, room_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                seats.add(new seats(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getString(6)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return seats;
+    }
+
+    public void updateSeatStatus(String seatId, String status) {
+        String query = "UPDATE seats SET status = ? WHERE seat_id = ?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setString(2, seatId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
     }
 
 }

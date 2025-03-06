@@ -114,7 +114,7 @@
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
                                         <li><a href="ManageRoom">Manage Room</a></li>
-                                        <li><a href="#">Manage Seat</a></li>
+                                        <li><a href="ManageSeat">Manage Seat</a></li>
                                         <li><a href="#">Manage Show Time</a></li>
                                     </ul>
                                 </li>

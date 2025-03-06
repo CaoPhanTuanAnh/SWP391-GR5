@@ -277,7 +277,7 @@ CREATE TABLE [dbo].[seats](
 	[level_id] [int] NULL,
 	[seat_row] [nvarchar](10) NOT NULL,
 	[seat_number] [int] NOT NULL,
-	[status] [nvarchar](10) NOT NULL,-- Available: con co the su dung, Unavailable: Bi hong
+	[status] [nvarchar](15) NOT NULL,-- Available: con co the su dung, Unavailable: Bi hong
 PRIMARY KEY CLUSTERED 
 (
 	[seat_id] ASC

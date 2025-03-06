@@ -366,13 +366,13 @@
 
                             <c:if test="${sessionScope.acc.getRole_id() == 2}">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="index.jsp">Home</a>
+                                    <a class="nav-link" href="HomePageController">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Room</a>
+                                    <a class="nav-link" href="ManageRoom">Manage Room</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="movies.jsp">Manage Seat</a>
+                                    <a class="nav-link" href="ManageSeat">Manage Seat</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="about.jsp">Manage Show Time</a>
