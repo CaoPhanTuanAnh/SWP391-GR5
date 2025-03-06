@@ -14704,3 +14704,53 @@ GO
 DELETE FROM [dbo].[seats]
 WHERE seat_row NOT IN (N'A', N'B', N'C', N'D', N'E')
    OR seat_number NOT BETWEEN 1 AND 8;
+
+   -- Thêm 10 diễn viên
+INSERT INTO participants (participant_name, portrait_url, birth_date, nationality, about)
+VALUES 
+('Joaquin Phoenix', './assets/images/a1.jpg', '1974-10-28', 'USA', 'Famous for Joker'),
+('Sam Worthington', './assets/images/a2.jpg', '1976-08-02', 'Australia', 'Lead actor in Avatar'),
+('Zoe Saldana', './assets/images/a3.jpg', '1978-06-19', 'USA', 'Famous for Neytiri in Avatar'),
+('Daniel Craig', './assets/images/a4.jpg', '1968-03-02', 'UK', 'Lead actor in Knives Out'),
+('Taron Egerton', './assets/images/a5.jpg', '1989-11-10', 'UK', 'Played Elton John in Rocketman'),
+('Ewan McGregor', './assets/images/a1.jpg', '1971-03-31', 'UK', 'Starred in Doctor Sleep'),
+('Keanu Reeves', './assets/images/a2.jpg', '1964-09-02', 'Canada', 'Famous for Toy Story 4 voice acting'),
+('Yifei Liu', './assets/images/a3.jpg', '1987-08-25', 'China', 'Played Mulan'),
+('Tim Allen', './assets/images/a4.jpg', '1953-06-13', 'USA', 'Voice actor for Buzz Lightyear'),
+('Tom Hanks', './assets/images/a5.jpg', '1956-07-09', 'USA', 'Voice actor for Woody');
+
+-- Thêm đạo diễn
+INSERT INTO participants (participant_name, portrait_url, birth_date, nationality, about)
+VALUES 
+('Todd Phillips', './assets/images/team1.jpg', '1970-12-20', 'USA', 'Director of Joker'),
+('James Cameron', './assets/images/team2.jpg', '1954-08-16', 'Canada', 'Director of Avatar');
+
+-- Liên kết participants với movie theo movie_id
+INSERT INTO movie_participants (movie_id, participant_id, role_in_movie)
+VALUES 
+(4, 1, 'Actor'), -- Joaquin Phoenix (Joker)
+(5, 2, 'Actor'), -- Sam Worthington (Avatar)
+(5, 3, 'Actress'), -- Zoe Saldana (Avatar)
+(6, 4, 'Actor'), -- Daniel Craig (Knives Out)
+(7, 5, 'Actor'), -- Taron Egerton (Rocketman)
+(8, 6, 'Actor'), -- Ewan McGregor (Doctor Sleep)
+(9, 7, 'Actor'), -- Keanu Reeves (Toy Story 4)
+(10, 8, 'Actress'), -- Yifei Liu (Mulan)
+(9, 9, 'Actor'), -- Tim Allen (Toy Story 4)
+(9, 10, 'Actor'), -- Tom Hanks (Toy Story 4)
+(4, 11, 'Director'), -- Todd Phillips (Joker)
+(5, 12, 'Director'); -- James Cameron (Avatar)
+
+-- Thêm dữ liệu mới vào bảng showtimes với 8 phòng chiếu trong năm 2025, giữ lại dữ liệu cũ
+INSERT INTO showtimes (movie_id, room_id, showtime, status)
+VALUES 
+(1, 1, '2025-01-10 18:00:00', 'Saved'),
+(2, 2, '2025-02-15 20:30:00', 'Saved'),
+(3, 3, '2025-03-20 19:00:00', 'Saved'),
+(4, 4, '2025-04-25 21:00:00', 'Saved'),
+(5, 5, '2025-05-30 17:45:00', 'Saved'),
+(6, 6, '2025-06-10 22:00:00', 'Saved'),
+(7, 7, '2025-07-15 16:30:00', 'Saved'),
+(8, 8, '2025-08-20 19:15:00', 'Saved'),
+(9, 1, '2025-09-05 18:45:00', 'Saved'),
+(10, 2, '2025-10-10 20:00:00', 'Saved');

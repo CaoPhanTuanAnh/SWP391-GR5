@@ -1,21 +1,35 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!doctype html>
-<html lang="zxx">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+
+<!DOCTYPE html>
+<html lang="vi">
 
     <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Movies</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
               rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+        <title>Chọn chi nhánh</title>
+        <style>
+            .img-branch {
+                height: 400px;
+            }
 
+            .branch-item {
+                margin-bottom: 50px;
+            }
+        </style>
     </head>
 
     <body>
-        <!-- header -->
+        <!-- nav bar -->
         <header id="site-header" class="w3l-header fixed-top">
             <!--/nav-->
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
@@ -117,182 +131,53 @@
                 </div>
             </nav>
         </header>
-        <!--/breadcrumbs -->
-        <div class="w3l-breadcrumbs">
-            <nav id="breadcrumbs" class="breadcrumbs">
-                <div class="container page-wrapper">
-                    <a href="HomePage.jsp">Home</a> » <span class="breadcrumb_last" aria-current="page">movies</span>
-                </div>
-            </nav>
+        <!-- end of navbar -->
+
+        <!-- movie selections-->
+        <br>
+        <br>
+        <br>
+
+        <div class="container">
+
+            <form action="RoomController" method="post">
+                <h2>Chọn lịch xem phim</h2>
+                <br>
+
+                <p>Chọn ngày xem phim (yyyy-MM-dd)</p>
+                <select id="listDate" class="form-control form-control-lg" name="startDate" onchange="updateTimes()">
+                    <c:forEach items="${listDates}" var="date">
+                        <option value="${date.getDate()}">${date.getDate()}</option>
+                    </c:forEach>
+                </select>
+
+
+                <p>Chọn giờ xem phim (HH:mm)</p>
+                <select id="listTimes" class="form-control form-control-lg" name="startTime">
+
+                </select>
+
+
+                <script>
+                    var showtimes = ${listStartTimesJson};
+                </script>
+
+                <input type="text" name="mid" value="${requestScope.mid}" style="display: none;">
+                <input type="text" name="branchId" value="${requestScope.branchId}" style="display: none;">
+
+
+                <br><br>
+                <input type="submit" class="btn btn-outline-danger btn-block">
+            </form>
         </div>
-        <!--/movies -->
-        <!--grids-sec1-->
-        <section class="w3l-search py-5">
-            <div class="container py-md-4">
-                <div class="search-grid">
-                    <h3 class="hny-title mb-3 text-center">Search Movies</h3>
-                    <form action="FilterController" method="post" class="search-form">
-                        <div class="row">
-                            <!-- Search by Director or Actor -->
-                            <div class="col-md-6 mb-3">
-                                <input type="text" id="productName" name="name" class="form-control" 
-                                       placeholder="Enter director or actor" >
-                            </div>
-
-
-                            <div class="col-md-3 mb-3">
-                                <label for="showTimeFrom" class="form-label">Show Time From</label>
-                                <input type="time" id="showTimeFrom" name="showTimeFrom" class="form-control">
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="showTimeTo" class="form-label">Show Time To</label>
-                                <input type="time" id="showTimeTo" name="showTimeTo" class="form-control">
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="showDate" class="form-label">Show Date</label>
-                                <input type="date" id="showDate" name="showDate" class="form-control">
-                            </div>
-
-                        </div>
-
-                        <!-- Genre Selection -->
-                        <div class="row">
-                            <div class="col-12 mb-3">
-                                <h4 class="mb-2">Genre</h4>
-                                <select name="cid" class="form-control" multiple>
-                                    <c:forEach items="${categorys}" var="L">
-                                        <option value="${L.genre_id}">${L.genre_name}</option>
-                                    </c:forEach>
-                                </select>
-                                <small class="text-muted">Hold Ctrl (Windows) / Command (Mac) to select multiple genres.</small>
-                            </div>
-                        </div>
-
-
-                        <!-- Search Button -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary px-4">SEARCH</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-
-        <!--/movies -->
-        <!--grids-sec1-->
-
-        <!--grids-sec1-->
-        <section class="w3l-grids">
-            <div class="grids-main py-5">
-                <div class="container py-lg-4">
-                    <div class="headerhny-title">
-                        <div class="w3l-title-grids">
-                            <div class="headerhny-left">
-                                <h3 class="hny-title">List Movies</h3>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="w3l-populohny-grids">
-                        <c:forEach items="${requestScope.listMovies}" var="LP">
-                            <div class="item vhny-grid">
-                                <div class="box16 mb-0">
-                                    <figure>
-                                        <img class="img-fluid" src="${LP.getPoster_url()}" alt="">
-                                    </figure>
-                                    <a href="#modal-${LP.getMovie_id()}" data-toggle="modal">
-                                        <div class="box-content">
-                                            <h3 class="title">${LP.getTitle()}</h3>
-                                            <h4> <span class="post"><span class="fa fa-clock-o"> </span> ${LP.getDuration()}min
-
-                                                </span>
-
-                                                <span class="post fa fa-heart text-right"></span>
-                                            </h4>
-                                        </div>
-                                    </a>
-
-                                </div>
-                                <div class="button-center text-center mt-4">
-                                    <a href="BranchController?mid=${LP.getMovie_id()}" class="btn watch-button">Buy Ticket</a>
-                                  
-                                </div>
-
-                                <div class="modal fade" id="modal-${LP.getMovie_id()}" tabindex="-1" role="dialog" aria-hidden="true">
-
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content" id="mymodalcontent">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="exampleModalLongTitle">DETAILS</h4>
-                                                <button type="button" class="closebtn" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" id="dynamic-content">
-                                                <img src="${LP.getPoster_url()}" class="img-fluid modalimg" alt="" />
-                                                <p>
-                                                <h3>Release Date&nbsp;:${LP.getRelease_date()} </h3>
-
-                                                </p>
-                                                <h4>About Movie</h4>
-                                                <p>
-                                                    ${LP.getDescription()}
-                                                </p>
-                                                <h4>Star Cast</h4>
-                                                <c:forEach items="${LP.getParticipants()}" var="a">
-                                                    <p>
-                                                        <a href="DetailParticipantController?pid=${a.getParticipant_id()}">${a.getParticipant_name()}</a>
-                                                    </p>
-                                                </c:forEach>
-
-                                            </div>
-                                            <div class="bookbtn">
-                                                <button type="button" class="btn btn-success"
-                                                        onclick="location.href = 'ticket-booking.html';">Book</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        <br>
 
 
 
-                        </c:forEach>
-                    </div>
 
-                </div>
-
-
-                <nav class="d-flex justify-content-center" aria-label="Page navigation">
-                    <ul class="pagination">
-                        <c:url var="prepagelink" value="ViewAllController">
-                            <c:param name="pagenumber" value="${page - 1}"></c:param>
-
-                        </c:url>
-                        <li class="page-item ${page == 1 ? "disabled" : ""}"><a class="page-link" href="${prepagelink}">Previous</a></li>
-                            <c:forEach begin="1" end="${requestScope.totalPage}" var="i">
-                                <c:url var="curpagelink" value="ViewAllController">
-                                    <c:param name="pagenumber" value="${i}"></c:param>
-
-                            </c:url>
-                            <li class="page-item ${i == page ? "active" : ""}"><a class="page-link" href="${curpagelink}">${i}</a></li>
-                            </c:forEach>
-                            <c:url var="nextpagelink" value="ViewAllController">
-                                <c:param name="pagenumber" value="${page + 1}"></c:param>
-
-                        </c:url>
-                        <li class="page-item ${page == totalPage ? "disabled" : ""}"><a class="page-link" href="${nextpagelink}">Next</a></li>
-                    </ul>
-                </nav>
-
-            </div>
-        </section>
-
-
-        <!--grids-sec2-->
-        <!-- footer-66 -->
+        <!-- end of movie selections -->
+        <br>
+        <br>
         <footer class="w3l-footer">
             <section class="footer-inner-main">
                 <div class="footer-hny-grids py-5">
@@ -546,5 +431,67 @@
         });
     });
 </script>
+
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        updateTimes(); // Gọi khi trang tải xong
+    });
+
+    function updateTimes() {
+        var selectedDate = document.getElementById("listDate").value;
+        var listTimes = document.getElementById("listTimes");
+
+        // Xóa tất cả các option cũ
+        listTimes.innerHTML = "";
+
+
+
+        console.log(showtimes);
+        console.log(selectedDate);
+
+        // Kiểm tra nếu có danh sách suất chiếu
+        if (!showtimes || showtimes.length === 0) {
+            return;
+        }
+        function formatDate(dateStr) {
+            let dateObj = new Date(Date.parse(dateStr));
+            return dateObj.toLocaleDateString("en-CA"); // YYYY-MM-DD
+        }
+
+
+
+        console.log(formatDate("Oct 18, 2024"));
+
+
+
+
+        // Lọc danh sách giờ chiếu theo ngày đã chọn
+        var filteredTimes = showtimes.filter(st => formatDate(st.date) === selectedDate);
+
+        // Thêm các giờ chiếu vào dropdown
+        filteredTimes.forEach(st => {
+            var option = document.createElement("option");
+            option.value = st.time;
+            option.textContent = st.time;
+            listTimes.appendChild(option);
+        });
+
+        console.log(filteredTimes.length);
+
+
+
+        // Nếu không có suất chiếu nào, thêm thông báo
+        if (filteredTimes.length === 0) {
+            var option = document.createElement("option");
+            option.textContent = "Không có suất chiếu";
+            listTimes.appendChild(option);
+        }
+    }
+</script>
+
+
 
 <script src="assets/js/bootstrap.min.js"></script>

@@ -33,5 +33,6 @@ public class movies {
     private int duration;
     private Date release_date;
     private String status;
+    private String[] participants;
 
 }

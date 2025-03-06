@@ -43,12 +43,12 @@ public class FilterController extends HttpServlet {
             genresDAO gr = new genresDAO();
             List<genres> genres = gr.getAllGenres();
             String name = request.getParameter("name");
-         String showDate = request.getParameter("showDate");
+            String showDate = request.getParameter("showDate");
             String showTimeFrom = request.getParameter("showTimeFrom");
             String showTimeTo = request.getParameter("showTimeTo");
             String[] cid_raw = request.getParameterValues("cid");
 
-         int[] cid;
+            int[] cid;
             if (cid_raw != null && cid_raw.length > 0) {
                 cid = new int[cid_raw.length];
                 for (int i = 0; i < cid_raw.length; i++) {
@@ -57,11 +57,11 @@ public class FilterController extends HttpServlet {
             } else {
                 cid = new int[0];
             }
-       
-                final int PAGE_SIZE = 5;
+
+            final int PAGE_SIZE = 5;
             HttpSession session = request.getSession();
             session.setAttribute("destPage", "movies");
-            
+
             String pagenumber = request.getParameter("pagenumber");
             int page = 1;
             if (pagenumber != null) {
