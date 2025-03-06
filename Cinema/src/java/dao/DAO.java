@@ -255,5 +255,30 @@ public class DAO {
         }
         return null;
     }
+    public users checkEmailExist(String email) {
+        String query = "select * from users\n"
+                + "where email = ?\n";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new users(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(10));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 
 }

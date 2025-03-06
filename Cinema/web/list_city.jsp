@@ -14,7 +14,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Home</title>
+        <title>Manage City</title>
 
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
@@ -398,7 +398,7 @@
                             <!-- <li class="nav-item"> -->
                             <c:choose>
                                 <c:when test="${sessionScope.acc != null}">
-                                    <a class="nav-link" href="user_profile.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
                                     </c:when>
                                     <c:otherwise>
                                     <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>

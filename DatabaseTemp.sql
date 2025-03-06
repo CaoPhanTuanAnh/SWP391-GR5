@@ -374,14 +374,87 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
+--Trigger tu dong tao ve sau khi chot showtime
+create trigger createTickets
+on showtimes
+after insert, update
+as
+begin
+insert into tickets(showtime_id,seat_id,price,status)
+select i.showtime_id,seat_id,50000*(1+0.1*r.type_id)*(1+0.1*s.level_id),'Available' -- Cong thuc tinh tien ve co the cap nhat sau
+from inserted i
+join rooms r on r.room_id = i.showtime_id
+join seats s on s.room_id = r.room_id
+where i.status = 'Submitted'
+end
+
+go
+
+--Trigger tu dong cong gia tien ve cua booking
+create trigger calTicketPrice
+on tickets
+after update
+as
+begin
+update bookings
+set sub_total_amount = sub_total_amount + (select SUM(i.price) from inserted i),
+total_amount = total_amount + (select SUM(i.price) from inserted i)
+where booking_id = (select top 1 i.booking_id from inserted i)
+end
+
+go
+
+--Trigger tu dong cong gia tien combo cua booking
+create trigger calComboPrice
+on booking_combos
+after insert
+as
+begin
+update bookings
+set sub_total_amount = sub_total_amount + (select SUM(c.combo_price*i.quantity) from inserted i join combos c on c.combo_id=i.combo_id),
+total_amount = total_amount + (select SUM(c.combo_price*i.quantity) from inserted i join combos c on c.combo_id=i.combo_id)
+where booking_id = (select top 1 i.booking_id from inserted i)
+end
+
+go
+
+--Trigger tu dong giam gia bang coupon cua booking
+create trigger calCoupon
+on bookings
+after update
+as
+begin
+if((select i.coupon_id from inserted i) is not null)
+begin
+update bookings
+set total_amount = total_amount * (select 1-discount_percentage/100 from inserted i join coupons c on c.coupon_id=i.coupon_id)
+where booking_id = (select top 1 i.booking_id from inserted i)
+end
+end
+
+go
+SET IDENTITY_INSERT [dbo].[showtimes] off
+SET IDENTITY_INSERT [dbo].[seats] OFF
+go
+
+INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (1, 'Big1', '1 big popcorn, 1 big soda', 100000.00)
+INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (2, 'Big2', '2 big popcorn, 1 big soda', 160000.00)
+
+GO
 SET IDENTITY_INSERT [dbo].[bookings] ON 
 
-INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (1, 8, CAST(N'2025-02-27' AS Date), CAST(240000.00 AS Decimal(10, 2)), 1, CAST(216000.00 AS Decimal(10, 2)), N'Paid')
-INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (2, 8, CAST(N'2025-02-27' AS Date), CAST(200000.00 AS Decimal(10, 2)), NULL, CAST(200000.00 AS Decimal(10, 2)), N'Paid')
-INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (3, 8, CAST(N'2025-02-27' AS Date), CAST(300000.00 AS Decimal(10, 2)), 2, CAST(255000.00 AS Decimal(10, 2)), N'Paid')
-INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (4, 8, CAST(N'2025-02-27' AS Date), CAST(260000.00 AS Decimal(10, 2)), NULL, CAST(260000.00 AS Decimal(10, 2)), N'Paid')
+INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (1, 8, CAST(N'2025-02-27' AS Date), CAST(0 AS Decimal(10, 2)), NULL, CAST(0 AS Decimal(10, 2)), N'Paid')
+INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (2, 8, CAST(N'2025-02-27' AS Date), CAST(0 AS Decimal(10, 2)), NULL, CAST(0 AS Decimal(10, 2)), N'Paid')
+INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (3, 8, CAST(N'2025-02-27' AS Date), CAST(0 AS Decimal(10, 2)), NULL, CAST(0 AS Decimal(10, 2)), N'Paid')
+INSERT [dbo].[bookings] ([booking_id], [user_id], [booking_date], [sub_total_amount], [coupon_id], [total_amount], [status]) VALUES (4, 8, CAST(N'2025-02-27' AS Date), CAST(0 AS Decimal(10, 2)), NULL, CAST(0 AS Decimal(10, 2)), N'Paid')
 SET IDENTITY_INSERT [dbo].[bookings] OFF
 GO
+
+----INSERT [dbo].[booking_combos] ([booking_id], [combo_id], [quantity]) VALUES (1, 1, 3)
+----INSERT [dbo].[booking_combos] ([booking_id], [combo_id], [quantity]) VALUES (1, 2, 1)
+
+--GO
 SET IDENTITY_INSERT [dbo].[cities] ON 
 
 INSERT [dbo].[cities] ([city_id], [city_name]) VALUES (5, N'Cần Thơ')
@@ -14441,14 +14514,22 @@ INSERT [dbo].[seats] ([seat_id], [room_id], [level_id], [seat_row], [seat_number
 INSERT [dbo].[seats] ([seat_id], [room_id], [level_id], [seat_row], [seat_number], [status]) VALUES (13726, 104, NULL, N'K', 10, N'Available')
 INSERT [dbo].[seats] ([seat_id], [room_id], [level_id], [seat_row], [seat_number], [status]) VALUES (13727, 104, NULL, N'K', 11, N'Available')
 INSERT [dbo].[seats] ([seat_id], [room_id], [level_id], [seat_row], [seat_number], [status]) VALUES (13728, 104, NULL, N'K', 12, N'Available')
+
 SET IDENTITY_INSERT [dbo].[seats] OFF
+update seats set level_id = 1;
+GO
+SET IDENTITY_INSERT [dbo].[types] ON 
+
+INSERT [dbo].[types] ([type_id], [type_name]) VALUES (1, N'2D')
+INSERT [dbo].[types] ([type_id], [type_name]) VALUES (2, N'3D')
+SET IDENTITY_INSERT [dbo].[types] OFF
 GO
 SET IDENTITY_INSERT [dbo].[showtimes] ON 
 
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (1, 1, 1, CAST(N'2024-10-15T18:00:00.000' AS DateTime), N'Saved')
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (2, 2, 2, CAST(N'2024-10-16T20:00:00.000' AS DateTime), N'Saved')
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (3, 3, 3, CAST(N'2024-10-17T19:30:00.000' AS DateTime), N'Saved')
-INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (4, 4, 4, CAST(N'2024-10-18T21:00:00.000' AS DateTime), N'Saved')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (1, 1, 1, CAST(N'2024-10-15T18:00:00.000' AS DateTime), N'Submitted')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (2, 2, 1, CAST(N'2024-10-16T20:00:00.000' AS DateTime), N'Submitted')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (3, 5, 1, CAST(N'2024-10-17T19:30:00.000' AS DateTime), N'Submitted')
+INSERT [dbo].[showtimes] ([showtime_id], [movie_id], [room_id], [showtime], [status]) VALUES (4, 6, 1, CAST(N'2024-10-18T21:00:00.000' AS DateTime), N'Submitted')
 SET IDENTITY_INSERT [dbo].[showtimes] OFF
 GO
 SET IDENTITY_INSERT [dbo].[theaters] ON 
@@ -14468,20 +14549,14 @@ INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name],
 INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (13, 3, 7, N'SWP Ton Duc Thang', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'171 Ton Duc Thang, Lien Chieu, Da Nang')
 SET IDENTITY_INSERT [dbo].[theaters] OFF
 GO
-SET IDENTITY_INSERT [dbo].[tickets] ON 
+--SET IDENTITY_INSERT [dbo].[tickets] ON 
 
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (1, 1, 1, 8, 1, CAST(120000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (2, 2, 2, 8, 1, CAST(100000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (3, 3, 3, 8, 1, CAST(150000.00 AS Decimal(10, 2)), N'Booked')
-INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (4, 4, 4, 8, 1, CAST(130000.00 AS Decimal(10, 2)), N'Booked')
-SET IDENTITY_INSERT [dbo].[tickets] OFF
-GO
-SET IDENTITY_INSERT [dbo].[types] ON 
-
-INSERT [dbo].[types] ([type_id], [type_name]) VALUES (1, N'2D')
-INSERT [dbo].[types] ([type_id], [type_name]) VALUES (2, N'3D')
-SET IDENTITY_INSERT [dbo].[types] OFF
-GO
+--INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (1, 1, 1, 8, 1, CAST(120000.00 AS Decimal(10, 2)), N'Booked')
+--INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (2, 1, 2, 8, 1, CAST(100000.00 AS Decimal(10, 2)), N'Booked')
+--INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (3, 1, 3, 8, 1, CAST(150000.00 AS Decimal(10, 2)), N'Booked')
+--INSERT [dbo].[tickets] ([ticket_id], [showtime_id], [seat_id], [user_id], [booking_id], [price], [status]) VALUES (4, 1, 4, 8, 1, CAST(130000.00 AS Decimal(10, 2)), N'Booked')
+--SET IDENTITY_INSERT [dbo].[tickets] OFF
+--GO
 SET IDENTITY_INSERT [dbo].[users] ON 
 
 INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (1, 1, N'admin', N'1', N'Nguyễn Văn Hùng', N'nguyen.hung@cinema.com', N'0912345678', CAST(N'2000-10-12' AS Date), 1, N'Active')
@@ -14691,6 +14766,83 @@ GO
 ALTER TABLE [dbo].[reviews]  WITH CHECK ADD CHECK  (([rating]>=(1) AND [rating]<=(5)))
 GO
 
+delete from tickets
+where seat_id in (select seat_id from seats where seat_row NOT IN (N'A', N'B', N'C', N'D', N'E')
+   OR seat_number NOT BETWEEN 1 AND 8);
 DELETE FROM [dbo].[seats]
 WHERE seat_row NOT IN (N'A', N'B', N'C', N'D', N'E')
    OR seat_number NOT BETWEEN 1 AND 8;
+
+   -- Thêm 10 diễn viên
+INSERT INTO participants (participant_name, portrait_url, birth_date, nationality, about)
+VALUES 
+('Joaquin Phoenix', './assets/images/a1.jpg', '1974-10-28', 'USA', 'Famous for Joker'),
+('Sam Worthington', './assets/images/a2.jpg', '1976-08-02', 'Australia', 'Lead actor in Avatar'),
+('Zoe Saldana', './assets/images/a3.jpg', '1978-06-19', 'USA', 'Famous for Neytiri in Avatar'),
+('Daniel Craig', './assets/images/a4.jpg', '1968-03-02', 'UK', 'Lead actor in Knives Out'),
+('Taron Egerton', './assets/images/a5.jpg', '1989-11-10', 'UK', 'Played Elton John in Rocketman'),
+('Ewan McGregor', './assets/images/a1.jpg', '1971-03-31', 'UK', 'Starred in Doctor Sleep'),
+('Keanu Reeves', './assets/images/a2.jpg', '1964-09-02', 'Canada', 'Famous for Toy Story 4 voice acting'),
+('Yifei Liu', './assets/images/a3.jpg', '1987-08-25', 'China', 'Played Mulan'),
+('Tim Allen', './assets/images/a4.jpg', '1953-06-13', 'USA', 'Voice actor for Buzz Lightyear'),
+('Tom Hanks', './assets/images/a5.jpg', '1956-07-09', 'USA', 'Voice actor for Woody');
+
+-- Thêm đạo diễn
+INSERT INTO participants (participant_name, portrait_url, birth_date, nationality, about)
+VALUES 
+('Todd Phillips', './assets/images/team1.jpg', '1970-12-20', 'USA', 'Director of Joker'),
+('James Cameron', './assets/images/team2.jpg', '1954-08-16', 'Canada', 'Director of Avatar');
+
+-- Liên kết participants với movie theo movie_id
+INSERT INTO movie_participants (movie_id, participant_id, role_in_movie)
+VALUES 
+(4, 1, 'Actor'), -- Joaquin Phoenix (Joker)
+(5, 2, 'Actor'), -- Sam Worthington (Avatar)
+(5, 3, 'Actress'), -- Zoe Saldana (Avatar)
+(6, 4, 'Actor'), -- Daniel Craig (Knives Out)
+(7, 5, 'Actor'), -- Taron Egerton (Rocketman)
+(8, 6, 'Actor'), -- Ewan McGregor (Doctor Sleep)
+(9, 7, 'Actor'), -- Keanu Reeves (Toy Story 4)
+(10, 8, 'Actress'), -- Yifei Liu (Mulan)
+(9, 9, 'Actor'), -- Tim Allen (Toy Story 4)
+(9, 10, 'Actor'), -- Tom Hanks (Toy Story 4)
+(4, 11, 'Director'), -- Todd Phillips (Joker)
+(5, 12, 'Director'); -- James Cameron (Avatar)
+
+-- Thêm dữ liệu mới vào bảng showtimes với 8 phòng chiếu trong năm 2025, giữ lại dữ liệu cũ
+INSERT INTO showtimes (movie_id, room_id, showtime, status)
+VALUES 
+(1, 1, '2025-01-10 18:00:00', 'Saved'),
+(2, 2, '2025-02-15 20:30:00', 'Saved'),
+(3, 3, '2025-03-20 19:00:00', 'Saved'),
+(4, 4, '2025-04-25 21:00:00', 'Saved'),
+(5, 5, '2025-05-30 17:45:00', 'Saved'),
+(6, 6, '2025-06-10 22:00:00', 'Saved'),
+(7, 7, '2025-07-15 16:30:00', 'Saved'),
+(8, 8, '2025-08-20 19:15:00', 'Saved'),
+(9, 1, '2025-09-05 18:45:00', 'Saved'),
+(10, 2, '2025-10-10 20:00:00', 'Saved');
+
+update tickets
+set booking_id = 1
+where ticket_id in (1,2,3,5,6);
+insert booking_combos values (1,2,2);
+insert booking_combos values (1,1,1);
+update bookings set coupon_id=1 where booking_id=1;
+
+update tickets
+set booking_id = 2
+where ticket_id in (143,144,145);
+insert booking_combos values (2,1,3);
+update bookings set coupon_id=3 where booking_id=2;
+
+update tickets
+set booking_id = 3
+where ticket_id in (284,285);
+insert booking_combos values (3,2,1);
+update bookings set coupon_id=2 where booking_id=3;
+
+update tickets
+set booking_id = 4
+where ticket_id in (438);
+insert booking_combos values (4,1,1);

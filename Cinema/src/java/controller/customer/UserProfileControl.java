@@ -4,7 +4,11 @@
  */
 package controller.customer;
 
+import dao.DAO;
+import dao.bookingsDAO;
 import dao.usersDAO;
+import entity.theaters;
+import entity.user_bookings;
 import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import tool.TypeValidator;
 
 /**
@@ -40,10 +45,16 @@ public class UserProfileControl extends HttpServlet {
             users user = (users) session.getAttribute("acc");
             String mess = null;
             String service = request.getParameter("service");
-            if (service.equals("editProfile")) {
+            if (user == null) {
+                response.sendRedirect("sign_in.jsp");
+            } else if (service.equals("editProfile")) {
                 editProfile(request, response, session, user, mess);
             } else if (service.equals("changePassword")) {
                 changePassword(request, response, session, user, mess);
+            } else if (service.equals("listUserBooking")) {
+                listUserBooking(request, response, session, user, mess);
+            } else if (service.equals("viewBookingHistory")) {
+                viewBookingDetail(request, response, session, user, mess);
             } else {
                 response.sendRedirect("error.html");
             }
@@ -55,27 +66,33 @@ public class UserProfileControl extends HttpServlet {
             throws ServletException, IOException {
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
-        String birth_date = request.getParameter("address");
+        String birth_date = request.getParameter("birth_date");
         String phone = request.getParameter("phone");
-        try {
-            if (TypeValidator.validateFullName(fullName)
-                    && TypeValidator.validateEmail(email)
-                    && TypeValidator.validatePhone(phone)
-                    && TypeValidator.validateAddress(birth_date)) {
-                usersDAO dao = new usersDAO();
-                if (!dao.editProfile(user.getUser_id(), fullName, email, phone, birth_date)) {
-                    mess = "Something go wrong!";
-                } else {
-                    mess = "Profile have been updated successfully!";
-                    user.setFullname(fullName);
-                    user.setEmail(email);
-                    user.setPhone(phone);
-                    user.setBirth_date(birth_date);
+        String theater_id = request.getParameter("theater_id");
+        if (fullName != null && email != null && birth_date != null && phone != null && theater_id != null) {
+            try {
+                if (TypeValidator.validateFullName(fullName)
+                        && TypeValidator.validateEmail(email)
+                        && TypeValidator.validatePhone(phone)) {
+                    usersDAO dao = new usersDAO();
+                    if (!dao.editProfile(user.getUser_id(), fullName, email, phone, birth_date, Integer.parseInt(theater_id))) {
+                        mess = "Something go wrong!";
+                    } else {
+                        mess = "Profile have been updated successfully!";
+                        user.setFullname(fullName);
+                        user.setEmail(email);
+                        user.setPhone(phone);
+                        user.setBirth_date(birth_date);
+                        user.setTheater_id(Integer.parseInt(theater_id));
+                    }
                 }
+            } catch (Exception e) {
+                mess = e.getMessage();
             }
-        } catch (Exception e) {
-            mess = e.getMessage();
         }
+        DAO dao = new DAO();
+        List<theaters> theaterList = dao.getAllTheater();
+        request.setAttribute("theaterList", theaterList);
         request.setAttribute("mess", mess);
         request.getRequestDispatcher("user_profile.jsp").forward(request, response);
     }
@@ -109,6 +126,25 @@ public class UserProfileControl extends HttpServlet {
         }
         request.setAttribute("mess", mess);
         request.getRequestDispatcher("change_password.jsp").forward(request, response);
+    }
+
+    private void listUserBooking(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, users user, String mess)
+            throws ServletException, IOException {
+        bookingsDAO dao = new bookingsDAO();
+        List<user_bookings> userBookingList = dao.listUserBooking(user.getUser_id());
+        request.setAttribute("userBookingList", userBookingList);
+        request.getRequestDispatcher("list_user_booking.jsp").forward(request, response);
+    }
+    
+    private void viewBookingDetail(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, users user, String mess)
+            throws ServletException, IOException {
+        int booking_id = Integer.parseInt(request.getParameter("booking_id"));
+        bookingsDAO dao = new bookingsDAO();
+        user_bookings userBooking = dao.viewBookingDetail(booking_id);
+        request.setAttribute("userBooking", userBooking);
+        request.getRequestDispatcher("view_booking_detail.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

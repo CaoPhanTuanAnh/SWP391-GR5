@@ -392,7 +392,7 @@
                             <!-- <li class="nav-item"> -->
                             <c:choose>
                                 <c:when test="${sessionScope.acc != null}">
-                                    <a class="nav-link" href="user_profile.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
                                     </c:when>
                                     <c:otherwise>
                                     <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>

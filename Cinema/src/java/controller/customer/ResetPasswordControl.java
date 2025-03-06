@@ -13,13 +13,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
+import java.util.Random;
+import service.EmailService;
 
 /**
  *
  * @author default
  */
-@WebServlet(name = "ResetPasswordControl", urlPatterns = {"/reset_password"})
+@WebServlet(name = "ResetPasswordControl", urlPatterns = {"/reset_password_control"})
 public class ResetPasswordControl extends HttpServlet {
     
     /**
@@ -77,22 +79,24 @@ public class ResetPasswordControl extends HttpServlet {
         DAO daoUser = new DAO();
         String email= request.getParameter("resetpassword_email");
         users user = daoUser.getUserByEmail(email);
+        HttpSession session = request.getSession();
+        session.setAttribute("email_change_password", email);
+        
         if(user == null) {
             request.setAttribute("mess", "not found");
             request.getRequestDispatcher("ResetPassword.jsp").forward(request, response);
             return;
+        }else{
+            
+            String otp2 = String.format("%06d", new Random().nextInt(999999));
+            session.setAttribute("otp2", otp2);
+            
+            
+            session.setAttribute("otpExpireTime2", System.currentTimeMillis() + 120000);
+            EmailService.sendOTP(email, otp2);
+            response.sendRedirect("otp_verification2.jsp");
+            
         }
-        resetService service = new resetService();
-        String linkReset = "http://localhost:8080/Cinema/new_password.jsp";
-        
-        boolean isSend = service.sendEmail(email, linkReset, user.getFullname());
-        if(!isSend) {
-            request.setAttribute("mess", "Can not send request");
-            request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
-            return;
-        }
-        request.setAttribute("mess", "ok");
-        request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
     }
 
     /**
