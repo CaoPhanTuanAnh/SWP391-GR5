@@ -11,7 +11,23 @@
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
               rel="stylesheet">
+        <style>
+            .box16 figure img {
+                width: 100%; /* Đảm bảo ảnh rộng đầy khung */
+                height: 300px; /* Cố định chiều cao */
+                object-fit: cover; /* Cắt ảnh cho vừa khung mà không méo */
+                border-radius: 10px; /* Làm mềm góc ảnh nếu cần */
+            }
 
+            .item.vhny-grid {
+                width: 100%;
+                max-width: 250px; /* Đặt kích thước tối đa cho mỗi phim */
+            }
+            .box16 {
+                height: 400px; /* Đảm bảo chiều cao đồng nhất */
+            }
+
+        </style>
     </head>
 
     <body>
@@ -136,7 +152,7 @@
                             <!-- Search by Director or Actor -->
                             <div class="col-md-6 mb-3">
                                 <input type="text" id="productName" name="name" class="form-control" 
-                                       placeholder="Enter director or actor" >
+                                       placeholder="Enter movie name" >
                             </div>
 
 
@@ -216,7 +232,7 @@
                                 </div>
                                 <div class="button-center text-center mt-4">
                                     <a href="BranchController?mid=${LP.getMovie_id()}" class="btn watch-button">Buy Ticket</a>
-                                  
+
                                 </div>
 
                                 <div class="modal fade" id="modal-${LP.getMovie_id()}" tabindex="-1" role="dialog" aria-hidden="true">
@@ -241,17 +257,43 @@
                                                     ${LP.getDescription()}
                                                 </p>
                                                 <h4>Star Cast</h4>
-                                                <c:forEach items="${LP.getParticipants()}" var="a">
-                                                    <p>
-                                                        <a href="DetailParticipantController?pid=${a.getParticipant_id()}">${a.getParticipant_name()}</a>
-                                                    </p>
-                                                </c:forEach>
+                                                <h3>Đạo diễn</h3>
+                                                <c:if test="${empty requestScope.directors}">
+                                                    <p>Chưa có thông tin đạo diễn.</p>
+                                                </c:if>
+                                                <ul>
+                                                    <c:forEach items="${requestScope.directors}" var="director">
+                                                        <li>
+                                                            <a href="DetailParticipantController?pid=${director.participant_id}">
+                                                                <img src="${director.portrait_url}" alt="${director.participant_name}" width="50">
+                                                                ${director.participant_name}
+                                                            </a>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+
+                                                <h3>Diễn viên</h3>
+                                                <c:if test="${empty requestScope.actors}">
+                                                    <p>Chưa có thông tin diễn viên.</p>
+                                                </c:if>
+                                                <ul>
+                                                    <c:forEach items="${requestScope.actors}" var="actor">
+                                                        <li>
+                                                            <a href="DetailParticipantController?pid=${actor.participant_id}">
+                                                                <img src="${actor.portrait_url}" alt="${actor.participant_name}" width="50">
+                                                                ${actor.participant_name}
+                                                            </a>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+
 
                                             </div>
-                                            <div class="bookbtn">
-                                                <button type="button" class="btn btn-success"
-                                                        onclick="location.href = 'ticket-booking.html';">Book</button>
-                                            </div>
+                                            <form action="BranchController" method="post">
+                                                <input type="hidden" name="movieId" value="${LP.getMovie_id()}">
+                                                <button type="submit" class="btn btn-success">Book</button>
+                                            </form>
+
                                         </div>
                                     </div>
                                 </div>

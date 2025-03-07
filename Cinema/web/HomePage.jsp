@@ -56,6 +56,23 @@
                 color: var(--theme-rose); /* Chuyển sang màu theme rose khi hover */
                 background: #f0f0f0;
             }
+
+            .box16 figure img {
+                width: 100%; /* Đảm bảo ảnh rộng đầy khung */
+                height: 300px; /* Cố định chiều cao */
+                object-fit: cover; /* Cắt ảnh cho vừa khung mà không méo */
+                border-radius: 10px; /* Làm mềm góc ảnh nếu cần */
+            }
+
+            .item.vhny-grid {
+                width: 100%;
+                max-width: 250px; /* Đặt kích thước tối đa cho mỗi phim */
+            }
+            .box16 {
+                height: 400px; /* Đảm bảo chiều cao đồng nhất */
+            }
+
+
         </style>
     </head>
 
@@ -68,7 +85,7 @@
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp
                            "><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
+                                aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp
@@ -184,14 +201,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                    <div class="header__top__right__auth">
-                                        <a href="logout"><i class="fa fa-user"></i> Logout</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="logout"><i class="fa fa-user"></i> Logout</a>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                    <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
@@ -321,14 +338,14 @@
             </div>
         </section>
         <!-- main-slider -->
-       <!--grids-sec1-->
+        <!--grids-sec1-->
         <section class="w3l-grids">
             <div class="grids-main py-5">
                 <div class="container py-lg-3">
                     <div class="headerhny-title">
                         <div class="w3l-title-grids">
                             <div class="headerhny-left">
-                                <h3 class="hny-title">Popular Movies</h3>
+                                <h3 class="hny-title">Presenting Movies</h3>
                             </div>
                             <div class="headerhny-right text-lg-right">
                                 <h4><a class="show-title" href="ViewAllController">Show all</a></h4>
@@ -342,7 +359,7 @@
                                 <div class="box16">
                                     <a href="movies.jsp">
                                         <figure>
-                                            <img class="img-fluid" src="${LP.getPoster_url()}" alt="">
+                                            <img class="img-fluid" src="${LP.getPoster_url()}" alt="" >
                                         </figure>
                                         <div class="box-content">
                                             <h3 class="title">${LP.getTitle()}</h3>
@@ -356,10 +373,10 @@
                                         <span class="fa fa-play video-icon" aria-hidden="true"></span>
                                     </a>
                                 </div>
-                            <div class="button-center text-center mt-4">
-                                <a href="movies.jsp" class="btn watch-button">Buy Ticket</a>
-                                <a href="movies.jsp" class="btn watch-button">Detail Movie</a>
-                            </div>
+                                <div class="button-center text-center mt-4">
+                                    <a href="BranchController?mid=${LP.getMovie_id()}" class="btn watch-button">Buy Ticket</a>
+                                    <a href="movies.jsp" class="btn watch-button">Detail Movie</a>
+                                </div>
                             </div>
                         </c:forEach>
                     </div>
@@ -405,7 +422,7 @@
                                 <h3> <a class="title-gd" href="movies.jsp"></a>${LP.getTitle()}</h3>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
                                 <div class="button-center text-center mt-4">
-                                    <a href="movies.jsp" class="btn watch-button">Buy Ticket</a>
+                                <a href="BranchController?mid=${LP.getMovie_id()}" class="btn watch-button">Buy Ticket</a>
                                     <a href="movies.jsp" class="btn watch-button">Detail Movie</a>
                                 </div>
 
@@ -432,7 +449,7 @@
                                         <p>2019 ‧ Comedy/Action ‧ 2h 3m</p>
                                         <a class="watch" href="movies.jsp
                                            "><span class="fa fa-play"
-                                                                                  aria-hidden="true"></span>
+                                                aria-hidden="true"></span>
                                             Watch Trailer</a>
                                     </div>
                                 </div>
@@ -449,7 +466,7 @@
                                         <p>2020 ‧ Family/Adventure ‧ 1h 41m</p>
                                         <a class="watch" href="movies.jsp
                                            "><span class="fa fa-play"
-                                                                                  aria-hidden="true"></span>
+                                                aria-hidden="true"></span>
                                             Watch Trailer</a>
                                     </div>
                                 </div>
@@ -466,7 +483,7 @@
                                         <p>2020 ‧ Comedy/Action ‧ 2h 4m</p>
                                         <a class="watch" href="movies.jsp
                                            "><span class="fa fa-play"
-                                                                                  aria-hidden="true"></span>
+                                                aria-hidden="true"></span>
                                             Watch Trailer</a>
                                     </div>
                                 </div>
@@ -487,22 +504,22 @@
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp
                                            "><img class="img-fluid" src="assets/images/banner1.jpg"
-                                                                   alt=""></a>
+                                               alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp
                                            "><img class="img-fluid" src="assets/images/banner2.jpg"
-                                                                   alt=""></a>
+                                               alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp
                                            "><img class="img-fluid" src="assets/images/banner3.jpg"
-                                                                   alt=""></a>
+                                               alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp
                                            "><img class="img-fluid" src="assets/images/banner4.jpg"
-                                                                   alt=""></a>
+                                               alt=""></a>
                                     </div>
                                 </div>
                                 <div class="row footer-links">
