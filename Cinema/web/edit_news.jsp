@@ -264,7 +264,6 @@
                 </div>
 
                 <button type="submit" class="btn btn-success">💾 Cập Nhật</button>
-                <a href="news" class="btn btn-secondary">⬅️ Quay Lại</a>
             </form>
         </div>
         <!-- footer-66 -->

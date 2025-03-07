@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class ShowtimeController extends HttpServlet {
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole_id()!= 2)) {
+        if (user == null || (user.getRole_id() != 2)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
@@ -51,6 +52,14 @@ public class ShowtimeController extends HttpServlet {
             String service = request.getParameter("service");
             if (service.equals("listShowtimeByRoom")) {
                 listShowtimeByRoom(request, response, session, user);
+            } else if (service.equals("addShowtime")) {
+                addShowtime(request, response, session, user);
+            } else if (service.equals("deleteShowtime")) {
+                deleteShowtime(request, response, session, user);
+            } else if (service.equals("submitShowtime")) {
+                submitShowtime(request, response, session, user);
+            } else if (service.equals("editShowtime")) {
+                editShowtime(request, response, session, user);
             }
         }
     }
@@ -66,21 +75,158 @@ public class ShowtimeController extends HttpServlet {
             int room_id = Integer.parseInt(request.getParameter("room_id"));
             int movie_id = Integer.parseInt(request.getParameter("movie_id"));
             String dateString = request.getParameter("date");
-            Date date = dateString==null||dateString.isBlank()?null:Date.valueOf(request.getParameter("date"));
+            Date date = dateString == null || dateString.isBlank() ? null : Date.valueOf(request.getParameter("date"));
             String status = request.getParameter("status");
-            request.setAttribute("room_id", room_id);
-            request.setAttribute("movie_id", movie_id);
-            request.setAttribute("date", date);
-            request.setAttribute("status", status);
-            List<extend_showtimes> showtimeList = dao.listShowtimeByRoom(room_id,movie_id,date,status);
+            session.setAttribute("list_st_room_id", room_id);
+            session.setAttribute("list_st_movie_id", movie_id);
+            session.setAttribute("list_st_date", date);
+            session.setAttribute("list_st_status", status);
+            List<extend_showtimes> showtimeList = dao.listShowtimeByRoom(room_id, movie_id, date, status);
             request.setAttribute("showtimeList", showtimeList);
         }
         List<rooms> roomList = dao.listRoomByDirector(user.getUser_id());
-        if(roomList.isEmpty())roomList = dao.listRoomByManager(user.getUser_id());
+        if (roomList.isEmpty()) {
+            roomList = dao.listRoomByManager(user.getUser_id());
+        }
         List<movies> movieList = dao.listMovie();
         request.setAttribute("roomList", roomList);
         request.setAttribute("movieList", movieList);
         request.getRequestDispatcher("list_showtime.jsp").forward(request, response);
+    }
+
+    private void addShowtime(HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            users user)
+            throws ServletException, IOException {
+        int room_id = Integer.parseInt(request.getParameter("room_id"));
+        int movie_id = Integer.parseInt(request.getParameter("movie_id"));
+        Date date = Date.valueOf(request.getParameter("date"));
+        String temp = request.getParameter("time");
+        System.out.println(temp);
+        Time time = Time.valueOf(temp+":00");
+        showtimesDAO dao = new showtimesDAO();
+        if(!dao.addShowtime(room_id, movie_id, date, time)){
+            String mess = "Something go wrong!";
+            session.setAttribute("list_st_mess", mess);
+        }
+        String url = "ShowtimeURL?service=listShowtimeByRoom";
+        Integer ss_room_id = (Integer) session.getAttribute("list_st_room_id");
+        Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
+        Date ss_date = (Date) session.getAttribute("list_st_date");
+        String ss_status = (String) session.getAttribute("list_st_status");
+        if(ss_room_id!=null){
+            url+="&submit=search&room_id="+ss_room_id;
+        }
+        if(ss_movie_id!=null){
+            url+="&movie_id="+ss_movie_id;
+        }
+        if(ss_date!=null){
+            url+="&date="+ss_date;
+        }
+        if(ss_status!=null){
+            url+="&status="+ss_status;
+        }
+        response.sendRedirect(url);
+    }
+    
+    private void deleteShowtime(HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            users user)
+            throws ServletException, IOException {
+        int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
+        showtimesDAO dao = new showtimesDAO();
+        if(!dao.deleteShowtime(showtime_id)){
+            String mess = "Something go wrong!";
+            session.setAttribute("list_st_mess", mess);
+        }
+        String url = "ShowtimeURL?service=listShowtimeByRoom";
+        Integer ss_room_id = (Integer) session.getAttribute("list_st_room_id");
+        Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
+        Date ss_date = (Date) session.getAttribute("list_st_date");
+        String ss_status = (String) session.getAttribute("list_st_status");
+        if(ss_room_id!=null){
+            url+="&submit=search&room_id="+ss_room_id;
+        }
+        if(ss_movie_id!=null){
+            url+="&movie_id="+ss_movie_id;
+        }
+        if(ss_date!=null){
+            url+="&date="+ss_date;
+        }
+        if(ss_status!=null){
+            url+="&status="+ss_status;
+        }
+        response.sendRedirect(url);
+    }
+    
+    private void submitShowtime(HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            users user)
+            throws ServletException, IOException {
+        int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
+        showtimesDAO dao = new showtimesDAO();
+        if(!dao.submitShowtime(showtime_id)){
+            String mess = "Something go wrong!";
+            session.setAttribute("list_st_mess", mess);
+        }
+        String url = "ShowtimeURL?service=listShowtimeByRoom";
+        Integer ss_room_id = (Integer) session.getAttribute("list_st_room_id");
+        Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
+        Date ss_date = (Date) session.getAttribute("list_st_date");
+        String ss_status = (String) session.getAttribute("list_st_status");
+        if(ss_room_id!=null){
+            url+="&submit=search&room_id="+ss_room_id;
+        }
+        if(ss_movie_id!=null){
+            url+="&movie_id="+ss_movie_id;
+        }
+        if(ss_date!=null){
+            url+="&date="+ss_date;
+        }
+        if(ss_status!=null){
+            url+="&status="+ss_status;
+        }
+        response.sendRedirect(url);
+    }
+    
+    private void editShowtime(HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            users user)
+            throws ServletException, IOException {
+        int room_id = Integer.parseInt(request.getParameter("room_id"));
+        int movie_id = Integer.parseInt(request.getParameter("movie_id"));
+        Date date = Date.valueOf(request.getParameter("date"));
+        String temp = request.getParameter("time");
+        System.out.println(temp);
+        Time time = Time.valueOf(temp);
+        int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
+        showtimesDAO dao = new showtimesDAO();
+        if(!dao.editShowtime(showtime_id, room_id, movie_id, date, time)){
+            String mess = "Something go wrong!";
+            session.setAttribute("list_st_mess", mess);
+        }
+        String url = "ShowtimeURL?service=listShowtimeByRoom";
+        Integer ss_room_id = (Integer) session.getAttribute("list_st_room_id");
+        Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
+        Date ss_date = (Date) session.getAttribute("list_st_date");
+        String ss_status = (String) session.getAttribute("list_st_status");
+        if(ss_room_id!=null){
+            url+="&submit=search&room_id="+ss_room_id;
+        }
+        if(ss_movie_id!=null){
+            url+="&movie_id="+ss_movie_id;
+        }
+        if(ss_date!=null){
+            url+="&date="+ss_date;
+        }
+        if(ss_status!=null){
+            url+="&status="+ss_status;
+        }
+        response.sendRedirect(url);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

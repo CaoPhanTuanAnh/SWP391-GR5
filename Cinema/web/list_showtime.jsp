@@ -10,7 +10,6 @@
 <html lang="zxx">
 
     <head>
-
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -301,7 +300,6 @@
             $(document).ready(function () {
                 // Activate tooltip
                 $('[data-toggle="tooltip"]').tooltip();
-
                 // Select/Deselect checkboxes
                 var checkbox = $('table tbody input[type="checkbox"]');
                 $("#selectAll").click(function () {
@@ -440,17 +438,17 @@
                     </div>
                     <div class="search-section">
                         <form action="ShowtimeURL" method="post">
-                            
-                            
+
+
                             <!--Them loc theo date, status-->
-                            
-                            
-                            
+
+
+
                             <input type="hidden" name="service" value="listShowtimeByRoom">
                             Room: <select name="room_id">
                                 <c:forEach items="${roomList}" var="room">
                                     <c:choose>
-                                        <c:when test="${room_id == room.getRoom_id()}">
+                                        <c:when test="${list_st_room_id == room.getRoom_id()}">
                                             <option value="${room.room_id}" selected>${room.room_name}</option>
                                         </c:when>
                                         <c:otherwise>
@@ -463,7 +461,7 @@
                                 <option value="0">All</option>
                                 <c:forEach items="${movieList}" var="movie">
                                     <c:choose>
-                                        <c:when test="${movie_id == movie.getMovie_id()}">
+                                        <c:when test="${list_st_movie_id == movie.getMovie_id()}">
                                             <option value="${movie.movie_id}" selected>${movie.title}</option>
                                         </c:when>
                                         <c:otherwise>
@@ -472,11 +470,11 @@
                                     </c:choose>
                                 </c:forEach>
                             </select>
-                            Date: <input type="date" name="date" value="${date}">
+                            Date: <input type="date" name="date" value="${list_st_date}">
                             Status: <select name="status">
-                                <option value="Saved">Saved</option>
-                                <option value="Submitted">Submitted</option>
-                                <option value="0">All</option>
+                                <option value="">All</option>
+                                <option value="Saved" <%=session.getAttribute("list_st_status")!=null&&session.getAttribute("list_st_status").equals("Saved")?"selected":""%>>Saved</option>
+                                <option value="Submitted" <%=session.getAttribute("list_st_status")!=null&&session.getAttribute("list_st_status").equals("Submitted")?"selected":""%>>Submitted</option>
                             </select>
                             <input type="submit" name="submit" value="Search">
                         </form>
@@ -484,11 +482,11 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Showtime</th>
-                                <th style="width: 120px !important;">Room</th>
-                                <th style="width: 300px !important;">Movie</th>
-                                <th style="width: 300px !important;">Status</th>
-                                <th>Actions</th>
+                                <th style="width: 120px ;">Showtime</th>
+                                <th style="width: 100px ;">Room</th>
+                                <th style="width: 100px ;">Movie</th>
+                                <th style="width: 100px ;">Status</th>
+                                <th style="width: 100px ;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -499,14 +497,17 @@
                                     <td>${showtime.getTitle()}</td>
                                     <td>${showtime.getStatus()}</td>
                                     <td>
-                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="city_control?service=deleteCity&cityID=" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                        <a href="city_control?service=deleteCity&cityID=" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Submit">&#xE871;</i></a>
+                                        <c:if test="${showtime.getStatus() == 'Saved'}">
+                                            <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="addShowtimeInfo(${showtime.getShowtime_id()},${showtime.getRoom_id()},${showtime.getMovie_id()},'${showtime.getDate()}','${showtime.getTime()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="ShowtimeURL?service=deleteShowtime&showtime_id=${showtime.getShowtime_id()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                            <a href="ShowtimeURL?service=submitShowtime&showtime_id=${showtime.getShowtime_id()}" ><i class="material-icons" data-toggle="tooltip" title="Submit">description</i></a>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
+                    <p>Submit All Showing Showtime</p>
                 </div>
             </div>        
         </div>
@@ -526,7 +527,7 @@
                                 <select name="room_id">
                                     <c:forEach items="${roomList}" var="room">
                                         <c:choose>
-                                            <c:when test="${room_id == room.getRoom_id()}">
+                                            <c:when test="${list_st_room_id == room.getRoom_id()}">
                                                 <option value="${room.room_id}" selected>${room.room_name}</option>
                                             </c:when>
                                             <c:otherwise>
@@ -539,10 +540,9 @@
                             <div class="form-group">
                                 <label>Movie</label>
                                 <select name="movie_id">
-                                    <option value="0">All</option>
                                     <c:forEach items="${movieList}" var="movie">
                                         <c:choose>
-                                            <c:when test="${movie_id == movie.getMovie_id()}">
+                                            <c:when test="${list_st_movie_id == movie.getMovie_id()}">
                                                 <option value="${movie.movie_id}" selected>${movie.title}</option>
                                             </c:when>
                                             <c:otherwise>
@@ -554,11 +554,56 @@
                             </div>
                             <div class="form-group">
                                 <label>Date</label>
-                                <input type="date" name="date" class="form-control" value="" required>
+                                <input type="date" name="date" class="form-control" value="${list_st_date}" required>
                             </div>
                             <div class="form-group">
                                 <label>Start Time</label>
                                 <input type="time" name="time" class="form-control" value="" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-success" value="Edit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Edit Modal HTML -->
+        <div id="editEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="ShowtimeURL" method="post">
+                        <input type="hidden" name="service" value="editShowtime">
+                        <input type="hidden" name="showtime_id" id="showtime_id" value="">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Edit Showtime</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Room</label>
+                                <select name="room_id" id="room_id">
+                                    <c:forEach items="${roomList}" var="room">
+                                        <option value="${room.room_id}">${room.room_name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>				
+                            <div class="form-group">
+                                <label>Movie</label>
+                                <select name="movie_id" id="movie_id">
+                                    <c:forEach items="${movieList}" var="movie">
+                                        <option value="${movie.movie_id}">${movie.title}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" name="date" id="date" class="form-control" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Start Time</label>
+                                <input type="time" name="time" id="time" class="form-control" value="" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -569,45 +614,34 @@
                 </div>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="city_control" method="post">
-                        <input type="hidden" name="service" value="editCity">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Edit Showtime</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>City ID</label>
-                                <input type="number" name="cityID" id="cityEditCityID" class="form-control" readonly value="" required>
-                            </div>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>City Name</label>
-                                <input type="text" name="cityName" id="cityEditCityName" class="form-control" value="" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-info" value="Save">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
 
     </body>
 
 </html>
 <script>
-    function takeCityInfo(oldCityID, oldCityName) {
-        console.log("run");
-        document.getElementById("cityEditCityID").value = oldCityID;
-        document.getElementById("cityEditCityName").value = oldCityName;
+    let haha = 'a';
+    console.log(haha);
+    function addShowtimeInfo(showtime_id, room_id, movie_id, date, time) {
+        let showtimein = document.getElementById("showtime_id");
+        let roomin = document.getElementById("room_id");
+        let moviein = document.getElementById("movie_id");
+        let datein = document.getElementById("date");
+        let timein = document.getElementById("time");
+        showtimein.value = showtime_id;
+        let optionroom = roomin.children;
+        for (let i = 0; i < optionroom.length; i++) {
+            if (optionroom[i].value == room_id) {
+                optionroom[i].selected = true;
+            }
+        }
+        let optionmovie = moviein.children;
+        for (let i = 0; i < optionmovie.length; i++) {
+            if (optionmovie[i].value == movie_id) {
+                optionmovie[i].selected = true;
+            }
+        }
+        datein.defaultValue = date;
+        timein.defaultValue = time;
     }
 </script>
 <!-- responsive tabs -->
@@ -629,8 +663,7 @@
                 $info.show();
             }
         });
-    });
-</script>
+    });</script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
@@ -741,59 +774,46 @@
     $(document).ready(function () {
         $('.popup-with-zoom-anim').magnificPopup({
             type: 'inline',
-
             fixedContentPos: false,
             fixedBgPos: true,
-
             overflowY: 'auto',
-
             closeBtnInside: true,
             preloader: false,
-
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-zoom-in'
         });
-
         $('.popup-with-move-anim').magnificPopup({
             type: 'inline',
-
             fixedContentPos: false,
             fixedBgPos: true,
-
             overflowY: 'auto',
-
             closeBtnInside: true,
             preloader: false,
-
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-slide-bottom'
         });
-    });
-</script>
+    });</script>
 <!-- disable body scroll which navbar is in active -->
 <script>
     $(function () {
         $('.navbar-toggler').click(function () {
             $('body').toggleClass('noscroll');
         })
-    });
-</script>
+    });</script>
 <!-- disable body scroll which navbar is in active -->
 
 <!--/MENU-JS-->
 <script>
     $(window).on("scroll", function () {
         var scroll = $(window).scrollTop();
-
         if (scroll >= 80) {
             $("#site-header").addClass("nav-fixed");
         } else {
             $("#site-header").removeClass("nav-fixed");
         }
     });
-
     //Main navigation Active Class Add Remove
     $(".navbar-toggler").on("click", function () {
         $("header").toggleClass("active");
@@ -807,8 +827,7 @@
                 $("header").removeClass("active");
             }
         });
-    });
-</script>
+    });</script>
 
 <script src="assets/js/bootstrap.min.js"></script>
 
