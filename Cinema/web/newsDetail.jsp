@@ -68,7 +68,7 @@
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp
                            "><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
+                                aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp
@@ -94,11 +94,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="about.jsp">About</a>
                             </li>
-                            <li class="nav-item">
+                             <li class="nav-item">
                                 <a class="nav-link" href="NewsListServlet">News</a>
                             </li>
-
-
 
                             <li class="nav-item">
                                 <a class="nav-link" href="Contact_Us.jsp">Contact</a>
@@ -117,8 +115,8 @@
                                 <li class="nav-item">
                                     <a class="nav-link" >Manage</a>
                                     <ul class="dropdown">
-                                        <li><a href="ManageRoom">Manage Room</a></li>
-                                        <li><a href="ManageSeat">Manage Seat</a></li>
+                                        <li><a href="#">Manage Room</a></li>
+                                        <li><a href="#">Manage Seat</a></li>
                                         <li><a href="ManageNews">Manage News</a></li>
                                         <li><a href="#">Manage Show Time</a></li>
                                     </ul>
@@ -188,14 +186,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                    <div class="header__top__right__auth">
-                                        <a href="logout"><i class="fa fa-user"></i> Logout</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="logout"><i class="fa fa-user"></i> Logout</a>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                    <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                    </div>
+                                <div class="header__top__right__auth">
+                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
@@ -325,7 +323,7 @@
             </div>
         </section>
         <!-- main-slider -->
-       <!--grids-sec1-->
+        <!--grids-sec1-->
         <section class="w3l-grids">
             <div class="grids-main py-5">
                 <div class="container py-lg-3">
@@ -360,10 +358,10 @@
                                         <span class="fa fa-play video-icon" aria-hidden="true"></span>
                                     </a>
                                 </div>
-                            <div class="button-center text-center mt-4">
-                                <a href="movies.jsp" class="btn watch-button">Buy Ticket</a>
-                                <a href="movies.jsp" class="btn watch-button">Detail Movie</a>
-                            </div>
+                                <div class="button-center text-center mt-4">
+                                    <a href="movies.jsp" class="btn watch-button">Buy Ticket</a>
+                                    <a href="movies.jsp" class="btn watch-button">Detail Movie</a>
+                                </div>
                             </div>
                         </c:forEach>
                     </div>
@@ -423,266 +421,224 @@
         </section>
         <!--grids-sec2-->
         <!--mid-slider -->
-        <section class="w3l-mid-slider position-relative">
-            <div class="companies20-content">
-                <div class="owl-mid owl-carousel owl-theme">
-                    <div class="item">
-                        <li>
-                            <div class="slider-info mid-view bg bg2">
-                                <div class="container">
-                                    <div class="mid-info">
-                                        <span class="sub-text">Comedy</span>
-                                        <h3>Jumanji: The Next Level</h3>
-                                        <p>2019 ‧ Comedy/Action ‧ 2h 3m</p>
-                                        <a class="watch" href="movies.jsp
-                                           "><span class="fa fa-play"
-                                                                                  aria-hidden="true"></span>
-                                            Watch Trailer</a>
-                                    </div>
+    <head>
+        <title>Danh sách bài viết</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container mt-4">
+            <h2 class="text-center">${news.title}</h2>
+            <p class="text-muted text-center">Đăng bởi: ${news.userId} | Ngày đăng: ${news.createdDate}</p>
+            <div class="text-center">
+                <img src="${news.photoUrl}" class="img-fluid" alt="${news.title}" style="max-height: 400px;">
+            </div>
+            <p class="mt-3">${news.content}</p>
+            <a href="NewsListServlet" class="btn btn-secondary">Quay lại danh sách</a>
+        </div>
+    </body>
+    <!-- footer-66 -->
+    <footer class="w3l-footer">
+        <section class="footer-inner-main">
+            <div class="footer-hny-grids py-5">
+                <div class="container py-lg-4">
+                    <div class="text-txt">
+                        <div class="right-side">
+                            <div class="row footer-about">
+                                <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
+                                    <a href="movies.jsp
+                                       "><img class="img-fluid" src="assets/images/banner1.jpg"
+                                           alt=""></a>
+                                </div>
+                                <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
+                                    <a href="movies.jsp
+                                       "><img class="img-fluid" src="assets/images/banner2.jpg"
+                                           alt=""></a>
+                                </div>
+                                <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
+                                    <a href="movies.jsp
+                                       "><img class="img-fluid" src="assets/images/banner3.jpg"
+                                           alt=""></a>
+                                </div>
+                                <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
+                                    <a href="movies.jsp
+                                       "><img class="img-fluid" src="assets/images/banner4.jpg"
+                                           alt=""></a>
                                 </div>
                             </div>
-                        </li>
-                    </div>
-                    <div class="item">
-                        <li>
-                            <div class="slider-info mid-view mid-top1 bg bg2">
-                                <div class="container">
-                                    <div class="mid-info">
-                                        <span class="sub-text">Adventure</span>
-                                        <h3>Dolittle</h3>
-                                        <p>2020 ‧ Family/Adventure ‧ 1h 41m</p>
-                                        <a class="watch" href="movies.jsp
-                                           "><span class="fa fa-play"
-                                                                                  aria-hidden="true"></span>
-                                            Watch Trailer</a>
-                                    </div>
+                            <div class="row footer-links">
+
+
+                                <div class="col-md-3 col-sm-6 sub-two-right mt-5">
+                                    <h6>Movies</h6>
+                                    <ul>
+                                        <li><a href="#">Movies</a></li>
+                                        <li><a href="#">Videos</a></li>
+                                        <li><a href="#">English Movies</a></li>
+                                        <li><a href="#">Tailor</a></li>
+                                        <li><a href="#">Upcoming Movies</a></li>
+                                        <li><a href="Contact_Us.jsp
+                                               ">Contact Us</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 col-sm-6 sub-two-right mt-5">
+                                    <h6>Information</h6>
+                                    <ul>
+                                        <li><a href="index.jsp
+                                               ">Home</a> </li>
+                                        <li><a href="about.jsp
+                                               ">About</a> </li>
+                                        <li><a href="#">Tv Series</a> </li>
+                                        <li><a href="#">Blogs</a> </li>
+                                        <li><a href="sign_in.jsp
+                                               ">Login</a></li>
+                                        <li><a href="Contact_Us.jsp
+                                               ">Contact</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 col-sm-6 sub-two-right mt-5">
+                                    <h6>Locations</h6>
+                                    <ul>
+                                        <li><a href="movies.jsp
+                                               ">Asia</a></li>
+                                        <li><a href="movies.jsp
+                                               ">France</a></li>
+                                        <li><a href="movies.jsp
+                                               ">Taiwan</a></li>
+                                        <li><a href="movies.jsp
+                                               ">United States</a></li>
+                                        <li><a href="movies.jsp
+                                               ">Korea</a></li>
+                                        <li><a href="movies.jsp
+                                               ">United Kingdom</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 col-sm-6 sub-two-right mt-5">
+                                    <h6>Newsletter</h6>
+                                    <form action="#" class="subscribe mb-3" method="post">
+                                        <input type="email" name="email" placeholder="Your Email Address" required="">
+                                        <button><span class="fa fa-envelope-o"></span></button>
+                                    </form>
+                                    <p>Enter your email and receive the latest news, updates and special offers from us.
+                                    </p>
                                 </div>
                             </div>
-                        </li>
-                    </div>
-                    <div class="item">
-                        <li>
-                            <div class="slider-info mid-view mid-top2 bg bg2">
-                                <div class="container">
-                                    <div class="mid-info">
-                                        <span class="sub-text">Action</span>
-                                        <h3>Bad Boys for Life</h3>
-                                        <p>2020 ‧ Comedy/Action ‧ 2h 4m</p>
-                                        <a class="watch" href="movies.jsp
-                                           "><span class="fa fa-play"
-                                                                                  aria-hidden="true"></span>
-                                            Watch Trailer</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                        </div>
                     </div>
                 </div>
             </div>
+            </div>
+            <div class="below-section">
+                <div class="container">
+                    <div class="copyright-footer">
+                        <div class="columns text-lg-left">
+                            <p>&copy; 2021 MyShowz. All rights reserved</p>
+                        </div>
+
+                        <ul class="social text-lg-right">
+                            <li><a href="#facebook"><span class="fa fa-facebook" aria-hidden="true"></span></a>
+                            </li>
+                            <li><a href="#linkedin"><span class="fa fa-linkedin" aria-hidden="true"></span></a>
+                            </li>
+                            <li><a href="#twitter"><span class="fa fa-twitter" aria-hidden="true"></span></a>
+                            </li>
+                            <li><a href="#google"><span class="fa fa-google-plus" aria-hidden="true"></span></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- move top -->
+            <button onclick="topFunction()" id="movetop" title="Go to top">
+                <span class="fa fa-arrow-up" aria-hidden="true"></span>
+            </button>
+            <script>
+                // When the user scrolls down 20px from the top of the document, show the button
+                window.onscroll = function () {
+                    scrollFunction()
+                };
+
+                function scrollFunction() {
+                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                        document.getElementById("movetop").style.display = "block";
+                    } else {
+                        document.getElementById("movetop").style.display = "none";
+                    }
+                }
+
+                // When the user clicks on the button, scroll to the top of the document
+                function topFunction() {
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                }
+            </script>
+            <!-- /move top -->
+
         </section>
-        <!-- footer-66 -->
-        <footer class="w3l-footer">
-            <section class="footer-inner-main">
-                <div class="footer-hny-grids py-5">
-                    <div class="container py-lg-4">
-                        <div class="text-txt">
-                            <div class="right-side">
-                                <div class="row footer-about">
-                                    <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.jsp
-                                           "><img class="img-fluid" src="assets/images/banner1.jpg"
-                                                                   alt=""></a>
-                                    </div>
-                                    <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.jsp
-                                           "><img class="img-fluid" src="assets/images/banner2.jpg"
-                                                                   alt=""></a>
-                                    </div>
-                                    <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.jsp
-                                           "><img class="img-fluid" src="assets/images/banner3.jpg"
-                                                                   alt=""></a>
-                                    </div>
-                                    <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
-                                        <a href="movies.jsp
-                                           "><img class="img-fluid" src="assets/images/banner4.jpg"
-                                                                   alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="row footer-links">
-
-
-                                    <div class="col-md-3 col-sm-6 sub-two-right mt-5">
-                                        <h6>Movies</h6>
-                                        <ul>
-                                            <li><a href="#">Movies</a></li>
-                                            <li><a href="#">Videos</a></li>
-                                            <li><a href="#">English Movies</a></li>
-                                            <li><a href="#">Tailor</a></li>
-                                            <li><a href="#">Upcoming Movies</a></li>
-                                            <li><a href="Contact_Us.jsp
-                                                   ">Contact Us</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6 sub-two-right mt-5">
-                                        <h6>Information</h6>
-                                        <ul>
-                                            <li><a href="index.jsp
-                                                   ">Home</a> </li>
-                                            <li><a href="about.jsp
-                                                   ">About</a> </li>
-                                            <li><a href="#">Tv Series</a> </li>
-                                            <li><a href="#">Blogs</a> </li>
-                                            <li><a href="sign_in.jsp
-                                                   ">Login</a></li>
-                                            <li><a href="Contact_Us.jsp
-                                                   ">Contact</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6 sub-two-right mt-5">
-                                        <h6>Locations</h6>
-                                        <ul>
-                                            <li><a href="movies.jsp
-                                                   ">Asia</a></li>
-                                            <li><a href="movies.jsp
-                                                   ">France</a></li>
-                                            <li><a href="movies.jsp
-                                                   ">Taiwan</a></li>
-                                            <li><a href="movies.jsp
-                                                   ">United States</a></li>
-                                            <li><a href="movies.jsp
-                                                   ">Korea</a></li>
-                                            <li><a href="movies.jsp
-                                                   ">United Kingdom</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6 sub-two-right mt-5">
-                                        <h6>Newsletter</h6>
-                                        <form action="#" class="subscribe mb-3" method="post">
-                                            <input type="email" name="email" placeholder="Your Email Address" required="">
-                                            <button><span class="fa fa-envelope-o"></span></button>
-                                        </form>
-                                        <p>Enter your email and receive the latest news, updates and special offers from us.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div class="below-section">
-                    <div class="container">
-                        <div class="copyright-footer">
-                            <div class="columns text-lg-left">
-                                <p>&copy; 2021 MyShowz. All rights reserved</p>
-                            </div>
-
-                            <ul class="social text-lg-right">
-                                <li><a href="#facebook"><span class="fa fa-facebook" aria-hidden="true"></span></a>
-                                </li>
-                                <li><a href="#linkedin"><span class="fa fa-linkedin" aria-hidden="true"></span></a>
-                                </li>
-                                <li><a href="#twitter"><span class="fa fa-twitter" aria-hidden="true"></span></a>
-                                </li>
-                                <li><a href="#google"><span class="fa fa-google-plus" aria-hidden="true"></span></a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- move top -->
-                <button onclick="topFunction()" id="movetop" title="Go to top">
-                    <span class="fa fa-arrow-up" aria-hidden="true"></span>
-                </button>
-                <script>
-                    // When the user scrolls down 20px from the top of the document, show the button
-                    window.onscroll = function () {
-                        scrollFunction()
-                    };
-
-                    function scrollFunction() {
-                        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                            document.getElementById("movetop").style.display = "block";
-                        } else {
-                            document.getElementById("movetop").style.display = "none";
-                        }
-                    }
-
-                    // When the user clicks on the button, scroll to the top of the document
-                    function topFunction() {
-                        document.body.scrollTop = 0;
-                        document.documentElement.scrollTop = 0;
-                    }
-                </script>
-                <!-- /move top -->
-
-            </section>
-        </footer>
-    </body>
+    </footer>
+</body>
 
 </html>
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-                    $(document).ready(function () {
-                        //Horizontal Tab
-                        $('#parentHorizontalTab').easyResponsiveTabs({
-                            type: 'default', //Types: default, vertical, accordion
-                            width: 'auto', //auto or any width like 600px
-                            fit: true, // 100% fit in a container
-                            tabidentify: 'hor_1', // The tab groups identifier
-                            activate: function (event) { // Callback function if tab is switched
-                                var $tab = $(this);
-                                var $info = $('#nested-tabInfo');
-                                var $name = $('span', $info);
-                                $name.text($tab.text());
-                                $info.show();
-                            }
-                        });
+                $(document).ready(function () {
+                    //Horizontal Tab
+                    $('#parentHorizontalTab').easyResponsiveTabs({
+                        type: 'default', //Types: default, vertical, accordion
+                        width: 'auto', //auto or any width like 600px
+                        fit: true, // 100% fit in a container
+                        tabidentify: 'hor_1', // The tab groups identifier
+                        activate: function (event) { // Callback function if tab is switched
+                            var $tab = $(this);
+                            var $info = $('#nested-tabInfo');
+                            var $name = $('span', $info);
+                            $name.text($tab.text());
+                            $info.show();
+                        }
                     });
+                });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-                    $(document).ready(function () {
-                        $('.owl-one').owlCarousel({
-                            stagePadding: 280,
-                            loop: true,
-                            margin: 20,
-                            nav: true,
-                            responsiveClass: true,
-                            autoplay: true,
-                            autoplayTimeout: 5000,
-                            autoplaySpeed: 1000,
-                            autoplayHoverPause: false,
-                            responsive: {
-                                0: {
-                                    items: 1,
-                                    stagePadding: 40,
-                                    nav: false
-                                },
-                                480: {
-                                    items: 1,
-                                    stagePadding: 60,
-                                    nav: true
-                                },
-                                667: {
-                                    items: 1,
-                                    stagePadding: 80,
-                                    nav: true
-                                },
-                                1000: {
-                                    items: 1,
-                                    nav: true
-                                }
+                $(document).ready(function () {
+                    $('.owl-one').owlCarousel({
+                        stagePadding: 280,
+                        loop: true,
+                        margin: 20,
+                        nav: true,
+                        responsiveClass: true,
+                        autoplay: true,
+                        autoplayTimeout: 5000,
+                        autoplaySpeed: 1000,
+                        autoplayHoverPause: false,
+                        responsive: {
+                            0: {
+                                items: 1,
+                                stagePadding: 40,
+                                nav: false
+                            },
+                            480: {
+                                items: 1,
+                                stagePadding: 60,
+                                nav: true
+                            },
+                            667: {
+                                items: 1,
+                                stagePadding: 80,
+                                nav: true
+                            },
+                            1000: {
+                                items: 1,
+                                nav: true
                             }
-                        })
+                        }
                     })
+                })
 </script>
 <script>
     $(document).ready(function () {

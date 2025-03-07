@@ -247,6 +247,9 @@
                             <td>${news.createdDate}</td>
                             <td>
                                 <a href="ManageNews?action=edit&id=${news.postId}" class="btn btn-warning btn-sm">✏️ Sửa</a>
+                                <a  class="btn btn-danger btn-sm" href="delete-news?id=${news.postId}" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?');">
+                    Xóa
+                </a>
                             </td>
                         </tr>
                     </c:forEach>

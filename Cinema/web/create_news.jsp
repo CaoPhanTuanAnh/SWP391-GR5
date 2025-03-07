@@ -262,7 +262,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">📝 Đăng Tin</button>
-                <a href="news" class="btn btn-secondary">⬅️ Quay Lại</a>
+                <a href="ManageNews" class="btn btn-secondary">⬅️ Quay Lại</a>
             </form>
         </div>
         <!-- footer-66 -->
