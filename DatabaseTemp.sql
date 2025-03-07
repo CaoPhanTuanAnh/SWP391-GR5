@@ -14535,18 +14535,18 @@ GO
 SET IDENTITY_INSERT [dbo].[theaters] ON 
 
 INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (1, 1, 3, N'SWP Vincom Bà Triệu', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'191 Ba Trieu, Hai Ba Trung, Ha Noi')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (2, 1, 3, N'SWP Aeon Hà Đông', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'72 Landmark Tower, Pham Hung, Nam Tu Liem, Ha Noi')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (3, 1, 3, N'SWP Phạm Ngọc Thạch', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'2 Pham Ngoc Thach, Dong Da, Ha Noi')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (4, 1, 3, N'SWP Giảng Võ', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'16B Giang Vo, Ba Dinh, Ha Noi')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (5, 1, 3, N'SWP Long Biên', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'910A Ngo Quyen, Son Tra, Da Nang')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (2, 1, 16, N'SWP Aeon Hà Đông', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'72 Landmark Tower, Pham Hung, Nam Tu Liem, Ha Noi')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (3, 1, 17, N'SWP Phạm Ngọc Thạch', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'2 Pham Ngoc Thach, Dong Da, Ha Noi')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (4, 1, 18, N'SWP Giảng Võ', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'16B Giang Vo, Ba Dinh, Ha Noi')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (5, 1, 19, N'SWP Long Biên', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'910A Ngo Quyen, Son Tra, Da Nang')
 INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (6, 2, 6, N'SWP Crescent Mall', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'101 Ton Dat Tien, District 7, Ho Chi Minh')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (7, 2, 6, N'SWP Cinema Diamond', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'34 Le Duan, District 1, Ho Chi Minh')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (8, 2, 6, N'SWP Star Bitexco', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'2 Hai Trieu, District 1, Ho Chi Minh')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (9, 2, 6, N'SWP Cinema Nguyễn Du', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'116 Nguyen Du, District 1, Ho Chi Minh')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (10, 2, 6, N'SWP Hoàng Văn Thụ', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'Tầng 1 và 2, Gala Center, số 415, Hoàng Văn Thụ, Phường 2, Quận Tân Bình, TPHCM')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (11, 3, 7, N'SWP Dien Bien Phu', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'46 Dien Bien Phu, Thanh Khe, Da Nang')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (12, 3, 7, N'SWP Nguyen Van Linh', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'271 Nguyen Van Linh, Hai Chau, Da Nang')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (13, 3, 7, N'SWP Ton Duc Thang', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'171 Ton Duc Thang, Lien Chieu, Da Nang')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (7, 2, 20, N'SWP Cinema Diamond', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'34 Le Duan, District 1, Ho Chi Minh')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (8, 2, 21, N'SWP Star Bitexco', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'2 Hai Trieu, District 1, Ho Chi Minh')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (9, 2, 22, N'SWP Cinema Nguyễn Du', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'116 Nguyen Du, District 1, Ho Chi Minh')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (10, 2, 23, N'SWP Hoàng Văn Thụ', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'Tầng 1 và 2, Gala Center, số 415, Hoàng Văn Thụ, Phường 2, Quận Tân Bình, TPHCM')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (11, 2, 7, N'SWP Dien Bien Phu', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'46 Dien Bien Phu, Thanh Khe, Da Nang')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (12, 2, 24, N'SWP Nguyen Van Linh', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'271 Nguyen Van Linh, Hai Chau, Da Nang')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (13, 2, 25, N'SWP Ton Duc Thang', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'171 Ton Duc Thang, Lien Chieu, Da Nang')
 SET IDENTITY_INSERT [dbo].[theaters] OFF
 GO
 --SET IDENTITY_INSERT [dbo].[tickets] ON 
@@ -14574,6 +14574,16 @@ INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name],
 INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (13, 3, N'nguyen.tram', N'Tram!Cinema', N'Nguyễn Trâm', N'nguyen.tram@cinema.com', N'0934567892', CAST(N'2000-04-09' AS Date), 1, N'Active')
 INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (14, 3, N'hoang.thanh', N'ThanhMovie123', N'Hoàng Thanh', N'hoang.thanh@cinema.com', N'0945678903', CAST(N'2000-03-17' AS Date), 1, N'Active')
 INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (15, 3, N'pham.lan', N'Lan@Cinema!', N'Phạm Lan', N'pham.lan@cinema.com', N'0956789014', CAST(N'2000-10-12' AS Date), 1, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (16, 2, N'do.bao1', N'Mng@1995', N'Đỗ Bảo', N'do.bao1@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (17, 2, N'do.bao2', N'Mng@1995', N'Đỗ Bảo', N'do.bao2@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (18, 2, N'do.bao3', N'Mng@1995', N'Đỗ Bảo', N'do.bao3@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (19, 2, N'do.bao4', N'Mng@1995', N'Đỗ Bảo', N'do.bao4@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (20, 2, N'do.bao5', N'Mng@1995', N'Đỗ Bảo', N'do.bao5@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (21, 2, N'do.bao6', N'Mng@1995', N'Đỗ Bảo', N'do.bao6@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (22, 2, N'do.bao7', N'Mng@1995', N'Đỗ Bảo', N'do.bao7@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (23, 2, N'do.bao8', N'Mng@1995', N'Đỗ Bảo', N'do.bao8@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (24, 2, N'do.bao9', N'Mng@1995', N'Đỗ Bảo', N'do.bao9@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
+INSERT [dbo].[users] ([user_id], [role_id], [username], [password], [full_name], [email], [phone], [birth_date], [theater_id], [status]) VALUES (25, 2, N'do.bao10', N'Mng@1995', N'Đỗ Bảo', N'do.bao10@cinema.com', N'0967890123', CAST(N'2000-12-22' AS Date), 2, N'Active')
 SET IDENTITY_INSERT [dbo].[users] OFF
 GO
 SET ANSI_PADDING ON
@@ -14813,15 +14823,15 @@ VALUES
 INSERT INTO showtimes (movie_id, room_id, showtime, status)
 VALUES 
 (1, 1, '2025-01-10 18:00:00', 'Saved'),
-(2, 2, '2025-02-15 20:30:00', 'Saved'),
-(3, 3, '2025-03-20 19:00:00', 'Saved'),
-(4, 4, '2025-04-25 21:00:00', 'Saved'),
-(5, 5, '2025-05-30 17:45:00', 'Saved'),
-(6, 6, '2025-06-10 22:00:00', 'Saved'),
-(7, 7, '2025-07-15 16:30:00', 'Saved'),
-(8, 8, '2025-08-20 19:15:00', 'Saved'),
+(2, 14, '2025-02-15 20:30:00', 'Saved'),
+(3, 14, '2025-03-20 19:00:00', 'Saved'),
+(4, 27, '2025-04-25 21:00:00', 'Saved'),
+(5, 14, '2025-05-30 17:45:00', 'Saved'),
+(6, 1, '2025-06-10 22:00:00', 'Saved'),
+(7, 1, '2025-07-15 16:30:00', 'Saved'),
+(8, 27, '2025-08-20 19:15:00', 'Saved'),
 (9, 1, '2025-09-05 18:45:00', 'Saved'),
-(10, 2, '2025-10-10 20:00:00', 'Saved');
+(10, 27, '2025-10-10 20:00:00', 'Saved');
 
 update tickets
 set booking_id = 1

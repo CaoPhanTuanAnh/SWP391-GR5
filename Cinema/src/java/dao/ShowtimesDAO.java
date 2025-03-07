@@ -128,11 +128,12 @@ public class showtimesDAO extends DBContext {
             sql += "and st.movie_id = ? ";
         }
         if (date != null) {
-            sql += "and CAST(st.showtime AS DATE) like '"+date+"' ";
+            sql += "and CAST(st.showtime AS DATE) like '" + date + "' ";
         }
         if (status != null && !status.isBlank()) {
-            sql += "and st.status like '"+status+"' ";
+            sql += "and st.status like '" + status + "' ";
         }
+        sql +=" order by showtime desc ";
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
             st.setInt(1, room_id);
@@ -234,6 +235,47 @@ public class showtimesDAO extends DBContext {
             System.err.println("Lỗi kết nối DB: " + e.getMessage());
         }
         return movieList;
+    }
+
+    public boolean addShowtime(int room_id, int movie_id, Date date, Time time) {
+        String query = "insert into showtimes(room_id,movie_id,showtime) values(?,?,?)";
+        try {
+            Connection conn = new DBContext().getConnection();//mo ket noi voi sql
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, room_id);
+            ps.setInt(2, movie_id);
+            ps.setString(3, date+" "+time);
+            return ps.executeUpdate()==1;
+        } catch (Exception ex) {
+            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean deleteShowtime(int showtime_id) {
+        String query = "delete showtimes where showtime_id = ?";
+        try {
+            Connection conn = new DBContext().getConnection();//mo ket noi voi sql
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, showtime_id);
+            return ps.executeUpdate()==1;
+        } catch (Exception ex) {
+            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean submitShowtime(int showtime_id) {
+        String query = "update showtimes set status='Submitted' where showtime_id = ?";
+        try {
+            Connection conn = new DBContext().getConnection();//mo ket noi voi sql
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, showtime_id);
+            return ps.executeUpdate()==1;
+        } catch (Exception ex) {
+            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
 }
