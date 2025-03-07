@@ -277,5 +277,21 @@ public class showtimesDAO extends DBContext {
         }
         return false;
     }
+    
+    public boolean editShowtime(int showtime_id, int room_id, int movie_id, Date date, Time time) {
+        String query = "update showtimes set room_id=?,movie_id=?,showtime=? where showtime_id = ?";
+        try {
+            Connection conn = new DBContext().getConnection();//mo ket noi voi sql
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, room_id);
+            ps.setInt(2, movie_id);
+            ps.setString(3, date+" "+time);
+            ps.setInt(4, showtime_id);
+            return ps.executeUpdate()==1;
+        } catch (Exception ex) {
+            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
 }

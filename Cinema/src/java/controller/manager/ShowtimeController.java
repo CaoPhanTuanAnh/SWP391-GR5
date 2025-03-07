@@ -58,6 +58,8 @@ public class ShowtimeController extends HttpServlet {
                 deleteShowtime(request, response, session, user);
             } else if (service.equals("submitShowtime")) {
                 submitShowtime(request, response, session, user);
+            } else if (service.equals("editShowtime")) {
+                editShowtime(request, response, session, user);
             }
         }
     }
@@ -167,6 +169,43 @@ public class ShowtimeController extends HttpServlet {
         int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
         showtimesDAO dao = new showtimesDAO();
         if(!dao.submitShowtime(showtime_id)){
+            String mess = "Something go wrong!";
+            session.setAttribute("list_st_mess", mess);
+        }
+        String url = "ShowtimeURL?service=listShowtimeByRoom";
+        Integer ss_room_id = (Integer) session.getAttribute("list_st_room_id");
+        Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
+        Date ss_date = (Date) session.getAttribute("list_st_date");
+        String ss_status = (String) session.getAttribute("list_st_status");
+        if(ss_room_id!=null){
+            url+="&submit=search&room_id="+ss_room_id;
+        }
+        if(ss_movie_id!=null){
+            url+="&movie_id="+ss_movie_id;
+        }
+        if(ss_date!=null){
+            url+="&date="+ss_date;
+        }
+        if(ss_status!=null){
+            url+="&status="+ss_status;
+        }
+        response.sendRedirect(url);
+    }
+    
+    private void editShowtime(HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            users user)
+            throws ServletException, IOException {
+        int room_id = Integer.parseInt(request.getParameter("room_id"));
+        int movie_id = Integer.parseInt(request.getParameter("movie_id"));
+        Date date = Date.valueOf(request.getParameter("date"));
+        String temp = request.getParameter("time");
+        System.out.println(temp);
+        Time time = Time.valueOf(temp);
+        int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
+        showtimesDAO dao = new showtimesDAO();
+        if(!dao.editShowtime(showtime_id, room_id, movie_id, date, time)){
             String mess = "Something go wrong!";
             session.setAttribute("list_st_mess", mess);
         }
