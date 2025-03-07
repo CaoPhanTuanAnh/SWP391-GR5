@@ -202,7 +202,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[posts](
-	[post_id] [int] NOT NULL,
+	[post_id] [int] NOT NULL  IDENTITY(1,1) NOT NULL,
 	[user_id] [int] NOT NULL,
 	[title] [nvarchar](100) NOT NULL,
 	[photo_url] [nvarchar](100) NULL,
