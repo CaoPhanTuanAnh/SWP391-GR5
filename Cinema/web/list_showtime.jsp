@@ -507,7 +507,7 @@
                             </c:forEach>
                         </tbody>
                     </table>
-                    <p>Submit All Showtime</p>
+                    <p>Submit All Showing Showtime</p>
                 </div>
             </div>        
         </div>
@@ -563,7 +563,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
+                            <input type="submit" class="btn btn-success" value="Edit">
                         </div>
                     </form>
                 </div>
