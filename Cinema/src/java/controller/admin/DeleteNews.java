@@ -62,9 +62,9 @@ public class DeleteNews extends HttpServlet {
             boolean isDeleted = newsDAO.deleteNews(postId);
 
             if (isDeleted) {
-                response.sendRedirect("ManageNews.jsp?success=1");
+                response.sendRedirect("ManageNews?success=1");
             } else {
-                response.sendRedirect("ManageNews.jsp?error=1");
+                response.sendRedirect("ManageNews?error=1");
             }
         } catch (Exception e) {
             e.printStackTrace();
