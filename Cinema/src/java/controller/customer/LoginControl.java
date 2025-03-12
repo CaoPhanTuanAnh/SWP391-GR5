@@ -80,13 +80,20 @@ public class LoginControl extends HttpServlet {
         DAO dao = new DAO();
         users a = dao.login(user, pass);
         if(a == null){
-            request.setAttribute("mess", "Wrong username or password");
-            request.getRequestDispatcher("sign_in.jsp").forward(request, response);
-        }else{
-            HttpSession session = request.getSession();
-            session.setAttribute("acc", a);
-            response.sendRedirect("home");
-        }
+                request.setAttribute("mess", "Wrong username or password");
+                request.getRequestDispatcher("sign_in.jsp").forward(request, response);
+            }else{
+                if (a.getStatus().equals("Active")) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("acc", a);
+                    session.setAttribute("managerId", a.getUser_id()); // Lưu ID của manager
+                    response.sendRedirect("home");
+                }else{
+                    request.setAttribute("mess", "Account has been banned");
+                    request.getRequestDispatcher("sign_in.jsp").forward(request, response);
+                }
+                
+            }
     }
 
     /**
