@@ -253,11 +253,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Loại Nội Dung</label>
+                    <label class="form-label">Content Type</label>
                     <select name="content_type" class="form-select">
-                        <option value="Text">Text</option>
-                        <option value="Image">Image</option>
-                        <option value="Video">Video</option>
+                        <option value="Blogs">Blogs</option>
+                        <option value="Advertisement">Advertisement</option>
+                        <option value="Promotion">Promotion</option>
                     </select>
                 </div>
 

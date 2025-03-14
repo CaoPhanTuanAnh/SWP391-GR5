@@ -240,30 +240,30 @@
                 <input type="hidden" name="post_id" value="${news.postId}">
 
                 <div class="mb-3">
-                    <label class="form-label">Tiêu đề <span class="text-danger">*</span></label>
+                    <label class="form-label">Title <span class="text-danger">*</span></label>
                     <input type="text" name="title" class="form-control" value="${news.title}" required maxlength="100">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">URL Ảnh <span class="text-danger">*</span></label>
+                    <label class="form-label">URL Image <span class="text-danger">*</span></label>
                     <input type="text" name="photo_url" class="form-control" value="${news.photoUrl}" required maxlength="100">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Nội dung <span class="text-danger">*</span></label>
+                    <label class="form-label">Information <span class="text-danger">*</span></label>
                     <textarea name="content" class="form-control" rows="5" required>${news.content}</textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Loại Nội Dung</label>
+                    <label class="form-label">Content Type</label>
                     <select name="content_type" class="form-select">
-                        <option value="Text" ${news.contentType == "Text" ? "selected" : ""}>Text</option>
-                        <option value="Image" ${news.contentType == "Image" ? "selected" : ""}>Image</option>
-                        <option value="Video" ${news.contentType == "Video" ? "selected" : ""}>Video</option>
+                        <option value="Blogs" ${news.contentType == "Blogs" ? "selected" : ""}>Blogs</option>
+                        <option value="Advertisement" ${news.contentType == "Advertisement" ? "selected" : ""}>Advertisement</option>
+                        <option value="Promotion" ${news.contentType == "Promotion" ? "selected" : ""}>Promotion</option>
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-success">💾 Cập Nhật</button>
+                <button type="submit" class="btn btn-success">💾 Update</button>
             </form>
         </div>
         <!-- footer-66 -->
