@@ -225,17 +225,17 @@
             </nav>
         </header>
         <div class="container mt-5">
-            <h2 class="text-center">📢 Danh sách tin tức</h2>
-            <a href="create_news.jsp" class="btn btn-success mb-3">📝 Tạo tin mới</a>
+            <h2 class="text-center">📢 List of News</h2>
+            <a href="create_news.jsp" class="btn btn-success mb-3">📝 Add News</a>
 
             <table class="table table-bordered">
                 <thead class="table-dark">
                     <tr>
-                        <th>Tiêu đề</th>
-                        <th>Ảnh</th>
-                        <th>Nội dung</th>
-                        <th>Ngày tạo</th>
-                        <th>Hành động</th>
+                        <th>Title</th>
+                        <th>Image</th>
+                        <th>Information</th>
+                        <th>Day created</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -246,9 +246,9 @@
                             <td>${news.content}</td>
                             <td>${news.createdDate}</td>
                             <td>
-                                <a href="ManageNews?action=edit&id=${news.postId}" class="btn btn-warning btn-sm">✏️ Sửa</a>
+                                <a href="ManageNews?action=edit&id=${news.postId}" class="btn btn-warning btn-sm">✏️ Edit</a>
                                 <a  class="btn btn-danger btn-sm" href="delete-news?id=${news.postId}" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?');">
-                    Xóa
+                    Delete
                 </a>
                             </td>
                         </tr>
