@@ -72,7 +72,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[combos](
-	[combo_id] [int] NOT NULL,
+	[combo_id] [int] IDENTITY(1,1) NOT NULL,
 	[combo_name] [nvarchar](30) NOT NULL,
 	[detail] [nvarchar](100) NOT NULL,
 	[combo_price] [decimal](10, 2) NOT NULL,
@@ -438,8 +438,10 @@ SET IDENTITY_INSERT [dbo].[showtimes] off
 SET IDENTITY_INSERT [dbo].[seats] OFF
 go
 
+SET IDENTITY_INSERT [dbo].[combos] ON
 INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (1, 'Big1', '1 big popcorn, 1 big soda', 100000.00)
 INSERT [dbo].[combos] ([combo_id], [combo_name], [detail], [combo_price]) VALUES (2, 'Big2', '2 big popcorn, 1 big soda', 160000.00)
+SET IDENTITY_INSERT [dbo].[combos] OFF
 
 GO
 SET IDENTITY_INSERT [dbo].[bookings] ON 
