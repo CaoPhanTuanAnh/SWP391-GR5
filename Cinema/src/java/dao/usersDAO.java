@@ -23,6 +23,7 @@ public class usersDAO extends DBContext {
     Connection conn = null; // kết nối vs sql
     PreparedStatement ps = null; // ném query sang sql
     ResultSet rs = null; // nhận kết quả trả về
+    
 
     public users getAccountByUser(String username, String password) {
         String query = "select * from users where username = ? AND password = ?";

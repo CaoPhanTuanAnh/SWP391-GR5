@@ -183,8 +183,9 @@
                                 <p><em>Sub Total Amount:</em> ${userBooking.sub_total_amount}VND</p>
                                 <p><em>Coupon:</em> ${userBooking.coupon_code} ${userBooking.discount_percentage}%</p>
                                 <p><em>Total Amount:</em> ${userBooking.total_amount}VND</p>
-                                <p style="grid-column: 1 / span 3;">QR code</p>
-                            </div>
+                                <p style="text-align: end; align-content: center;"><em>QR Code:</em></p>
+                                <div id="qrcode" style="grid-column: 2 / span 2;"></div>
+                            </div> 
                         </td>
                     </tr>
                     </tbody>
@@ -322,66 +323,73 @@
 
 </html>
 
+<script src=
+        "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+</script>
+<script>
+    var qrcode = new QRCode("qrcode",
+            "$${userBooking.booking_id}${userBooking.title}${userBooking.showtime}${userBooking.seats_info}${userBooking.combos_info}");
+</script>
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-                    $(document).ready(function () {
-                        //Horizontal Tab
-                        $('#parentHorizontalTab').easyResponsiveTabs({
-                            type: 'default', //Types: default, vertical, accordion
-                            width: 'auto', //auto or any width like 600px
-                            fit: true, // 100% fit in a container
-                            tabidentify: 'hor_1', // The tab groups identifier
-                            activate: function (event) { // Callback function if tab is switched
-                                var $tab = $(this);
-                                var $info = $('#nested-tabInfo');
-                                var $name = $('span', $info);
-                                $name.text($tab.text());
-                                $info.show();
-                            }
-                        });
-                    });
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-                    $(document).ready(function () {
-                        $('.owl-one').owlCarousel({
-                            stagePadding: 280,
-                            loop: true,
-                            margin: 20,
-                            nav: true,
-                            responsiveClass: true,
-                            autoplay: true,
-                            autoplayTimeout: 5000,
-                            autoplaySpeed: 1000,
-                            autoplayHoverPause: false,
-                            responsive: {
-                                0: {
-                                    items: 1,
-                                    stagePadding: 40,
-                                    nav: false
-                                },
-                                480: {
-                                    items: 1,
-                                    stagePadding: 60,
-                                    nav: true
-                                },
-                                667: {
-                                    items: 1,
-                                    stagePadding: 80,
-                                    nav: true
-                                },
-                                1000: {
-                                    items: 1,
-                                    nav: true
-                                }
-                            }
-                        })
-                    })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {

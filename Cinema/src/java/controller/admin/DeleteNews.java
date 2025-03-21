@@ -1,23 +1,22 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.customer;
+package controller.admin;
 
-import dao.DAO;
-import entity.users;
+import dao.NewsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
-@WebServlet(name = "LoginControl", urlPatterns = {"/login"})
-public class LoginControl extends HttpServlet {
+/**
+ *
+ * @author default
+ */
+public class DeleteNews extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,21 +30,17 @@ public class LoginControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            String user = request.getParameter("username");
-            String pass = request.getParameter("password");
-            DAO dao = new DAO();
-            users a = dao.login(user, pass);
-            if(a == null){
-                request.setAttribute("mess", "Wrong username or password");
-                request.getRequestDispatcher("sign_in.jsp").forward(request, response);
-            }else{
-                HttpSession session = request.getSession();
-                session.setAttribute("acc", a);
-                session.setAttribute("managerId", a.getUser_id()); // Lưu ID của manager
-                response.sendRedirect("home");
-            }
-        }catch(Exception e){
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DeleteNews</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DeleteNews at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -61,7 +56,20 @@ public class LoginControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            int postId = Integer.parseInt(request.getParameter("id"));
+            NewsDAO newsDAO = new NewsDAO();
+            boolean isDeleted = newsDAO.deleteNews(postId);
+
+            if (isDeleted) {
+                response.sendRedirect("ManageNews?success=1");
+            } else {
+                response.sendRedirect("ManageNews?error=1");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("ManageNews.jsp?error=1");
+        }
     }
 
     /**
@@ -75,25 +83,7 @@ public class LoginControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("username");
-        String pass = request.getParameter("password");
-        DAO dao = new DAO();
-        users a = dao.login(user, pass);
-        if(a == null){
-                request.setAttribute("mess", "Wrong username or password");
-                request.getRequestDispatcher("sign_in.jsp").forward(request, response);
-            }else{
-                if (a.getStatus().equals("Active")) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("acc", a);
-                    session.setAttribute("managerId", a.getUser_id()); // Lưu ID của manager
-                    response.sendRedirect("home");
-                }else{
-                    request.setAttribute("mess", "Account has been banned");
-                    request.getRequestDispatcher("sign_in.jsp").forward(request, response);
-                }
-                
-            }
+        processRequest(request, response);
     }
 
     /**

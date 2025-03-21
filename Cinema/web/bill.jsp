@@ -185,6 +185,18 @@
                 </div>
             </div>
             <br>
+            <div class="col-lg-6 col-sm-6">
+                        <div class="coupon-box">
+                            <div class="input-group input-group-sm">
+                                <form action="Cart1.jsp"  >
+                                <input value ="" name="coupon" class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" type="text">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-theme" type="button" style="padding:13px">Apply Coupon</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
             <a href="bill" class="btn btn-outline-danger btn-block">Thanh Toán</a>
         </div>
         <br>

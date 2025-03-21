@@ -1,6 +1,6 @@
 <%-- 
-    Document   : list_showtime
-    Created on : Mar 5, 2025, 10:29:22 AM
+    Document   : list_city
+    Created on : Feb 13, 2025, 1:32:44 AM
     Author     : GIGABYTE
 --%>
 
@@ -10,10 +10,11 @@
 <html lang="zxx">
 
     <head>
+
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Manage Showtime</title>
+        <title>Manage City</title>
 
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
@@ -300,6 +301,7 @@
             $(document).ready(function () {
                 // Activate tooltip
                 $('[data-toggle="tooltip"]').tooltip();
+
                 // Select/Deselect checkboxes
                 var checkbox = $('table tbody input[type="checkbox"]');
                 $("#selectAll").click(function () {
@@ -331,7 +333,7 @@
             <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
                 <div class="container">
                     <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                       aria-hidden="true"></span>
+                                                                        aria-hidden="true"></span>
                             MyShowz</a></h1>
                     <!-- if logo is image enable this   
                                     <a class="navbar-brand" href="#index.jsp">
@@ -381,14 +383,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.acc != null}">
-                                <div class="header__top__right__auth">
-                                    <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
-                                </div>
+                                    <div class="header__top__right__auth">
+                                        <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
+                                    </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="header__top__right__auth">
-                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                </div>
+                                    <div class="header__top__right__auth">
+                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
+                                    </div>
                             </c:otherwise>
                         </c:choose>
                         <div class="Login_SignUp" id="login"
@@ -429,85 +431,36 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Manage <b>Showtime</b></h2>
+                                <h2>Manage <b>Combo</b></h2>
                             </div>
                             <div class="col-sm-6">
-                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Showtime</span></a>						
+                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Combo</span></a>						
                             </div>
                         </div>
-                    </div>
-                    <div class="search-section">
-                        <form action="ShowtimeURL" method="post">
-
-
-                            <!--Them loc theo date, status-->
-
-
-
-                            <input type="hidden" name="service" value="listShowtimeByRoom">
-                            Room: <select name="room_id">
-                                <c:forEach items="${roomList}" var="room">
-                                    <c:choose>
-                                        <c:when test="${list_st_room_id == room.getRoom_id()}">
-                                            <option value="${room.room_id}" selected>${room.room_name}</option>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <option value="${room.room_id}">${room.room_name}</option>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </select>
-                            Movie: <select name="movie_id">
-                                <option value="0">All</option>
-                                <c:forEach items="${movieList}" var="movie">
-                                    <c:choose>
-                                        <c:when test="${list_st_movie_id == movie.getMovie_id()}">
-                                            <option value="${movie.movie_id}" selected>${movie.title}</option>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <option value="${movie.movie_id}">${movie.title}</option>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </select>
-                            Date: <input type="date" name="date" value="${list_st_date}">
-                            Status: <select name="status">
-                                <option value="">All</option>
-                                <option value="Saved" <%=session.getAttribute("list_st_status")!=null&&session.getAttribute("list_st_status").equals("Saved")?"selected":""%>>Saved</option>
-                                <option value="Submitted" <%=session.getAttribute("list_st_status")!=null&&session.getAttribute("list_st_status").equals("Submitted")?"selected":""%>>Submitted</option>
-                            </select>
-                            <input type="submit" name="submit" value="Search">
-                        </form>
                     </div>
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="width: 120px ;">Showtime</th>
-                                <th style="width: 100px ;">Room</th>
-                                <th style="width: 100px ;">Movie</th>
-                                <th style="width: 100px ;">Status</th>
-                                <th style="width: 100px ;">Actions</th>
+                                <th style="width: 120px !important;">Combo Name</th>
+                                <th style="width: 300px !important;">Detail</th>
+                                <th style="width: 120px !important;">Combo Price</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${showtimeList}" var="showtime">
+                            <c:forEach items="${comboList}" var="combo">
                                 <tr>
-                                    <td>${showtime.getDate()} ${showtime.getTime()} ${showtime.getDuration()}minutes</td>
-                                    <td>${showtime.getRoom_name()}</td>
-                                    <td>${showtime.getTitle()}</td>
-                                    <td>${showtime.getStatus()}</td>
+                                    <td>${combo.getCombo_name()}</td>
+                                    <td>${combo.getDetail()}</td>
+                                    <td>${combo.getCombo_price()}</td>
                                     <td>
-                                        <c:if test="${showtime.getStatus() == 'Saved'}">
-                                            <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="addShowtimeInfo(${showtime.getShowtime_id()},${showtime.getRoom_id()},${showtime.getMovie_id()},'${showtime.getDate()}','${showtime.getTime()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="ShowtimeURL?service=deleteShowtime&showtime_id=${showtime.getShowtime_id()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                            <a href="ShowtimeURL?service=submitShowtime&showtime_id=${showtime.getShowtime_id()}" ><i class="material-icons" data-toggle="tooltip" title="Submit">description</i></a>
-                                        </c:if>
+                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeComboInfo(${combo.getCombo_id()},'${combo.getCombo_name()}','${combo.getDetail()}','${combo.getCombo_price()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="combo_control?service=deleteCombo&comboID=${combo.getCombo_id()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
-                    <p>Submit All Showing Showtime</p>
                 </div>
             </div>        
         </div>
@@ -515,95 +468,24 @@
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="ShowtimeURL" method="post">
-                        <input type="hidden" name="service" value="addShowtime">
+                    <form action="combo_control" method="post">
+                        <input type="hidden" name="service" value="addCombo">
                         <div class="modal-header">						
-                            <h4 class="modal-title">Add Showtime</h4>
+                            <h4 class="modal-title">Add New Combo</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
                             <div class="form-group">
-                                <label>Room</label>
-                                <select name="room_id">
-                                    <c:forEach items="${roomList}" var="room">
-                                        <c:choose>
-                                            <c:when test="${list_st_room_id == room.getRoom_id()}">
-                                                <option value="${room.room_id}" selected>${room.room_name}</option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option value="${room.room_id}">${room.room_name}</option>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </select>
-                            </div>				
-                            <div class="form-group">
-                                <label>Movie</label>
-                                <select name="movie_id">
-                                    <c:forEach items="${movieList}" var="movie">
-                                        <c:choose>
-                                            <c:when test="${list_st_movie_id == movie.getMovie_id()}">
-                                                <option value="${movie.movie_id}" selected>${movie.title}</option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option value="${movie.movie_id}">${movie.title}</option>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </select>
+                                <label>Combo Name</label>
+                                <textarea name="comboName" class="form-control" required></textarea>
                             </div>
                             <div class="form-group">
-                                <label>Date</label>
-                                <input type="date" name="date" class="form-control" value="${list_st_date}" required>
+                                <label>Detail</label>
+                                <textarea name="detail" class="form-control" required></textarea>
                             </div>
                             <div class="form-group">
-                                <label>Start Time</label>
-                                <input type="time" name="time" class="form-control" value="" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Edit">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="ShowtimeURL" method="post">
-                        <input type="hidden" name="service" value="editShowtime">
-                        <input type="hidden" name="showtime_id" id="showtime_id" value="">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Edit Showtime</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Room</label>
-                                <select name="room_id" id="room_id">
-                                    <c:forEach items="${roomList}" var="room">
-                                        <option value="${room.room_id}">${room.room_name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>				
-                            <div class="form-group">
-                                <label>Movie</label>
-                                <select name="movie_id" id="movie_id">
-                                    <c:forEach items="${movieList}" var="movie">
-                                        <option value="${movie.movie_id}">${movie.title}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Date</label>
-                                <input type="date" name="date" id="date" class="form-control" value="" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Start Time</label>
-                                <input type="time" name="time" id="time" class="form-control" value="" required>
+                                <label>Combo Price</label>
+                                <textarea name="comboPrice" class="form-control" required></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -614,95 +496,121 @@
                 </div>
             </div>
         </div>
+        <!-- Edit Modal HTML -->
+        <div id="editEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="combo_control" method="post">
+                        <input type="hidden" name="service" value="editCombo">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Edit Combo</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Combo ID</label>
+                                <input type="number" name="comboID" id="comboEditComboID" class="form-control" readonly value="" required>
+                            </div>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Combo Name</label>
+                                <input type="text" name="comboName" id="comboEditComboName" class="form-control" value="" required>
+                            </div>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Detail</label>
+                                <input type="text" name="detail" id="comboEditDetail" class="form-control" value="" required>
+                            </div>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Combo Price</label>
+                                <input type="number" name="comboPrice" id="comboEditComboPrice" class="form-control" value="" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-info" value="Save">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
     </body>
 
 </html>
 <script>
-    let haha = 'a';
-    console.log(haha);
-    function addShowtimeInfo(showtime_id, room_id, movie_id, date, time) {
-        let showtimein = document.getElementById("showtime_id");
-        let roomin = document.getElementById("room_id");
-        let moviein = document.getElementById("movie_id");
-        let datein = document.getElementById("date");
-        let timein = document.getElementById("time");
-        showtimein.value = showtime_id;
-        let optionroom = roomin.children;
-        for (let i = 0; i < optionroom.length; i++) {
-            if (optionroom[i].value == room_id) {
-                optionroom[i].selected = true;
-            }
-        }
-        let optionmovie = moviein.children;
-        for (let i = 0; i < optionmovie.length; i++) {
-            if (optionmovie[i].value == movie_id) {
-                optionmovie[i].selected = true;
-            }
-        }
-        datein.defaultValue = date;
-        timein.defaultValue = time;
+    function takeComboInfo(oldComboID,oldComboName,oldDetail,oldComboPrice){
+        console.log("run");
+        document.getElementById("comboEditComboID").value=oldComboID;
+        document.getElementById("comboEditComboName").value=oldComboName;
+        document.getElementById("comboEditDetail").value=oldDetail;
+        document.getElementById("comboEditComboPrice").value=oldComboPrice;
     }
 </script>
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        //Horizontal Tab
-        $('#parentHorizontalTab').easyResponsiveTabs({
-            type: 'default', //Types: default, vertical, accordion
-            width: 'auto', //auto or any width like 600px
-            fit: true, // 100% fit in a container
-            tabidentify: 'hor_1', // The tab groups identifier
-            activate: function (event) { // Callback function if tab is switched
-                var $tab = $(this);
-                var $info = $('#nested-tabInfo');
-                var $name = $('span', $info);
-                $name.text($tab.text());
-                $info.show();
-            }
-        });
-    });</script>
+            $(document).ready(function () {
+                //Horizontal Tab
+                $('#parentHorizontalTab').easyResponsiveTabs({
+                    type: 'default', //Types: default, vertical, accordion
+                    width: 'auto', //auto or any width like 600px
+                    fit: true, // 100% fit in a container
+                    tabidentify: 'hor_1', // The tab groups identifier
+                    activate: function (event) { // Callback function if tab is switched
+                        var $tab = $(this);
+                        var $info = $('#nested-tabInfo');
+                        var $name = $('span', $info);
+                        $name.text($tab.text());
+                        $info.show();
+                    }
+                });
+            });
+</script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-    $(document).ready(function () {
-        $('.owl-one').owlCarousel({
-            stagePadding: 280,
-            loop: true,
-            margin: 20,
-            nav: true,
-            responsiveClass: true,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            autoplaySpeed: 1000,
-            autoplayHoverPause: false,
-            responsive: {
-                0: {
-                    items: 1,
-                    stagePadding: 40,
-                    nav: false
-                },
-                480: {
-                    items: 1,
-                    stagePadding: 60,
-                    nav: true
-                },
-                667: {
-                    items: 1,
-                    stagePadding: 80,
-                    nav: true
-                },
-                1000: {
-                    items: 1,
-                    nav: true
-                }
-            }
-        })
-    })
+            $(document).ready(function () {
+                $('.owl-one').owlCarousel({
+                    stagePadding: 280,
+                    loop: true,
+                    margin: 20,
+                    nav: true,
+                    responsiveClass: true,
+                    autoplay: true,
+                    autoplayTimeout: 5000,
+                    autoplaySpeed: 1000,
+                    autoplayHoverPause: false,
+                    responsive: {
+                        0: {
+                            items: 1,
+                            stagePadding: 40,
+                            nav: false
+                        },
+                        480: {
+                            items: 1,
+                            stagePadding: 60,
+                            nav: true
+                        },
+                        667: {
+                            items: 1,
+                            stagePadding: 80,
+                            nav: true
+                        },
+                        1000: {
+                            items: 1,
+                            nav: true
+                        }
+                    }
+                })
+            })
 </script>
 <script>
     $(document).ready(function () {
@@ -774,46 +682,59 @@
     $(document).ready(function () {
         $('.popup-with-zoom-anim').magnificPopup({
             type: 'inline',
+
             fixedContentPos: false,
             fixedBgPos: true,
+
             overflowY: 'auto',
+
             closeBtnInside: true,
             preloader: false,
+
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-zoom-in'
         });
+
         $('.popup-with-move-anim').magnificPopup({
             type: 'inline',
+
             fixedContentPos: false,
             fixedBgPos: true,
+
             overflowY: 'auto',
+
             closeBtnInside: true,
             preloader: false,
+
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-slide-bottom'
         });
-    });</script>
+    });
+</script>
 <!-- disable body scroll which navbar is in active -->
 <script>
     $(function () {
         $('.navbar-toggler').click(function () {
             $('body').toggleClass('noscroll');
         })
-    });</script>
+    });
+</script>
 <!-- disable body scroll which navbar is in active -->
 
 <!--/MENU-JS-->
 <script>
     $(window).on("scroll", function () {
         var scroll = $(window).scrollTop();
+
         if (scroll >= 80) {
             $("#site-header").addClass("nav-fixed");
         } else {
             $("#site-header").removeClass("nav-fixed");
         }
     });
+
     //Main navigation Active Class Add Remove
     $(".navbar-toggler").on("click", function () {
         $("header").toggleClass("active");
@@ -827,7 +748,8 @@
                 $("header").removeClass("active");
             }
         });
-    });</script>
+    });
+</script>
 
 <script src="assets/js/bootstrap.min.js"></script>
 

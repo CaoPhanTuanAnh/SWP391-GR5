@@ -106,6 +106,7 @@ public class DAO {
 }
 
 
+    
     public List<theaters> getAllTheater() {
         List<theaters> list = new ArrayList<>();
         String query = "select * from theaters";

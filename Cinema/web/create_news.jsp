@@ -226,7 +226,7 @@
         </header>
         <!-- main-slider -->
         <div class="container mt-5">
-            <h2 class="text-center">📰 Tạo Tin Tức Mới</h2>
+            <h2 class="text-center">📰 Add News</h2>
 
             <%-- Hiển thị thông báo lỗi nếu có --%>
             <% String error = (String) request.getAttribute("error"); %>
@@ -238,31 +238,31 @@
                 <input type="hidden" name="action" value="create">
 
                 <div class="mb-3">
-                    <label class="form-label">Tiêu đề <span class="text-danger">*</span></label>
+                    <label class="form-label">Title <span class="text-danger">*</span></label>
                     <input type="text" name="title" class="form-control" required maxlength="100">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">URL Ảnh <span class="text-danger">*</span></label>
+                    <label class="form-label">URL Image <span class="text-danger">*</span></label>
                     <input type="text" name="photo_url" class="form-control" required maxlength="100">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Nội dung <span class="text-danger">*</span></label>
+                    <label class="form-label">Information <span class="text-danger">*</span></label>
                     <textarea name="content" class="form-control" rows="5" required></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Loại Nội Dung</label>
+                    <label class="form-label">Content Type</label>
                     <select name="content_type" class="form-select">
-                        <option value="Text">Text</option>
-                        <option value="Image">Image</option>
-                        <option value="Video">Video</option>
+                        <option value="Blogs">Blogs</option>
+                        <option value="Advertisement">Advertisement</option>
+                        <option value="Promotion">Promotion</option>
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">📝 Đăng Tin</button>
-                <a href="news" class="btn btn-secondary">⬅️ Quay Lại</a>
+                <button type="submit" class="btn btn-primary">📝 Submit</button>
+                <a href="ManageNews" class="btn btn-secondary">⬅️ Return</a>
             </form>
         </div>
         <!-- footer-66 -->

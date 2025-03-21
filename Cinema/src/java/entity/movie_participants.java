@@ -1,6 +1,8 @@
 
 package entity;
 
+
+import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +16,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class genres {
-
-    private int genre_id;
-    private String genre_name;
-
+public class movie_participants {
+    private int movie_id;
+    private int participant_id;
+    private String role_in_movie; // "director" hoặc "actor"
 }
+
+

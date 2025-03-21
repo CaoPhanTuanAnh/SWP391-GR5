@@ -90,36 +90,41 @@ public class moviesDAO extends DBContext {
     }
 
     public List<movies> getPopular() {
-        List<movies> movieList = new ArrayList<>();
-        String sql = "select top 10  m.movie_id, m.title, m.duration, m.poster_url, count(s.movie_id) as popular from movies m join showtimes s on m.movie_id = s.movie_id\n"
-                + "group by  m.director,m.duration, \n"
-                + "m.movie_id, m.poster_url, m.title, s.movie_id\n"
-                + "ORDER BY popular DESC";
+    List<movies> movieList = new ArrayList<>();
+    String sql = "SELECT TOP 10 m.movie_id, m.title, m.duration, m.poster_url, COUNT(s.movie_id) AS popular " +
+                 "FROM movies m " +
+                 "JOIN showtimes s ON m.movie_id = s.movie_id " +
+                 "WHERE m.status = 'Present' " + // Chỉ lấy phim đang chiếu
+                 "GROUP BY m.movie_id, m.duration, m.poster_url, m.title " +
+                 "ORDER BY popular DESC";
 
-        try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+    try (Connection connection = getConnection(); 
+         PreparedStatement st = connection.prepareStatement(sql); 
+         ResultSet rs = st.executeQuery()) {
 
-            while (rs.next()) {
-                int movie_id = rs.getInt("movie_id");
-                String title = rs.getString("title");
-                int duration = rs.getInt("duration");
-                String poster_url = rs.getString("poster_url");
+        while (rs.next()) {
+            int movie_id = rs.getInt("movie_id");
+            String title = rs.getString("title");
+            int duration = rs.getInt("duration");
+            String poster_url = rs.getString("poster_url");
 
-                movies movies = new movies();
-                movies.setMovie_id(movie_id);
-                movies.setTitle(title);
-                movies.setDuration(duration);
-                movies.setPoster_url(poster_url);
-                movieList.add(movies);
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Lỗi truy vấn getPopular: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Lỗi kết nối DB: " + e.getMessage());
+            movies movie = new movies();
+            movie.setMovie_id(movie_id);
+            movie.setTitle(title);
+            movie.setDuration(duration);
+            movie.setPoster_url(poster_url);
+            movieList.add(movie);
         }
 
-        return movieList;
+    } catch (SQLException e) {
+        System.err.println("Lỗi truy vấn getPopular: " + e.getMessage());
+    } catch (Exception e) {
+        System.err.println("Lỗi kết nối DB: " + e.getMessage());
     }
+
+    return movieList;
+}
+
 
     public List<movies> getNew() {
         List<movies> movieList = new ArrayList<>();

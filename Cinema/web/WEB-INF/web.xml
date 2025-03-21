@@ -8,6 +8,18 @@
         <servlet-name>ManageNews</servlet-name>
         <servlet-class>controller.admin.ManageNews</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NewsListServlet</servlet-name>
+        <servlet-class>controller.guest.NewsListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewsDetailServlet</servlet-name>
+        <servlet-class>controller.guest.NewsDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteNews</servlet-name>
+        <servlet-class>controller.admin.DeleteNews</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>VerifyOTPSignUp</servlet-name>
         <url-pattern>/verify_otp</url-pattern>
@@ -15,5 +27,17 @@
     <servlet-mapping>
         <servlet-name>ManageNews</servlet-name>
         <url-pattern>/ManageNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewsListServlet</servlet-name>
+        <url-pattern>/NewsListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewsDetailServlet</servlet-name>
+        <url-pattern>/NewsDetailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteNews</servlet-name>
+        <url-pattern>/delete-news</url-pattern>
     </servlet-mapping>
 </web-app>
