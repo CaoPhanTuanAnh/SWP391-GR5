@@ -322,7 +322,26 @@
                 });
             });
         </script>
-
+        <style>
+            .pagination {
+                margin-top: 25px;
+                text-align: center;
+            }
+            .pagination a {
+                display: inline-block;
+                padding: 8px 12px;
+                margin: 0 5px;
+                text-decoration: none;
+                border: 1px solid #ddd;
+                color: #007bff;
+                border-radius: 4px;
+            }
+            .pagination a.active {
+                background-color: #007bff;
+                color: white;
+                border: 1px solid #007bff;
+            }
+        </style>
     </head>
 
     <body>
@@ -349,12 +368,12 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.role_id == 1}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 1}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="home">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Account</a>
+                                    <a class="nav-link" href="ManageAccount">Manage Account</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="city_control">Manage City</a>
@@ -364,7 +383,7 @@
                                 </li>
                             </c:if>
 
-                            <c:if test="${sessionScope.acc.role_id == 2}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 2}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
@@ -396,7 +415,14 @@
                         <div class="Login_SignUp" id="login"
                              style="font-size: 2rem ; display: inline-block; position: relative;">
                             <!-- <li class="nav-item"> -->
-                            <a class="nav-link" href="#"><i class="fa fa-user-circle-o"></i></a>
+                            <c:choose>
+                                <c:when test="${sessionScope.acc != null}">
+                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    </c:otherwise>
+                                </c:choose>
                             <!-- </li> -->
                         </div>
                     </div>
@@ -424,50 +450,173 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Edit <b>Room</b></h2>
+                                <h2>Manage <b>Account</b></h2>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Account</span></a>						
                             </div>
                         </div>
                     </div>
-                    <form name="theaterForm" action="EditRoom" method="post" onsubmit="return validateForm()">
-                        <c:set value="${requestScope.room}" var="room"/>
-                        <table class="table table-striped table-hover">
-                            <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
-                                <div class="form-group">
-                                    <label>ID Room</label>
-                                    <input value="${room.room_id}" name="id" type="text" class="form-control" readonly required>
-                                </div>
-                                <div class="form-group" style="display: none;">
-                                    <label>ID Theater</label>
-                                    <input value="${room.theater_id}" name="theaterId" type="text" class="form-control" readonly required>
-                                </div>
+                    <form action="ManageAccount" method="GET" style="margin-bottom: 10px">
+                        <input style="width: 250px" type="text" name="search" value="${search}" placeholder="Search by name, email, phone number" />
+                        <button type="submit">Find</button>
+                    </form>
+                    <c:choose>
+                        <c:when test="${empty listU}">
+                            <p style="text-align: center; color: red; font-weight: bold;">Not found</p>
+                        </c:when>
+                        <c:otherwise>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10px !important;">ID</th>
+                                        <th style="width: 160px !important;">Full Name</th>
+                                        <th style="width: 120px !important;">Email</th>
+                                        <th style="width: 120px !important;">Phone</th>
+                                        <th style="width: 100px !important;">Role</th>
+                                        <th style="width: 100px !important;">Status</th>
+                                        <th style="width: 10px !important;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${listU}" var="u">
+                                        <tr>
+                                            <td>${u.user_id}</td>
+                                            <td>${u.fullname}</td>
+                                            <td>${u.email}</td>
+                                            <td>${u.phone}</td>
+                                            <td>
+                                                <c:forEach items="${listRole}" var="role">
+                                                    <c:if test="${role.getRole_id() == u.role_id}">
+                                                        ${role.getRole_name()}
+                                                    </c:if>
+                                                </c:forEach>
+                                            </td>
+                                            <td>${u.status}</td>
+                                            <td>
+                                                <a href="LoadAccount?userid=${u.user_id}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:otherwise>
+                    </c:choose>
 
-                                <div class="form-group">
-                                    <label>Room's Name</label>
-                                    <textarea name="name" class="form-control" required>${room.room_name}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Capacity</label>
-                                    <textarea name="capacity" class="form-control" required>${room.capacity}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Type</label>
-                                    <select name="type" class="form-select" aria-label="Default select example">
-                                        <c:forEach items="${type}" var="type">
-                                            <option value="${type.getType_id()}" ${type.getType_id() == room.type_id ? 'selected="selected"' : ''}>
-                                                ${type.getType_name()}
-                                            </option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
+                    <!-- Phân trang -->
+                    <div class="pagination">
+                        <c:if test="${currentPage > 1}">
+                            <a href="ManageAccount?page=${currentPage - 1}">&laquo; Previous</a>
+                        </c:if>
+
+                        <c:forEach begin="1" end="${totalPages}" var="i">
+                            <a href="ManageAccount?page=${i}" class="${i == currentPage ? 'active' : ''}">${i}</a>
+                        </c:forEach>
+
+                        <c:if test="${currentPage < totalPages}">
+                            <a href="ManageAccount?page=${currentPage + 1}">Next &raquo;</a>
+                        </c:if>
+                    </div>
+
+                </div>
+            </div>        
+        </div>
+        <!-- Edit Modal HTML -->
+        <div id="addEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form name="theaterForm" action="AddAccount" method="post" onsubmit="return validateForm()">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Add New Account</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">	
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input id="username" name="username" class="form-control" required 
+                                       onblur="checkAvailability('username', this.value, 'usernameError')">
+                                <span id="usernameError" style="color: red;"></span>
                             </div>
-                        </table>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input id="password" name="password" type="password" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input id="confirm_password" type="password" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Fullname</label>
+                                <input id="fullname" name="fullname" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input name="email" type="email" class="form-control" required 
+                                       onblur="checkAvailability('email', this.value, 'emailError')">
+                                <span id="emailError" style="color: red;"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input id="phone" name="phone" class="form-control" required 
+                                       onblur="checkAvailability('phone', this.value, 'phoneError')">
+                                <span id="phoneError" style="color: red;"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Birth Date</label>
+                                <input id="birth_date" name="birth_date" type="date" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select name="role"  class="form-select" aria-label="Default select example" >
+                                    <c:forEach items="${listRole}" var="role">
+                                        <option value="${role.getRole_id()}">${role.getRole_name()}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageRoom'">Cancel</button>
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-success" value="Add" id="addBtn" disabled>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Edit Modal HTML -->
+        <div id="editEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form>
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Edit Employee</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" required>
+                            </div>					
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                             <input type="submit" class="btn btn-info" value="Save">
                         </div>
                     </form>
                 </div>
-            </div>        
+            </div>
         </div>
 
     </body>
@@ -476,40 +625,117 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script>
-                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
-                                    var managerListDiv = document.getElementById('managerListDiv');
 
-                                    // Toggle hiển thị/ẩn div managerListDiv
-                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
-                                        managerListDiv.style.display = 'block';  // Hiển thị div
-                                    } else {
-                                        managerListDiv.style.display = 'none';  // Ẩn div
-                                    }
-                                });
+
+
+<script>
+                                           // Lấy ngày hiện tại (YYYY-MM-DD)
+                                           var today = new Date().toISOString().split("T")[0];
+                                           document.getElementById("birth_date").setAttribute("max", today);
 </script>
-
 <script>
-    function validateForm() {
+    function checkAvailability(type, value, errorId) {
+        if (value.trim() === "")
+            return; // Không kiểm tra nếu trống
 
-        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
-        var name = document.forms["theaterForm"]["name"].value;
-        var capacity = document.forms["theaterForm"]["capacity"].value;
-        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
-        var naturalNumber = /^[1-9]\d*$/
-
-        if (specialCharOrNumber.test(name)) {
-            alert("Tên phòng không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-        if (!naturalNumber.test(capacity)) {
-            alert("Số lượng ghế chỉ là số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-
-        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
+        $.ajax({
+            url: "CheckAccount",
+            type: "GET",
+            data: {type: type, value: value},
+            dataType: "json",
+            success: function (response) {
+                let errorSpan = document.getElementById(errorId);
+                if (response.exists) {
+                    errorSpan.innerText = type.charAt(0).toUpperCase() + type.slice(1) + " đã tồn tại!";
+                } else {
+                    errorSpan.innerText = "";
+                }
+                validateAvailability(); // Kiểm tra lại trạng thái của nút Add
+            },
+            error: function (xhr, status, error) {
+                console.log("AJAX error:", status, error);
+            }
+        });
     }
+
+    function validateInputs() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirm_password").value;
+        var fullname = document.getElementById("fullname").value;
+        var phone = document.getElementById("phone").value;
+        var birthDate = document.getElementById("birth_date").value;
+
+        // Kiểm tra username không chứa dấu cách
+        if (username.includes(" ")) {
+            alert("Username không được chứa dấu cách!");
+            return false;
+        }
+
+        // Kiểm tra mật khẩu không chứa dấu cách
+        if (password.includes(" ")) {
+            alert("Mật khẩu không được chứa dấu cách!");
+            return false;
+        }
+
+        // Kiểm tra confirm password
+        if (password !== confirmPassword) {
+            alert("Confirm Password không khớp với Password!");
+            return false;
+        }
+
+        // Kiểm tra fullname không chứa số
+        var nameRegex = /\d/;
+        if (nameRegex.test(fullname)) {
+            alert("Full Name không được chứa số!");
+            return false;
+        }
+
+        // Kiểm tra phone chỉ chứa số, có 10 số, bắt đầu bằng số 0
+        var phoneRegex = /^0\d{9}$/;
+        if (!phoneRegex.test(phone)) {
+            alert("Phone phải có đúng 10 số và bắt đầu từ số 0!");
+            return false;
+        }
+
+        // Kiểm tra ngày sinh (phải đủ 16 tuổi trở lên)
+        var today = new Date();
+        var birthDateObj = new Date(birthDate);
+        var age = today.getFullYear() - birthDateObj.getFullYear();
+
+        if (age < 16 || (age === 16 && today < new Date(birthDateObj.setFullYear(birthDateObj.getFullYear() + 16)))) {
+            alert("Bạn phải đủ 16 tuổi trở lên!");
+            return false;
+        }
+
+        return true; // Nếu tất cả hợp lệ
+    }
+
+    function validateAvailability() {
+        let usernameError = document.getElementById("usernameError").innerText;
+        let emailError = document.getElementById("emailError").innerText;
+        let phoneError = document.getElementById("phoneError").innerText;
+        let addBtn = document.getElementById("addBtn");
+
+        if (usernameError || emailError || phoneError) {
+            addBtn.disabled = true;
+        } else {
+            addBtn.disabled = false;
+        }
+    }
+
+    function validateForm() {
+        if (!validateInputs())
+            return false; // Nếu dữ liệu nhập sai, không gửi form
+        validateAvailability(); // Nếu hợp lệ, kiểm tra tài khoản trùng lặp
+        return !document.getElementById("addBtn").disabled; // Nếu nút Add bị vô hiệu, không submit
+    }
+
+
+
 </script>
+
+
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -709,5 +935,3 @@
 </script>
 
 <script src="assets/js/bootstrap.min.js"></script>
-
-

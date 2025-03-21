@@ -34,7 +34,7 @@ public class users {
     private int theater_id;
     private String status;
 
-    public users(int role_id, String username, String password, String fullname, String email, String phone, String birth_date) {
+    public users(int role_id, String username, String password, String fullname, int aInt1, String email) {
         this.role_id = role_id;
         this.username = username;
         this.password = password;
@@ -43,6 +43,7 @@ public class users {
         this.phone = phone;
         this.birth_date = birth_date;
     }
+    
 
     public users(String user, String pass, String fullname, String email, String phone) {
         this.username = user;

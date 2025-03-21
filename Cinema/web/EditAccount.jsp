@@ -424,45 +424,51 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Edit <b>Room</b></h2>
+                                <h2>Edit <b>Account</b></h2>
                             </div>
                         </div>
                     </div>
-                    <form name="theaterForm" action="EditRoom" method="post" onsubmit="return validateForm()">
-                        <c:set value="${requestScope.room}" var="room"/>
+                    <form name="theaterForm" action="EditAccount" method="post" onsubmit="return validateForm()">
+                        <c:set value="${requestScope.user}" var="user"/>
                         <table class="table table-striped table-hover">
                             <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
                                 <div class="form-group">
-                                    <label>ID Room</label>
-                                    <input value="${room.room_id}" name="id" type="text" class="form-control" readonly required>
-                                </div>
-                                <div class="form-group" style="display: none;">
-                                    <label>ID Theater</label>
-                                    <input value="${room.theater_id}" name="theaterId" type="text" class="form-control" readonly required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Room's Name</label>
-                                    <textarea name="name" class="form-control" required>${room.room_name}</textarea>
+                                    <label>ID Account</label>
+                                    <input value="${user.user_id}" name="id" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Capacity</label>
-                                    <textarea name="capacity" class="form-control" required>${room.capacity}</textarea>
+                                    <label>Full Name</label>
+                                    <input value="${user.fullname}" name="name" type="text" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label>Type</label>
-                                    <select name="type" class="form-select" aria-label="Default select example">
-                                        <c:forEach items="${type}" var="type">
-                                            <option value="${type.getType_id()}" ${type.getType_id() == room.type_id ? 'selected="selected"' : ''}>
-                                                ${type.getType_name()}
+                                    <label>Email</label>
+                                    <input value="${user.email}" name="email" type="text" class="form-control" readonly required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input value="${user.phone}" name="phone" type="text" class="form-control" readonly required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <select name="role" class="form-select" aria-label="Default select example">
+                                        <c:forEach items="${role}" var="role">
+                                            <option value="${role.getRole_id()}" ${role.getRole_id() == user.role_id ? 'selected="selected"' : ''}>
+                                                ${role.getRole_name()}
                                             </option>
                                         </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select name="status" class="form-select">
+                                        <option value="Active" ${user.status == 'Active' ? 'selected' : ''}>Active</option>
+                                        <option value="Inactive" ${user.status == 'Inactive' ? 'selected' : ''}>Inactive</option>
                                     </select>
                                 </div>
                             </div>
                         </table>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageRoom'">Cancel</button>
+                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageAccount'">Cancel</button>
                             <input type="submit" class="btn btn-info" value="Save">
                         </div>
                     </form>
@@ -476,39 +482,34 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script>
-                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
-                                    var managerListDiv = document.getElementById('managerListDiv');
-
-                                    // Toggle hiển thị/ẩn div managerListDiv
-                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
-                                        managerListDiv.style.display = 'block';  // Hiển thị div
-                                    } else {
-                                        managerListDiv.style.display = 'none';  // Ẩn div
-                                    }
-                                });
-</script>
 
 <script>
-    function validateForm() {
+function validateForm() {
+    var name = document.forms["theaterForm"]["name"].value.trim();
 
-        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
-        var name = document.forms["theaterForm"]["name"].value;
-        var capacity = document.forms["theaterForm"]["capacity"].value;
-        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
-        var naturalNumber = /^[1-9]\d*$/
-
-        if (specialCharOrNumber.test(name)) {
-            alert("Tên phòng không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-        if (!naturalNumber.test(capacity)) {
-            alert("Số lượng ghế chỉ là số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-
-        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
+    // Kiểm tra nếu name bị bỏ trống
+    if (name === "") {
+        alert("Tên Account không được để trống. Vui lòng nhập lại.");
+        return false;
     }
+
+    // Kiểm tra nếu name chỉ chứa số hoặc chỉ chứa ký tự đặc biệt
+    var onlyNumbersOrSpecialChars = /^[0-9]+$|^[^a-zA-Z0-9]+$/;
+    var hasNumber = /\d/;  // Kiểm tra nếu name có chứa số
+
+    if (onlyNumbersOrSpecialChars.test(name)) {
+        alert("Tên Account không được chỉ chứa số hoặc chỉ chứa ký tự đặc biệt. Vui lòng nhập lại.");
+        return false;
+    }
+
+    if (hasNumber.test(name)) {
+        alert("Tên Account không được chứa số. Vui lòng nhập lại.");
+        return false;
+    }
+
+    return true; // Hợp lệ, cho phép submit
+}
+
 </script>
 
 <script type="text/javascript">

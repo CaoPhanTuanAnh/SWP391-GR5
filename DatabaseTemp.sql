@@ -367,7 +367,7 @@ CREATE TABLE [dbo].[users](
 	[phone] [char](10) NULL,
 	[birth_date] [date] NOT NULL,
 	[theater_id] [int] NULL,-- Doi voi customer, day la rap phim thuong den, Doi voi manager va admin, day la noi lam viec
-	[status] [nvarchar](20) NOT NULL, -- Active: TK con hoat dong, Banned: bi ban
+	[status] [nvarchar](20) NOT NULL, -- Active: TK con hoat dong, Inactive: bi ban
 PRIMARY KEY CLUSTERED 
 (
 	[user_id] ASC

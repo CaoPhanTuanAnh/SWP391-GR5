@@ -105,7 +105,7 @@
                                     <ul class="dropdown">
                                         <li><a href="city_control">Manage City</a></li>
                                         <li><a href="ManageTheater">Manage Theater</a></li>
-                                        <li><a href="#">Manage Account</a></li>
+                                        <li><a href="ManageAccount">Manage Account</a></li>
                                     </ul>
                                 </li>
                             </c:if>
