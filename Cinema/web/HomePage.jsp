@@ -138,6 +138,8 @@
                                         <li><a href="ManageSeat">Manage Seat</a></li>
                                         <li><a href="ManageNews">Manage News</a></li>
                                         <li><a href="combo_control">Manage Combo</a></li>
+                                        <li><a href="participant_control">Manage Participant</a></li>
+                                        <li><a href="movie_participant_control">Manage Movie Participant</a></li>
                                         <li><a href="#">Manage Show Time</a></li>
                                     </ul>
                                 </li>
