@@ -19,6 +19,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tool.TypeValidator;
 
 /**
@@ -65,28 +67,26 @@ public class UserProfileControl extends HttpServlet {
             HttpSession session, users user, String mess)
             throws ServletException, IOException {
         String fullName = request.getParameter("fullName");
-        String email = request.getParameter("email");
         String birth_date = request.getParameter("birth_date");
         String phone = request.getParameter("phone");
         String theater_id = request.getParameter("theater_id");
-        if (fullName != null && email != null && birth_date != null && phone != null && theater_id != null) {
+        if (fullName != null && birth_date != null && phone != null && theater_id != null) {
             try {
                 if (TypeValidator.validateFullName(fullName)
-                        && TypeValidator.validateEmail(email)
                         && TypeValidator.validatePhone(phone)) {
                     usersDAO dao = new usersDAO();
-                    if (!dao.editProfile(user.getUser_id(), fullName, email, phone, birth_date, Integer.parseInt(theater_id))) {
+                    if (!dao.editProfile(user.getUser_id(), fullName, phone, birth_date, Integer.parseInt(theater_id))) {
                         mess = "Something go wrong!";
                     } else {
                         mess = "Profile have been updated successfully!";
                         user.setFullname(fullName);
-                        user.setEmail(email);
                         user.setPhone(phone);
                         user.setBirth_date(birth_date);
                         user.setTheater_id(Integer.parseInt(theater_id));
                     }
                 }
             } catch (Exception e) {
+                Logger.getLogger(usersDAO.class.getName()).log(Level.SEVERE, null, e);
                 mess = e.getMessage();
             }
         }
@@ -120,6 +120,7 @@ public class UserProfileControl extends HttpServlet {
                         }
                     }
                 } catch (Exception e) {
+                    Logger.getLogger(UserProfileControl.class.getName()).log(Level.SEVERE, null, e);
                     mess = e.getMessage();
                 }
             }

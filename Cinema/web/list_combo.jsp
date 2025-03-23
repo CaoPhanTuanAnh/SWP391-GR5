@@ -327,103 +327,7 @@
 
     <body onload="console.log('${requestScope.mess}')">
 
-        <!-- header -->
-        <header id="site-header" class="w3l-header fixed-top">
-            <!--/nav-->
-            <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
-                <div class="container">
-                    <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                        aria-hidden="true"></span>
-                            MyShowz</a></h1>
-                    <!-- if logo is image enable this   
-                                    <a class="navbar-brand" href="#index.jsp">
-                                            <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
-                                    </a> -->
-                    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <!-- <span class="navbar-toggler-icon"></span> -->
-                        <span class="fa icon-expand fa-bars"></span>
-                        <span class="fa icon-close fa-times"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.getRole_id() == 1}">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="home">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#needlink">Manage Account</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="city_control">Manage City</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ManageTheater">Manage Theater</a>
-                                </li>
-                            </c:if>
-
-                            <c:if test="${sessionScope.acc.getRole_id() == 2}">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="index.jsp">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Room</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="movies.jsp">Manage Seat</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Show Time</a>
-                                </li>
-                            </c:if>
-
-                        </ul>
-
-                        <c:choose>
-                            <c:when test="${sessionScope.acc != null}">
-                                    <div class="header__top__right__auth">
-                                        <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
-                                    </div>
-                            </c:when>
-                            <c:otherwise>
-                                    <div class="header__top__right__auth">
-                                        <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                    </div>
-                            </c:otherwise>
-                        </c:choose>
-                        <div class="Login_SignUp" id="login"
-                             style="font-size: 2rem ; display: inline-block; position: relative;">
-                            <!-- <li class="nav-item"> -->
-                            <c:choose>
-                                <c:when test="${sessionScope.acc != null}">
-                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
-                                    </c:when>
-                                    <c:otherwise>
-                                    <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
-                                    </c:otherwise>
-                                </c:choose>
-                            <!-- </li> -->
-                        </div>
-                    </div>
-                    <!-- toggle switch for light and dark theme -->
-                    <div class="mobile-position">
-                        <nav class="navigation">
-                            <div class="theme-switch-wrapper">
-                                <label class="theme-switch" for="checkbox">
-                                    <input type="checkbox" id="checkbox">
-                                    <div class="mode-container">
-                                        <i class="gg-sun"></i>
-                                        <i class="gg-moon"></i>
-                                    </div>
-                                </label>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </nav>
-        </header>
+        <%@ include file="header_manage.jsp" %>
         <!-- main-slider -->
         <div class="container-xl">
             <div class="table-responsive">
@@ -454,7 +358,7 @@
                                     <td>${combo.getDetail()}</td>
                                     <td>${combo.getCombo_price()}</td>
                                     <td>
-                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeComboInfo(${combo.getCombo_id()},'${combo.getCombo_name()}','${combo.getDetail()}','${combo.getCombo_price()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeComboInfo(${combo.getCombo_id()}, '${combo.getCombo_name()}', '${combo.getDetail()}', '${combo.getCombo_price()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                         <a href="combo_control?service=deleteCombo&comboID=${combo.getCombo_id()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     </td>
                                 </tr>
@@ -543,74 +447,74 @@
 
 </html>
 <script>
-    function takeComboInfo(oldComboID,oldComboName,oldDetail,oldComboPrice){
+    function takeComboInfo(oldComboID, oldComboName, oldDetail, oldComboPrice) {
         console.log("run");
-        document.getElementById("comboEditComboID").value=oldComboID;
-        document.getElementById("comboEditComboName").value=oldComboName;
-        document.getElementById("comboEditDetail").value=oldDetail;
-        document.getElementById("comboEditComboPrice").value=oldComboPrice;
+        document.getElementById("comboEditComboID").value = oldComboID;
+        document.getElementById("comboEditComboName").value = oldComboName;
+        document.getElementById("comboEditDetail").value = oldDetail;
+        document.getElementById("comboEditComboPrice").value = oldComboPrice;
     }
 </script>
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-            $(document).ready(function () {
-                //Horizontal Tab
-                $('#parentHorizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion
-                    width: 'auto', //auto or any width like 600px
-                    fit: true, // 100% fit in a container
-                    tabidentify: 'hor_1', // The tab groups identifier
-                    activate: function (event) { // Callback function if tab is switched
-                        var $tab = $(this);
-                        var $info = $('#nested-tabInfo');
-                        var $name = $('span', $info);
-                        $name.text($tab.text());
-                        $info.show();
-                    }
-                });
-            });
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-            $(document).ready(function () {
-                $('.owl-one').owlCarousel({
-                    stagePadding: 280,
-                    loop: true,
-                    margin: 20,
-                    nav: true,
-                    responsiveClass: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    autoplaySpeed: 1000,
-                    autoplayHoverPause: false,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            stagePadding: 40,
-                            nav: false
-                        },
-                        480: {
-                            items: 1,
-                            stagePadding: 60,
-                            nav: true
-                        },
-                        667: {
-                            items: 1,
-                            stagePadding: 80,
-                            nav: true
-                        },
-                        1000: {
-                            items: 1,
-                            nav: true
-                        }
-                    }
-                })
-            })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {

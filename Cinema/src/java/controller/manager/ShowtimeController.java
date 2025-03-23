@@ -202,7 +202,7 @@ public class ShowtimeController extends HttpServlet {
         Date date = Date.valueOf(request.getParameter("date"));
         String temp = request.getParameter("time");
         System.out.println(temp);
-        Time time = Time.valueOf(temp);
+        Time time = Time.valueOf(temp+(temp.length()==5?":00":""));
         int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
         showtimesDAO dao = new showtimesDAO();
         if(!dao.editShowtime(showtime_id, room_id, movie_id, date, time)){

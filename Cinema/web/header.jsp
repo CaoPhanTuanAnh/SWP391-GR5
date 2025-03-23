@@ -11,11 +11,13 @@
     <!--/nav-->
     <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
         <div class="container">
-            <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                               aria-hidden="true"></span>
+            <h1><a class="navbar-brand" href="HomePageController
+                   "><span class="fa fa-play icon-log"
+                        aria-hidden="true"></span>
                     MyShowz</a></h1>
             <!-- if logo is image enable this   
-                            <a class="navbar-brand" href="#index.jsp">
+                            <a class="navbar-brand" href="#index.jsp
+            ">
                                     <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
                             </a> -->
             <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
@@ -29,14 +31,18 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="home">Home</a>
+                        <a class="nav-link" href="HomePageController">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="movies.jsp">Movies</a>
+                        <a class="nav-link" href="ViewAllController">Movies</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about.jsp">About</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="NewsListServlet">News</a>
+                    </li>
+
 
 
                     <li class="nav-item">
@@ -48,7 +54,7 @@
                             <ul class="dropdown">
                                 <li><a href="city_control">Manage City</a></li>
                                 <li><a href="ManageTheater">Manage Theater</a></li>
-                                <li><a href="#">Manage Account</a></li>
+                                <li><a href="ManageAccount">Manage Account</a></li>
                             </ul>
                         </li>
                     </c:if>
@@ -56,9 +62,13 @@
                         <li class="nav-item">
                             <a class="nav-link" >Manage</a>
                             <ul class="dropdown">
-                                <li><a href="#">Manage Room</a></li>
-                                <li><a href="#">Manage Seat</a></li>
-                                <li><a href="#">Manage Show Time</a></li>
+                                <li><a href="ManageRoom">Manage Room</a></li>
+                                <li><a href="ManageSeat">Manage Seat</a></li>
+                                <li><a href="ManageNews">Manage News</a></li>
+                                <li><a href="combo_control">Manage Combo</a></li>
+                                <li><a href="participant_control">Manage Participant</a></li>
+                                <li><a href="movie_participant_control">Manage Movie Participant</a></li>
+                                <li><a href="ShowtimeURL?service=listShowtimeByRoom">Manage Show Time</a></li>
                             </ul>
                         </li>
                     </c:if>
@@ -82,22 +92,38 @@
                             <div class="browse-items">
                                 <h3 class="hny-title two mt-md-5 mt-4">Browse all:</h3>
                                 <ul class="search-items">
-                                    <li><a href="movies.jsp">Action</a></li>
-                                    <li><a href="movies.jsp">Drama</a></li>
-                                    <li><a href="movies.jsp">Family</a></li>
-                                    <li><a href="movies.jsp">Thriller</a></li>
-                                    <li><a href="movies.jsp">Commedy</a></li>
-                                    <li><a href="movies.jsp">Romantic</a></li>
-                                    <li><a href="movies.jsp">Tv-Series</a></li>
-                                    <li><a href="movies.jsp">Horror</a></li>
-                                    <li><a href="movies.jsp">Action</a></li>
-                                    <li><a href="movies.jsp">Drama</a></li>
-                                    <li><a href="movies.jsp">Family</a></li>
-                                    <li><a href="movies.jsp">Thriller</a></li>
-                                    <li><a href="movies.jsp">Commedy</a></li>
-                                    <li><a href="movies.jsp">Romantic</a></li>
-                                    <li><a href="movies.jsp">Tv-Series</a></li>
-                                    <li><a href="movies.jsp">Horror</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Action</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Drama</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Family</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Thriller</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Commedy</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Romantic</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Tv-Series</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Horror</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Action</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Drama</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Family</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Thriller</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Commedy</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Romantic</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Tv-Series</a></li>
+                                    <li><a href="movies.jsp
+                                           ">Horror</a></li>
                                 </ul>
                             </div>
                         </div>
