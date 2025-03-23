@@ -30,10 +30,10 @@
                 <ul class="navbar-nav ml-auto">
                     <c:if test="${sessionScope.acc.getRole_id() == 1}">
                         <li class="nav-item active">
-                            <a class="nav-link" href="home">Home</a>
+                            <a class="nav-link" href="HomePageController">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#needlink">Manage Account</a>
+                            <a class="nav-link" href="ManageAccount">Manage Account</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="city_control">Manage City</a>
@@ -45,7 +45,7 @@
 
                     <c:if test="${sessionScope.acc.getRole_id() == 2}">
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.jsp">Home</a>
+                            <a class="nav-link" href="HomePageController">Home</a>
                         </li>
                         <li class="nav-item"><a class="nav-link"  href="ManageRoom">Manage Room</a></li>
                         <li class="nav-item"><a  class="nav-link" href="ManageSeat">Manage Seat</a></li>
