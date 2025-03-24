@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="zxx">
@@ -418,66 +420,58 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Edit <b>Theater</b></h2>
+                                <h2>Edit <b>Movie</b></h2>
                             </div>
                         </div>
                     </div>
-                    <form name="theaterForm" action="EditTheater" method="post" onsubmit="return validateForm()">
-                        <c:set value="${requestScope.theater}" var="theater"/>
+                    <c:if test="${not empty errorMessage}">
+                        <div class="alert alert-danger">${errorMessage}</div>
+                    </c:if>
+                    <form name="theaterForm" action="EditMovie" method="post" onsubmit="return validateForm()">
+                        <c:set value="${requestScope.movie}" var="movie"/>
                         <table class="table table-striped table-hover">
                             <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
                                 <div class="form-group">
-                                    <label>ID Theater</label>
-                                    <input value="${theater.theater_id}" name="id" type="text" class="form-control" readonly required>
+                                    <label>ID Movie</label>
+                                    <input value="${movie.movie_id}" name="id" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Manager</label>
-                                    <c:set var="managerInfo" value=""/>
-                                    <c:forEach items="${listUU}" var="u">
-                                        <c:if test="${u.getUser_id() == theater.director_id}">
-                                            <c:set var="managerInfo" value="ID: ${u.getUser_id()} - Name: ${u.getFullname()}"/>
-                                        </c:if>
-                                    </c:forEach>
-                                    <input value="${managerInfo}" name="managername" type="text" class="form-control" readonly required>
-                                </div>
-                                <!-- Đặt div này ẩn mặc định -->
-                                <div id="managerListDiv" class="form-group">
-                                    <input list="managerList" name="manager" class="form-control" required>
-                                    <datalist id="managerList">
-                                        <c:forEach items="${listUU}" var="u">
-                                            <option value="${u.getUser_id()} - ${u.getFullname()}"
-                                                    <c:if test="${u.getUser_id() == theater.director_id}">
-                                                        selected
-                                                    </c:if>
-                                                    >
-                                                ID: ${u.getUser_id()} - Name: ${u.getFullname()}
-                                            </option>
-                                        </c:forEach>
-                                    </datalist>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Theater's Name</label>
-                                    <textarea name="name" class="form-control" required>${theater.theater_name}</textarea>
+                                    <label>Movie Name</label>
+                                    <input value="${movie.title}" name="name" type="text" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label>Theater's Address</label>
-                                    <textarea name="address" class="form-control" required>${theater.address}</textarea>
+                                    <label>Description</label>
+                                    <textarea style="height: 150px" name="description" class="form-control" required>${movie.description}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>City</label>
-                                    <select name="city" class="form-select" aria-label="Default select example">
-                                        <c:forEach items="${listCC}" var="o">
-                                            <option value="${o.getCity_id()}" ${o.getCity_id() == theater.city_id ? 'selected="selected"' : ''}>
-                                                ${o.getCity_name()}
-                                            </option>
-                                        </c:forEach>
+                                    <label>Trailer URL</label>
+                                    <textarea name="trailer" class="form-control" required>${movie.trailer_url}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Poster URL</label>
+                                    <input value="${movie.poster_url}" name="poster" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Duration</label>
+                                    <input value="${movie.duration}" name="duration" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Release Date</label>
+                                    <input type="date" name="release_date" class="form-control" value="${movie.release_date}">
+                                </div>
+                                </select>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select name="status" class="form-control">
+                                        <option value="Present" ${movie.status == 'Present' ? 'selected' : ''}>Present</option>
+                                        <option value="Future" ${movie.status == 'Future' ? 'selected' : ''}>Future</option>
+                                        <option value="Past" ${movie.status == 'Past' ? 'selected' : ''}>Past</option>
                                     </select>
                                 </div>
                             </div>
                         </table>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageTheater'">Cancel</button>
+                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageMovie'">Cancel</button>
                             <input type="submit" class="btn btn-info" value="Save">
                         </div>
                     </form>
@@ -491,52 +485,62 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script>
-                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
-                                    var managerListDiv = document.getElementById('managerListDiv');
-
-                                    // Toggle hiển thị/ẩn div managerListDiv
-                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
-                                        managerListDiv.style.display = 'block';  // Hiển thị div
-                                    } else {
-                                        managerListDiv.style.display = 'none';  // Ẩn div
-                                    }
-                                });
-</script>
 
 <script>
     function validateForm() {
-        // Kiểm tra trường Manager
-        var managerInput = document.forms["theaterForm"]["manager"].value;
-        var isValidManager = false;
-        
-        // Kiểm tra xem giá trị người dùng nhập có tồn tại trong danh sách
-        var managerOptions = document.getElementById("managerList").options;
-        for (var i = 0; i < managerOptions.length; i++) {
-            if (managerInput === managerOptions[i].value) {
-                isValidManager = true;
-                break;
+        let isValid = true;
+        let firstErrorField = null; // Lưu ô đầu tiên bị lỗi
+        let regex = /^[^a-zA-Z]*$/; // Chỉ chứa ký tự đặc biệt hoặc số
+        let numberRegex = /^[1-9]\d*$/; // Chỉ chứa số tự nhiên
+
+        function showError(input, message) {
+            let errorDiv = document.getElementById(input.name + "-error");
+            if (!errorDiv) {
+                errorDiv = document.createElement("div");
+                errorDiv.id = input.name + "-error";
+                errorDiv.style.color = "red";
+                input.parentNode.appendChild(errorDiv);
+            }
+            errorDiv.innerText = message;
+            if (!firstErrorField) {
+                firstErrorField = input; // Lưu ô input đầu tiên có lỗi
+            }
+            isValid = false;
+        }
+
+        function clearError(input) {
+            let errorDiv = document.getElementById(input.name + "-error");
+            if (errorDiv) {
+                errorDiv.innerText = "";
             }
         }
 
-        if (!isValidManager) {
-            alert("Vui lòng chọn một người quản lý từ danh sách hoặc nhập thông tin hợp lệ.");
-            return false; // Không gửi biểu mẫu nếu dữ liệu không hợp lệ
+        let name = document.theaterForm.name;
+        let description = document.theaterForm.description;
+        let trailer = document.theaterForm.trailer;
+        let poster = document.theaterForm.poster;
+        let duration = document.theaterForm.duration;
+
+        clearError(name);
+        clearError(description);
+        clearError(trailer);
+        clearError(poster);
+        clearError(duration);
+
+        if (regex.test(name.value)) showError(name, "Movie Name không hợp lệ!");
+        if (regex.test(description.value)) showError(description, "Description không hợp lệ!");
+        if (regex.test(trailer.value)) showError(trailer, "Trailer URL không hợp lệ!");
+        if (regex.test(poster.value)) showError(poster, "Poster URL không hợp lệ!");
+        if (!numberRegex.test(duration.value)) showError(duration, "Duration phải là số tự nhiên lớn hơn 0!");
+
+        if (firstErrorField) {
+            firstErrorField.focus(); // Chuyển con trỏ về ô đầu tiên có lỗi
         }
 
-        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
-        var name = document.forms["theaterForm"]["name"].value;
-        var address = document.forms["theaterForm"]["address"].value;
-        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
-
-        if (specialCharOrNumber.test(name) || specialCharOrNumber.test(address)) {
-            alert("Tên rạp và địa chỉ không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-
-        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
+        return isValid;
     }
 </script>
+
 
 <script type="text/javascript">
     $(document).ready(function () {

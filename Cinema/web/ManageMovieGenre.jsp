@@ -343,12 +343,12 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.role_id == 1}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 1}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="home">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Account</a>
+                                    <a class="nav-link" href="#needlink">Manage Account</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="city_control">Manage City</a>
@@ -356,9 +356,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="ManageTheater">Manage Theater</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="ManageMovie">Manage Movie</a>
+                                </li>
                             </c:if>
 
-                            <c:if test="${sessionScope.acc.role_id == 2}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 2}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
@@ -390,7 +393,14 @@
                         <div class="Login_SignUp" id="login"
                              style="font-size: 2rem ; display: inline-block; position: relative;">
                             <!-- <li class="nav-item"> -->
-                            <a class="nav-link" href="#"><i class="fa fa-user-circle-o"></i></a>
+                            <c:choose>
+                                <c:when test="${sessionScope.acc != null}">
+                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    </c:otherwise>
+                                </c:choose>
                             <!-- </li> -->
                         </div>
                     </div>
@@ -418,71 +428,131 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Edit <b>Theater</b></h2>
+                                <h2>Manage <b>Movie Genre</b></h2>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="#addMovieGenreModal" class="btn btn-success" data-toggle="modal">
+                                    <i class="material-icons">&#xE147;</i> <span>Add New Movie Genre</span>
+                                </a>						
                             </div>
                         </div>
                     </div>
-                    <form name="theaterForm" action="EditTheater" method="post" onsubmit="return validateForm()">
-                        <c:set value="${requestScope.theater}" var="theater"/>
-                        <table class="table table-striped table-hover">
-                            <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
-                                <div class="form-group">
-                                    <label>ID Theater</label>
-                                    <input value="${theater.theater_id}" name="id" type="text" class="form-control" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Manager</label>
-                                    <c:set var="managerInfo" value=""/>
-                                    <c:forEach items="${listUU}" var="u">
-                                        <c:if test="${u.getUser_id() == theater.director_id}">
-                                            <c:set var="managerInfo" value="ID: ${u.getUser_id()} - Name: ${u.getFullname()}"/>
-                                        </c:if>
-                                    </c:forEach>
-                                    <input value="${managerInfo}" name="managername" type="text" class="form-control" readonly required>
-                                </div>
-                                <!-- Đặt div này ẩn mặc định -->
-                                <div id="managerListDiv" class="form-group">
-                                    <input list="managerList" name="manager" class="form-control" required>
-                                    <datalist id="managerList">
-                                        <c:forEach items="${listUU}" var="u">
-                                            <option value="${u.getUser_id()} - ${u.getFullname()}"
-                                                    <c:if test="${u.getUser_id() == theater.director_id}">
-                                                        selected
-                                                    </c:if>
-                                                    >
-                                                ID: ${u.getUser_id()} - Name: ${u.getFullname()}
-                                            </option>
-                                        </c:forEach>
-                                    </datalist>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Theater's Name</label>
-                                    <textarea name="name" class="form-control" required>${theater.theater_name}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Theater's Address</label>
-                                    <textarea name="address" class="form-control" required>${theater.address}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>City</label>
-                                    <select name="city" class="form-select" aria-label="Default select example">
-                                        <c:forEach items="${listCC}" var="o">
-                                            <option value="${o.getCity_id()}" ${o.getCity_id() == theater.city_id ? 'selected="selected"' : ''}>
-                                                ${o.getCity_name()}
-                                            </option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
+                    <c:if test="${param.success == 'added'}">
+                        <div class="alert alert-success">Thêm thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'add_failed'}">
+                        <div class="alert alert-danger">Thêm thất bại!</div>
+                    </c:if>
+                    <!-- Form tìm kiếm -->
+                    <form action="ManageMovieGenre" method="get">
+                        <div style="width: 285px" class="input-group mb-3">
+                            <input type="text" name="search" class="form-control" placeholder="Search by movie name" value="${param.search}">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Search</button>
                             </div>
-                        </table>
+                        </div>
+                    </form>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 10px;">ID</th>
+                                <th style="width: 10px;">Movie ID</th>
+                                <th style="width: 120px;">Movie Name</th>
+                                <th style="width: 20px;">Genre</th>
+                                <th style="width: 10px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:choose>
+                                <c:when test="${empty movieGenresList}">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-danger">Không tìm thấy bộ phim!</td>
+                                    </tr>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach items="${movieGenresList}" var="mg">
+                                        <tr>
+                                            <td>${mg.movie_genre_id}</td>
+                                            <td>${mg.movie_id}</td>
+                                            <td>${mg.title}</td>
+                                            <td>${mg.genre_name}</td>
+                                            <td>
+                                                <a href="LoadMovieGenre?movie_genre_id=${mg.movie_genre_id}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                                <a href="DeleteMovieGenre?movie_genre_id=${mg.movie_genre_id}" class="delete"
+                                                   onclick="return confirm('Bạn có chắc muốn xóa thể loại phim này không?');">
+                                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+                        </tbody>
+
+                    </table>
+
+                    <!-- Phân trang -->
+                    <nav style="margin-top: -25px">
+                        <ul style="margin-top: 27px" class="pagination justify-content-center">
+                            <c:if test="${currentPage > 1}">
+                                <li class="page-item"><a class="page-link" href="ManageMovieGenre?page=${currentPage - 1}&search=${param.search}">Previous</a></li>
+                                </c:if>
+                                <c:forEach begin="1" end="${totalPages}" var="i">
+                                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                    <a class="page-link" href="ManageMovieGenre?page=${i}&search=${param.search}">${i}</a>
+                                </li>
+                            </c:forEach>
+                            <c:if test="${currentPage < totalPages}">
+                                <li class="page-item"><a class="page-link" href="ManageMovieGenre?page=${currentPage + 1}&search=${param.search}">Next</a></li>
+                                </c:if>
+                        </ul>
+                    </nav>
+                </div>
+            </div>        
+        </div>
+
+        <!-- Edit Modal HTML -->
+        <!-- Modal Add New Movie Genre -->
+        <div id="addMovieGenreModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form name="movieGenreForm" action="AddMovieGenre" method="post">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Add New Movie Genre</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label>Movie</label>
+                                <input list="movieOptions" id="movieInput" class="form-control" required>
+                                <input type="hidden" name="movie_id" id="selectedMovieId">
+                                <datalist id="movieOptions">
+                                    <c:forEach var="movie" items="${requestScope.movieList}">
+                                        <option value="${movie.title}" data-id="${movie.movie_id}"></option>
+                                    </c:forEach>
+                                </datalist>
+                                <small id="movieError" style="color: red; display: none;">Vui lòng chọn phim từ danh sách.</small>
+                            </div>
+
+                            <!-- Dropdown danh sách genre -->
+                            <div class="form-group">
+                                <label>Genre</label>
+                                <select name="genre_id" class="form-control" required>
+                                    <c:forEach var="genre" items="${requestScope.genreList}">
+                                        <option value="${genre.genre_id}">${genre.genre_name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageTheater'">Cancel</button>
-                            <input type="submit" class="btn btn-info" value="Save">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <input type="submit" class="btn btn-success" value="Add">
                         </div>
                     </form>
                 </div>
-            </div>        
+            </div>
         </div>
 
     </body>
@@ -491,52 +561,36 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script>
-                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
-                                    var managerListDiv = document.getElementById('managerListDiv');
-
-                                    // Toggle hiển thị/ẩn div managerListDiv
-                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
-                                        managerListDiv.style.display = 'block';  // Hiển thị div
-                                    } else {
-                                        managerListDiv.style.display = 'none';  // Ẩn div
-                                    }
-                                });
-</script>
 
 <script>
-    function validateForm() {
-        // Kiểm tra trường Manager
-        var managerInput = document.forms["theaterForm"]["manager"].value;
-        var isValidManager = false;
-        
-        // Kiểm tra xem giá trị người dùng nhập có tồn tại trong danh sách
-        var managerOptions = document.getElementById("managerList").options;
-        for (var i = 0; i < managerOptions.length; i++) {
-            if (managerInput === managerOptions[i].value) {
-                isValidManager = true;
-                break;
-            }
-        }
+       document.getElementById("movieInput").addEventListener("input", function () {
+           let input = this.value;
+           let options = document.getElementById("movieOptions").options;
+           let found = false;
+           for (let i = 0; i < options.length; i++) {
+               if (options[i].value === input) {
+                   document.getElementById("selectedMovieId").value = options[i].getAttribute("data-id");
+                   found = true;
+                   break;
+               }
+           }
+           // Kiểm tra nếu không chọn đúng từ danh sách
+           if (!found) {
+               document.getElementById("selectedMovieId").value = "";
+           }
+       });
 
-        if (!isValidManager) {
-            alert("Vui lòng chọn một người quản lý từ danh sách hoặc nhập thông tin hợp lệ.");
-            return false; // Không gửi biểu mẫu nếu dữ liệu không hợp lệ
-        }
-
-        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
-        var name = document.forms["theaterForm"]["name"].value;
-        var address = document.forms["theaterForm"]["address"].value;
-        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
-
-        if (specialCharOrNumber.test(name) || specialCharOrNumber.test(address)) {
-            alert("Tên rạp và địa chỉ không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-
-        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
-    }
+       document.querySelector("form[name='movieGenreForm']").addEventListener("submit", function (event) {
+           if (document.getElementById("selectedMovieId").value === "") {
+               document.getElementById("movieError").style.display = "block";
+               event.preventDefault(); // Ngăn submit form
+           } else {
+               document.getElementById("movieError").style.display = "none";
+           }
+       });
 </script>
+
+
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -736,5 +790,3 @@
 </script>
 
 <script src="assets/js/bootstrap.min.js"></script>
-
-

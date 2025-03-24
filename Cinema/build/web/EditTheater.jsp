@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index_1
-    Created on : Feb 8, 2025, 3:58:20 PM
-    Author     : bolac
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
@@ -424,7 +418,7 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Edit <b>Product</b></h2>
+                                <h2>Edit <b>Theater</b></h2>
                             </div>
                         </div>
                     </div>

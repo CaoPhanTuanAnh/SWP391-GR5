@@ -343,12 +343,12 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.role_id == 1}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 1}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="home">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Account</a>
+                                    <a class="nav-link" href="#needlink">Manage Account</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="city_control">Manage City</a>
@@ -356,9 +356,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="ManageTheater">Manage Theater</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="ManageMovie">Manage Movie</a>
+                                </li>
                             </c:if>
 
-                            <c:if test="${sessionScope.acc.role_id == 2}">
+                            <c:if test="${sessionScope.acc.getRole_id() == 2}">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>
@@ -390,7 +393,14 @@
                         <div class="Login_SignUp" id="login"
                              style="font-size: 2rem ; display: inline-block; position: relative;">
                             <!-- <li class="nav-item"> -->
-                            <a class="nav-link" href="#"><i class="fa fa-user-circle-o"></i></a>
+                            <c:choose>
+                                <c:when test="${sessionScope.acc != null}">
+                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
+                                    </c:otherwise>
+                                </c:choose>
                             <!-- </li> -->
                         </div>
                     </div>
@@ -418,71 +428,134 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Edit <b>Theater</b></h2>
+                                <h2>Manage <b>Movie</b></h2>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Movie</span></a>						
                             </div>
                         </div>
                     </div>
-                    <form name="theaterForm" action="EditTheater" method="post" onsubmit="return validateForm()">
-                        <c:set value="${requestScope.theater}" var="theater"/>
-                        <table class="table table-striped table-hover">
-                            <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
-                                <div class="form-group">
-                                    <label>ID Theater</label>
-                                    <input value="${theater.theater_id}" name="id" type="text" class="form-control" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Manager</label>
-                                    <c:set var="managerInfo" value=""/>
-                                    <c:forEach items="${listUU}" var="u">
-                                        <c:if test="${u.getUser_id() == theater.director_id}">
-                                            <c:set var="managerInfo" value="ID: ${u.getUser_id()} - Name: ${u.getFullname()}"/>
-                                        </c:if>
-                                    </c:forEach>
-                                    <input value="${managerInfo}" name="managername" type="text" class="form-control" readonly required>
-                                </div>
-                                <!-- Đặt div này ẩn mặc định -->
-                                <div id="managerListDiv" class="form-group">
-                                    <input list="managerList" name="manager" class="form-control" required>
-                                    <datalist id="managerList">
-                                        <c:forEach items="${listUU}" var="u">
-                                            <option value="${u.getUser_id()} - ${u.getFullname()}"
-                                                    <c:if test="${u.getUser_id() == theater.director_id}">
-                                                        selected
-                                                    </c:if>
-                                                    >
-                                                ID: ${u.getUser_id()} - Name: ${u.getFullname()}
-                                            </option>
-                                        </c:forEach>
-                                    </datalist>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Theater's Name</label>
-                                    <textarea name="name" class="form-control" required>${theater.theater_name}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Theater's Address</label>
-                                    <textarea name="address" class="form-control" required>${theater.address}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>City</label>
-                                    <select name="city" class="form-select" aria-label="Default select example">
-                                        <c:forEach items="${listCC}" var="o">
-                                            <option value="${o.getCity_id()}" ${o.getCity_id() == theater.city_id ? 'selected="selected"' : ''}>
-                                                ${o.getCity_name()}
-                                            </option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
+                    <c:if test="${param.error != null}">
+                        <div style="color: red;">${param.error}</div>
+                    </c:if>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 10px !important;">ID</th>
+                                <th style="width: 120px !important;">Movie Name</th>
+                                <th style="width: 120px !important;">Genres</th>
+                                <th style="width: 20px !important;">Duration</th>
+                                <th style="width: 120px !important;">Director</th>
+                                <th style="width: 120px !important;">Actor</th>
+                                <th style="width: 20px !important;">Status</th>
+                                <th style="width: 10px !important;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${movie}" var="movie">
+                                <tr>
+                                    <td>${movie.movie_id}</td>
+                                    <td>${movie.title}</td>
+                                    <td>${movie.genres}</td>
+                                    <td>${movie.duration}</td>
+                                    <td>${movie.directorsString}</td>
+                                    <td>${movie.actorsString}</td>
+                                    <td>${movie.status}</td>
+                                    <td>
+                                        <a href="LoadMovie?movieid=${movie.movie_id}" class="edit"  ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>        
+        </div>
+        <!-- Edit Modal HTML -->
+        <div id="addEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form name="theaterForm" action="AddMovie" method="post" onsubmit="return validateForm()">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Add New Movie</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Movie Name</label>
+                                <input name="name" type="text" class="form-control">
                             </div>
-                        </table>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea style="height: 150px" name="description" class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Trailer URL</label>
+                                <textarea name="trailer" class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Poster URL</label>
+                                <input name="poster" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Duration</label>
+                                <input name="duration" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Release Date</label>
+                                <input type="date" name="release_date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select name="status" class="form-control">
+                                    <option value="Present" >Present</option>
+                                    <option value="Future" >Future</option>
+                                    <option value="Past" >Past</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageTheater'">Cancel</button>
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-success" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Edit Modal HTML -->
+        <div id="editEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form>
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Edit Employee</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" required>
+                            </div>					
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                             <input type="submit" class="btn btn-info" value="Save">
                         </div>
                     </form>
                 </div>
-            </div>        
+            </div>
         </div>
 
     </body>
@@ -491,50 +564,62 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script>
-                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
-                                    var managerListDiv = document.getElementById('managerListDiv');
-
-                                    // Toggle hiển thị/ẩn div managerListDiv
-                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
-                                        managerListDiv.style.display = 'block';  // Hiển thị div
-                                    } else {
-                                        managerListDiv.style.display = 'none';  // Ẩn div
-                                    }
-                                });
-</script>
 
 <script>
     function validateForm() {
-        // Kiểm tra trường Manager
-        var managerInput = document.forms["theaterForm"]["manager"].value;
-        var isValidManager = false;
-        
-        // Kiểm tra xem giá trị người dùng nhập có tồn tại trong danh sách
-        var managerOptions = document.getElementById("managerList").options;
-        for (var i = 0; i < managerOptions.length; i++) {
-            if (managerInput === managerOptions[i].value) {
-                isValidManager = true;
-                break;
+        let isValid = true;
+        let firstErrorField = null; // Lưu ô đầu tiên bị lỗi
+        let regex = /^[^a-zA-Z0-9]+$/; // Chỉ chứa ký tự đặc biệt
+        let numberRegex = /^[1-9]\d*$/; // Chỉ chứa số tự nhiên
+
+        function showError(input, message) {
+            let errorDiv = document.getElementById(input.name + "-error");
+            if (!errorDiv) {
+                errorDiv = document.createElement("div");
+                errorDiv.id = input.name + "-error";
+                errorDiv.style.color = "red";
+                input.parentNode.appendChild(errorDiv);
+            }
+            errorDiv.innerText = message;
+            if (!firstErrorField) {
+                firstErrorField = input; // Lưu ô input đầu tiên có lỗi
+            }
+            isValid = false;
+        }
+
+        function clearError(input) {
+            let errorDiv = document.getElementById(input.name + "-error");
+            if (errorDiv) {
+                errorDiv.innerText = "";
             }
         }
 
-        if (!isValidManager) {
-            alert("Vui lòng chọn một người quản lý từ danh sách hoặc nhập thông tin hợp lệ.");
-            return false; // Không gửi biểu mẫu nếu dữ liệu không hợp lệ
+        let name = document.theaterForm.name;
+        let description = document.theaterForm.description;
+        let trailer = document.theaterForm.trailer;
+        let poster = document.theaterForm.poster;
+        let duration = document.theaterForm.duration;
+        let releaseDate = document.theaterForm.release_date;
+
+        clearError(name);
+        clearError(description);
+        clearError(trailer);
+        clearError(poster);
+        clearError(duration);
+        clearError(releaseDate);
+
+        if (name.value.trim() === "" || regex.test(name.value)) showError(name, "Movie Name không hợp lệ!");
+        if (description.value.trim() === "" || regex.test(description.value)) showError(description, "Description không hợp lệ!");
+        if (trailer.value.trim() === "" || regex.test(trailer.value)) showError(trailer, "Trailer URL không hợp lệ!");
+        if (poster.value.trim() === "" || regex.test(poster.value)) showError(poster, "Poster URL không hợp lệ!");
+        if (duration.value.trim() === "" || !numberRegex.test(duration.value)) showError(duration, "Duration phải là số tự nhiên lớn hơn 0!");
+        if (releaseDate.value.trim() === "") showError(releaseDate, "Vui lòng chọn ngày phát hành!");
+
+        if (firstErrorField) {
+            firstErrorField.focus(); // Chuyển con trỏ về ô đầu tiên có lỗi
         }
 
-        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
-        var name = document.forms["theaterForm"]["name"].value;
-        var address = document.forms["theaterForm"]["address"].value;
-        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
-
-        if (specialCharOrNumber.test(name) || specialCharOrNumber.test(address)) {
-            alert("Tên rạp và địa chỉ không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-
-        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
+        return isValid;
     }
 </script>
 
@@ -736,5 +821,3 @@
 </script>
 
 <script src="assets/js/bootstrap.min.js"></script>
-
-

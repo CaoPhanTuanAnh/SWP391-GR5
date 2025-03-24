@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index_1
-    Created on : Feb 8, 2025, 3:58:20 PM
-    Author     : bolac
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
