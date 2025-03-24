@@ -1,18 +1,25 @@
+<%-- 
+    Document   : ViewRevenue
+    Created on : Mar 22, 2025, 9:08:11 AM
+    Author     : GIGABYTE
+--%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List,entity.extend_showtimes" %>
 <!doctype html>
 <html lang="zxx">
 
     <head>
-
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Home</title>
+        <title>View Revenue</title>
 
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
               rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/showtime-style.css">
         <style>
             /* CSS cho menu */
             ul {
@@ -73,13 +80,14 @@
                 margin-top: 100px;
             }
             .table-responsive {
+                width: 1440px;
                 margin: 30px 0;
             }
             .table-wrapper {
                 background: #fff;
                 padding: 20px 25px;
                 border-radius: 3px;
-                min-width: 1000px;
+                width: 1440px;
                 box-shadow: 0 1px 1px rgba(0,0,0,.05);
             }
             .table-title {
@@ -295,7 +303,6 @@
             $(document).ready(function () {
                 // Activate tooltip
                 $('[data-toggle="tooltip"]').tooltip();
-
                 // Select/Deselect checkboxes
                 var checkbox = $('table tbody input[type="checkbox"]');
                 $("#selectAll").click(function () {
@@ -319,136 +326,96 @@
 
     </head>
 
-    <body>
+    <body onload="console.log('${requestScope.mess}')">
 
         <%@ include file="header_manage.jsp" %>
         <!-- main-slider -->
-        <div class="container-xl">
+        <div class="container-xl" style="width:1440px;margin:40px;">
             <div class="table-responsive">
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Edit <b>Theater</b></h2>
+                                <h2>View <b>Revenue</b></h2>
                             </div>
                         </div>
                     </div>
-                    <form name="theaterForm" action="EditTheater" method="post" onsubmit="return validateForm()">
-                        <c:set value="${requestScope.theater}" var="theater"/>
-                        <table class="table table-striped table-hover">
-                            <div class="" style="width:500px; margin-left: 300px; margin-top: 40px;margin-bottom: 30px">					
-                                <div class="form-group">
-                                    <label>ID Theater</label>
-                                    <input value="${theater.theater_id}" name="id" type="text" class="form-control" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Manager</label>
-                                    <c:set var="managerInfo" value=""/>
-                                    <c:forEach items="${listUU}" var="u">
-                                        <c:if test="${u.getUser_id() == theater.director_id}">
-                                            <c:set var="managerInfo" value="ID: ${u.getUser_id()} - Name: ${u.getFullname()}"/>
-                                        </c:if>
-                                    </c:forEach>
-                                    <input value="${managerInfo}" name="managername" type="text" class="form-control" readonly required>
-                                </div>
-                                <!-- Đặt div này ẩn mặc định -->
-                                <div id="managerListDiv" class="form-group">
-                                    <input list="managerList" name="manager" class="form-control" required>
-                                    <datalist id="managerList">
-                                        <c:forEach items="${listUU}" var="u">
-                                            <option value="${u.getUser_id()} - ${u.getFullname()}"
-                                                    <c:if test="${u.getUser_id() == theater.director_id}">
-                                                        selected
-                                                    </c:if>
-                                                    >
-                                                ID: ${u.getUser_id()} - Name: ${u.getFullname()}
-                                            </option>
-                                        </c:forEach>
-                                    </datalist>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Theater's Name</label>
-                                    <textarea name="name" class="form-control" required>${theater.theater_name}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Theater's Address</label>
-                                    <textarea name="address" class="form-control" required>${theater.address}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>City</label>
-                                    <select name="city" class="form-select" aria-label="Default select example">
-                                        <c:forEach items="${listCC}" var="o">
-                                            <option value="${o.getCity_id()}" ${o.getCity_id() == theater.city_id ? 'selected="selected"' : ''}>
-                                                ${o.getCity_name()}
-                                            </option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                        </table>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageTheater'">Cancel</button>
-                            <input type="submit" class="btn btn-info" value="Save">
-                        </div>
-                    </form>
+                    <div class="search-section">
+                        <form action="ViewRevenue" method="post">
+                            <input type="hidden" name="service" value="">
+                            Unit: <select name="unit">
+                                <option value="VND">VND</option>
+                                <option value="Ticket">Ticket</option>
+                            </select>
+                            In: <select name="in">
+                                <option value="Week">Week</option>
+                                <option value="Month">Month</option>
+                                <option value="Quarter">Quarter</option>
+                                <option value="Year">Year</option>
+                                <option value="Total">Total</option>
+                            </select>
+                            For Each: 
+                            <select name="for_each">
+                                <option value="Day">Day</option>
+                                <option value="Week">Week</option>
+                                <option value="Month">Month</option>
+                                <option value="Quarter">Quarter</option>
+                                <option value="Year">Year</option>
+                            </select>
+                            
+                            From: <input type="date" name="from" value="">
+                            <input type="week" name="from" value="">
+                            <input type="month" name="from" value="">
+                            <input type="number" name="from" value="" min="1" max="4" step="1">
+                            <input type="number" name="from" value="" min="2000" max="2099" step="1">
+                            To: <input type="date" name="from" value="">
+                            <input type="week" name="from" value="">
+                            <input type="month" name="from" value="">
+                            <input type="number" name="from" value="" min="1" max="4" step="1">
+                            <input type="number" name="from" value="" min="2000" max="2099" step="1">
+                            
+                            <input type="submit" name="submit" value="Search">
+                        </form>
+                    </div>
+                    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
                 </div>
-            </div>        
-        </div>
+            </div>
+        </div>   
 
     </body>
 
 </html>
+<script>
+    function addShowtimeInfo(showtime_id, room_id, movie_id, date, time) {
+        let showtimein = document.getElementById("showtime_id");
+        let roomin = document.getElementById("room_id");
+        let moviein = document.getElementById("movie_id");
+        let datein = document.getElementById("date");
+        let timein = document.getElementById("time");
+        showtimein.value = showtime_id;
+        let optionroom = roomin.children;
+        for (let i = 0; i < optionroom.length; i++) {
+            if (optionroom[i].value == room_id) {
+                optionroom[i].selected = true;
+            }
+        }
+        let optionmovie = moviein.children;
+        for (let i = 0; i < optionmovie.length; i++) {
+            if (optionmovie[i].value == movie_id) {
+                optionmovie[i].selected = true;
+            }
+        }
+        datein.defaultValue = date;
+        timein.defaultValue = time;
+    }
+</script>
+<!-- charts -->
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script>
-                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
-                                    var managerListDiv = document.getElementById('managerListDiv');
-
-                                    // Toggle hiển thị/ẩn div managerListDiv
-                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
-                                        managerListDiv.style.display = 'block';  // Hiển thị div
-                                    } else {
-                                        managerListDiv.style.display = 'none';  // Ẩn div
-                                    }
-                                });
-</script>
-
-<script>
-    function validateForm() {
-        // Kiểm tra trường Manager
-        var managerInput = document.forms["theaterForm"]["manager"].value;
-        var isValidManager = false;
-        
-        // Kiểm tra xem giá trị người dùng nhập có tồn tại trong danh sách
-        var managerOptions = document.getElementById("managerList").options;
-        for (var i = 0; i < managerOptions.length; i++) {
-            if (managerInput === managerOptions[i].value) {
-                isValidManager = true;
-                break;
-            }
-        }
-
-        if (!isValidManager) {
-            alert("Vui lòng chọn một người quản lý từ danh sách hoặc nhập thông tin hợp lệ.");
-            return false; // Không gửi biểu mẫu nếu dữ liệu không hợp lệ
-        }
-
-        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
-        var name = document.forms["theaterForm"]["name"].value;
-        var address = document.forms["theaterForm"]["address"].value;
-        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
-
-        if (specialCharOrNumber.test(name) || specialCharOrNumber.test(address)) {
-            alert("Tên rạp và địa chỉ không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
-            return false;
-        }
-
-        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
-    }
-</script>
-
 <script type="text/javascript">
     $(document).ready(function () {
         //Horizontal Tab
@@ -465,8 +432,7 @@
                 $info.show();
             }
         });
-    });
-</script>
+    });</script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
@@ -577,59 +543,46 @@
     $(document).ready(function () {
         $('.popup-with-zoom-anim').magnificPopup({
             type: 'inline',
-
             fixedContentPos: false,
             fixedBgPos: true,
-
             overflowY: 'auto',
-
             closeBtnInside: true,
             preloader: false,
-
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-zoom-in'
         });
-
         $('.popup-with-move-anim').magnificPopup({
             type: 'inline',
-
             fixedContentPos: false,
             fixedBgPos: true,
-
             overflowY: 'auto',
-
             closeBtnInside: true,
             preloader: false,
-
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-slide-bottom'
         });
-    });
-</script>
+    });</script>
 <!-- disable body scroll which navbar is in active -->
 <script>
     $(function () {
         $('.navbar-toggler').click(function () {
             $('body').toggleClass('noscroll');
         })
-    });
-</script>
+    });</script>
 <!-- disable body scroll which navbar is in active -->
 
 <!--/MENU-JS-->
 <script>
     $(window).on("scroll", function () {
         var scroll = $(window).scrollTop();
-
         if (scroll >= 80) {
             $("#site-header").addClass("nav-fixed");
         } else {
             $("#site-header").removeClass("nav-fixed");
         }
     });
-
     //Main navigation Active Class Add Remove
     $(".navbar-toggler").on("click", function () {
         $("header").toggleClass("active");
@@ -643,9 +596,7 @@
                 $("header").removeClass("active");
             }
         });
-    });
-</script>
+    });</script>
 
 <script src="assets/js/bootstrap.min.js"></script>
-
 

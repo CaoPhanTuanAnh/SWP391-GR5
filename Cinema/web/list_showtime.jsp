@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List,entity.extend_showtimes" %>
 <!doctype html>
 <html lang="zxx">
 
@@ -18,6 +19,7 @@
         <link rel="stylesheet" href="assets/css/style-starter.css">
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
               rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/showtime-style.css">
         <style>
             /* CSS cho menu */
             ul {
@@ -78,13 +80,14 @@
                 margin-top: 100px;
             }
             .table-responsive {
+                width: 1440px;
                 margin: 30px 0;
             }
             .table-wrapper {
                 background: #fff;
                 padding: 20px 25px;
                 border-radius: 3px;
-                min-width: 1000px;
+                width: 1440px;
                 box-shadow: 0 1px 1px rgba(0,0,0,.05);
             }
             .table-title {
@@ -325,105 +328,9 @@
 
     <body onload="console.log('${requestScope.mess}')">
 
-        <!-- header -->
-        <header id="site-header" class="w3l-header fixed-top">
-            <!--/nav-->
-            <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
-                <div class="container">
-                    <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
-                                                                       aria-hidden="true"></span>
-                            MyShowz</a></h1>
-                    <!-- if logo is image enable this   
-                                    <a class="navbar-brand" href="#index.jsp">
-                                            <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
-                                    </a> -->
-                    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <!-- <span class="navbar-toggler-icon"></span> -->
-                        <span class="fa icon-expand fa-bars"></span>
-                        <span class="fa icon-close fa-times"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto">
-                            <c:if test="${sessionScope.acc.getRole_id() == 1}">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="home">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#needlink">Manage Account</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="city_control">Manage City</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ManageTheater">Manage Theater</a>
-                                </li>
-                            </c:if>
-
-                            <c:if test="${sessionScope.acc.getRole_id() == 2}">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="index.jsp">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Room</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="movies.jsp">Manage Seat</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="about.jsp">Manage Show Time</a>
-                                </li>
-                            </c:if>
-
-                        </ul>
-
-                        <c:choose>
-                            <c:when test="${sessionScope.acc != null}">
-                                <div class="header__top__right__auth">
-                                    <a style="color: #df0e62;" href="logout"><i class="fa fa-user"></i> Logout</a>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="header__top__right__auth">
-                                    <a href="sign_in.jsp"><i class="fa fa-user"></i> Login / Sign up</a>
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
-                        <div class="Login_SignUp" id="login"
-                             style="font-size: 2rem ; display: inline-block; position: relative;">
-                            <!-- <li class="nav-item"> -->
-                            <c:choose>
-                                <c:when test="${sessionScope.acc != null}">
-                                    <a class="nav-link" href="user_profile?service=editProfile"><i class="fa fa-user-circle-o"></i></a>
-                                    </c:when>
-                                    <c:otherwise>
-                                    <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
-                                    </c:otherwise>
-                                </c:choose>
-                            <!-- </li> -->
-                        </div>
-                    </div>
-                    <!-- toggle switch for light and dark theme -->
-                    <div class="mobile-position">
-                        <nav class="navigation">
-                            <div class="theme-switch-wrapper">
-                                <label class="theme-switch" for="checkbox">
-                                    <input type="checkbox" id="checkbox">
-                                    <div class="mode-container">
-                                        <i class="gg-sun"></i>
-                                        <i class="gg-moon"></i>
-                                    </div>
-                                </label>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </nav>
-        </header>
+        <%@ include file="header_manage.jsp" %>
         <!-- main-slider -->
-        <div class="container-xl">
+        <div class="container-xl" style="width:1440px;margin:40px;">
             <div class="table-responsive">
                 <div class="table-wrapper">
                     <div class="table-title">
@@ -498,7 +405,7 @@
                                     <td>${showtime.getStatus()}</td>
                                     <td>
                                         <c:if test="${showtime.getStatus() == 'Saved'}">
-                                            <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="addShowtimeInfo(${showtime.getShowtime_id()},${showtime.getRoom_id()},${showtime.getMovie_id()},'${showtime.getDate()}','${showtime.getTime()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="addShowtimeInfo(${showtime.getShowtime_id()},${showtime.getRoom_id()},${showtime.getMovie_id()}, '${showtime.getDate()}', '${showtime.getTime()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                             <a href="ShowtimeURL?service=deleteShowtime&showtime_id=${showtime.getShowtime_id()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                             <a href="ShowtimeURL?service=submitShowtime&showtime_id=${showtime.getShowtime_id()}" ><i class="material-icons" data-toggle="tooltip" title="Submit">description</i></a>
                                         </c:if>
@@ -507,7 +414,7 @@
                             </c:forEach>
                         </tbody>
                     </table>
-                    <p>Submit All Showing Showtime</p>
+                    </div>
                 </div>
             </div>        
         </div>
@@ -563,7 +470,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Edit">
+                            <input type="submit" class="btn btn-success" value="Add">
                         </div>
                     </form>
                 </div>
@@ -608,7 +515,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
+                            <input type="submit" class="btn btn-success" value="Edit">
                         </div>
                     </form>
                 </div>
@@ -619,8 +526,6 @@
 
 </html>
 <script>
-    let haha = 'a';
-    console.log(haha);
     function addShowtimeInfo(showtime_id, room_id, movie_id, date, time) {
         let showtimein = document.getElementById("showtime_id");
         let roomin = document.getElementById("room_id");

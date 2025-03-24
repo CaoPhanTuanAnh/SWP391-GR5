@@ -2,25 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.guest;
+package controller.manager;
 
-import dao.NewsDAO;
-import entity.news;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author default
+ * @author GIGABYTE
  */
-public class NewsListServlet extends HttpServlet {
+@WebServlet(name = "ViewRevenue", urlPatterns = {"/ViewRevenue"})
+public class ViewRevenue extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,17 +33,16 @@ public class NewsListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession(false);
+        users user = (session != null) ? (users) session.getAttribute("acc") : null;
+
+        // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
+        if (user == null || (user.getRole_id() != 2)) {
+            response.sendRedirect("AccessDenied.jsp");
+            return;
+        }
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewsListServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewsListServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
         }
     }
 
@@ -60,16 +58,7 @@ public class NewsListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         NewsDAO dao = new NewsDAO();
-        List<news> newsList;
-        try {
-            newsList = dao.getAllNews();
-             request.setAttribute("newsList", newsList);
-        } catch (Exception ex) {
-            Logger.getLogger(NewsListServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
-        request.getRequestDispatcher("newsList.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

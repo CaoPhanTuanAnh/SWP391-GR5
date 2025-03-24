@@ -160,7 +160,7 @@
                         </tr>
                         <tr>
                             <td class="field"><input class="field-value" type="text" name="fullName" value="${sessionScope.acc.getFullname()}" readonly required></td>
-                            <td class="field"><input class="field-value" type="text" name="address" value="${sessionScope.acc.getBirth_date()}" readonly required></td>
+                            <td class="field"><input class="field-value" type="text" name="birth_date" value="${sessionScope.acc.getBirth_date()}" readonly required></td>
                         </tr>
                         <tr>
                             <td class="field-name">Email</td>

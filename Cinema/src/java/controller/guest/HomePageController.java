@@ -4,8 +4,10 @@
  */
 package controller.guest;
 
+import dao.NewsDAO;
 import dao.moviesDAO;
 import entity.movies;
+import entity.news;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -35,10 +37,12 @@ public class HomePageController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {          
-
+            
+            List<news> listAdNews = new NewsDAO().getAdNews();
             List<movies> listPopulars = new moviesDAO().getPopular();
             List<movies> listNew = new moviesDAO().getNew();
 
+            request.setAttribute("listAdNews", listAdNews);
             request.setAttribute("listPopulars", listPopulars);
             request.setAttribute("listNew", listNew);
 

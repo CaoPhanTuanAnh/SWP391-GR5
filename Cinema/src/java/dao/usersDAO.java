@@ -65,17 +65,16 @@ public class usersDAO extends DBContext {
         return false;
     }
 
-    public boolean editProfile(int ID, String fullName, String email, String phone, String birth_date, int theater_id) {
-        String query = "update users set full_name=?, email=?, phone=?, birth_date=?, theater_id=? where user_id=?";
+    public boolean editProfile(int ID, String fullName, String phone, String birth_date, int theater_id) {
+        String query = "update users set full_name=?, phone=?, birth_date=?, theater_id=? where user_id=?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, fullName);
-            ps.setString(2, email);
-            ps.setString(3, phone);
-            ps.setString(4, birth_date);
-            ps.setInt(5, theater_id);
-            ps.setInt(6, ID);
+            ps.setString(2, phone);
+            ps.setString(3, birth_date);
+            ps.setInt(4, theater_id);
+            ps.setInt(5, ID);
             return ps.executeUpdate() == 1;
         } catch (Exception ex) {
             Logger.getLogger(usersDAO.class.getName()).log(Level.SEVERE, null, ex);

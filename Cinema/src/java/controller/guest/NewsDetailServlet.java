@@ -5,7 +5,7 @@
 package controller.guest;
 
 import dao.NewsDAO;
-import entity.News;
+import entity.news;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -62,7 +62,7 @@ public class NewsDetailServlet extends HttpServlet {
         String id = request.getParameter("id");
         if (id != null) {
             NewsDAO dao = new NewsDAO();
-            News news;
+            news news;
             try {
                 news = dao.getNewsById(Integer.parseInt(id));
                 if (news != null) {

@@ -3,12 +3,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/STUDY/Spring2025/SWP391/Project/SWP391-GR5/Cinema/web/sign_up.jsp</file>
-            <file>file:/D:/STUDY/Spring2025/SWP391/Project/SWP391-GR5/Cinema/src/java/controller/admin/CheckAccount.java</file>
-            <file>file:/D:/STUDY/Spring2025/SWP391/Project/SWP391-GR5/Cinema/web/ManageAccount.jsp</file>
-            <file>file:/D:/STUDY/Spring2025/SWP391/Project/SWP391-GR5/Cinema/src/java/dao/DAO.java</file>
-            <file>file:/D:/STUDY/Spring2025/SWP391/Project/SWP391-GR5/Cinema/src/java/entity/movies.java</file>
-            <file>file:/D:/STUDY/Spring2025/SWP391/Project/SWP391-GR5/Cinema/src/java/dao/theatersDAO.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/HomePage.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/theaters.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/Seats.java</file>
@@ -20,7 +14,10 @@
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/admin/AddTheater.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/users.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/list_user_booking.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ViewRevenue.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/header.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ManageNews.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/assets/css/showtime-style.css</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ticket-booking.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/rooms.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/participants.java</file>
@@ -66,7 +63,6 @@
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/moviesDAO.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/theatersDAO.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/list_showtime.jsp</file>
-            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/admin/ManagerUsersControl.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/list_city.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/change_password.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/Contact_Us.jsp</file>

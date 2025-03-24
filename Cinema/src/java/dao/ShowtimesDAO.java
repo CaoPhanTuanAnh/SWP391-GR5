@@ -155,7 +155,7 @@ public class showtimesDAO extends DBContext {
             }
             return showtimeList;
         } catch (Exception ex) {
-            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(showtimesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -247,7 +247,7 @@ public class showtimesDAO extends DBContext {
             ps.setString(3, date+" "+time);
             return ps.executeUpdate()==1;
         } catch (Exception ex) {
-            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(showtimesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -260,7 +260,7 @@ public class showtimesDAO extends DBContext {
             ps.setInt(1, showtime_id);
             return ps.executeUpdate()==1;
         } catch (Exception ex) {
-            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(showtimesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -273,7 +273,7 @@ public class showtimesDAO extends DBContext {
             ps.setInt(1, showtime_id);
             return ps.executeUpdate()==1;
         } catch (Exception ex) {
-            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(showtimesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -289,7 +289,7 @@ public class showtimesDAO extends DBContext {
             ps.setInt(4, showtime_id);
             return ps.executeUpdate()==1;
         } catch (Exception ex) {
-            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(showtimesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }

@@ -6,9 +6,11 @@ package dao;
 
 import java.sql.*;
 import context.DBContext;
-import entity.News;
+import entity.news;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,12 +18,12 @@ import java.util.List;
  */
 public class NewsDAO extends DBContext {
 
-    public List<News> getAllNews() throws Exception {
-        List<News> list = new ArrayList<>();
+    public List<news> getAllNews() throws Exception {
+        List<news> list = new ArrayList<>();
         String sql = "SELECT * FROM posts ORDER BY created_date DESC";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                list.add(new News(
+                list.add(new news(
                         rs.getInt("post_id"),
                         rs.getString("user_id"),
                         rs.getString("title"),
@@ -49,7 +51,7 @@ public class NewsDAO extends DBContext {
         }
     }
 
-    public boolean insertNews(News news) throws Exception {
+    public boolean insertNews(news news) throws Exception {
         String sql = "INSERT INTO posts (user_id, title, photo_url, content, created_date, content_type) VALUES (?, ?, ?, ?, GETDATE(), ?)";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, news.getUserId());
@@ -64,13 +66,13 @@ public class NewsDAO extends DBContext {
         return false;
     }
 
-    public News getNewsById(int id) throws Exception {
+    public news getNewsById(int id) throws Exception {
         String sql = "SELECT * FROM posts WHERE post_id = ?";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new News(
+                return new news(
                         rs.getInt("post_id"),
                         rs.getString("user_id"),
                         rs.getString("title"),
@@ -86,7 +88,7 @@ public class NewsDAO extends DBContext {
         return null;
     }
 
-    public boolean updateNews(News news) throws Exception {
+    public boolean updateNews(news news) throws Exception {
         String sql = "UPDATE posts SET title=?, photo_url=?, content=?, content_type=? WHERE post_id=?";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, news.getTitle());
@@ -100,4 +102,28 @@ public class NewsDAO extends DBContext {
         }
         return false;
     }
+    
+    public List<news> getAdNews() {
+        List<news> list = new ArrayList<news>();
+        String sql = "SELECT top 4 * FROM posts where content_type like 'Advertisement' ORDER BY created_date DESC";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(new news(
+                        rs.getInt("post_id"),
+                        rs.getString("user_id"),
+                        rs.getString("title"),
+                        rs.getString("photo_url"),
+                        rs.getString("content"),
+                        rs.getDate("created_date"),
+                        rs.getString("content_type")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
 }
