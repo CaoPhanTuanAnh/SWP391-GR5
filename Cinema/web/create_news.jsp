@@ -64,7 +64,7 @@
         <%@ include file="header_manage.jsp" %>
         
         <!-- main-slider -->
-        <div class="container mt-5">
+        <div class="container mt-5" style="margin-top: 80px !important">
             <h2 class="text-center">📰 Add News</h2>
 
             <%-- Hiển thị thông báo lỗi nếu có --%>

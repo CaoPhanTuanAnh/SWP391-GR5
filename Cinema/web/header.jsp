@@ -4,7 +4,7 @@
     Author     : GIGABYTE
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 
 <!-- header -->
 <header id="site-header" class="w3l-header fixed-top">
@@ -127,7 +127,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <a class="close" href="#close">Ã—</a>
+                        <a class="close" href="#close">×</a>
                     </div>
                     <!-- /search popup -->
                     <!--/search-right-->

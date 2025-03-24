@@ -62,7 +62,7 @@
     <body>
 
         <%@ include file="header_manage.jsp" %>
-        <div class="container mt-5">
+        <div class="container mt-5" style="margin-top: 80px !important">
             <h2 class="text-center">📢 List of News</h2>
             <a href="create_news.jsp" class="btn btn-success mb-3">📝 Add News</a>
 

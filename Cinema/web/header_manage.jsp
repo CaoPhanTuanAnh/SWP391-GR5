@@ -4,7 +4,6 @@
     Author     : GIGABYTE
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!-- header -->
 <header id="site-header" class="w3l-header fixed-top">

@@ -60,7 +60,7 @@
     </head>
 
     <body>
-        <%@ include file="header_manage.jsp" %>
+        <%@ include file="header.jsp" %>
         <!-- main-slider -->
         <section class="w3l-main-slider position-relative" id="home">
             <div class="companies20-content">
