@@ -275,7 +275,7 @@
                     </div>
                     <div class="item">
                         <li>
-                            <div class="slider-info  banner-view banner-top1 bg bg2">
+                            <div class="slider-info  banner-view banner-top2 bg bg2">
                                 <div class="banner-info">
                                     <h3>Latest Online Movies</h3>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.<span class="over-para">
@@ -508,7 +508,7 @@
                                 <div class="row footer-about">
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
                                         <a href="movies.jsp
-                                           "><img class="img-fluid" src="assets/images/banner1.jpg"
+                                           "><img class="img-fluid" src="assets/images/banner2.jpg"
                                                alt=""></a>
                                     </div>
                                     <div class="col-md-3 col-6 footer-img mb-lg-0 mb-4">
