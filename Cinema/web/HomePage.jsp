@@ -73,6 +73,7 @@
             }
 
 
+
         </style>
     </head>
 
@@ -92,20 +93,25 @@
                                 </c:if>
 
                                 <c:if test="${adstatus.getCount()!=0}">
-                                    <div class="slider-info banner-view banner-top${adstatus.getCount()} bg bg2">
+                                    <div style=" background: url(${ad.getPhotoUrl()}) no-repeat center center;
+                                                background-size: contain;
+                                                background-color: black;
+                                                width: 100%;
+                                                height: 500px; /* Điều chỉnh chiều cao theo ý muốn */" 
+                                        class="slider-info banner-view banner-top${adstatus.getCount()} bg bg2">
                                 </c:if>
                                     <div class="banner-info">
                                         <h3>${ad.getTitle()}</h3>
-                                        <p>${ad.getContent()}</p>
                                         <a href="#small-dialog${adstatus.getCount()}" class="popup-with-zoom-anim play-view1">
                                             <span class="video-play-icon">
                                                 <span class="fa fa-play"></span>
                                             </span>
                                             <h6>See Detail</h6>
                                         </a>
-                                        <div id="small-dialog${adstatus.getCount()}" class="zoom-anim-dialog mfp-hide">
+                                        <div id="small-dialog${adstatus.getCount()}" class="zoom-anim-dialog mfp-hide" style="display: flex">
                                             <iframe src="${ad.getPhotoUrl()}" allow="autoplay; fullscreen"
                                                     allowfullscreen=""></iframe>
+                                                    <p>${ad.getContent()}</p>
                                         </div>
                                     </div>
                                 </div>

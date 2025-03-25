@@ -56,6 +56,23 @@
                 color: var(--theme-rose); /* Chuyển sang màu theme rose khi hover */
                 background: #f0f0f0;
             }
+            .limited-text {
+                align-items: center;
+                white-space: nowrap;      /* Ngăn nội dung xuống dòng */
+                overflow: hidden;         /* Ẩn phần nội dung dư */
+                text-overflow: ellipsis;  /* Thêm dấu "..." */
+                max-width: 100px;         /* Giới hạn độ rộng */
+                display: block;           /* Đảm bảo hoạt động đúng */
+            }
+            .limited-text-2 {
+                white-space: nowrap;      /* Ngăn nội dung xuống dòng */
+                overflow: hidden;         /* Ẩn phần nội dung dư */
+                text-overflow: ellipsis;  /* Thêm dấu "..." */
+                max-width: 250px;         /* Giới hạn độ rộng */
+                display: block;           /* Đảm bảo hoạt động đúng */
+
+            }
+
         </style>
     </head>
 
@@ -79,15 +96,13 @@
                 <tbody>
                     <c:forEach var="news" items="${newsList}">
                         <tr>
-                            <td>${news.title}</td>
-                            <td class="text-center"><img src="${news.photoUrl}" width="200" alt="Ảnh"></td>
-                            <td>${news.content}</td>
+                            <td class="limited-text">${news.title}</td>
+                            <td class="text-center"><img src="${news.getPhotoUrl()}" width="120px" alt="Image"></td>
+                            <td class="limited-text-2">${news.content}</td>
                             <td>${news.createdDate}</td>
                             <td>
                                 <a href="ManageNews?action=edit&id=${news.postId}" class="btn btn-warning btn-sm">✏️ Edit</a>
-                                <a  class="btn btn-danger btn-sm" href="delete-news?id=${news.postId}" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?');">
-                    Delete
-                </a>
+                                <a  class="btn btn-danger btn-sm" href="delete-news?id=${news.postId}" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?');">Delete</a>
                             </td>
                         </tr>
                     </c:forEach>
