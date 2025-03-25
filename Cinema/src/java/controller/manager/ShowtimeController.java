@@ -19,6 +19,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -60,6 +65,8 @@ public class ShowtimeController extends HttpServlet {
                 submitShowtime(request, response, session, user);
             } else if (service.equals("editShowtime")) {
                 editShowtime(request, response, session, user);
+            } else if (service.equals("endShowtime")) {
+                endShowtime(request, response, session, user);
             }
         }
     }
@@ -69,6 +76,7 @@ public class ShowtimeController extends HttpServlet {
             HttpSession session,
             users user)
             throws ServletException, IOException {
+        int max_page = 1;
         showtimesDAO dao = new showtimesDAO();
         String submit = request.getParameter("submit");
         if (submit != null) {
@@ -81,9 +89,37 @@ public class ShowtimeController extends HttpServlet {
             session.setAttribute("list_st_movie_id", movie_id);
             session.setAttribute("list_st_date", date);
             session.setAttribute("list_st_status", status);
-            List<extend_showtimes> showtimeList = dao.listShowtimeByRoom(room_id, movie_id, date, status);
+
+            String pageString = request.getParameter("page");
+            int page = (pageString == null || pageString.isBlank()) ? 1 : Integer.parseInt(pageString);
+            if (page < 1) {
+                page = 1;
+            }
+            max_page = dao.getMaxPage(room_id, movie_id, date, status);
+            session.setAttribute("list_st_page", (page > max_page ? max_page : page));
+
+            List<extend_showtimes> showtimeList = dao.listShowtimeByRoom(room_id, movie_id, date, status, page);
+            request.setAttribute("showtimeList", showtimeList);
+        } else {
+            Object rm_id = session.getAttribute("list_st_room_id");
+            Object mv_id = session.getAttribute("list_st_movie_id");
+            int room_id = rm_id == null ? 0 : ((int) rm_id);
+            int movie_id = mv_id == null ? 0 : ((int) mv_id);
+            Date date = (Date) session.getAttribute("list_st_date");
+            String status = (String) session.getAttribute("list_st_status");
+
+            String pageString = request.getParameter("page");
+            int page = (pageString == null || pageString.isBlank()) ? 1 : Integer.parseInt(pageString);
+            if (page < 1) {
+                page = 1;
+            }
+            max_page = dao.getMaxPage(room_id, movie_id, date, status);
+            session.setAttribute("list_st_page", (page > max_page ? max_page : page));
+
+            List<extend_showtimes> showtimeList = dao.listShowtimeByRoom(room_id, movie_id, date, status, page);
             request.setAttribute("showtimeList", showtimeList);
         }
+        session.setAttribute("list_st_max_page", max_page);
         List<rooms> roomList = dao.listRoomByDirector(user.getUser_id());
         if (roomList.isEmpty()) {
             roomList = dao.listRoomByManager(user.getUser_id());
@@ -101,35 +137,41 @@ public class ShowtimeController extends HttpServlet {
             throws ServletException, IOException {
         int room_id = Integer.parseInt(request.getParameter("room_id"));
         int movie_id = Integer.parseInt(request.getParameter("movie_id"));
-        Date date = Date.valueOf(request.getParameter("date"));
-        String temp = request.getParameter("time");
-        System.out.println(temp);
-        Time time = Time.valueOf(temp+":00");
+        String date = request.getParameter("date");
+        String time = request.getParameter("time");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime showtime = LocalDateTime.parse(date + " " + time + ":00", formatter);
         showtimesDAO dao = new showtimesDAO();
-        if(!dao.addShowtime(room_id, movie_id, date, time)){
-            String mess = "Something go wrong!";
-            session.setAttribute("list_st_mess", mess);
+        int result = dao.addShowtime(room_id, movie_id, showtime);
+        String mess = "";
+        if (result == -2) {
+            mess = "Can't create showtime in the past!!!";
+        } else if (result == -1) {
+            mess = "Overlapped showtime!!!";
+        } else if (result == 0) {
+            mess = "Something go wrong!";
         }
+        session.setAttribute("list_st_mess", mess);
         String url = "ShowtimeURL?service=listShowtimeByRoom";
         Integer ss_room_id = (Integer) session.getAttribute("list_st_room_id");
         Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
         Date ss_date = (Date) session.getAttribute("list_st_date");
         String ss_status = (String) session.getAttribute("list_st_status");
-        if(ss_room_id!=null){
-            url+="&submit=search&room_id="+ss_room_id;
+        if (ss_room_id != null) {
+            url += "&submit=search&room_id=" + ss_room_id;
         }
-        if(ss_movie_id!=null){
-            url+="&movie_id="+ss_movie_id;
+        if (ss_movie_id != null) {
+            url += "&movie_id=" + ss_movie_id;
         }
-        if(ss_date!=null){
-            url+="&date="+ss_date;
+        if (ss_date != null) {
+            url += "&date=" + ss_date;
         }
-        if(ss_status!=null){
-            url+="&status="+ss_status;
+        if (ss_status != null) {
+            url += "&status=" + ss_status;
         }
         response.sendRedirect(url);
     }
-    
+
     private void deleteShowtime(HttpServletRequest request,
             HttpServletResponse response,
             HttpSession session,
@@ -137,7 +179,7 @@ public class ShowtimeController extends HttpServlet {
             throws ServletException, IOException {
         int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
         showtimesDAO dao = new showtimesDAO();
-        if(!dao.deleteShowtime(showtime_id)){
+        if (!dao.deleteShowtime(showtime_id)) {
             String mess = "Something go wrong!";
             session.setAttribute("list_st_mess", mess);
         }
@@ -146,21 +188,21 @@ public class ShowtimeController extends HttpServlet {
         Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
         Date ss_date = (Date) session.getAttribute("list_st_date");
         String ss_status = (String) session.getAttribute("list_st_status");
-        if(ss_room_id!=null){
-            url+="&submit=search&room_id="+ss_room_id;
+        if (ss_room_id != null) {
+            url += "&submit=search&room_id=" + ss_room_id;
         }
-        if(ss_movie_id!=null){
-            url+="&movie_id="+ss_movie_id;
+        if (ss_movie_id != null) {
+            url += "&movie_id=" + ss_movie_id;
         }
-        if(ss_date!=null){
-            url+="&date="+ss_date;
+        if (ss_date != null) {
+            url += "&date=" + ss_date;
         }
-        if(ss_status!=null){
-            url+="&status="+ss_status;
+        if (ss_status != null) {
+            url += "&status=" + ss_status;
         }
         response.sendRedirect(url);
     }
-    
+
     private void submitShowtime(HttpServletRequest request,
             HttpServletResponse response,
             HttpSession session,
@@ -168,30 +210,34 @@ public class ShowtimeController extends HttpServlet {
             throws ServletException, IOException {
         int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
         showtimesDAO dao = new showtimesDAO();
-        if(!dao.submitShowtime(showtime_id)){
-            String mess = "Something go wrong!";
-            session.setAttribute("list_st_mess", mess);
+        int result = dao.submitShowtime(showtime_id);
+        String mess = "";
+        if (result == -1) {
+            mess = "Can't submit overtimed showtime!!!";
+        } else if (result == 0) {
+            mess = "Something go wrong!";
         }
+        session.setAttribute("list_st_mess", mess);
         String url = "ShowtimeURL?service=listShowtimeByRoom";
         Integer ss_room_id = (Integer) session.getAttribute("list_st_room_id");
         Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
         Date ss_date = (Date) session.getAttribute("list_st_date");
         String ss_status = (String) session.getAttribute("list_st_status");
-        if(ss_room_id!=null){
-            url+="&submit=search&room_id="+ss_room_id;
+        if (ss_room_id != null) {
+            url += "&submit=search&room_id=" + ss_room_id;
         }
-        if(ss_movie_id!=null){
-            url+="&movie_id="+ss_movie_id;
+        if (ss_movie_id != null) {
+            url += "&movie_id=" + ss_movie_id;
         }
-        if(ss_date!=null){
-            url+="&date="+ss_date;
+        if (ss_date != null) {
+            url += "&date=" + ss_date;
         }
-        if(ss_status!=null){
-            url+="&status="+ss_status;
+        if (ss_status != null) {
+            url += "&status=" + ss_status;
         }
         response.sendRedirect(url);
     }
-    
+
     private void editShowtime(HttpServletRequest request,
             HttpServletResponse response,
             HttpSession session,
@@ -199,32 +245,76 @@ public class ShowtimeController extends HttpServlet {
             throws ServletException, IOException {
         int room_id = Integer.parseInt(request.getParameter("room_id"));
         int movie_id = Integer.parseInt(request.getParameter("movie_id"));
-        Date date = Date.valueOf(request.getParameter("date"));
-        String temp = request.getParameter("time");
-        System.out.println(temp);
-        Time time = Time.valueOf(temp+(temp.length()==5?":00":""));
-        int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
+        String date = request.getParameter("date");
+        String time = request.getParameter("time");
+        time += time.length() == 5 ? ":00" : "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime showtime = LocalDateTime.parse(date + " " + time, formatter);
         showtimesDAO dao = new showtimesDAO();
-        if(!dao.editShowtime(showtime_id, room_id, movie_id, date, time)){
-            String mess = "Something go wrong!";
-            session.setAttribute("list_st_mess", mess);
+        int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
+        int result = dao.editShowtime(showtime_id, room_id, movie_id, showtime);
+        String mess = "";
+        if (result == -2) {
+            mess = "Can't change showtime to the past!!!";
+        } else if (result == -1) {
+            mess = "Overlaped showtime!!!";
+        } else if (result == 0) {
+            mess = "Something go wrong!";
         }
+        session.setAttribute("list_st_mess", mess);
         String url = "ShowtimeURL?service=listShowtimeByRoom";
         Integer ss_room_id = (Integer) session.getAttribute("list_st_room_id");
         Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
         Date ss_date = (Date) session.getAttribute("list_st_date");
         String ss_status = (String) session.getAttribute("list_st_status");
-        if(ss_room_id!=null){
-            url+="&submit=search&room_id="+ss_room_id;
+        if (ss_room_id != null) {
+            url += "&submit=search&room_id=" + ss_room_id;
         }
-        if(ss_movie_id!=null){
-            url+="&movie_id="+ss_movie_id;
+        if (ss_movie_id != null) {
+            url += "&movie_id=" + ss_movie_id;
         }
-        if(ss_date!=null){
-            url+="&date="+ss_date;
+        if (ss_date != null) {
+            url += "&date=" + ss_date;
         }
-        if(ss_status!=null){
-            url+="&status="+ss_status;
+        if (ss_status != null) {
+            url += "&status=" + ss_status;
+        }
+        response.sendRedirect(url);
+    }
+
+    private void endShowtime(HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            users user)
+            throws ServletException, IOException {
+        int showtime_id = Integer.parseInt(request.getParameter("showtime_id"));
+        showtimesDAO dao = new showtimesDAO();
+        int result = dao.endShowtime(showtime_id);
+        String mess = "";
+        if (result == -2) {
+            mess = "Can't end showtime that not have Submitted!!!";
+        } else if (result == -1) {
+            mess = "Can't end showtime that haven't shown!!!";
+        } else if (result == 0) {
+            mess = "Something go wrong!";
+        }
+        session.setAttribute("list_st_mess", mess);
+        String url = "ShowtimeURL?service=listShowtimeByRoom";
+        Integer ss_room_id = (Integer) session.getAttribute("list_st_room_id");
+        Integer ss_movie_id = (Integer) session.getAttribute("list_st_movie_id");
+        Date ss_date = (Date) session.getAttribute("list_st_date");
+        String ss_status = (String) session.getAttribute("list_st_status");
+        if (ss_room_id != null) {
+            url += "&submit=search&room_id=" + ss_room_id;
+        }
+        if (ss_movie_id != null) {
+            url += "&movie_id=" + ss_movie_id;
+        }
+        if (ss_date != null) {
+            url += "&date=" + ss_date;
+        }
+        if (ss_status != null) {
+            url += "&status=" + ss_status;
         }
         response.sendRedirect(url);
     }

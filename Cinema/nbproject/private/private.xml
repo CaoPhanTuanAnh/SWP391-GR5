@@ -6,36 +6,52 @@
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/HomePage.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/theaters.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/Seats.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ManageSeatDetail.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/extend_showtimes.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/manager/DeleteRoom.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/news.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/roomsDAO.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/admin/CityControl.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/citiesDAO.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/admin/AddTheater.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/bill.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/users.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/branches.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/guest/HomePageController.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/list_user_booking.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ViewRevenue.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/header.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ManageNews.jsp</file>
-            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/assets/css/showtime-style.css</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ticket-booking.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/rooms.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/participants.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/manager/EditRoom.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/create_news.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ManageRoomDetail.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/newsList.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/room.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/sign_in.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/AccessDenied.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/Showtimes.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/seat.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/revenueDAO.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/list_combo.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/genres.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/manager/ManageRoom.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/list_movie_participant.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/admin/ManageAccount.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/user_bookings.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/manager/LoadRoom.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/EditRoom.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/otp_verification.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/admin/AddAccount.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/guest/ViewAllController.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/view_booking_detail.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/bookings.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/showtimesDAO.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/otp_verification2.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ManageAccount.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/EditAccount.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/about.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/sign_up.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/bookingsDAO.java</file>
@@ -48,26 +64,37 @@
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/manager/AddRoom.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/types.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/movies.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/edit_news.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/admin/ManageNews.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/newsDetail.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/DAO.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/cities.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/SeatStatus.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/context/DBContext.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/admin/EditTheater.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/revenue_data.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ResetPassword.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/customer/LogoutControl.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/user_profile.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/guest/BillController.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/EditTheater.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ManageTheater.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/e-ticket.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/manager/ViewRevenue.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ManageRoom.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/new_password.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/list_participant.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/moviesDAO.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/header_manage.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/theatersDAO.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/list_showtime.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/list_city.jsp</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/dao/NewsDAO.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/change_password.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/Contact_Us.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/movies.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/admin/ManageTheater.java</file>
+            <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ManageSeat.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/manager/ShowtimeController.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/customer/UserProfileControl.java</file>
         </group>

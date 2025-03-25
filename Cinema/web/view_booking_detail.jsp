@@ -328,7 +328,7 @@
 </script>
 <script>
     var qrcode = new QRCode("qrcode",
-            "$${userBooking.booking_id}${userBooking.title}${userBooking.showtime}${userBooking.seats_info}${userBooking.combos_info}");
+            "${userBooking.booking_id},${userBooking.user_id},${userBooking.showtime_id}");
 </script>
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
