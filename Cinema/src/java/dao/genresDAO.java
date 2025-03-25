@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class genresDAO extends DBContext {
+
     public List<genres> getAllGenres() {
         List<genres> genreList = new ArrayList<>();
         String sql = "SELECT * FROM genres";
 
-        try (Connection connection = getConnection();  // Gọi trực tiếp getConnection() từ DBContext
-             PreparedStatement st = connection.prepareStatement(sql);
-             ResultSet rs = st.executeQuery()) {
+        try (Connection connection = getConnection(); // Gọi trực tiếp getConnection() từ DBContext
+                 PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
 
             while (rs.next()) {
                 int genreId = rs.getInt("genre_id");
@@ -33,6 +33,43 @@ public class genresDAO extends DBContext {
         }
 
         return genreList;
+    }
+
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    public List<genres> getAllGenre() {
+        List<genres> list = new ArrayList<>();
+        try {
+            conn = new DBContext().getConnection();
+            String sql = "SELECT genre_id, genre_name FROM genres";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                genres g = new genres();
+                g.setGenre_id(rs.getInt("genre_id"));
+                g.setGenre_name(rs.getString("genre_name"));
+                list.add(g);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
     }
 
 //    public static void main(String[] args) {

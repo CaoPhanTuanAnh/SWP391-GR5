@@ -1,4 +1,3 @@
-
 package entity;
 
 import java.sql.Date;
@@ -27,5 +26,10 @@ public class movies {
     private Date release_date;
     private String status;
     private String[] participants;
-
+    private String genres;
+    private String[] actors;
+    private String[] directors;
+    private String actorsString;
+    private String directorsString;
+    
 }

@@ -29,7 +29,7 @@ public class LogoutControl extends HttpServlet {
         if (session != null) {
             session.invalidate(); // Xóa toàn bộ session
         }
-        response.sendRedirect("home"); // Chuyển hướng về trang chủ
+        response.sendRedirect("HomePageController"); // Chuyển hướng về trang chủ
     }
 
     @Override

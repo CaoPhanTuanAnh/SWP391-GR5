@@ -367,7 +367,7 @@ CREATE TABLE [dbo].[users](
 	[phone] [char](10) NULL,
 	[birth_date] [date] NOT NULL,
 	[theater_id] [int] NULL,-- Doi voi customer, day la rap phim thuong den, Doi voi manager va admin, day la noi lam viec
-	[status] [nvarchar](20) NOT NULL, -- Active: TK con hoat dong, Banned: bi ban
+	[status] [nvarchar](20) NOT NULL, -- Active: TK con hoat dong, Inactive: bi ban
 PRIMARY KEY CLUSTERED 
 (
 	[user_id] ASC
@@ -14404,6 +14404,25 @@ VALUES
 (8, 27, '2025-08-20 19:15:00', 'Saved'),
 (9, 1, '2025-09-05 18:45:00', 'Saved'),
 (10, 27, '2025-10-10 20:00:00', 'Saved');
+
+--Thêm News/Post
+SET IDENTITY_INSERT [dbo].[posts] ON 
+INSERT INTO  posts (post_id, user_id, title, photo_url, content, created_date, content_type)
+VALUES
+(1, 3, N'COMMANDO 3 chính thức khởi chiếu','./assets/images/commando.jpeg', N'Sau thời gian dài chờ đợi, bộ phim COMMANDO 3 đã chính thức ra mắt khán giả Việt Nam từ ngày 20/3/2025. 
+	Tiếp nối thành công của hai phần trước, COMMANDO 3 hứa hẹn mang đến những pha hành động mãn nhãn, kịch bản kịch tính và những màn đấu võ cực kỳ gay cấn.
+	Bộ phim tiếp tục theo chân nhân vật Karanveer Singh Dogra (do Vidyut Jammwal thủ vai) trong nhiệm vụ mới nhằm ngăn chặn một âm mưu khủng bố đe dọa an ninh quốc gia. 
+	Với các cảnh quay hoành tráng, những pha rượt đuổi nghẹt thở và kỹ xảo điện ảnh ấn tượng, COMMANDO 3 chắc chắn sẽ không làm người hâm mộ thất vọng.
+	Hãy nhanh chóng ra rạp để thưởng thức bộ phim và trải nghiệm một trong những tác phẩm hành động hấp dẫn nhất năm nay!', '2025-01-10', 'Advertisement'),
+(2, 3, N'Wednesday tạm dừng chiếu','./assets/images/wednesday.jpeg', N'Tin buồn cho người hâm mộ của Wednesday! Bộ phim đình đám của Netflix vừa thông báo tạm dừng chiếu trên tất cả các nền tảng và rạp chiếu.
+	Nguyên nhân cụ thể vẫn chưa được tiết lộ, nhưng nhiều nguồn tin cho rằng quá trình sản xuất mùa tiếp theo gặp vấn đề về lịch trình hoặc có tranh chấp bản quyền. 
+	Điều này khiến khán giả không khỏi hoang mang và chờ đợi thông báo chính thức từ nhà sản xuất.
+	Dù vậy, Wednesday vẫn là một trong những bộ phim được yêu thích nhất với phong cách gothic đặc trưng, nội dung lôi cuốn và diễn xuất ấn tượng của Jenna Ortega. 
+	Hy vọng rằng bộ phim sẽ sớm trở lại với tin tức tốt lành!', '2025-01-10', 'Advertisement')
+SET IDENTITY_INSERT [dbo].[posts] OFF 
+
+
+
 
 update tickets
 set booking_id = 1

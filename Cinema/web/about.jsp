@@ -28,7 +28,7 @@
 		<!--/nav-->
 		<nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
 			<div class="container">
-				<h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-play icon-log"
+				<h1><a class="navbar-brand" href="HomePageController"><span class="fa fa-play icon-log"
 							aria-hidden="true"></span>
 						MyShowz </a></h1>
 				<!-- if logo is image enable this   
@@ -46,7 +46,7 @@
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="index.jsp">Home</a>
+							<a class="nav-link" href="HomePageController">Home</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="movies.jsp">movies</a>

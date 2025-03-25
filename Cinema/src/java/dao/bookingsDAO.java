@@ -94,7 +94,7 @@ public class bookingsDAO {
     public user_bookings viewBookingDetail(int booking_id) {
         String query = "select distinct b.*, t.*, cp.coupon_code, cp.discount_percentage\n"
                 + "from bookings b \n"
-                + "left join (select distinct tk.booking_id, th.theater_name, r.room_name, st.showtime, m.title, m.poster_url from tickets tk \n"
+                + "left join (select distinct tk.booking_id, th.theater_name, r.room_name, st.showtime_id, st.showtime, m.title, m.poster_url from tickets tk \n"
                 + "	join showtimes st on st.showtime_id = tk.showtime_id\n"
                 + "	join rooms r on r.room_id = st.room_id\n"
                 + "	join theaters th on th.theater_id = r.theater_id\n"
@@ -154,6 +154,7 @@ public class bookingsDAO {
                         rs.getDouble("discount_percentage"),
                         rs.getString("title"),
                         rs.getString("poster_url"),
+                        rs.getInt("showtime_id"),
                         rs.getString("showtime"),
                         rs.getString("theater_name"),
                         rs.getString("room_name"),

@@ -1,7 +1,7 @@
 package entity;
 
 import java.util.Date;
-public class News {
+public class news {
     private int postId;
     private String userId;
     private String title;
@@ -10,9 +10,9 @@ public class News {
     private Date createdDate;
     private String contentType;
 
-    public News() {}
+    public news() {}
 
-    public News(int postId, String userId, String title, String photoUrl, String content, Date createdDate, String contentType) {
+    public news(int postId, String userId, String title, String photoUrl, String content, Date createdDate, String contentType) {
         this.postId = postId;
         this.userId = userId;
         this.title = title;

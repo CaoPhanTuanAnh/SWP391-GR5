@@ -43,7 +43,7 @@ public class LoginControl extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("acc", a);
                 session.setAttribute("managerId", a.getUser_id()); // Lưu ID của manager
-                response.sendRedirect("home");
+                response.sendRedirect("HomePageController");
             }
         }catch(Exception e){
         }
@@ -87,7 +87,7 @@ public class LoginControl extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("acc", a);
                     session.setAttribute("managerId", a.getUser_id()); // Lưu ID của manager
-                    response.sendRedirect("home");
+                    response.sendRedirect("HomePageController");
                 }else{
                     request.setAttribute("mess", "Account has been banned");
                     request.getRequestDispatcher("sign_in.jsp").forward(request, response);

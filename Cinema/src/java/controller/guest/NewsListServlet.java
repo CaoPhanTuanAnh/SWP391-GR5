@@ -5,7 +5,7 @@
 package controller.guest;
 
 import dao.NewsDAO;
-import entity.News;
+import entity.news;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -61,7 +61,7 @@ public class NewsListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          NewsDAO dao = new NewsDAO();
-        List<News> newsList;
+        List<news> newsList;
         try {
             newsList = dao.getAllNews();
              request.setAttribute("newsList", newsList);

@@ -5,7 +5,7 @@
 package controller.admin;
 
 import dao.NewsDAO;
-import entity.News;
+import entity.news;
 import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,11 +75,11 @@ public class ManageNews extends HttpServlet {
         String action = request.getParameter("action");
         if ("edit".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
-            News news = newsDAO.getNewsById(id);
+            news news = newsDAO.getNewsById(id);
             request.setAttribute("news", news);
             request.getRequestDispatcher("edit_news.jsp").forward(request, response);
         } else {
-            List<News> list = newsDAO.getAllNews();
+            List<news> list = newsDAO.getAllNews();
             request.setAttribute("newsList", list);
             request.getRequestDispatcher("ManageNews.jsp").forward(request, response);
         }
@@ -116,10 +116,10 @@ public class ManageNews extends HttpServlet {
 
         if ("update".equals(action)) {
             int postId = Integer.parseInt(request.getParameter("post_id"));
-            News news = new News(postId, userId, title, photoUrl, content, null, contentType);
+            news news = new news(postId, userId, title, photoUrl, content, null, contentType);
             newsDAO.updateNews(news);
         } else {
-            News news = new News(0, userId, title, photoUrl, content, null, contentType);
+            news news = new news(0, userId, title, photoUrl, content, null, contentType);
             newsDAO.insertNews(news);
         }
         
