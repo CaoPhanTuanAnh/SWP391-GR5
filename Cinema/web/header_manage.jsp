@@ -91,9 +91,6 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="HomePageController">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Contact_Us.jsp">Contact</a>
-                        </li>
                         <c:if test="${sessionScope.acc.role_id == 1}">
                             <li class="nav-item">
                                 <a class="nav-link" >Manage</a>
@@ -101,7 +98,9 @@
                                     <li><a href="city_control">Manage City</a></li>
                                     <li><a href="ManageTheater">Manage Theater</a></li>
                                     <li><a href="ManageAccount">Manage Account</a></li>
+                                    <li><a href="ManageMovie">Manage Movie</a></li>
                                     <li><a href="movie_participant_control">Manage Movie Participant</a></li>
+                                    <li><a href="ManageMovieGenre">Manage Movie Genre</a></li>
                                     <li><a href="ViewRevenue">View Revenue</a></li>
                                 </ul>
                             </li>
