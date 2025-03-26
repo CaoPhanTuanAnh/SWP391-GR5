@@ -40,6 +40,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="ManageTheater">Manage Theater</a>
                         </li>
+                        <li class="nav-item"><a class="nav-link"  href="movie_participant_control">Manage Movie Participant</a></li>
+
                     </c:if>
 
                     <c:if test="${sessionScope.acc.getRole_id() == 2}">
@@ -51,7 +53,6 @@
                         <li class="nav-item"><a class="nav-link"  href="ManageNews">Manage News</a></li>
                         <li class="nav-item"><a class="nav-link"  href="combo_control">Manage Combo</a></li>
                         <li class="nav-item"><a class="nav-link"  href="participant_control">Manage Participant</a></li>
-                        <li class="nav-item"><a class="nav-link"  href="movie_participant_control">Manage Movie Participant</a></li>
                         <li class="nav-item"><a class="nav-link"  href="ShowtimeURL?service=listShowtimeByRoom">Manage Show Time</a></li>
                     </c:if>
 
