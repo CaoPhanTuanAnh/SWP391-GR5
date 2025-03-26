@@ -131,7 +131,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <a class="close" href="#close">×</a>
+                        <a class="close" href="#close">ï¿½</a>
                     </div>
                     <!-- /search popup -->
                     <!--/search-right-->
