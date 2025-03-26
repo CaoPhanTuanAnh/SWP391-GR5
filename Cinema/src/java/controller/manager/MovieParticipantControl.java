@@ -6,6 +6,8 @@ package controller.manager;
 
 import dao.movieparticipantDAO;
 import entity.movie_participants;
+import entity.movies;
+import entity.participants;
 import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -123,6 +125,14 @@ public class MovieParticipantControl extends HttpServlet {
         movieparticipantDAO dao = new movieparticipantDAO();
         List<movie_participants> MovieParticipantList = dao.listMovieParticipant();
         request.setAttribute("movie_participantList", MovieParticipantList);
+        
+        List<participants> participantList = dao.listParticipant();
+        List<movies> movieList = dao.listMovie();
+        request.setAttribute("participantList", participantList);
+        request.setAttribute("movieList", movieList);
+        //request.getRequestDispatcher("list_movie_participant.jsp").forward(request, response);
+        
+        
     }
     
 
