@@ -326,7 +326,7 @@
 
     </head>
 
-    <body onload="console.log('${requestScope.mess}')">
+    <body onload="checkService()">
 
         <%@ include file="header_manage.jsp" %>
         <!-- main-slider -->
@@ -342,42 +342,19 @@
                     </div>
                     <div class="search-section">
                         <form action="ViewRevenue" method="post">
-                            <input type="hidden" name="service" value="">
-                            Unit: <select name="unit">
-                                <option value="VND">VND</option>
-                                <option value="Ticket">Ticket</option>
+                            Revenue by: <select name="service" onchange="changeInput(this)">
+                                <option value="viewRevenueByMovie">Movie</option>
+                                <option value="viewRevenueByDay">Day</option>
                             </select>
-                            In: <select name="in">
-                                <option value="Week">Week</option>
-                                <option value="Month">Month</option>
-                                <option value="Quarter">Quarter</option>
-                                <option value="Year">Year</option>
-                                <option value="Total">Total</option>
-                            </select>
-                            For Each: 
-                            <select name="for_each">
-                                <option value="Day">Day</option>
-                                <option value="Week">Week</option>
-                                <option value="Month">Month</option>
-                                <option value="Quarter">Quarter</option>
-                                <option value="Year">Year</option>
-                            </select>
-                            
-                            From: <input type="date" name="from" value="">
-                            <input type="week" name="from" value="">
-                            <input type="month" name="from" value="">
-                            <input type="number" name="from" value="" min="1" max="4" step="1">
-                            <input type="number" name="from" value="" min="2000" max="2099" step="1">
-                            To: <input type="date" name="from" value="">
-                            <input type="week" name="from" value="">
-                            <input type="month" name="from" value="">
-                            <input type="number" name="from" value="" min="1" max="4" step="1">
-                            <input type="number" name="from" value="" min="2000" max="2099" step="1">
-                            
-                            <input type="submit" name="submit" value="Search">
+                            <input id="month-inp" type="number" name="month" max="12" min="1" step="1" disabled hidden>
+                            <input id="year-inp" type="number" name="year" min="2020" maxlength="4" step="1" disabled hidden>
+                            <input type="submit" name="submit" value="View">
                         </form>
+                        <p>Total: ${total}</p>
                     </div>
-                    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+                    <div style="">
+                        <canvas id="myChart" style="width:100%;max-width:700px;margin: 0 auto;"></canvas>
+                    </div>
                 </div>
             </div>
         </div>   
@@ -385,34 +362,90 @@
     </body>
 
 </html>
-<script>
-    function addShowtimeInfo(showtime_id, room_id, movie_id, date, time) {
-        let showtimein = document.getElementById("showtime_id");
-        let roomin = document.getElementById("room_id");
-        let moviein = document.getElementById("movie_id");
-        let datein = document.getElementById("date");
-        let timein = document.getElementById("time");
-        showtimein.value = showtime_id;
-        let optionroom = roomin.children;
-        for (let i = 0; i < optionroom.length; i++) {
-            if (optionroom[i].value == room_id) {
-                optionroom[i].selected = true;
-            }
-        }
-        let optionmovie = moviein.children;
-        for (let i = 0; i < optionmovie.length; i++) {
-            if (optionmovie[i].value == movie_id) {
-                optionmovie[i].selected = true;
-            }
-        }
-        datein.defaultValue = date;
-        timein.defaultValue = time;
-    }
-</script>
-<!-- charts -->
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 </script>
+<script>
+    function changeInput(mode) {
+        let month = document.querySelector("#month-inp");
+        let year = document.querySelector("#year-inp");
+        let slt = mode.options[mode.selectedIndex].value;
+        if (slt === "viewRevenueByDay") {
+            month.hidden = false;
+            month.disabled = false;
+            year.hidden = false;
+            year.disabled = false;
+        } else {
+            month.hidden = true;
+            month.disabled = true;
+            year.hidden = true;
+            year.disabled = true;
+        }
+    }
+    function checkService() {
+        if ("${requestScope.service}" === "viewRevenueByDay") {
+            byDay();
+        } else {
+            byMovie()
+        }
+    }
+    function byDay() {
+        let xValues = ${xValue};
+        let yValues = ${yValue};
+        new Chart("myChart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                        data: yValues
+                    }]
+            },
+            options: {
+                legend: {display: false},
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                },
+                title: {
+                    display: true,
+                    text: "Revenue of month ${month}, ${year} each day"
+                }
+            }
+        });
+    }
+    function byMovie() {
+        let xValues = ${xValue};
+        let yValues = ${yValue};
+        new Chart("myChart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                        data: yValues
+                    }]
+            },
+            options: {
+                legend: {display: false},
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                },
+                title: {
+                    display: true,
+                    text: "Revenue of Movies"
+                }
+            }
+        });
+    }
+
+</script>
+<!-- charts -->
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>

@@ -4,6 +4,8 @@
  */
 package controller.manager;
 
+import dao.revenueDAO;
+import entity.revenue_data;
 import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +15,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -37,13 +42,79 @@ public class ViewRevenue extends HttpServlet {
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole_id() != 2)) {
+        if (user == null || (user.getRole_id() != 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         try (PrintWriter out = response.getWriter()) {
-
+            String service = request.getParameter("service");
+            if ("viewRevenueByDay".equals(service)) {
+                viewRevenueByDay(request, response, session, user);
+            } else if ("viewRevenueByMovie".equals(service)) {
+                viewRevenueByMovie(request, response, session, user);
+            } else {
+                viewRevenueByMovie(request, response, session, user);
+            }
         }
+    }
+
+    private void viewRevenueByMovie(HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            users user)
+            throws ServletException, IOException {
+        revenueDAO dao = new revenueDAO();
+        List<revenue_data> revenueView = dao.viewRevenueByMovie();
+        List<String> xValue = new ArrayList<>();
+        List<Double> yValue = new ArrayList<>();
+        double total = 0;
+        for (revenue_data x : revenueView) {
+            xValue.add("'" + x.getXValue() + "'");
+            yValue.add(x.getYValue());
+            total+=x.getYValue();
+        }
+        request.setAttribute("service", "viewRevenueByMovie");
+        request.setAttribute("xValue", xValue);
+        request.setAttribute("yValue", yValue);
+        request.setAttribute("total", total);
+        request.getRequestDispatcher("ViewRevenue.jsp").forward(request, response);
+    }
+
+    private void viewRevenueByDay(HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            users user)
+            throws ServletException, IOException {
+        revenueDAO dao = new revenueDAO();
+        String smonth = request.getParameter("month");
+        String syear = request.getParameter("year");
+        int month, year;
+        try {
+            month = Integer.parseInt(smonth);
+        } catch (Exception e) {
+            month = LocalDateTime.now().getMonthValue();
+        }
+        try {
+            year = Integer.parseInt(syear);
+        } catch (Exception e) {
+            year = LocalDateTime.now().getYear();
+        }
+        List<revenue_data> revenueView = dao.viewRevenueByDay(month, year);
+        List<String> xValue = new ArrayList<>();
+        List<Double> yValue = new ArrayList<>();
+        double total = 0;
+        for (revenue_data x : revenueView) {
+            xValue.add("'" + x.getXValue() + "'");
+            yValue.add(x.getYValue());
+            total+=x.getYValue();
+        }
+        request.setAttribute("service", "viewRevenueByDay");
+        request.setAttribute("month", month);
+        request.setAttribute("year", year);
+        request.setAttribute("xValue", xValue);
+        request.setAttribute("yValue", yValue);
+        request.setAttribute("total", total);
+        request.getRequestDispatcher("ViewRevenue.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
