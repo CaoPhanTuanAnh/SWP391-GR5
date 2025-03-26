@@ -2,7 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
         <group>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/HomePage.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/entity/theaters.java</file>
@@ -98,6 +97,16 @@
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/web/ManageSeat.jsp</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/manager/ShowtimeController.java</file>
             <file>file:/D:/FPTU/25_5_SP/SWP391/SWP391-GR5/Cinema/src/java/controller/customer/UserProfileControl.java</file>
+        </group>
+        <group>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/customer/PaymentController.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/customer/PaymentConfig.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/manager/coupons.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/manager/AddCoupon.java</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/web/bill.jsp</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/web/list_coupon.jsp</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/web/seat.jsp</file>
+            <file>file:/D:/Documents/GitHub/SWP391-GR5/Cinema/src/java/controller/manager/EditCoupon.java</file>
         </group>
     </open-files>
 </project-private>
