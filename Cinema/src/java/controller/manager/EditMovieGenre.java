@@ -37,7 +37,7 @@ public class EditMovieGenre extends HttpServlet {
         HttpSession session = request.getSession(false);
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole_id() != 2)) {
+        if (user == null || (user.getRole_id() != 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
