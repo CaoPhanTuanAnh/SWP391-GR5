@@ -41,6 +41,7 @@
                             <a class="nav-link" href="ManageTheater">Manage Theater</a>
                         </li>
                         <li class="nav-item"><a class="nav-link"  href="movie_participant_control">Manage Movie Participant</a></li>
+                        <li class="nav-item"><a class="nav-link" href="ViewRevenue">View Revenue</a></li>
 
                     </c:if>
 

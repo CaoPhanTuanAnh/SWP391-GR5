@@ -56,6 +56,7 @@
                                 <li><a href="ManageTheater">Manage Theater</a></li>
                                 <li><a href="ManageAccount">Manage Account</a></li>
                                 <li><a href="movie_participant_control">Manage Movie Participant</a></li>
+                                <li><a href="ViewRevenue">View Revenue</a></li>
                             </ul>
                         </li>
                     </c:if>
