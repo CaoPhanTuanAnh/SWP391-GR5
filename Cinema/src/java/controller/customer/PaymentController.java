@@ -58,6 +58,7 @@ public class PaymentController extends HttpServlet {
 
         String orderid = PaymentConfig.getRandomNumber(3);
         amount = amount * 100;
+        combo = combo * 100;
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", PaymentConfig.VERSION);
         vnp_Params.put("vnp_Command", PaymentConfig.COMMAND);
