@@ -58,6 +58,7 @@
                                 <li><a href="ManageMovie">Manage Movie</a></li>
                                 <li><a href="movie_participant_control">Manage Movie Participant</a></li>
                                 <li><a href="ManageMovieGenre">Manage Movie Genre</a></li>
+                                <li><a href="ViewRevenue">View Revenue</a></li>
                             </ul>
                         </li>
                     </c:if>
@@ -130,7 +131,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <a class="close" href="#close">×</a>
+                        <a class="close" href="#close">ï¿½</a>
                     </div>
                     <!-- /search popup -->
                     <!--/search-right-->

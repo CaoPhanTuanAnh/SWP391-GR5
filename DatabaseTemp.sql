@@ -14409,16 +14409,16 @@ VALUES
 SET IDENTITY_INSERT [dbo].[posts] ON 
 INSERT INTO  posts (post_id, user_id, title, photo_url, content, created_date, content_type)
 VALUES
-(1, 3, N'COMMANDO 3 chính thức khởi chiếu','./assets/images/commando.jpeg', N'Sau thời gian dài chờ đợi, bộ phim COMMANDO 3 đã chính thức ra mắt khán giả Việt Nam từ ngày 20/3/2025. 
-	Tiếp nối thành công của hai phần trước, COMMANDO 3 hứa hẹn mang đến những pha hành động mãn nhãn, kịch bản kịch tính và những màn đấu võ cực kỳ gay cấn.
-	Bộ phim tiếp tục theo chân nhân vật Karanveer Singh Dogra (do Vidyut Jammwal thủ vai) trong nhiệm vụ mới nhằm ngăn chặn một âm mưu khủng bố đe dọa an ninh quốc gia. 
-	Với các cảnh quay hoành tráng, những pha rượt đuổi nghẹt thở và kỹ xảo điện ảnh ấn tượng, COMMANDO 3 chắc chắn sẽ không làm người hâm mộ thất vọng.
-	Hãy nhanh chóng ra rạp để thưởng thức bộ phim và trải nghiệm một trong những tác phẩm hành động hấp dẫn nhất năm nay!', '2025-01-10', 'Advertisement'),
-(2, 3, N'Wednesday tạm dừng chiếu','./assets/images/wednesday.jpeg', N'Tin buồn cho người hâm mộ của Wednesday! Bộ phim đình đám của Netflix vừa thông báo tạm dừng chiếu trên tất cả các nền tảng và rạp chiếu.
-	Nguyên nhân cụ thể vẫn chưa được tiết lộ, nhưng nhiều nguồn tin cho rằng quá trình sản xuất mùa tiếp theo gặp vấn đề về lịch trình hoặc có tranh chấp bản quyền. 
-	Điều này khiến khán giả không khỏi hoang mang và chờ đợi thông báo chính thức từ nhà sản xuất.
-	Dù vậy, Wednesday vẫn là một trong những bộ phim được yêu thích nhất với phong cách gothic đặc trưng, nội dung lôi cuốn và diễn xuất ấn tượng của Jenna Ortega. 
-	Hy vọng rằng bộ phim sẽ sớm trở lại với tin tức tốt lành!', '2025-01-10', 'Advertisement')
+(1, 3, N'COMMANDO 3 officially premiered in Vietnam','./assets/images/commando.jpeg', N'After a long wait, the movie COMMANDO 3 officially premiered for Vietnamese audiences on March 20, 2025. 
+Continuing the success of the previous two installments, COMMANDO 3 promises to deliver breathtaking action scenes, a thrilling script, and incredibly intense fight sequences.
+The film follows the character Karanveer Singh Dogra (portrayed by Vidyut Jammwal) on a new mission to thwart a terrorist conspiracy that threatens national security. 
+With magnificent cinematography, heart-pounding chase scenes, and impressive visual effects, COMMANDO 3 is sure not to disappoint fans.
+Hurry to the theaters to enjoy the film and experience one of the most exciting action movies of the year!', '2025-01-10', 'Advertisement'),
+(2, 3, N'Wednesday has temporarily suspended screening.','./assets/images/wednesday.jpeg', N'Bad news for Wednesday fans! The hit Netflix series has just announced that its screening has been suspended on all platforms and in theaters. 
+The specific reason has not been disclosed, but many sources suggest that the production process for the next season has encountered scheduling issues or copyright disputes. 
+This has left audiences feeling uneasy and eagerly awaiting an official announcement from the producers.
+Nevertheless, Wednesday remains one of the most beloved shows, celebrated for its distinctive gothic style, engaging storyline, and the impressive performance by Jenna Ortega. 
+Hopefully, the series will return soon with some good news!', '2025-01-10', 'Advertisement')
 SET IDENTITY_INSERT [dbo].[posts] OFF 
 
 

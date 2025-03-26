@@ -384,11 +384,19 @@
                         <div class="modal-body">					
                             <div class="form-group">
                                 <label>Movie ID</label>
-                                <textarea name="movie_participantMovieID" class="form-control" required></textarea>
+                                <select name="movie_participantMovieID" >
+                                <c:forEach items="${movieList}" var="movie">
+                                    <option value="${movie.getMovie_id()}">${movie.getTitle()}</option>
+                                </c:forEach>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>Participant ID</label>
-                                <textarea name="movie_participantParticipantID" class="form-control" required></textarea>
+                                <select name="movie_participantParticipantID" >
+                                <c:forEach items="${participantList}" var="participant">
+                                    <option value="${participant.getParticipant_id()}">${participant.getParticipant_name()}</option>
+                                </c:forEach>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Role</label>
@@ -421,6 +429,7 @@
                                 <label>Movie ID</label>
                                 <input type="number" name="MovieID" id="movie_participantEditMovieID" class="form-control" value="" readonly required>
                                 <input type="number" name="newMovieID" id="movie_participantEditMovieID" class="form-control" value="" required>
+                            </select>
                             </div>
                         </div>
                         <div class="modal-body">					
