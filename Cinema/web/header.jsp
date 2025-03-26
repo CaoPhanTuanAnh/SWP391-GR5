@@ -55,6 +55,7 @@
                                 <li><a href="city_control">Manage City</a></li>
                                 <li><a href="ManageTheater">Manage Theater</a></li>
                                 <li><a href="ManageAccount">Manage Account</a></li>
+                                <li><a href="movie_participant_control">Manage Movie Participant</a></li>
                             </ul>
                         </li>
                     </c:if>
@@ -68,7 +69,6 @@
                                 <li><a href="combo_control">Manage Combo</a></li>
                                 <li><a href="coupons">Manage Coupon</a></li>
                                 <li><a href="participant_control">Manage Participant</a></li>
-                                <li><a href="movie_participant_control">Manage Movie Participant</a></li>
                                 <li><a href="ShowtimeURL?service=listShowtimeByRoom">Manage Show Time</a></li>
                             </ul>
                         </li>

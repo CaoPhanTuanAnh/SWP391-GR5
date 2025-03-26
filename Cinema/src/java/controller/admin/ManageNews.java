@@ -67,8 +67,8 @@ public class ManageNews extends HttpServlet {
         HttpSession session = request.getSession(false);
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
-        // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
-        if (user == null || (user.getRole_id() != 1 && user.getRole_id() != 2)) {
+        // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
+        if (user == null || (user.getRole_id() != 2)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }

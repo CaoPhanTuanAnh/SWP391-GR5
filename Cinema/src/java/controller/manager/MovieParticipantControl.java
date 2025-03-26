@@ -39,14 +39,14 @@ public class MovieParticipantControl extends HttpServlet {
         HttpSession session = request.getSession(false);
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
-        // Nếu chưa đăng nhập hoặc không phải Manager
-        if (user == null || (user.getRole_id()!= 2)) {
+        // Nếu chưa đăng nhập hoặc không phải Admin
+        if (user == null || (user.getRole_id()!= 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         try (PrintWriter out = response.getWriter()) {
             users admin = (users) session.getAttribute("acc");
-            if (admin != null && admin.getRole_id()== 2) {
+            if (admin != null && admin.getRole_id()== 1) {
                 String service = request.getParameter("service");
                 if (service == null) {
                     service = "listMovie_participant";
