@@ -55,7 +55,9 @@
                                 <li><a href="city_control">Manage City</a></li>
                                 <li><a href="ManageTheater">Manage Theater</a></li>
                                 <li><a href="ManageAccount">Manage Account</a></li>
+                                <li><a href="ManageMovie">Manage Movie</a></li>
                                 <li><a href="movie_participant_control">Manage Movie Participant</a></li>
+                                <li><a href="ManageMovieGenre">Manage Movie Genre</a></li>
                             </ul>
                         </li>
                     </c:if>
