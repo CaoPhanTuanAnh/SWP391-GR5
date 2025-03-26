@@ -78,109 +78,122 @@
                     <table style="width:100%">
                         <tr>
                             <th></th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
-                            <th>8</th>
-
-
+                            <th>1</th> <th>2</th> <th>3</th> <th>4</th> <th>5</th> <th>6</th> <th>7</th> <th>8</th>
                         </tr>
 
                         <tr>
                             <th>A</th>
                                 <c:forEach items="${listA}" var="seat">
                                     <c:choose>
-                                        <c:when test="${seat.getStatus() eq Available}">
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}" checked disabled>
+                                        <c:when test="${seat.getStatus() eq 'Booked'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Available'}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:when>
                                     <c:otherwise>
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:otherwise>
                                 </c:choose>
-
                             </c:forEach>
-
-
                         </tr>
 
                         <tr>
                             <th>B</th>
                                 <c:forEach items="${listB}" var="seat">
                                     <c:choose>
-                                        <c:when test="${seat.getStatus() eq Available}">
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}" checked disabled>
+                                        <c:when test="${seat.getStatus() eq 'Booked'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Available'}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:when>
                                     <c:otherwise>
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:otherwise>
                                 </c:choose>
-
                             </c:forEach>
                         </tr>
-
+                        
+                        
                         <tr>
                             <th>C</th>
                                 <c:forEach items="${listC}" var="seat">
                                     <c:choose>
-                                        <c:when test="${seat.getStatus() eq Available}">
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}" checked disabled>
+                                        <c:when test="${seat.getStatus() eq 'Booked'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Available'}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:when>
                                     <c:otherwise>
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:otherwise>
                                 </c:choose>
-
                             </c:forEach>
                         </tr>
-                        <tr>
+                        
+                           <tr>
                             <th>D</th>
                                 <c:forEach items="${listD}" var="seat">
                                     <c:choose>
-                                        <c:when test="${seat.getStatus() eq Available}">
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}" checked disabled>
+                                        <c:when test="${seat.getStatus() eq 'Booked'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Available'}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:when>
                                     <c:otherwise>
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:otherwise>
                                 </c:choose>
-
                             </c:forEach>
-
                         </tr>
-                        <tr>
+                        
+                           <tr>
                             <th>E</th>
                                 <c:forEach items="${listE}" var="seat">
                                     <c:choose>
-                                        <c:when test="${seat.getStatus() eq Available}">
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}" checked disabled>
+                                        <c:when test="${seat.getStatus() eq 'Booked'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Available'}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:when>
                                     <c:otherwise>
-                                        <th><input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
                                         </th>
                                     </c:otherwise>
                                 </c:choose>
-
                             </c:forEach>
                         </tr>
+
+                        <!-- Lặp lại cho các hàng C, D, E -->
                     </table>
                     <input type="text" name="mid" value="${requestScope.mid}" style="display: none;">
                     <input type="text" name="branchId" value="${requestScope.branchId}" style="display: none;">
                     <input type="text" name="startDate" value="${requestScope.startDate}" style="display: none;">
                     <input type="text" name="startTime" value="${requestScope.startTime}" style="display: none;">
-                     <input type="text" name="roomId" value="${requestScope.roomId}" style="display: none;">
+                    <input type="text" name="roomId" value="${requestScope.roomId}" style="display: none;">
                     <br>
                     <br>
                     <input type="submit" class="btn btn-outline-danger btn-block" value="Tiếp Tục"></input>

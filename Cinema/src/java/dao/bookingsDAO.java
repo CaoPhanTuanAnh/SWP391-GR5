@@ -172,5 +172,43 @@ public class bookingsDAO {
         }
         return null;
     }
+ public static bookings createBooking(int user_id, String date, double totalAmount, String status) {
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    bookings booking = null;
 
+    String query = "INSERT INTO bookings (user_id, booking_date, total_amount, status) VALUES (?, ?, ?, ?)";
+    
+    try {
+        conn = new DBContext().getConnection();
+        ps = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+        
+        ps.setInt(1, user_id);
+        ps.setString(2, date);
+        ps.setDouble(3, totalAmount);
+        ps.setString(4, status);
+
+        int affectedRows = ps.executeUpdate();
+        
+        if (affectedRows > 0) {
+            rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int booking_id = rs.getInt(1); // Lấy booking_id vừa tạo
+                booking = new bookings(booking_id, user_id, date, 0.0, 0, totalAmount, status); 
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (conn != null) conn.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    return booking;
+}
 }

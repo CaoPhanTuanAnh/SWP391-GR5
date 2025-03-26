@@ -2,16 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.guest;
+package controller.manager;
 
-import dao.combosDAO;
-import dao.roomsDAO;
-import dao.theatersDAO;
-import dao.moviesDAO;
-import entity.combos;
-import entity.rooms;
-import entity.theaters;
-import entity.movies;
+import controller.admin.*;
+import dao.couponDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,14 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author PCASUS
  */
-@WebServlet(name = "BillController", urlPatterns = {"/BillController"})
-public class BillController extends HttpServlet {
+@WebServlet(name = "DeleteCoupon", urlPatterns = {"/DeleteCoupon"})
+public class DeleteCoupon extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,44 +32,18 @@ public class BillController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String mid_raw = request.getParameter("mid");
-        String branchId_raw = request.getParameter("branchId");
-        String startDate_raw = request.getParameter("startDate");
-        String startTime_raw = request.getParameter("startTime");
-        String roomId_raw = request.getParameter("roomId");
-        String[] selectedSeats = request.getParameterValues("seats");
-        moviesDAO a = new moviesDAO();
-        theatersDAO b = new theatersDAO();
-        roomsDAO c = new roomsDAO();
-        combosDAO d = new combosDAO();
-        
-        try {
-            int mid = Integer.parseInt(mid_raw);
-            int branchId = Integer.parseInt(branchId_raw);
-            int roomId = Integer.parseInt(roomId_raw);
+        response.setContentType("text/html;charset=UTF-8");
+        String couponID = request.getParameter("couponID");
 
-            movies movie = a.getMovie(mid);
-            theaters brand = b.getBrand(branchId);
-            rooms room = c.getRoom(roomId);
-            List<combos> e = d.listCombo();
-            
-            
-          
-            request.setAttribute("room", room);
-            request.setAttribute("movie", movie);
-            request.setAttribute("brand", brand);
-            request.setAttribute("startDate", startDate_raw);
-            request.setAttribute("startTime", startTime_raw);
-            request.setAttribute("mid", mid);
-            request.setAttribute("branchId", branchId);
-            request.setAttribute("roomId", roomId);
-            request.setAttribute("e", e);
-            request.setAttribute("selectedSeats", selectedSeats);
+        if (couponID != null) {
+            couponDAO dao = new couponDAO();
+            boolean success = dao.deleteCoupon(Integer.parseInt(couponID));
 
-        } catch (Exception e) {
-            log("Error at HomeController: " + e.toString());
-        } finally {
-            request.getRequestDispatcher("bill.jsp").forward(request, response);
+            if (success) {
+                response.sendRedirect("coupons");
+            } else {
+                response.sendRedirect("coupons");
+            }
         }
     }
 

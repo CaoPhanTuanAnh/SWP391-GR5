@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -514,5 +515,40 @@ public class showtimesDAO extends DBContext {
         }
         return 0;
     }
+public showtimes getShowTimebyDateTime(Date startDate, Time startTime, int mid, int branch) {
+        showtimes showtime = null;
+        String sql = "SELECT * FROM showtimes WHERE showtime = ? AND movie_id = ? AND room_id = ?";
 
+        try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
+
+            // Chuyển startDate (java.sql.Date) thành LocalDate
+            LocalDate localDate = startDate.toLocalDate();
+
+            // Chuyển startTime (java.sql.Time) thành LocalTime
+            LocalTime localTime = startTime.toLocalTime();
+
+            // Hợp nhất thành LocalDateTime rồi chuyển sang Timestamp
+            LocalDateTime dateTime = LocalDateTime.of(localDate, localTime);
+            Timestamp sqlTimestamp = Timestamp.valueOf(dateTime);
+
+            // Set giá trị tham số
+            st.setTimestamp(1, sqlTimestamp);
+            st.setInt(2, mid);
+            st.setInt(3, branch);
+
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    showtime = new showtimes();
+                    showtime.setShowtime_id(rs.getInt("showtime_id"));
+                    showtime.setMovie_id(rs.getInt("movie_id"));
+                    showtime.setRoom_id(rs.getInt("room_id"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi truy vấn getShowTimebyDateTime: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Lỗi kết nối DB: " + e.getMessage());
+        }
+        return showtime;
+    }
 }

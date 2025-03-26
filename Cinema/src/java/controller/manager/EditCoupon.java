@@ -2,16 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.guest;
+package controller.manager;
 
-import dao.combosDAO;
-import dao.roomsDAO;
-import dao.theatersDAO;
-import dao.moviesDAO;
-import entity.combos;
-import entity.rooms;
-import entity.theaters;
-import entity.movies;
+import controller.admin.*;
+import dao.couponDAO;
+import entity.coupon;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,14 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import java.sql.Date;
 
 /**
  *
  * @author PCASUS
  */
-@WebServlet(name = "BillController", urlPatterns = {"/BillController"})
-public class BillController extends HttpServlet {
+@WebServlet(name = "EditCoupon", urlPatterns = {"/EditCoupon"})
+public class EditCoupon extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,44 +34,35 @@ public class BillController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String mid_raw = request.getParameter("mid");
-        String branchId_raw = request.getParameter("branchId");
-        String startDate_raw = request.getParameter("startDate");
-        String startTime_raw = request.getParameter("startTime");
-        String roomId_raw = request.getParameter("roomId");
-        String[] selectedSeats = request.getParameterValues("seats");
-        moviesDAO a = new moviesDAO();
-        theatersDAO b = new theatersDAO();
-        roomsDAO c = new roomsDAO();
-        combosDAO d = new combosDAO();
-        
         try {
-            int mid = Integer.parseInt(mid_raw);
-            int branchId = Integer.parseInt(branchId_raw);
-            int roomId = Integer.parseInt(roomId_raw);
+            // Lấy dữ liệu từ form
+            int couponID = Integer.parseInt(request.getParameter("couponID"));
+            String couponCode = request.getParameter("couponCode");
+            double discountPercentage = Double.parseDouble(request.getParameter("discountPercentage"));
+            Date expiryDate = Date.valueOf(request.getParameter("expiryDate"));
 
-            movies movie = a.getMovie(mid);
-            theaters brand = b.getBrand(branchId);
-            rooms room = c.getRoom(roomId);
-            List<combos> e = d.listCombo();
-            
-            
-          
-            request.setAttribute("room", room);
-            request.setAttribute("movie", movie);
-            request.setAttribute("brand", brand);
-            request.setAttribute("startDate", startDate_raw);
-            request.setAttribute("startTime", startTime_raw);
-            request.setAttribute("mid", mid);
-            request.setAttribute("branchId", branchId);
-            request.setAttribute("roomId", roomId);
-            request.setAttribute("e", e);
-            request.setAttribute("selectedSeats", selectedSeats);
+            // Tạo đối tượng Coupon
+            coupon updatedCoupon = new coupon();
+            updatedCoupon.setCoupon_code(couponCode);
+            updatedCoupon.setUser_id(0); // Nếu user_id không cần thiết, có thể bỏ qua hoặc đặt giá trị mặc định
+            updatedCoupon.setDiscount_percentage(discountPercentage);
+            updatedCoupon.setExpiry_date(expiryDate);
+            updatedCoupon.setCoupon_id(couponID);
+
+            // Gọi DAO để cập nhật database
+            couponDAO dao = new couponDAO();
+            boolean success = dao.updateCoupon(updatedCoupon);
+
+            // Chuyển hướng lại trang quản lý Coupon
+            if (success) {
+                response.sendRedirect("coupons");
+            } else {
+                response.sendRedirect("coupons");
+            }
 
         } catch (Exception e) {
-            log("Error at HomeController: " + e.toString());
-        } finally {
-            request.getRequestDispatcher("bill.jsp").forward(request, response);
+            e.printStackTrace();
+            response.sendRedirect("coupons");
         }
     }
 
