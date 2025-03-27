@@ -11,7 +11,7 @@ package service;
 public class TypeValidator {
 
     public static boolean validatePassword(String password) throws Exception {
-        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,16}$";
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&-+=()])(?=\\S+$).{8,16}$";
         if (password.isBlank()) {
             throw new Exception("Password can't be empty!");
         } else if (!password.matches(regex)) {
