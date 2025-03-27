@@ -6,7 +6,7 @@
     </servlet>
     <servlet>
         <servlet-name>ManageNews</servlet-name>
-        <servlet-class>controller.admin.ManageNews</servlet-class>
+        <servlet-class>controller.manager.ManageNews</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NewsListServlet</servlet-name>

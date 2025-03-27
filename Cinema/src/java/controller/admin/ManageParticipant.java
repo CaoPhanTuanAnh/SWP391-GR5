@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.manager;
+package controller.admin;
 
 import dao.participantDAO;
 import entity.participants;
@@ -32,13 +32,13 @@ public class ManageParticipant extends HttpServlet {
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager
-        if (user == null || (user.getRole_id()!= 2)) {
+        if (user == null || (user.getRole_id()!= 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         try (PrintWriter out = response.getWriter()) {
             users admin = (users) session.getAttribute("acc");
-            if (admin != null && admin.getRole_id()== 2) {
+            if (admin != null && admin.getRole_id()== 1) {
                 String service = request.getParameter("service");
                 if (service == null) {
                     service = "listParticipant";
