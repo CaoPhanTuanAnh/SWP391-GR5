@@ -73,7 +73,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[combos](
 	[combo_id] [int] IDENTITY(1,1) NOT NULL,
-	[combo_name] [nvarchar](30) NOT NULL,
+	[combo_name] [nvarchar](30) unique NOT NULL,
 	[detail] [nvarchar](100) NOT NULL,
 	[combo_price] [decimal](10, 2) NOT NULL,
 PRIMARY KEY CLUSTERED 
@@ -185,7 +185,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[participants](
 	[participant_id] [int] IDENTITY(1,1) NOT NULL,
-	[participant_name] [nvarchar](100) NOT NULL,
+	[participant_name] [nvarchar](100) unique NOT NULL,
 	[portrait_url] [nvarchar](100) NULL,
 	[birth_date] [date] NULL,
 	[nationality] [nvarchar](50) NULL,
@@ -361,7 +361,7 @@ CREATE TABLE [dbo].[users](
 	[user_id] [int] IDENTITY(1,1) NOT NULL,
 	[role_id] [int] NOT NULL,
 	[username] [nvarchar](50) NOT NULL,
-	[password] [nvarchar](16) NOT NULL,
+	[password] [nvarchar](100) NOT NULL,
 	[full_name] [nvarchar](100) NOT NULL,
 	[email] [nvarchar](100) NOT NULL,
 	[phone] [char](10) NULL,

@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import service.MaHoa;
 
 @WebServlet(name = "LoginControl", urlPatterns = {"/login"})
 public class LoginControl extends HttpServlet {
@@ -34,6 +35,9 @@ public class LoginControl extends HttpServlet {
         try {
             String user = request.getParameter("username");
             String pass = request.getParameter("password");
+            
+            pass = MaHoa.toSHA1(pass);
+            
             DAO dao = new DAO();
             users a = dao.login(user, pass);
             if(a == null){
@@ -77,6 +81,9 @@ public class LoginControl extends HttpServlet {
             throws ServletException, IOException {
         String user = request.getParameter("username");
         String pass = request.getParameter("password");
+        
+        pass = MaHoa.toSHA1(pass);
+        
         DAO dao = new DAO();
         users a = dao.login(user, pass);
         if(a == null){

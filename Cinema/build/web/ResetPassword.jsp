@@ -34,7 +34,6 @@
 				<div class="Login_SignUp" id="login_s">
 					<!-- style="font-size: 2rem ; display: inline-block; position: relative;" -->
 					<!-- <li class="nav-item"> -->
-					<a class="nav-link" href="index_1.jsp"><i class="fa fa-user-circle-o"></i></a>
 					<!-- </li> -->
 				</div>
 				<!-- toggle switch for light and dark theme -->
