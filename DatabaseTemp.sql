@@ -42,7 +42,7 @@ CREATE TABLE [dbo].[bookings](
 	[booking_id] [int] IDENTITY(1,1) NOT NULL,
 	[user_id] [int] NOT NULL,
 	[booking_date] [date] NULL,
-	[sub_total_amount] [decimal](10, 2) NOT NULL,
+	[sub_total_amount] [decimal](10, 2) NULL,
 	[coupon_id] [int] NULL,
 	[total_amount] [decimal](10, 2) NOT NULL,
 	[status] [nvarchar](20) NOT NULL,-- co the su dung cho tuong lai: cancel booking hoac tao booking chua tra tien vv
