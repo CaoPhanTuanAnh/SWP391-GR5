@@ -296,6 +296,9 @@
             .modal form label {
                 font-weight: normal;
             }
+            .mb-3{
+                margin-left: 30px;
+            }
         </style>
         <script>
             $(document).ready(function () {
@@ -362,7 +365,7 @@
                                     <td>${movie_participant.getParticipant_name()}</td>
                                     <td>${movie_participant.getRole_in_movie()}</td>
                                     <td>
-                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeMovieParticipantInfo(${movie_participant.getMovie_id()},'${movie_participant.getParticipant_id()}','${movie_participant.getRole_in_movie()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeMovieParticipantInfo(${movie_participant.getMovie_id()}, '${movie_participant.getParticipant_id()}', '${movie_participant.getRole_in_movie()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -385,17 +388,17 @@
                             <div class="form-group">
                                 <label>Movie ID</label>
                                 <select name="movie_participantMovieID" >
-                                <c:forEach items="${movieList}" var="movie">
-                                    <option value="${movie.getMovie_id()}">${movie.getTitle()}</option>
-                                </c:forEach>
+                                    <c:forEach items="${movieList}" var="movie">
+                                        <option value="${movie.getMovie_id()}">${movie.getTitle()}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Participant ID</label>
                                 <select name="movie_participantParticipantID" >
-                                <c:forEach items="${participantList}" var="participant">
-                                    <option value="${participant.getParticipant_id()}">${participant.getParticipant_name()}</option>
-                                </c:forEach>
+                                    <c:forEach items="${participantList}" var="participant">
+                                        <option value="${participant.getParticipant_id()}">${participant.getParticipant_name()}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -428,23 +431,31 @@
                             <div class="form-group">
                                 <label>Movie ID</label>
                                 <input type="number" name="MovieID" id="movie_participantEditMovieID" class="form-control" value="" readonly required>
-                                <input type="number" name="newMovieID" id="movie_participantEditMovieID" class="form-control" value="" required>
-                            </select>
+                                <select name="newMovieID" >
+                                    <c:forEach items="${movieList}" var="movie">
+                                        <option value="${movie.getMovie_id()}">${movie.getTitle()}</option>
+                                    </c:forEach>
+                                </select>
+                                </select>
                             </div>
                         </div>
                         <div class="modal-body">					
                             <div class="form-group">
                                 <label>Participant ID</label>
                                 <input type="number" name="ParticipantID" id="movie_participantEditParticipantID" class="form-control" value="" readonly required>
-                                <input type="number" name="newParticipantID" id="movie_participantEditParticipantID" class="form-control" value="" required>
+                                <select name="newParticipantID" >
+                                    <c:forEach items="${participantList}" var="participant">
+                                        <option value="${participant.getParticipant_id()}">${participant.getParticipant_name()}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                         </div>
                         <div class="mb-3">
-                                <label class="form-label">Role</label>
-                                <select name="role_type" id="movie_participantEditRoleType" class="form-select">
-                                    <option value="Director">Director</option>
-                                    <option value="Actor">Actor</option>
-                                </select>
+                            <label class="form-label">Role</label>
+                            <select name="role_type" id="movie_participantEditRoleType" class="form-select">
+                                <option value="Director">Director</option>
+                                <option value="Actor">Actor</option>
+                            </select>
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -459,73 +470,73 @@
 
 </html>
 <script>
-    function takeMovieParticipantInfo(oldMovieID,oldParticipantID,oldrole_type){
+    function takeMovieParticipantInfo(oldMovieID, oldParticipantID, oldrole_type) {
         console.log("run");
-        document.getElementById("movie_participantEditMovieID").value=oldMovieID;
-        document.getElementById("movie_participantEditParticipantID").value=oldParticipantID;
-        document.getElementById("movie_participantEditRoleType").value=oldrole_type;
+        document.getElementById("movie_participantEditMovieID").value = oldMovieID;
+        document.getElementById("movie_participantEditParticipantID").value = oldParticipantID;
+        document.getElementById("movie_participantEditRoleType").value = oldrole_type;
     }
 </script>
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-            $(document).ready(function () {
-                //Horizontal Tab
-                $('#parentHorizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion
-                    width: 'auto', //auto or any width like 600px
-                    fit: true, // 100% fit in a container
-                    tabidentify: 'hor_1', // The tab groups identifier
-                    activate: function (event) { // Callback function if tab is switched
-                        var $tab = $(this);
-                        var $info = $('#nested-tabInfo');
-                        var $name = $('span', $info);
-                        $name.text($tab.text());
-                        $info.show();
-                    }
-                });
-            });
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-            $(document).ready(function () {
-                $('.owl-one').owlCarousel({
-                    stagePadding: 280,
-                    loop: true,
-                    margin: 20,
-                    nav: true,
-                    responsiveClass: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    autoplaySpeed: 1000,
-                    autoplayHoverPause: false,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            stagePadding: 40,
-                            nav: false
-                        },
-                        480: {
-                            items: 1,
-                            stagePadding: 60,
-                            nav: true
-                        },
-                        667: {
-                            items: 1,
-                            stagePadding: 80,
-                            nav: true
-                        },
-                        1000: {
-                            items: 1,
-                            nav: true
-                        }
-                    }
-                })
-            })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {
