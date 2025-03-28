@@ -10,6 +10,8 @@ import entity.user_bookings;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -185,8 +187,8 @@ public class bookingsDAO {
         ps = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
         
         ps.setInt(1, user_id);
-        ps.setString(2, date);
-        ps.setDouble(3, totalAmount);
+        ps.setString(2, LocalDate.now().toString());
+        ps.setDouble(3, totalAmount/100);
         ps.setString(4, status);
 
         int affectedRows = ps.executeUpdate();
