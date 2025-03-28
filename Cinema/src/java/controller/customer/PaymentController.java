@@ -29,7 +29,7 @@ public class PaymentController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int amount = Integer.parseInt(request.getParameter("amount"));
+        int amount = Integer.parseInt(request.getParameter("amount").trim());
        int combo = (int) Double.parseDouble(request.getParameter("combo"));
         String date = request.getParameter("date");
         String time = request.getParameter("time");
