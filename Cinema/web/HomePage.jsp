@@ -89,29 +89,29 @@
                         <div class="item">
                             <li>
                                 <c:if test="${adstatus.getCount()==0}">
-                                <div class="slider-info banner-view bg bg2">
-                                </c:if>
+                                    <div class="slider-info banner-view bg bg2">
+                                    </c:if>
 
-                                <c:if test="${adstatus.getCount()!=0}">
-                                    <div style=" background: url(${ad.getPhotoUrl()}) no-repeat center center;
-                                                background-size: contain;
-                                                background-color: black;
-                                                width: 100%;
-                                                height: 500px; /* Điều chỉnh chiều cao theo ý muốn */" 
-                                        class="slider-info banner-view banner-top${adstatus.getCount()} bg bg2">
-                                </c:if>
-                                    <div class="banner-info">
-                                        <h3>${ad.getTitle()}</h3>
-                                        <a href="#small-dialog${adstatus.getCount()}" class="popup-with-zoom-anim play-view1">
-                                            <h6>=> See News's Detail</h6>
-                                        </a>
-                                        <div id="small-dialog${adstatus.getCount()}" class="zoom-anim-dialog mfp-hide" style="display: flex">
-                                            <iframe src="${ad.getPhotoUrl()}" allow="autoplay; fullscreen"
-                                                    allowfullscreen=""></iframe>
-                                                    <p>${ad.getContent()}</p>
+                                    <c:if test="${adstatus.getCount()!=0}">
+                                        <div style=" background: url(${ad.getPhotoUrl()}) no-repeat center center;
+                                             background-size: contain;
+                                             background-color: black;
+                                             width: 100%;
+                                             height: 500px; /* Điều chỉnh chiều cao theo ý muốn */" 
+                                             class="slider-info banner-view banner-top${adstatus.getCount()} bg bg2">
+                                        </c:if>
+                                        <div class="banner-info">
+                                            <h3>${ad.getTitle()}</h3>
+                                            <a href="#small-dialog${adstatus.getCount()}" class="popup-with-zoom-anim play-view1">
+                                                <h6>=> See News's Detail</h6>
+                                            </a>
+                                            <div id="small-dialog${adstatus.getCount()}" class="zoom-anim-dialog mfp-hide" style="display: flex">
+                                                <iframe src="${ad.getPhotoUrl()}" allow="autoplay; fullscreen"
+                                                        allowfullscreen=""></iframe>
+                                                <p>${ad.getContent()}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </li>
                         </div>
                     </c:forEach>
@@ -138,7 +138,7 @@
                         <c:forEach items="${requestScope.listPopulars}" var="LP">
                             <div class="item vhny-grid">
                                 <div class="box16">
-                                    <a href="movies.jsp">
+                                    <a href="#modal-${LP.getMovie_id()}" data-toggle="modal">
                                         <figure>
                                             <img class="img-fluid" src="${LP.getPoster_url()}" alt="" >
                                         </figure>
@@ -151,12 +151,86 @@
                                                 <span class="post fa fa-heart text-right"></span>
                                             </h4>
                                         </div>
-                                        <span class="fa fa-play video-icon" aria-hidden="true"></span>
+                                        <a href="${LP.getTrailer_url()}"><span class="fa fa-play video-icon" aria-hidden="true"></span></a>
                                     </a>
                                 </div>
                                 <div class="button-center text-center mt-4">
                                     <a href="BranchController?mid=${LP.getMovie_id()}" class="btn watch-button">Buy Ticket</a>
-                                    <a href="movies.jsp" class="btn watch-button">Detail Movie</a>
+                                    <a href="#modal-${LP.getMovie_id()}" data-toggle="modal"class="btn watch-button">Detail Movie</a>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="modal-${LP.getMovie_id()}" tabindex="-1" role="dialog" aria-hidden="true">
+
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" id="mymodalcontent">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="exampleModalLongTitle">DETAILS</h4>
+                                            <button type="button" class="closebtn" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" id="dynamic-content">
+                                            <img src="${LP.getPoster_url()}" class="img-fluid modalimg" alt="" />
+                                            <p>
+                                            <h3>Release Date&nbsp;:${LP.getRelease_date()} </h3>
+
+                                            </p>
+                                            <h4>About Movie</h4>
+                                            <p>
+                                                ${LP.getDescription()}
+                                            </p>
+                                            <h4>Star Cast</h4>
+                                            <h3>Diễn viên</h3>
+                                            <c:if test="${not empty LP.getParts()}">
+                                                <ul>
+                                                    <c:forEach items="${LP.getParts()}" var="actor">
+                                                        <c:if test="${actor.role == 'Actor' ||  actor.role == 'Actress'}"> <!-- Kiểm tra vai trò là Diễn viên -->
+                                                            <li>
+                                                                <a href="DetailParticipantController?pid=${actor.participant_id}">
+                                                                    <img src="${actor.portrait_url}" alt="${actor.participant_name}" width="50">
+                                                                    ${actor.participant_name}
+                                                                </a>
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </ul>
+                                            </c:if>
+
+                                            <c:if test="${empty LP.getParts()}">
+                                                <p>Chưa có thông tin diễn viên.</p>
+                                            </c:if>
+
+                                            <h3>Đạo diễn</h3>
+                                            <c:if test="${not empty LP.getParts()}">
+                                                <ul>
+                                                    <c:forEach items="${LP.getParts()}" var="director">
+                                                        <c:if test="${director.role == 'Director'}"> <!-- Kiểm tra vai trò là Đạo diễn -->
+                                                            <li>
+                                                                <a href="DetailParticipantController?pid=${director.participant_id}">
+                                                                    <img src="${director.portrait_url}" alt="${director.participant_name}" width="50">
+                                                                    ${director.participant_name}
+                                                                </a>
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </ul>
+                                            </c:if>
+
+                                            <c:if test="${empty LP.getParts()}">
+                                                <p>Chưa có thông tin đạo diễn.</p>
+                                            </c:if>
+
+
+
+
+                                        </div>
+                                        <form action="BranchController" method="post">
+                                            <input type="hidden" name="movieId" value="${LP.getMovie_id()}">
+                                            <button type="submit" class="btn btn-success">Book</button>
+                                        </form>
+
+                                    </div>
                                 </div>
                             </div>
                         </c:forEach>
@@ -185,7 +259,7 @@
                         <c:forEach items="${requestScope.listNew}" var="LP">
                             <div class="item vhny-grid">
                                 <div class="box16 mb-0">
-                                    <a href="movies.jsp">
+                                    <a href="#modal-${LP.getMovie_id()}" data-toggle="modal">
                                         <figure>
                                             <img class="img-fluid" src="${LP.getPoster_url()}" alt="">
                                         </figure>
@@ -197,17 +271,91 @@
                                                 <span class="post fa fa-heart text-right"></span>
                                             </h4>
                                         </div>
-                                        <span class="fa fa-play video-icon" aria-hidden="true"></span>
+                                        <a href="${LP.getTrailer_url()}"><span class="fa fa-play video-icon" aria-hidden="true"></span></a>
                                     </a>
                                 </div>
                                 <h3> <a class="title-gd" href="movies.jsp"></a>${LP.getTitle()}</h3>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
                                 <div class="button-center text-center mt-4">
                                     <a href="BranchController?mid=${LP.getMovie_id()}" class="btn watch-button">Buy Ticket</a>
-                                    <a href="movies.jsp" class="btn watch-button">Detail Movie</a>
+                                    <a href="#modal-${LP.getMovie_id()}" data-toggle="modal"class="btn watch-button">Detail Movie</a>
                                 </div>
+                                <div class="modal fade" id="modal-${LP.getMovie_id()}" tabindex="-1" role="dialog" aria-hidden="true">
 
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content" id="mymodalcontent">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="exampleModalLongTitle">DETAILS</h4>
+                                                <button type="button" class="closebtn" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" id="dynamic-content">
+                                                <img src="${LP.getPoster_url()}" class="img-fluid modalimg" alt="" />
+                                                <p>
+                                                <h3>Release Date&nbsp;:${LP.getRelease_date()} </h3>
+
+                                                </p>
+                                                <h4>About Movie</h4>
+                                                <p>
+                                                    ${LP.getDescription()}
+                                                </p>
+                                                <h4>Star Cast</h4>
+                                                <h3>Diễn viên</h3>
+                                                <c:if test="${not empty LP.getParts()}">
+                                                    <ul>
+                                                        <c:forEach items="${LP.getParts()}" var="actor">
+                                                            <c:if test="${actor.role == 'Actor' ||  actor.role == 'Actress'}"> <!-- Kiểm tra vai trò là Diễn viên -->
+                                                                <li>
+                                                                    <a href="DetailParticipantController?pid=${actor.participant_id}">
+                                                                        <img src="${actor.portrait_url}" alt="${actor.participant_name}" width="50">
+                                                                        ${actor.participant_name}
+                                                                    </a>
+                                                                </li>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </c:if>
+
+                                                <c:if test="${empty LP.getParts()}">
+                                                    <p>Chưa có thông tin diễn viên.</p>
+                                                </c:if>
+
+                                                <h3>Đạo diễn</h3>
+                                                <c:if test="${not empty LP.getParts()}">
+                                                    <ul>
+                                                        <c:forEach items="${LP.getParts()}" var="director">
+                                                            <c:if test="${director.role == 'Director'}"> <!-- Kiểm tra vai trò là Đạo diễn -->
+                                                                <li>
+                                                                    <a href="DetailParticipantController?pid=${director.participant_id}">
+                                                                        <img src="${director.portrait_url}" alt="${director.participant_name}" width="50">
+                                                                        ${director.participant_name}
+                                                                    </a>
+                                                                </li>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </c:if>
+
+                                                <c:if test="${empty LP.getParts()}">
+                                                    <p>Chưa có thông tin đạo diễn.</p>
+                                                </c:if>
+
+
+
+
+                                            </div>
+                                            <form action="BranchController" method="post">
+                                                <input type="hidden" name="movieId" value="${LP.getMovie_id()}">
+                                                <button type="submit" class="btn btn-success">Book</button>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                         </c:forEach>
 
                     </div>
@@ -282,62 +430,62 @@
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-                    $(document).ready(function () {
-                        //Horizontal Tab
-                        $('#parentHorizontalTab').easyResponsiveTabs({
-                            type: 'default', //Types: default, vertical, accordion
-                            width: 'auto', //auto or any width like 600px
-                            fit: true, // 100% fit in a container
-                            tabidentify: 'hor_1', // The tab groups identifier
-                            activate: function (event) { // Callback function if tab is switched
-                                var $tab = $(this);
-                                var $info = $('#nested-tabInfo');
-                                var $name = $('span', $info);
-                                $name.text($tab.text());
-                                $info.show();
-                            }
-                        });
-                    });
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-                    $(document).ready(function () {
-                        $('.owl-one').owlCarousel({
-                            stagePadding: 280,
-                            loop: true,
-                            margin: 20,
-                            nav: true,
-                            responsiveClass: true,
-                            autoplay: true,
-                            autoplayTimeout: 5000,
-                            autoplaySpeed: 1000,
-                            autoplayHoverPause: false,
-                            responsive: {
-                                0: {
-                                    items: 1,
-                                    stagePadding: 40,
-                                    nav: false
-                                },
-                                480: {
-                                    items: 1,
-                                    stagePadding: 60,
-                                    nav: true
-                                },
-                                667: {
-                                    items: 1,
-                                    stagePadding: 80,
-                                    nav: true
-                                },
-                                1000: {
-                                    items: 1,
-                                    nav: true
-                                }
-                            }
-                        })
-                    })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {

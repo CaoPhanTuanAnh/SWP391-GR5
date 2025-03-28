@@ -4,7 +4,6 @@
     Author     : GIGABYTE
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <footer class="w3l-footer">
     <section class="footer-inner-main">
         <div class="footer-hny-grids py-5">

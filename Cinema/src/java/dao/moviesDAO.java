@@ -153,61 +153,201 @@ public class moviesDAO extends DBContext {
 
     public List<movies> getPopular() {
         List<movies> movieList = new ArrayList<>();
-        String sql = "SELECT TOP 10 m.movie_id, m.title, m.duration, m.poster_url, COUNT(s.movie_id) AS popular "
-                + "FROM movies m "
-                + "JOIN showtimes s ON m.movie_id = s.movie_id "
+        String sql = "SELECT \n"
+                + "    m.movie_id,\n"
+                + "    m.title,\n"
+                + "    m.poster_url,\n"
+                + "    m.trailer_url, \n"
+                + "    m.description,\n"
+                + "    m.duration,\n"
+                + "    m.release_date,\n"
+                + "    STRING_AGG(p.participant_name, ', ') AS actors,\n"
+                + "    STRING_AGG(g.genre_name, ', ') AS genres,\n"
+                + "    p.participant_id,\n"
+                + "    p.participant_name,\n"
+                + "    p.portrait_url,\n"
+                + "    p.birth_date,\n"
+                + "    p.nationality,\n"
+                + "    p.about,\n"
+                + "    mp.role_in_movie  -- Lấy trực tiếp vai trò từ bảng movie_participants\n"
+                + "FROM movies m\n"
+                + "JOIN showtimes s ON m.movie_id = s.movie_id \n"
+                + "LEFT JOIN movie_participants mp ON m.movie_id = mp.movie_id\n"
+                + "LEFT JOIN participants p ON mp.participant_id = p.participant_id\n"
+                + "LEFT JOIN movie_genres mg ON m.movie_id = mg.movie_id\n"
+                + "LEFT JOIN genres g ON mg.genre_id = g.genre_id\n"
                 + "WHERE m.status = 'Present' "
-                + // Chỉ lấy phim đang chiếu
-                "GROUP BY m.movie_id, m.duration, m.poster_url, m.title "
-                + "ORDER BY popular DESC";
+                + "GROUP BY \n"
+                + "    m.movie_id, \n"
+                + "    m.title, \n"
+                + "    m.poster_url, \n"
+                + "    m.trailer_url, \n"
+                + "    m.description, \n"
+                + "    m.duration, \n"
+                + "    m.release_date, \n"
+                + "    p.participant_id, \n"
+                + "    p.participant_name, \n"
+                + "    p.portrait_url, \n"
+                + "    p.birth_date, \n"
+                + "    p.nationality, \n"
+                + "    p.about, \n"
+                + "    mp.role_in_movie";
 
-        try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+        try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                int movie_id = rs.getInt("movie_id");
-                String title = rs.getString("title");
-                int duration = rs.getInt("duration");
-                String poster_url = rs.getString("poster_url");
+            try (ResultSet rs = st.executeQuery()) {
+                int currentMovieId = -1;
+                movies currentMovie = null;
+                List<participants> participantsList = new ArrayList<>();
 
-                movies movie = new movies();
-                movie.setMovie_id(movie_id);
-                movie.setTitle(title);
-                movie.setDuration(duration);
-                movie.setPoster_url(poster_url);
-                movieList.add(movie);
+                while (rs.next()) {
+                    int movie_id = rs.getInt("movie_id");
+                    if (movie_id != currentMovieId) {
+                        // Nếu gặp bộ phim mới, lưu bộ phim cũ và khởi tạo lại danh sách
+                        if (currentMovie != null) {
+                            currentMovie.setParts(participantsList);
+                            movieList.add(currentMovie);
+                        }
+
+                        // Tạo đối tượng movies mới cho bộ phim hiện tại
+                        currentMovieId = movie_id;
+                        currentMovie = new movies();
+                        currentMovie.setMovie_id(movie_id);
+                        currentMovie.setTitle(rs.getString("title"));
+                        currentMovie.setPoster_url(rs.getString("poster_url"));
+                        currentMovie.setTrailer_url(rs.getString("trailer_url"));
+                        currentMovie.setDescription(rs.getString("description"));
+                        currentMovie.setDuration(rs.getInt("duration"));
+                        currentMovie.setRelease_date(rs.getDate("release_date"));
+                        currentMovie.setGenres(rs.getString("genres")); // Set genres
+
+                        // Reset danh sách người tham gia cho bộ phim mới
+                        participantsList = new ArrayList<>();
+                    }
+
+                    // Tạo đối tượng participants và thêm vào danh sách
+                    participants participant = new participants();
+                    participant.setParticipant_id(rs.getInt("participant_id"));
+                    participant.setParticipant_name(rs.getString("participant_name"));
+                    participant.setPortrait_url(rs.getString("portrait_url"));
+                    participant.setBirth_date(rs.getDate("birth_date"));
+                    participant.setNationality(rs.getString("nationality"));
+                    participant.setAbout(rs.getString("about"));
+                    participant.setRole(rs.getString("role_in_movie"));  // Sử dụng role_in_movie trực tiếp
+
+                    participantsList.add(participant);
+                }
+
+                // Thêm bộ phim cuối cùng vào danh sách
+                if (currentMovie != null) {
+                    currentMovie.setParts(participantsList);
+                    movieList.add(currentMovie);
+                }
+
             }
-
         } catch (SQLException e) {
-            System.err.println("Lỗi truy vấn getPopular: " + e.getMessage());
+            System.err.println("Lỗi trong truy vấn getAllMoviesWithPaging: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Lỗi kết nối DB: " + e.getMessage());
         }
-
         return movieList;
     }
 
     public List<movies> getNew() {
         List<movies> movieList = new ArrayList<>();
-        String sql = "select top 7 movie_id, title, duration, poster_url from movies order by release_date desc";
+        String sql = "SELECT \n"
+                + "    m.movie_id,\n"
+                + "    m.title,\n"
+                + "    m.poster_url,\n"
+                + "    m.trailer_url, \n"
+                + "    m.description,\n"
+                + "    m.duration,\n"
+                + "    m.release_date,\n"
+                + "    STRING_AGG(p.participant_name, ', ') AS actors,\n"
+                + "    STRING_AGG(g.genre_name, ', ') AS genres,\n"
+                + "    p.participant_id,\n"
+                + "    p.participant_name,\n"
+                + "    p.portrait_url,\n"
+                + "    p.birth_date,\n"
+                + "    p.nationality,\n"
+                + "    p.about,\n"
+                + "    mp.role_in_movie  -- Lấy trực tiếp vai trò từ bảng movie_participants\n"
+                + "FROM movies m\n"
+                + "LEFT JOIN movie_participants mp ON m.movie_id = mp.movie_id\n"
+                + "LEFT JOIN participants p ON mp.participant_id = p.participant_id\n"
+                + "LEFT JOIN movie_genres mg ON m.movie_id = mg.movie_id\n"
+                + "LEFT JOIN genres g ON mg.genre_id = g.genre_id\n"
+                + "WHERE m.status = 'Future' "
+                + "GROUP BY \n"
+                + "    m.movie_id, \n"
+                + "    m.title, \n"
+                + "    m.poster_url, \n"
+                + "    m.trailer_url, \n"
+                + "    m.description, \n"
+                + "    m.duration, \n"
+                + "    m.release_date, \n"
+                + "    p.participant_id, \n"
+                + "    p.participant_name, \n"
+                + "    p.portrait_url, \n"
+                + "    p.birth_date, \n"
+                + "    p.nationality, \n"
+                + "    p.about, \n"
+                + "    mp.role_in_movie";
 
-        try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+        try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                int movie_id = rs.getInt("movie_id");
-                String title = rs.getString("title");
-                int duration = rs.getInt("duration");
-                String poster_url = rs.getString("poster_url");
+            try (ResultSet rs = st.executeQuery()) {
+                int currentMovieId = -1;
+                movies currentMovie = null;
+                List<participants> participantsList = new ArrayList<>();
 
-                movies movies = new movies();
-                movies.setMovie_id(movie_id);
-                movies.setTitle(title);
-                movies.setDuration(duration);
-                movies.setPoster_url(poster_url);
-                movieList.add(movies);
+                while (rs.next()) {
+                    int movie_id = rs.getInt("movie_id");
+                    if (movie_id != currentMovieId) {
+                        // Nếu gặp bộ phim mới, lưu bộ phim cũ và khởi tạo lại danh sách
+                        if (currentMovie != null) {
+                            currentMovie.setParts(participantsList);
+                            movieList.add(currentMovie);
+                        }
+
+                        // Tạo đối tượng movies mới cho bộ phim hiện tại
+                        currentMovieId = movie_id;
+                        currentMovie = new movies();
+                        currentMovie.setMovie_id(movie_id);
+                        currentMovie.setTitle(rs.getString("title"));
+                        currentMovie.setPoster_url(rs.getString("poster_url"));
+                        currentMovie.setTrailer_url(rs.getString("trailer_url"));
+                        currentMovie.setDescription(rs.getString("description"));
+                        currentMovie.setDuration(rs.getInt("duration"));
+                        currentMovie.setRelease_date(rs.getDate("release_date"));
+                        currentMovie.setGenres(rs.getString("genres")); // Set genres
+
+                        // Reset danh sách người tham gia cho bộ phim mới
+                        participantsList = new ArrayList<>();
+                    }
+
+                    // Tạo đối tượng participants và thêm vào danh sách
+                    participants participant = new participants();
+                    participant.setParticipant_id(rs.getInt("participant_id"));
+                    participant.setParticipant_name(rs.getString("participant_name"));
+                    participant.setPortrait_url(rs.getString("portrait_url"));
+                    participant.setBirth_date(rs.getDate("birth_date"));
+                    participant.setNationality(rs.getString("nationality"));
+                    participant.setAbout(rs.getString("about"));
+                    participant.setRole(rs.getString("role_in_movie"));  // Sử dụng role_in_movie trực tiếp
+
+                    participantsList.add(participant);
+                }
+
+                // Thêm bộ phim cuối cùng vào danh sách
+                if (currentMovie != null) {
+                    currentMovie.setParts(participantsList);
+                    movieList.add(currentMovie);
+                }
+
             }
-
         } catch (SQLException e) {
-            System.err.println("Lỗi truy vấn getNew: " + e.getMessage());
+            System.err.println("Lỗi trong truy vấn getAllMoviesWithPaging: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Lỗi kết nối DB: " + e.getMessage());
         }
