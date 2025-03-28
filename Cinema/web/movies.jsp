@@ -257,35 +257,47 @@
                                                     ${LP.getDescription()}
                                                 </p>
                                                 <h4>Star Cast</h4>
-                                                <h3>Đạo diễn</h3>
-                                                <c:if test="${empty requestScope.directors}">
-                                                    <p>Chưa có thông tin đạo diễn.</p>
-                                                </c:if>
-                                                <ul>
-                                                    <c:forEach items="${requestScope.directors}" var="director">
-                                                        <li>
-                                                            <a href="DetailParticipantController?pid=${director.participant_id}">
-                                                                <img src="${director.portrait_url}" alt="${director.participant_name}" width="50">
-                                                                ${director.participant_name}
-                                                            </a>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
-
                                                 <h3>Diễn viên</h3>
-                                                <c:if test="${empty requestScope.actors}">
+                                                <c:if test="${not empty LP.getParts()}">
+                                                    <ul>
+                                                        <c:forEach items="${LP.getParts()}" var="actor">
+                                                            <c:if test="${actor.role == 'Actor' ||  actor.role == 'Actress'}"> <!-- Kiểm tra vai trò là Diễn viên -->
+                                                                <li>
+                                                                    <a href="DetailParticipantController?pid=${actor.participant_id}">
+                                                                        <img src="${actor.portrait_url}" alt="${actor.participant_name}" width="50">
+                                                                        ${actor.participant_name}
+                                                                    </a>
+                                                                </li>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </c:if>
+
+                                                <c:if test="${empty LP.getParts()}">
                                                     <p>Chưa có thông tin diễn viên.</p>
                                                 </c:if>
-                                                <ul>
-                                                    <c:forEach items="${requestScope.actors}" var="actor">
-                                                        <li>
-                                                            <a href="DetailParticipantController?pid=${actor.participant_id}">
-                                                                <img src="${actor.portrait_url}" alt="${actor.participant_name}" width="50">
-                                                                ${actor.participant_name}
-                                                            </a>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
+
+                                                <h3>Đạo diễn</h3>
+                                                <c:if test="${not empty LP.getParts()}">
+                                                    <ul>
+                                                        <c:forEach items="${LP.getParts()}" var="director">
+                                                            <c:if test="${director.role == 'Director'}"> <!-- Kiểm tra vai trò là Đạo diễn -->
+                                                                <li>
+                                                                    <a href="DetailParticipantController?pid=${director.participant_id}">
+                                                                        <img src="${director.portrait_url}" alt="${director.participant_name}" width="50">
+                                                                        ${director.participant_name}
+                                                                    </a>
+                                                                </li>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </c:if>
+
+                                                <c:if test="${empty LP.getParts()}">
+                                                    <p>Chưa có thông tin đạo diễn.</p>
+                                                </c:if>
+
+
 
 
                                             </div>

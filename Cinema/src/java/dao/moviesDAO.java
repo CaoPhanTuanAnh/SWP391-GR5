@@ -6,6 +6,7 @@ package dao;
 
 import context.DBContext;
 import entity.movies;
+import entity.participants;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -29,11 +30,34 @@ public class moviesDAO extends DBContext {
                 + "    m.description,\n"
                 + "    m.duration,\n"
                 + "    m.release_date,\n"
-                + "    STRING_AGG(p.participant_name, ', ') AS actors\n"
+                + "    STRING_AGG(p.participant_name, ', ') AS actors,\n"
+                + "    STRING_AGG(g.genre_name, ', ') AS genres,\n"
+                + "    p.participant_id,\n"
+                + "    p.participant_name,\n"
+                + "    p.portrait_url,\n"
+                + "    p.birth_date,\n"
+                + "    p.nationality,\n"
+                + "    p.about,\n"
+                + "    mp.role_in_movie  -- Lấy trực tiếp vai trò từ bảng movie_participants\n"
                 + "FROM movies m\n"
                 + "LEFT JOIN movie_participants mp ON m.movie_id = mp.movie_id\n"
                 + "LEFT JOIN participants p ON mp.participant_id = p.participant_id\n"
-                + "GROUP BY m.movie_id, m.title, m.duration, m.poster_url, m.description, m.release_date\n"
+                + "LEFT JOIN movie_genres mg ON m.movie_id = mg.movie_id\n"
+                + "LEFT JOIN genres g ON mg.genre_id = g.genre_id\n"
+                + "GROUP BY \n"
+                + "    m.movie_id, \n"
+                + "    m.title, \n"
+                + "    m.poster_url, \n"
+                + "    m.description, \n"
+                + "    m.duration, \n"
+                + "    m.release_date, \n"
+                + "    p.participant_id, \n"
+                + "    p.participant_name, \n"
+                + "    p.portrait_url, \n"
+                + "    p.birth_date, \n"
+                + "    p.nationality, \n"
+                + "    p.about, \n"
+                + "    mp.role_in_movie  -- Lấy vai trò trực tiếp từ bảng movie_participants\n"
                 + "ORDER BY m.movie_id ASC \n"
                 + "OFFSET ((? - 1) * ?) ROWS FETCH NEXT ? ROWS ONLY;";
 
@@ -43,36 +67,74 @@ public class moviesDAO extends DBContext {
             st.setInt(3, PAGE_SIZE);
 
             try (ResultSet rs = st.executeQuery()) {
+                int currentMovieId = -1;
+                movies currentMovie = null;
+                List<participants> participantsList = new ArrayList<>();
+
                 while (rs.next()) {
                     int movie_id = rs.getInt("movie_id");
-                    String title = rs.getString("title");
-                    int duration = rs.getInt("duration");
-                    String poster_url = rs.getString("poster_url");
-                    String description = rs.getString("description");
-                    Date release_date = rs.getDate("release_date");
-                    String actorsString = rs.getString("actors");
-                    String[] actorsArray = actorsString != null ? actorsString.split(", ") : new String[0];
+                    if (movie_id != currentMovieId) {
+                        // Nếu gặp bộ phim mới, lưu bộ phim cũ và khởi tạo lại danh sách
+                        if (currentMovie != null) {
+                            currentMovie.setParts(participantsList);
+                            movieList.add(currentMovie);
+                        }
 
-                    movies movies = new movies();
-                    movies.setMovie_id(movie_id);
-                    movies.setTitle(title);
-                    movies.setDuration(duration);
-                    movies.setPoster_url(poster_url);
-                    movies.setDescription(description);
-                    movies.setRelease_date(release_date);
-                    movies.setParticipants(actorsArray);
+                        // Tạo đối tượng movies mới cho bộ phim hiện tại
+                        currentMovieId = movie_id;
+                        currentMovie = new movies();
+                        currentMovie.setMovie_id(movie_id);
+                        currentMovie.setTitle(rs.getString("title"));
+                        currentMovie.setPoster_url(rs.getString("poster_url"));
+                        currentMovie.setDescription(rs.getString("description"));
+                        currentMovie.setDuration(rs.getInt("duration"));
+                        currentMovie.setRelease_date(rs.getDate("release_date"));
+                        currentMovie.setGenres(rs.getString("genres")); // Set genres
 
-                    movieList.add(movies);
+                        // Reset danh sách người tham gia cho bộ phim mới
+                        participantsList = new ArrayList<>();
+                    }
+
+                    // Tạo đối tượng participants và thêm vào danh sách
+                    participants participant = new participants();
+                    participant.setParticipant_id(rs.getInt("participant_id"));
+                    participant.setParticipant_name(rs.getString("participant_name"));
+                    participant.setPortrait_url(rs.getString("portrait_url"));
+                    participant.setBirth_date(rs.getDate("birth_date"));
+                    participant.setNationality(rs.getString("nationality"));
+                    participant.setAbout(rs.getString("about"));
+                    participant.setRole(rs.getString("role_in_movie"));  // Sử dụng role_in_movie trực tiếp
+
+                    participantsList.add(participant);
                 }
+
+                // Thêm bộ phim cuối cùng vào danh sách
+                if (currentMovie != null) {
+                    currentMovie.setParts(participantsList);
+                    movieList.add(currentMovie);
+                }
+
             }
         } catch (SQLException e) {
-            System.err.println("Lỗi truy vấn getAllMoviesWithPaging: " + e.getMessage());
+            System.err.println("Lỗi trong truy vấn getAllMoviesWithPaging: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Lỗi kết nối DB: " + e.getMessage());
         }
+
         return movieList;
     }
 
+//    public static void main(String[] args) {
+//        moviesDAO a = new moviesDAO();
+//        List<movies> b = a.getAllMoviesWithPaging(3, 3);
+//        for (movies movie : b) {
+//            System.out.println("Movie Title: " + movie.getTitle());
+//            System.out.println("Actors:");
+//            for (String actorName : movie.getParticipants()) {
+//                System.out.println("- " + actorName);
+//            }
+//        }
+//    }
     public int getTotalMovies() {
         int total = 0;
         String sql = "SELECT COUNT(movie_id) AS total FROM movies";
@@ -159,25 +221,25 @@ public class moviesDAO extends DBContext {
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
             int paramIndex = 1;
 
-            // Set category IDs if provided
+            // Thiết lập tham số thể loại (cid)
             if (cid != null && cid.length > 0) {
                 for (int id : cid) {
                     st.setInt(paramIndex++, id);
                 }
             }
 
-            // Set name keyword if provided (actors OR director)
+            // Thiết lập tham số tên phim hoặc mô tả (name)
             if (name != null && !name.isEmpty()) {
                 st.setString(paramIndex++, "%" + name + "%");
                 st.setString(paramIndex++, "%" + name + "%");
             }
 
-            // Set show date if provided
+            // Thiết lập tham số ngày chiếu nếu có
             if (showDate != null && !showDate.isEmpty()) {
                 st.setString(paramIndex++, showDate);
             }
 
-            // Set show time range if provided
+            // Thiết lập tham số khoảng thời gian chiếu nếu có
             if (showTimeFrom != null && !showTimeFrom.isEmpty()) {
                 st.setString(paramIndex++, showTimeFrom);
             }
@@ -185,7 +247,7 @@ public class moviesDAO extends DBContext {
                 st.setString(paramIndex++, showTimeTo);
             }
 
-            // Set pagination parameters
+            // Thiết lập tham số phân trang
             st.setInt(paramIndex++, (page - 1) * PAGE_SIZE); // OFFSET
             st.setInt(paramIndex++, PAGE_SIZE); // FETCH NEXT
 
@@ -213,16 +275,16 @@ public class moviesDAO extends DBContext {
     }
 
     public static String buildQuery(String showDate, String showTimeFrom, String showTimeTo, int[] cid, String name) {
-        StringBuilder sql = new StringBuilder("SELECT m.movie_id, "
-                + "m.title, m.description, "
-                + "m.trailer_url, m.duration, m.poster_url, m.genre_id, m.release_date "
+        StringBuilder sql = new StringBuilder("SELECT DISTINCT m.movie_id, "
+                + "m.title, m.duration, m.poster_url "
                 + "FROM movies AS m "
                 + "JOIN showtimes AS s ON m.movie_id = s.movie_id "
+                + "LEFT JOIN movie_genres AS mg ON m.movie_id = mg.movie_id "
                 + "WHERE 1=1 ");
 
-        // Category filtering
+        // Lọc theo thể loại
         if (cid != null && cid.length > 0) {
-            sql.append("AND m.genre_id IN (");
+            sql.append("AND mg.genre_id IN (");
             for (int i = 0; i < cid.length; i++) {
                 sql.append("?");
                 if (i < cid.length - 1) {
@@ -232,17 +294,17 @@ public class moviesDAO extends DBContext {
             sql.append(") ");
         }
 
-        // Name keyword filtering (search in actors OR director)
+        // Lọc theo tên phim
         if (name != null && !name.isEmpty()) {
-            sql.append("AND (m.title LIKE ? ) ");
+            sql.append("AND (m.title LIKE ? OR m.description LIKE ?) ");
         }
 
-        // Show date filtering (Sửa lỗi DATE() trong SQL Server)
+        // Lọc theo ngày chiếu
         if (showDate != null && !showDate.isEmpty()) {
             sql.append("AND CAST(s.showtime AS DATE) = ? ");
         }
 
-        // Show time range filtering
+        // Lọc theo khoảng thời gian chiếu
         if (showTimeFrom != null && !showTimeFrom.isEmpty()) {
             sql.append("AND CONVERT(TIME, s.showtime) >= ? ");
         }
@@ -250,9 +312,9 @@ public class moviesDAO extends DBContext {
             sql.append("AND CONVERT(TIME, s.showtime) <= ? ");
         }
 
-        // Pagination (for SQL Server)
+        // Phân trang (dành cho SQL Server)
         sql.append("ORDER BY m.movie_id ASC "
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;");
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
         return sql.toString();
     }
@@ -440,12 +502,6 @@ public class moviesDAO extends DBContext {
             ps.executeUpdate();
         } catch (Exception e) {
         }
-    }
-
-    public static void main(String[] args) {
-
-        moviesDAO b = new moviesDAO();
-        movies a = b.getMovie(4);
     }
 
 }

@@ -128,7 +128,17 @@ public class participantDAO extends DBContext {
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                participants participant = new participants(rs.getInt("participant_id"), rs.getString("participant_name"), rs.getString("portrait_url"), rs.getDate("birth_date"), rs.getString("nationality"), rs.getString("about"));
+                participants participant = new participants();
+
+// Sử dụng setter để thiết lập giá trị cho các thuộc tính
+                participant.setParticipant_id(rs.getInt("participant_id"));
+                participant.setParticipant_name(rs.getString("participant_name"));
+                participant.setPortrait_url(rs.getString("portrait_url"));
+                participant.setBirth_date(rs.getDate("birth_date"));
+                participant.setNationality(rs.getString("nationality"));
+                participant.setAbout(rs.getString("about"));
+
+// Thêm đối tượng vào danh sách
                 participantList.add(participant);
             }
             return participantList;
