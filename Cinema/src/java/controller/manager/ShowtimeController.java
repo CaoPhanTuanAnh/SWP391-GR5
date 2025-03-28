@@ -150,6 +150,8 @@ public class ShowtimeController extends HttpServlet {
             mess = "Overlapped showtime!!!";
         } else if (result == 0) {
             mess = "Something go wrong!";
+        } else if (result == 1) {
+            mess = "Add success full!";
         }
         session.setAttribute("list_st_mess", mess);
         String url = "ShowtimeURL?service=listShowtimeByRoom";
@@ -260,6 +262,8 @@ public class ShowtimeController extends HttpServlet {
             mess = "Overlaped showtime!!!";
         } else if (result == 0) {
             mess = "Something go wrong!";
+        } else if (result == 1) {
+            mess = "Edit success full!";
         }
         session.setAttribute("list_st_mess", mess);
         String url = "ShowtimeURL?service=listShowtimeByRoom";

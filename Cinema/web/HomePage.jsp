@@ -249,9 +249,6 @@
                             <div class="headerhny-left">
                                 <h3 class="hny-title" id="upcoming">Upcoming Movies</h3>
                             </div>
-                            <div class="headerhny-right text-lg-right">
-                                <h4><a class="show-title" href="ViewAllController">Show all</a></h4>
-                            </div>
                         </div>
                     </div>
                     <div class="owl-three owl-carousel owl-theme">
@@ -276,7 +273,6 @@
                                 </div>
                                 <h3> <a class="title-gd" href="movies.jsp"></a>${LP.getTitle()}</h3>
                                 <div class="button-center text-center mt-4">
-                                    <a href="BranchController?mid=${LP.getMovie_id()}" class="btn watch-button">Buy Ticket</a>
                                     <a href="#modal-${LP.getMovie_id()}" data-toggle="modal"class="btn watch-button">Detail Movie</a>
                                 </div>
                                 <div class="modal fade" id="modal-${LP.getMovie_id()}" tabindex="-1" role="dialog" aria-hidden="true">
