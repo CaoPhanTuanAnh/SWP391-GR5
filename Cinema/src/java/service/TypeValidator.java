@@ -32,6 +32,7 @@ public class TypeValidator {
     }
 
     public static boolean validatePhone(String phone) throws Exception {
+        phone=phone.trim();
         String regex = "^[0][0-9]{9}$";
         if (phone.isBlank()) {
             throw new Exception("Phone number can't be empty!");
@@ -54,6 +55,7 @@ public class TypeValidator {
     }
 
     public static boolean validateFullName(String fullName) throws Exception {
+        fullName=fullName.trim();
         String regex = "^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$";
         if (!fullName.matches(regex)||fullName.length()<2||fullName.length()>100) {
             throw new Exception("Name format is incorrect!");
@@ -62,6 +64,7 @@ public class TypeValidator {
     }
 
     public static boolean validateBirthDate(String birthDate) throws Exception {
+        birthDate=birthDate.trim();
         if (birthDate.isBlank()) {
             throw new Exception("Birth Date can't be empty!");
         }else {

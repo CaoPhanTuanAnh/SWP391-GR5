@@ -350,7 +350,7 @@
                             <input id="year-inp" type="number" name="year" min="2020" maxlength="4" step="1" disabled hidden>
                             <input type="submit" name="submit" value="View">
                         </form>
-                        <p>Total: ${total}</p>
+                        <p>Total: ${total} VND</p>
                     </div>
                     <div style="">
                         <canvas id="myChart" style="width:100%;max-width:700px;margin: 0 auto;"></canvas>
@@ -393,6 +393,11 @@
         let xValues = ${xValue};
         let yValues = ${yValue};
         new Chart("myChart", {
+            tooltips: {
+                callbacks: {
+                    label: (item) => `${item.yLabel} GB`,
+                },
+            },
             type: "bar",
             data: {
                 labels: xValues,
@@ -403,10 +408,12 @@
             options: {
                 legend: {display: false},
                 scales: {
+                    
                     yAxes: [{
                             ticks: {
                                 beginAtZero: true
                             }
+
                         }]
                 },
                 title: {
@@ -414,6 +421,7 @@
                     text: "Revenue of month ${month}, ${year} each day"
                 }
             }
+
         });
     }
     function byMovie() {
