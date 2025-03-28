@@ -56,6 +56,12 @@
                 color: var(--theme-rose); /* Chuyển sang màu theme rose khi hover */
                 background: #f0f0f0;
             }
+            .mt-3{
+                margin-left: 150px;
+                margin-right: 150px;
+                color: black;
+            }
+            
         </style>
     </head>
 
@@ -74,7 +80,7 @@
                 <img src="${news.photoUrl}" class="img-fluid" alt="${news.title}" style="max-height: 400px;">
             </div>
             <p class="mt-3">${news.content}</p>
-            <a href="NewsListServlet" class="btn btn-secondary">Return</a>
+            <a href="NewsListServlet" class="btn btn-secondary" style="color:white !important; margin-left: 150px;">Return</a>
         </div>
     </body>
     <!-- footer-66 -->

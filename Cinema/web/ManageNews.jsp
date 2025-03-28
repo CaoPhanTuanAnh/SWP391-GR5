@@ -75,13 +75,21 @@
         </style>
     </head>
 
-    <body>
+    <body onload="console.log('${requestScope.mess}')">
 
         <%@ include file="header_manage.jsp" %>
         <div class="container mt-5" style="margin-top: 80px !important">
             <h2 class="text-center">📢 List of News</h2>
+            <%-- Hiển thị thông báo lỗi nếu có --%>
+            <%String error = (String) session.getAttribute("error");
+                if (error != null) { 
+            %>
+            <div class="alert alert-success"><%= error %></div>
+            <%
+            session.removeAttribute("error"); // Xóa thông báo sau khi hiển thị
+            }
+            %>
             <a href="create_news.jsp" class="btn btn-success mb-3">📝 Add News</a>
-
             <table class="table table-bordered">
                 <thead class="table-dark">
                     <tr>

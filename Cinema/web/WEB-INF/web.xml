@@ -18,7 +18,7 @@
     </servlet>
     <servlet>
         <servlet-name>DeleteNews</servlet-name>
-        <servlet-class>controller.admin.DeleteNews</servlet-class>
+        <servlet-class>controller.manager.DeleteNews</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>VerifyOTPSignUp</servlet-name>

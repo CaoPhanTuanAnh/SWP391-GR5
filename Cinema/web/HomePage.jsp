@@ -103,10 +103,7 @@
                                     <div class="banner-info">
                                         <h3>${ad.getTitle()}</h3>
                                         <a href="#small-dialog${adstatus.getCount()}" class="popup-with-zoom-anim play-view1">
-                                            <span class="video-play-icon">
-                                                <span class="fa fa-play"></span>
-                                            </span>
-                                            <h6>See Detail</h6>
+                                            <h6>=> See News's Detail</h6>
                                         </a>
                                         <div id="small-dialog${adstatus.getCount()}" class="zoom-anim-dialog mfp-hide" style="display: flex">
                                             <iframe src="${ad.getPhotoUrl()}" allow="autoplay; fullscreen"
