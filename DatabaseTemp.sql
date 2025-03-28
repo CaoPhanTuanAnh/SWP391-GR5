@@ -204,7 +204,7 @@ GO
 CREATE TABLE [dbo].[posts](
 	[post_id] [int] IDENTITY(1,1) NOT NULL,
 	[user_id] [int] NOT NULL,
-	[title] [nvarchar](100) NOT NULL,
+	[title] [nvarchar](100) unique NOT NULL,
 	[photo_url] [nvarchar](100) NULL,
 	[content] [nvarchar](max) NOT NULL,
 	[created_date] [date] NOT NULL,

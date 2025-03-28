@@ -132,17 +132,22 @@ public class ManageNews extends HttpServlet {
             if ("update".equals(action)) {
                 int postId = Integer.parseInt(request.getParameter("post_id"));
                 news news = new news(postId, userId, title, photoUrl, content, null, contentType);
-                newsDAO.updateNews(news);
-
-                session.setAttribute("error", "Edit News successfully");
-                response.sendRedirect("ManageNews");
-
+                if (!newsDAO.updateNews(news)) {
+                    session.setAttribute("error", "News is already exist");
+                    response.sendRedirect("ManageNews");
+                } else {
+                    session.setAttribute("mess", "Edit News successfully");
+                    response.sendRedirect("ManageNews");
+                }
             } else {
                 news news = new news(0, userId, title, photoUrl, content, null, contentType);
-                newsDAO.insertNews(news);
-                session.setAttribute("error", "Add News successfully");
-                response.sendRedirect("ManageNews");
-
+                if (!newsDAO.insertNews(news)) {
+                    session.setAttribute("error", "News is already exist");
+                    response.sendRedirect("ManageNews");
+                } else {
+                    session.setAttribute("mess", "Add News successfully");
+                    response.sendRedirect("ManageNews");
+                }
             }
 
         } catch (Exception ex) {

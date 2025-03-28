@@ -72,6 +72,7 @@
 
             }
 
+
         </style>
     </head>
 
@@ -80,13 +81,22 @@
         <%@ include file="header_manage.jsp" %>
         <div class="container mt-5" style="margin-top: 80px !important">
             <h2 class="text-center">📢 List of News</h2>
-            <%-- Hiển thị thông báo lỗi nếu có --%>
+            <%-- Hiển thị thông báo error nếu có --%>
             <%String error = (String) session.getAttribute("error");
                 if (error != null) { 
             %>
-            <div class="alert alert-success"><%= error %></div>
+            <div class="alert alert-success" style="color:red !important; background-color: pink !important"><%= error %></div>
             <%
             session.removeAttribute("error"); // Xóa thông báo sau khi hiển thị
+            }
+            %>
+            <%-- Hiển thị thông báo mess nếu có --%>
+            <%String mess = (String) session.getAttribute("mess");
+                if (mess != null) { 
+            %>
+            <div class="alert alert-success"><%= mess %></div>
+            <%
+            session.removeAttribute("mess"); // Xóa thông báo sau khi hiển thị
             }
             %>
             <a href="create_news.jsp" class="btn btn-success mb-3">📝 Add News</a>
