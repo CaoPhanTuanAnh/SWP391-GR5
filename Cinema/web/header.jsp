@@ -56,6 +56,7 @@
                                 <li><a href="ManageTheater">Manage Theater</a></li>
                                 <li><a href="ManageAccount">Manage Account</a></li>
                                 <li><a href="ManageMovie">Manage Movie</a></li>
+                                <li><a href="participant_control">Manage Participant</a></li>
                                 <li><a href="movie_participant_control">Manage Movie Participant</a></li>
                                 <li><a href="ManageMovieGenre">Manage Movie Genre</a></li>
                                 <li><a href="ViewRevenue">View Revenue</a></li>
@@ -66,13 +67,12 @@
                         <li class="nav-item">
                             <a class="nav-link" >Manage</a>
                             <ul class="dropdown">
+                                <li><a href="ShowtimeURL?service=listShowtimeByRoom">Manage Show Time</a></li>
                                 <li><a href="ManageRoom">Manage Room</a></li>
                                 <li><a href="ManageSeat">Manage Seat</a></li>
                                 <li><a href="ManageNews">Manage News</a></li>
                                 <li><a href="combo_control">Manage Combo</a></li>
                                 <li><a href="coupons">Manage Coupon</a></li>
-                                <li><a href="participant_control">Manage Participant</a></li>
-                                <li><a href="ShowtimeURL?service=listShowtimeByRoom">Manage Show Time</a></li>
                             </ul>
                         </li>
                     </c:if>

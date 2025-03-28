@@ -19,6 +19,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import service.EmailService;
+import service.MaHoa;
 import service.TypeValidator;
 
 /**
@@ -93,7 +94,9 @@ public class ResetPassword extends HttpServlet {
             return;
         }
         try {
+            
             if (TypeValidator.validatePassword(newPassword)) {
+                newPassword = MaHoa.toSHA1(newPassword);
                 usersDAO dao = new usersDAO();
                 boolean updateResult = dao.updatePassword(email_change_password, newPassword);
                 if (updateResult) {

@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import service.MaHoa;
 import service.TypeValidator;
 
 /**
@@ -101,6 +102,8 @@ public class UserProfileControl extends HttpServlet {
             HttpSession session, users user, String mess)
             throws ServletException, IOException {
         String oldPassword = request.getParameter("oldPassword");
+        oldPassword = MaHoa.toSHA1(oldPassword);
+        
         if (!user.getPassword().equals(oldPassword)) {
             mess = "Incorrect old password!";
         } else {
@@ -111,6 +114,7 @@ public class UserProfileControl extends HttpServlet {
             } else {
                 try {
                     if (TypeValidator.validatePassword(newPassword)) {
+                        newPassword = MaHoa.toSHA1(newPassword);
                         usersDAO dao = new usersDAO();
                         if (!dao.changePassword(user.getUser_id(), newPassword)) {
                             mess = "Something go wrong!";

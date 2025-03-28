@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.manager;
+package controller.admin;
 
 import dao.movie_genresDAO;
 import entity.users;
@@ -20,8 +20,8 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author 84912
  */
-@WebServlet(name="AddMovieGenre", urlPatterns={"/AddMovieGenre"})
-public class AddMovieGenre extends HttpServlet {
+@WebServlet(name="DeleteMovieGenre", urlPatterns={"/DeleteMovieGenre"})
+public class DeleteMovieGenre extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,23 +33,27 @@ public class AddMovieGenre extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        // Lấy session và kiểm tra user
         HttpSession session = request.getSession(false);
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
+
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
         if (user == null || (user.getRole_id() != 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
-        try {
-            int movieId = Integer.parseInt(request.getParameter("movie_id"));
-            int genreId = Integer.parseInt(request.getParameter("genre_id"));
-            movie_genresDAO dao = new movie_genresDAO();
-            dao.addMovieGenre(movieId, genreId);
-            response.sendRedirect("ManageMovieGenre?success=added");
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("ManageMovieGenre?error=add_failed");
+        String id = request.getParameter("movie_genre_id");
+        if (id != null) {
+            try {
+                int movieGenreId = Integer.parseInt(id);
+                movie_genresDAO dao = new movie_genresDAO();
+                dao.deleteMovieGenre(movieGenreId);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
+
+        response.sendRedirect("ManageMovieGenre");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

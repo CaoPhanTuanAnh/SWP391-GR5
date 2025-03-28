@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.manager;
+package controller.admin;
 
 import dao.movieparticipantDAO;
 import entity.movie_participants;
@@ -77,10 +77,10 @@ public class MovieParticipantControl extends HttpServlet {
             movieparticipantDAO dao = new movieparticipantDAO();
             if (!dao.editMovieParticipant( newMovieID,newParticipantID, role, MovieID, ParticipantID)) {
                 mess = "Something go wrong!";
-                System.out.println("loi cho ni");
+                System.out.println("loi cho kia");
             } else {
                 mess = "edited successfully!";
-                System.out.println("loi cho kia");
+                System.out.println("ko loi j het");
             }
         } catch (NumberFormatException e) {
             mess = "Id not int ?????";
@@ -130,7 +130,6 @@ public class MovieParticipantControl extends HttpServlet {
         List<movies> movieList = dao.listMovie();
         request.setAttribute("participantList", participantList);
         request.setAttribute("movieList", movieList);
-        //request.getRequestDispatcher("list_movie_participant.jsp").forward(request, response);
         
         
     }

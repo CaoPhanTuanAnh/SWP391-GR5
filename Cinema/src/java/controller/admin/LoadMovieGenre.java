@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.manager;
+package controller.admin;
 
+import dao.genresDAO;
 import dao.movie_genresDAO;
+import entity.genres;
+import entity.movie_genres;
 import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,13 +17,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
  * @author 84912
  */
-@WebServlet(name = "EditMovieGenre", urlPatterns = {"/EditMovieGenre"})
-public class EditMovieGenre extends HttpServlet {
+@WebServlet(name = "LoadMovieGenre", urlPatterns = {"/LoadMovieGenre"})
+public class LoadMovieGenre extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,24 +40,29 @@ public class EditMovieGenre extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
+
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole_id() != 1)) {
+        if (user == null || (user.getRole_id()!= 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         try {
-            int movieGenreId = Integer.parseInt(request.getParameter("id"));
-            int newGenreId = Integer.parseInt(request.getParameter("genre_id")); // Lấy thể loại mới
-
+            int movieGenreId = Integer.parseInt(request.getParameter("movie_genre_id"));
             movie_genresDAO dao = new movie_genresDAO();
-            dao.updateMovieGenre(movieGenreId, newGenreId); // Gọi DAO cập nhật
-
-            response.sendRedirect("ManageMovieGenre?success=updated");
+            movie_genres mg = dao.getMovieGenreById(movieGenreId); // Viết hàm này trong DAO
+            genresDAO gdao = new genresDAO();
+            List<genres> genreList = gdao.getAllGenre();
+            request.setAttribute("genreList", genreList);
+            if (mg != null) {
+                request.setAttribute("movieGenre", mg);
+                request.getRequestDispatcher("EditMovieGenre.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("ManageMovieGenre?error=notfound");
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("ManageMovieGenre?error=update_failed");
+            response.sendRedirect("ManageMovieGenre?error=invalid");
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.manager;
+package controller.admin;
 
 import dao.participantDAO;
 import entity.participants;
@@ -32,13 +32,13 @@ public class ManageParticipant extends HttpServlet {
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager
-        if (user == null || (user.getRole_id()!= 2)) {
+        if (user == null || (user.getRole_id()!= 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         try (PrintWriter out = response.getWriter()) {
             users admin = (users) session.getAttribute("acc");
-            if (admin != null && admin.getRole_id()== 2) {
+            if (admin != null && admin.getRole_id()== 1) {
                 String service = request.getParameter("service");
                 if (service == null) {
                     service = "listParticipant";
@@ -71,7 +71,7 @@ public class ManageParticipant extends HttpServlet {
             } else if (participantName.isBlank()) {
                 mess = "participant can't be empty!";
             } else if (!dao.editParticipant(participantID, participantName, portrait, birth_date, nationality, about)) {
-                mess = "Something go wrong!";
+                mess = "Participant already exist";
             } else {
                 mess = "participant edited successfully!";
             }
@@ -98,7 +98,7 @@ public class ManageParticipant extends HttpServlet {
     }
 
     private void addParticipant(HttpServletRequest request) {
-        String participantName = request.getParameter("participantName");
+        String participantName = request.getParameter("participantName").trim();
         String portrait = request.getParameter("portrait");
         String birth_date = request.getParameter("birth_date");
         String nationality = request.getParameter("nationality");
@@ -108,14 +108,32 @@ public class ManageParticipant extends HttpServlet {
             mess = "participant name can't be null!";
         } else if (participantName.isBlank()) {
             mess = "participant name can't be empty!";
+        } else if (portrait== null) {
+            mess = "portrait name can't be empty!";
+        } else if (portrait.isBlank()) {
+            mess = "portrait name can't be empty!";
+        } else if (birth_date== null) {
+            mess = "birth_date name can't be empty!";
+        } else if (birth_date.isBlank()) {
+            mess = "birth_date name can't be empty!";
+        } else if (nationality== null) {
+            mess = "nationality name can't be empty!";
+        } else if (nationality.isBlank()) {
+            mess = "nationality name can't be empty!";
+        } else if (about.isBlank()) {
+            mess = "about name can't be empty!";
+        } else if (about== null) {
+            mess = "about name can't be empty!";
         } else {
             //check name policy
             participantDAO dao = new participantDAO();
+            
             if (!dao.addParticipant(participantName, portrait, birth_date, nationality, about)) {
-                mess = "Something go wrong!";
+                mess = "Participant already exist!";
             } else {
                 mess = "participant added successfully!";
             }
+            
         }
         request.setAttribute("mess", mess);
     }

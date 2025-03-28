@@ -96,25 +96,33 @@ public class ComboControl extends HttpServlet {
     }
 
     private void addCombo(HttpServletRequest request) {
-        String comboName = request.getParameter("comboName");
-        String detail = request.getParameter("detail");
-        double comboPrice = Double.parseDouble(request.getParameter("comboPrice"));
-        String mess = "";
-        if (comboName == null) {
-            mess = "Combo name can't be null!";
-        } else if (comboName.isBlank()) {
-            mess = "Combo name can't be empty!";
-        } else {
-            //check name policy
+    String comboName = request.getParameter("comboName");
+    String detail = request.getParameter("detail");
+    String comboPriceStr = request.getParameter("comboPrice");
+    String mess = "";
+
+    if (comboName == null || comboName.trim().isEmpty()) {
+        mess = "Combo name can't be empty!";
+    } else if (detail == null || detail.trim().isEmpty()) {
+        mess = "Detail can't be empty!";
+    } else if (comboPriceStr == null || comboPriceStr.trim().isEmpty()) {
+        mess = "Combo price can't be empty!";
+    } else {
+        try {
+            double comboPrice = Double.parseDouble(comboPriceStr);
+            // check name policy
             combosDAO dao = new combosDAO();
-            if (!dao.addCombo(comboName,detail,comboPrice)) {
-                mess = "Something go wrong!";
+            if (!dao.addCombo(comboName.trim(), detail.trim(), comboPrice)) {
+                mess = "combo already exists";
             } else {
                 mess = "Combo added successfully!";
             }
+        } catch (NumberFormatException e) {
+            mess = "Invalid combo price!";
         }
-        request.setAttribute("mess", mess);
     }
+    request.setAttribute("mess", mess);
+}
 
     private void listCombo(HttpServletRequest request) {
         combosDAO dao = new combosDAO();

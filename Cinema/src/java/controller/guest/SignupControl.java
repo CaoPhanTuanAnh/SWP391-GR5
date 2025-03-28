@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Random;
 import service.EmailService;
+import service.MaHoa;
 
 /**
  *
@@ -68,6 +69,9 @@ public class SignupControl extends HttpServlet {
             request.setAttribute("mess", "Password must not contain special characters.");
             request.getRequestDispatcher("sign_up.jsp").forward(request, response);
         }else{
+            
+            pass = MaHoa.toSHA1(pass);
+            
             DAO dao = new DAO();
             users a = dao.checkUserExist(user);
             users b = dao.checkEmailExist(email);

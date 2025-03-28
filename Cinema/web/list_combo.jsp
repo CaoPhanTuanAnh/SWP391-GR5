@@ -331,6 +331,7 @@
         <!-- main-slider -->
         <div class="container-xl">
             <div class="table-responsive">
+                <p style="color:red">${mess==null||mess.isBlank()?"":mess}</p>
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="row">
