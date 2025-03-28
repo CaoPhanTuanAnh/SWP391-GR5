@@ -355,7 +355,7 @@
                             </div>
                         </div>
                     </div>
-                    <c:if test="${param.success == 'added'}">
+                   <c:if test="${param.success == 'added'}">
                         <div class="alert alert-success">Thêm thành công!</div>
                     </c:if>
                     <c:if test="${param.error == 'add_failed'}">
