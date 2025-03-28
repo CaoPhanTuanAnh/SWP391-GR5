@@ -4,6 +4,13 @@
  */
 package service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+import java.time.format.DateTimeParseException;
+import javax.swing.text.DateFormatter;
+
 /**
  *
  * @author GIGABYTE
@@ -48,15 +55,27 @@ public class TypeValidator {
 
     public static boolean validateFullName(String fullName) throws Exception {
         String regex = "^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$";
-        if (!fullName.matches(regex)) {
+        if (!fullName.matches(regex)||fullName.length()<2||fullName.length()>100) {
             throw new Exception("Name format is incorrect!");
         }
         return true;
     }
 
-    public static boolean validateAddress(String address) throws Exception {
-        if (address.isBlank()) {
-            throw new Exception("Address can't be empty!");
+    public static boolean validateBirthDate(String birthDate) throws Exception {
+        if (birthDate.isBlank()) {
+            throw new Exception("Birth Date can't be empty!");
+        }else {
+            try {
+                LocalDate date = LocalDate.parse(birthDate, ISO_LOCAL_DATE);    
+                LocalDate back = LocalDate.parse("1900-01-01", ISO_LOCAL_DATE);    
+                if(date.isBefore(back)){
+                    throw new Exception("Birth Date must be after 1900-01-01!");
+                }else if(date.isAfter(LocalDate.now())){
+                    throw new Exception("Birth Date can't be in the future!");
+                }
+            } catch (DateTimeParseException e) {
+                throw new Exception("Birth Date must follow yyyy-MM-dd format!");
+            }
         }
         return true;
     }

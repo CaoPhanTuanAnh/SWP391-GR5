@@ -74,7 +74,8 @@ public class UserProfileControl extends HttpServlet {
         if (fullName != null && birth_date != null && phone != null && theater_id != null) {
             try {
                 if (TypeValidator.validateFullName(fullName)
-                        && TypeValidator.validatePhone(phone)) {
+                        && TypeValidator.validatePhone(phone)
+                        && TypeValidator.validateBirthDate(birth_date)) {
                     usersDAO dao = new usersDAO();
                     if (!dao.editProfile(user.getUser_id(), fullName, phone, birth_date, Integer.parseInt(theater_id))) {
                         mess = "Something go wrong!";
