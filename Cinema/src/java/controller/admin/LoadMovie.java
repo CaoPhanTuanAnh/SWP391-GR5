@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,6 +52,9 @@ public class LoadMovie extends HttpServlet {
         moviesDAO dao = new moviesDAO();
         participantDAO participantDAO = new participantDAO();
         try {
+            List<movies> list = new ArrayList<>();
+            list = dao.getAllMovies();
+            request.setAttribute("movieList", list);
             movies movie = dao.getMovieById(movieid);
             List<participants> allActors = participantDAO.getAllActors();  // Lấy danh sách tất cả diễn viên
             List<participants> allDirectors = participantDAO.getAllDirectors();  // Lấy danh sách tất cả đạo diễn

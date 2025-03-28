@@ -14107,18 +14107,18 @@ GO
 SET IDENTITY_INSERT [dbo].[theaters] ON 
 
 INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (1, 1, 3, N'SWP Vincom Bà Triệu', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'191 Ba Trieu, Hai Ba Trung, Ha Noi')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (2, 1, 16, N'SWP Aeon Hà Đông', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'72 Landmark Tower, Pham Hung, Nam Tu Liem, Ha Noi')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (3, 1, 17, N'SWP Phạm Ngọc Thạch', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'2 Pham Ngoc Thach, Dong Da, Ha Noi')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (4, 1, 18, N'SWP Giảng Võ', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'16B Giang Vo, Ba Dinh, Ha Noi')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (5, 1, 19, N'SWP Long Biên', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'910A Ngo Quyen, Son Tra, Da Nang')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (2, 1, 3, N'SWP Aeon Hà Đông', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'72 Landmark Tower, Pham Hung, Nam Tu Liem, Ha Noi')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (3, 1, 3, N'SWP Phạm Ngọc Thạch', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'2 Pham Ngoc Thach, Dong Da, Ha Noi')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (4, 1, 3, N'SWP Giảng Võ', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'16B Giang Vo, Ba Dinh, Ha Noi')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (5, 1, 3, N'SWP Long Biên', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'910A Ngo Quyen, Son Tra, Ha Noi')
 INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (6, 2, 6, N'SWP Crescent Mall', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'101 Ton Dat Tien, District 7, Ho Chi Minh')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (7, 2, 20, N'SWP Cinema Diamond', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'34 Le Duan, District 1, Ho Chi Minh')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (8, 2, 21, N'SWP Star Bitexco', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'2 Hai Trieu, District 1, Ho Chi Minh')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (9, 2, 22, N'SWP Cinema Nguyễn Du', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'116 Nguyen Du, District 1, Ho Chi Minh')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (10, 2, 23, N'SWP Hoàng Văn Thụ', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'Tầng 1 và 2, Gala Center, số 415, Hoàng Văn Thụ, Phường 2, Quận Tân Bình, TPHCM')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (7, 2, 6, N'SWP Cinema Diamond', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'34 Le Duan, District 1, Ho Chi Minh')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (8, 2, 6, N'SWP Star Bitexco', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'2 Hai Trieu, District 1, Ho Chi Minh')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (9, 2, 6, N'SWP Cinema Nguyễn Du', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'116 Nguyen Du, District 1, Ho Chi Minh')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (10, 2, 6, N'SWP Hoàng Văn Thụ', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'Tầng 1 và 2, Gala Center, số 415, Hoàng Văn Thụ, Phường 2, Quận Tân Bình, TPHCM')
 INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (11, 2, 7, N'SWP Dien Bien Phu', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'46 Dien Bien Phu, Thanh Khe, Da Nang')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (12, 2, 24, N'SWP Nguyen Van Linh', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'271 Nguyen Van Linh, Hai Chau, Da Nang')
-INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (13, 2, 25, N'SWP Ton Duc Thang', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'171 Ton Duc Thang, Lien Chieu, Da Nang')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (12, 2, 7, N'SWP Nguyen Van Linh', N'assets/images/SWP Hoàng Văn Thụ.jpg', N'271 Nguyen Van Linh, Hai Chau, Da Nang')
+INSERT [dbo].[theaters] ([theater_id], [city_id], [director_id], [theater_name], [img], [address]) VALUES (13, 2, 7, N'SWP Ton Duc Thang', N'assets/images/SWP Cinema Nguyễn Du.jpg', N'171 Ton Duc Thang, Lien Chieu, Da Nang')
 SET IDENTITY_INSERT [dbo].[theaters] OFF
 GO
 --SET IDENTITY_INSERT [dbo].[tickets] ON 

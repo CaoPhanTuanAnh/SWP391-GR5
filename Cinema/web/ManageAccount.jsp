@@ -355,6 +355,18 @@
                             </div>
                         </div>
                     </div>
+                    <c:if test="${param.success == 'added'}">
+                        <div class="alert alert-success">Thêm thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'add_failed'}">
+                        <div class="alert alert-danger">Thêm thất bại!</div>
+                    </c:if>
+                    <c:if test="${param.success == 'updated'}">
+                        <div class="alert alert-success">Edit thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'update_failed'}">
+                        <div class="alert alert-danger">Edit thất bại!</div>
+                    </c:if>
                     <form action="ManageAccount" method="GET" style="margin-bottom: 10px">
                         <input style="width: 250px" type="text" name="search" value="${search}" placeholder="Search by name, email, phone number" />
                         <button type="submit">Find</button>

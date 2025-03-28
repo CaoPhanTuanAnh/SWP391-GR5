@@ -40,18 +40,22 @@ public class AddRoom extends HttpServlet {
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole_id()!= 2)) {
+        if (user == null || (user.getRole_id() != 2)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
-        String roomname = request.getParameter("roomname");
-        int managerid = Integer.parseInt(request.getParameter("managerid"));
-        String capacity = request.getParameter("capacity");
-        String type = request.getParameter("type");
-        int theaterId = Integer.parseInt(request.getParameter("theaterId"));
-        roomsDAO roomsDAO = new roomsDAO();
-        roomsDAO.insertRoom(theaterId, managerid, roomname, capacity, type);
-        response.sendRedirect("ManageRoomDetail?theaterId=" + theaterId);
+        try {
+            String roomname = request.getParameter("roomname");
+            int managerid = Integer.parseInt(request.getParameter("managerid"));
+            String capacity = request.getParameter("capacity");
+            String type = request.getParameter("type");
+            int theaterId = Integer.parseInt(request.getParameter("theaterId"));
+            roomsDAO roomsDAO = new roomsDAO();
+            roomsDAO.insertRoom(theaterId, managerid, roomname, capacity, type);
+            response.sendRedirect("ManageRoomDetail?theaterId=" + theaterId + "&success=added");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

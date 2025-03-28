@@ -337,6 +337,18 @@
                             </div>
                         </div>
                     </div>
+                    <c:if test="${param.success == 'added'}">
+                        <div class="alert alert-success">Thêm thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'add_failed'}">
+                        <div class="alert alert-danger">Thêm thất bại!</div>
+                    </c:if>
+                    <c:if test="${param.success == 'updated'}">
+                        <div class="alert alert-success">Edit thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'update_failed'}">
+                        <div class="alert alert-danger">Edit thất bại!</div>
+                    </c:if>
                     <c:if test="${param.error != null}">
                         <div style="color: red;">${param.error}</div>
                     </c:if>
@@ -385,8 +397,11 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Movie Name</label>
-                                <input name="name" type="text" class="form-control">
+                                <input id="movieName" name="name" type="text" class="form-control" oninput="checkMovieName()">
+                                <small id="nameError" style="color: red; display: none;">Tên phim đã tồn tại!</small>
                             </div>
+
+
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea style="height: 150px" name="description" class="form-control" required></textarea>
@@ -418,42 +433,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Edit Employee</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" required>
-                            </div>					
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-info" value="Save">
+                            <input type="submit" id="addButton" class="btn btn-success" value="Add">
                         </div>
                     </form>
                 </div>
@@ -466,6 +446,27 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
+
+<script>
+    var movieList = [];
+    <c:forEach var="movie" items="${requestScope.movie}">
+        movieList.push("${movie.title}");
+    </c:forEach>;
+
+    function checkMovieName() {
+        var movieName = document.getElementById("movieName").value.trim();
+        var errorText = document.getElementById("nameError");
+        var addButton = document.getElementById("addButton");
+
+        if (movieList.includes(movieName)) {
+            errorText.style.display = "inline";
+            addButton.disabled = true;  // Vô hiệu hóa nút Add
+        } else {
+            errorText.style.display = "none";
+            addButton.disabled = false; // Kích hoạt lại nút Add
+        }
+    }
+</script>
 
 <script>
     function validateForm() {
@@ -510,12 +511,18 @@
         clearError(duration);
         clearError(releaseDate);
 
-        if (name.value.trim() === "" || regex.test(name.value)) showError(name, "Movie Name không hợp lệ!");
-        if (description.value.trim() === "" || regex.test(description.value)) showError(description, "Description không hợp lệ!");
-        if (trailer.value.trim() === "" || regex.test(trailer.value)) showError(trailer, "Trailer URL không hợp lệ!");
-        if (poster.value.trim() === "" || regex.test(poster.value)) showError(poster, "Poster URL không hợp lệ!");
-        if (duration.value.trim() === "" || !numberRegex.test(duration.value)) showError(duration, "Duration phải là số tự nhiên lớn hơn 0!");
-        if (releaseDate.value.trim() === "") showError(releaseDate, "Vui lòng chọn ngày phát hành!");
+        if (name.value.trim() === "" || regex.test(name.value))
+            showError(name, "Movie Name không hợp lệ!");
+        if (description.value.trim() === "" || regex.test(description.value))
+            showError(description, "Description không hợp lệ!");
+        if (trailer.value.trim() === "" || regex.test(trailer.value))
+            showError(trailer, "Trailer URL không hợp lệ!");
+        if (poster.value.trim() === "" || regex.test(poster.value))
+            showError(poster, "Poster URL không hợp lệ!");
+        if (duration.value.trim() === "" || !numberRegex.test(duration.value))
+            showError(duration, "Duration phải là số tự nhiên lớn hơn 0!");
+        if (releaseDate.value.trim() === "")
+            showError(releaseDate, "Vui lòng chọn ngày phát hành!");
 
         if (firstErrorField) {
             firstErrorField.focus(); // Chuyển con trỏ về ô đầu tiên có lỗi

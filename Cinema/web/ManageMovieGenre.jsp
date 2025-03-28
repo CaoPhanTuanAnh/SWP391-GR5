@@ -345,6 +345,12 @@
                     <c:if test="${param.error == 'add_failed'}">
                         <div class="alert alert-danger">Thêm thất bại!</div>
                     </c:if>
+                    <c:if test="${param.success == 'updated'}">
+                        <div class="alert alert-success">Edit thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'update_failed'}">
+                        <div class="alert alert-danger">Edit thất bại!</div>
+                    </c:if>
                     <!-- Form tìm kiếm -->
                     <form action="ManageMovieGenre" method="get">
                         <div style="width: 285px" class="input-group mb-3">
@@ -465,31 +471,31 @@
 <script src="assets/js/easyResponsiveTabs.js"></script>
 
 <script>
-       document.getElementById("movieInput").addEventListener("input", function () {
-           let input = this.value;
-           let options = document.getElementById("movieOptions").options;
-           let found = false;
-           for (let i = 0; i < options.length; i++) {
-               if (options[i].value === input) {
-                   document.getElementById("selectedMovieId").value = options[i].getAttribute("data-id");
-                   found = true;
-                   break;
-               }
-           }
-           // Kiểm tra nếu không chọn đúng từ danh sách
-           if (!found) {
-               document.getElementById("selectedMovieId").value = "";
-           }
-       });
+                                                       document.getElementById("movieInput").addEventListener("input", function () {
+                                                           let input = this.value;
+                                                           let options = document.getElementById("movieOptions").options;
+                                                           let found = false;
+                                                           for (let i = 0; i < options.length; i++) {
+                                                               if (options[i].value === input) {
+                                                                   document.getElementById("selectedMovieId").value = options[i].getAttribute("data-id");
+                                                                   found = true;
+                                                                   break;
+                                                               }
+                                                           }
+                                                           // Kiểm tra nếu không chọn đúng từ danh sách
+                                                           if (!found) {
+                                                               document.getElementById("selectedMovieId").value = "";
+                                                           }
+                                                       });
 
-       document.querySelector("form[name='movieGenreForm']").addEventListener("submit", function (event) {
-           if (document.getElementById("selectedMovieId").value === "") {
-               document.getElementById("movieError").style.display = "block";
-               event.preventDefault(); // Ngăn submit form
-           } else {
-               document.getElementById("movieError").style.display = "none";
-           }
-       });
+                                                       document.querySelector("form[name='movieGenreForm']").addEventListener("submit", function (event) {
+                                                           if (document.getElementById("selectedMovieId").value === "") {
+                                                               document.getElementById("movieError").style.display = "block";
+                                                               event.preventDefault(); // Ngăn submit form
+                                                           } else {
+                                                               document.getElementById("movieError").style.display = "none";
+                                                           }
+                                                       });
 </script>
 
 

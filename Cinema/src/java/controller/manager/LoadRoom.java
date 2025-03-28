@@ -41,7 +41,7 @@ public class LoadRoom extends HttpServlet {
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole_id()!= 2)) {
+        if (user == null || (user.getRole_id() != 2)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
@@ -51,6 +51,9 @@ public class LoadRoom extends HttpServlet {
         request.setAttribute("type", type);
         rooms r = roomsDAO.getRoomByRoomID(id);
         request.setAttribute("room", r);
+        // Lấy danh sách tất cả phòng trong rạp của phòng này
+        List<rooms> listR = roomsDAO.getAllRoomByManagerIDAndTheaterID(user.getUser_id(), r.getTheater_id());
+        request.setAttribute("listR", listR);
         request.getRequestDispatcher("EditRoom.jsp").forward(request, response);
     }
 

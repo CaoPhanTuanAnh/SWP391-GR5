@@ -38,22 +38,26 @@ public class EditTheater extends HttpServlet {
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Admin thì chặn
-        if (user == null || (user.getRole_id()!= 1)) {
+        if (user == null || (user.getRole_id() != 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
-        String id = request.getParameter("id");
-        String idCity = request.getParameter("city");
-        String theaterName = request.getParameter("name");
-        String theaterAddress = request.getParameter("address");
-        String idmanager = request.getParameter("manager");
-        // Tách chuỗi để lấy giá trị ID
-        String[] parts = idmanager.split(" - ");
-        String idManager = parts[0].replace("ID: ", "").trim();  // Lấy ID sau "ID: "
-        DAO dao = new DAO();
-        dao.editTheater(id, idCity, theaterName, theaterAddress, idManager);
-        response.sendRedirect("ManageTheater");
-
+        try {
+            String id = request.getParameter("id");
+            String idCity = request.getParameter("city");
+            String theaterName = request.getParameter("name");
+            String theaterAddress = request.getParameter("address");
+            String idmanager = request.getParameter("manager");
+            // Tách chuỗi để lấy giá trị ID
+            String[] parts = idmanager.split(" - ");
+            String idManager = parts[0].replace("ID: ", "").trim();  // Lấy ID sau "ID: "
+            DAO dao = new DAO();
+            dao.editTheater(id, idCity, theaterName, theaterAddress, idManager);
+            response.sendRedirect("ManageTheater?success=updated");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("ManageTheater?error=update_failed");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

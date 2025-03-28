@@ -43,6 +43,7 @@ public class EditMovie extends HttpServlet {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
+        try {
         String movieId = request.getParameter("id");
         String title = request.getParameter("name");
         String description = request.getParameter("description");
@@ -53,7 +54,11 @@ public class EditMovie extends HttpServlet {
         String status = request.getParameter("status");
         moviesDAO movieDAO = new moviesDAO();
         movieDAO.editMovie(movieId, title, description, trailerUrl, posterUrl, duration, releaseDate, status);
-        response.sendRedirect("ManageMovie");
+        response.sendRedirect("ManageMovie?success=updated");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("ManageMovie?error=update_failed");
+        }
 }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

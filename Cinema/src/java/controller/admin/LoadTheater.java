@@ -53,6 +53,8 @@ public class LoadTheater extends HttpServlet {
         request.setAttribute("listCC", listC);
         theaters t = dao.getTheaterByID(id);
         request.setAttribute("theater", t);
+        List<theaters> list = dao.getAllTheater();
+        request.setAttribute("listP", list);
         request.getRequestDispatcher("EditTheater.jsp").forward(request, response);
     }
 

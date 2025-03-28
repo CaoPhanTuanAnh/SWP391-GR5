@@ -336,6 +336,18 @@
                             </div>
                         </div>
                     </div>
+                    <c:if test="${param.success == 'added'}">
+                        <div class="alert alert-success">Thêm thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'add_failed'}">
+                        <div class="alert alert-danger">Thêm thất bại!</div>
+                    </c:if>
+                    <c:if test="${param.success == 'updated'}">
+                        <div class="alert alert-success">Edit thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'update_failed'}">
+                        <div class="alert alert-danger">Edit thất bại!</div>
+                    </c:if>
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -397,12 +409,15 @@
                         <div class="modal-body">					
                             <div class="form-group">
                                 <label>Name</label>
-                                <textarea name="name" class="form-control" required></textarea>
+                                <textarea id="theaterName" name="name" class="form-control" required oninput="checkTheater()"></textarea>
+                                <small id="nameError" style="color: red; display: none;">Tên rạp đã tồn tại!</small>
                             </div>
                             <div class="form-group">
                                 <label>Address</label>
-                                <textarea name="address" class="form-control" required></textarea>
+                                <textarea id="theaterAddress" name="address" class="form-control" required oninput="checkTheater()"></textarea>
+                                <small id="addressError" style="color: red; display: none;">Địa chỉ rạp đã tồn tại!</small>
                             </div>
+
                             <div class="form-group">
                                 <label>City</label>
                                 <select name="city" style="padding: 3px" name="category" class="form-select" aria-label="Default select example" >
@@ -414,42 +429,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Edit Employee</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" required>
-                            </div>					
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-info" value="Save">
+                            <input type="submit" id="addButton" class="btn btn-success" value="Add">
                         </div>
                     </form>
                 </div>
@@ -464,11 +444,47 @@
 <script src="assets/js/easyResponsiveTabs.js"></script>
 
 <script>
+    var theaterNames = [];
+    var theaterAddresses = [];
+
+    <c:forEach var="o" items="${listP}">
+        theaterNames.push("${o.theater_name}");
+        theaterAddresses.push("${o.address}");
+    </c:forEach>;
+
+    function checkTheater() {
+        var theaterName = document.getElementById("theaterName").value.trim();
+        var theaterAddress = document.getElementById("theaterAddress").value.trim();
+        var nameError = document.getElementById("nameError");
+        var addressError = document.getElementById("addressError");
+        var addButton = document.getElementById("addButton");
+
+        var isNameExists = theaterNames.includes(theaterName);
+        var isAddressExists = theaterAddresses.includes(theaterAddress);
+
+        if (isNameExists) {
+            nameError.style.display = "inline";
+        } else {
+            nameError.style.display = "none";
+        }
+
+        if (isAddressExists) {
+            addressError.style.display = "inline";
+        } else {
+            addressError.style.display = "none";
+        }
+
+        // Vô hiệu hóa nút Add nếu có lỗi
+        addButton.disabled = isNameExists || isAddressExists;
+    }
+</script>
+
+<script>
     function validateForm() {
         // Kiểm tra trường Manager
         var managerInput = document.forms["theaterForm"]["manager"].value;
         var isValidManager = false;
-        
+
         // Kiểm tra xem giá trị người dùng nhập có tồn tại trong danh sách
         var managerOptions = document.getElementById("managerList").options;
         for (var i = 0; i < managerOptions.length; i++) {
@@ -498,62 +514,62 @@
 </script>
 
 <script type="text/javascript">
-            $(document).ready(function () {
-                //Horizontal Tab
-                $('#parentHorizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion
-                    width: 'auto', //auto or any width like 600px
-                    fit: true, // 100% fit in a container
-                    tabidentify: 'hor_1', // The tab groups identifier
-                    activate: function (event) { // Callback function if tab is switched
-                        var $tab = $(this);
-                        var $info = $('#nested-tabInfo');
-                        var $name = $('span', $info);
-                        $name.text($tab.text());
-                        $info.show();
-                    }
-                });
-            });
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-            $(document).ready(function () {
-                $('.owl-one').owlCarousel({
-                    stagePadding: 280,
-                    loop: true,
-                    margin: 20,
-                    nav: true,
-                    responsiveClass: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    autoplaySpeed: 1000,
-                    autoplayHoverPause: false,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            stagePadding: 40,
-                            nav: false
-                        },
-                        480: {
-                            items: 1,
-                            stagePadding: 60,
-                            nav: true
-                        },
-                        667: {
-                            items: 1,
-                            stagePadding: 80,
-                            nav: true
-                        },
-                        1000: {
-                            items: 1,
-                            nav: true
-                        }
-                    }
-                })
-            })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {

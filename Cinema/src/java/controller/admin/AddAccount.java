@@ -42,6 +42,7 @@ public class AddAccount extends HttpServlet {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
+        try {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String fullname = request.getParameter("fullname");
@@ -51,7 +52,11 @@ public class AddAccount extends HttpServlet {
         String role = request.getParameter("role");
         DAO dao = new DAO();
         dao.insertAccount(role, username, password, fullname, email, phone, birth_date);
-        response.sendRedirect("ManageAccount");
+        response.sendRedirect("ManageAccount?success=added");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("ManageAccount?error=add_failed");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

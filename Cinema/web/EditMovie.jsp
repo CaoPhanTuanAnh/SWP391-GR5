@@ -349,8 +349,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Movie Name</label>
-                                    <input value="${movie.title}" name="name" type="text" class="form-control">
+                                    <input value="${movie.title}" id="movieName" name="name" type="text" class="form-control">
+                                    <small id="nameError" style="color: red; display: none;">Tên phim đã tồn tại!</small>
                                 </div>
+
                                 <div class="form-group">
                                     <label>Description</label>
                                     <textarea style="height: 150px" name="description" class="form-control" required>${movie.description}</textarea>
@@ -384,12 +386,41 @@
                         </table>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageMovie'">Cancel</button>
-                            <input type="submit" class="btn btn-info" value="Save">
+                            <input type="submit" id="saveButton" class="btn btn-info" value="Save">
                         </div>
                     </form>
                 </div>
             </div>        
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var movieList = [];
+                var currentMovieId = "${requestScope.movie.movie_id}"; // ID của phim đang chỉnh sửa
+
+            <c:forEach var="movie" items="${requestScope.movieList}">
+                if ("${movie.movie_id}" !== currentMovieId) {
+                    movieList.push("${movie.title}");
+                }
+            </c:forEach>;
+
+                function checkMovieName() {
+                    var movieName = document.getElementById("movieName").value.trim();
+                    var errorText = document.getElementById("nameError");
+                    var saveButton = document.getElementById("saveButton");
+
+                    if (movieList.includes(movieName)) {
+                        errorText.style.display = "inline";
+                        saveButton.disabled = true;  // Vô hiệu hóa nút Save
+                    } else {
+                        errorText.style.display = "none";
+                        saveButton.disabled = false; // Kích hoạt lại nút Save
+                    }
+                }
+
+                // Gán sự kiện khi nhập vào ô Movie Name
+                document.getElementById("movieName").addEventListener("input", checkMovieName);
+            });
+        </script>
 
     </body>
 
@@ -398,59 +429,66 @@
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 
+
+
 <script>
-    function validateForm() {
-        let isValid = true;
-        let firstErrorField = null; // Lưu ô đầu tiên bị lỗi
-        let regex = /^[^a-zA-Z]*$/; // Chỉ chứa ký tự đặc biệt hoặc số
-        let numberRegex = /^[1-9]\d*$/; // Chỉ chứa số tự nhiên
+            function validateForm() {
+                let isValid = true;
+                let firstErrorField = null; // Lưu ô đầu tiên bị lỗi
+                let regex = /^[^a-zA-Z]*$/; // Chỉ chứa ký tự đặc biệt hoặc số
+                let numberRegex = /^[1-9]\d*$/; // Chỉ chứa số tự nhiên
 
-        function showError(input, message) {
-            let errorDiv = document.getElementById(input.name + "-error");
-            if (!errorDiv) {
-                errorDiv = document.createElement("div");
-                errorDiv.id = input.name + "-error";
-                errorDiv.style.color = "red";
-                input.parentNode.appendChild(errorDiv);
+                function showError(input, message) {
+                    let errorDiv = document.getElementById(input.name + "-error");
+                    if (!errorDiv) {
+                        errorDiv = document.createElement("div");
+                        errorDiv.id = input.name + "-error";
+                        errorDiv.style.color = "red";
+                        input.parentNode.appendChild(errorDiv);
+                    }
+                    errorDiv.innerText = message;
+                    if (!firstErrorField) {
+                        firstErrorField = input; // Lưu ô input đầu tiên có lỗi
+                    }
+                    isValid = false;
+                }
+
+                function clearError(input) {
+                    let errorDiv = document.getElementById(input.name + "-error");
+                    if (errorDiv) {
+                        errorDiv.innerText = "";
+                    }
+                }
+
+                let name = document.theaterForm.name;
+                let description = document.theaterForm.description;
+                let trailer = document.theaterForm.trailer;
+                let poster = document.theaterForm.poster;
+                let duration = document.theaterForm.duration;
+
+                clearError(name);
+                clearError(description);
+                clearError(trailer);
+                clearError(poster);
+                clearError(duration);
+
+                if (regex.test(name.value))
+                    showError(name, "Movie Name không hợp lệ!");
+                if (regex.test(description.value))
+                    showError(description, "Description không hợp lệ!");
+                if (regex.test(trailer.value))
+                    showError(trailer, "Trailer URL không hợp lệ!");
+                if (regex.test(poster.value))
+                    showError(poster, "Poster URL không hợp lệ!");
+                if (!numberRegex.test(duration.value))
+                    showError(duration, "Duration phải là số tự nhiên lớn hơn 0!");
+
+                if (firstErrorField) {
+                    firstErrorField.focus(); // Chuyển con trỏ về ô đầu tiên có lỗi
+                }
+
+                return isValid;
             }
-            errorDiv.innerText = message;
-            if (!firstErrorField) {
-                firstErrorField = input; // Lưu ô input đầu tiên có lỗi
-            }
-            isValid = false;
-        }
-
-        function clearError(input) {
-            let errorDiv = document.getElementById(input.name + "-error");
-            if (errorDiv) {
-                errorDiv.innerText = "";
-            }
-        }
-
-        let name = document.theaterForm.name;
-        let description = document.theaterForm.description;
-        let trailer = document.theaterForm.trailer;
-        let poster = document.theaterForm.poster;
-        let duration = document.theaterForm.duration;
-
-        clearError(name);
-        clearError(description);
-        clearError(trailer);
-        clearError(poster);
-        clearError(duration);
-
-        if (regex.test(name.value)) showError(name, "Movie Name không hợp lệ!");
-        if (regex.test(description.value)) showError(description, "Description không hợp lệ!");
-        if (regex.test(trailer.value)) showError(trailer, "Trailer URL không hợp lệ!");
-        if (regex.test(poster.value)) showError(poster, "Poster URL không hợp lệ!");
-        if (!numberRegex.test(duration.value)) showError(duration, "Duration phải là số tự nhiên lớn hơn 0!");
-
-        if (firstErrorField) {
-            firstErrorField.focus(); // Chuyển con trỏ về ô đầu tiên có lỗi
-        }
-
-        return isValid;
-    }
 </script>
 
 

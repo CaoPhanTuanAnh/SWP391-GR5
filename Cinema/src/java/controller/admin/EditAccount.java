@@ -41,6 +41,7 @@ public class EditAccount extends HttpServlet {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
+        try {
         String id = request.getParameter("id");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -49,7 +50,11 @@ public class EditAccount extends HttpServlet {
         String status = request.getParameter("status");
         DAO dao = new DAO();
         dao.editAccount(id, name, email, phone, role, status);
-        response.sendRedirect("ManageAccount");
+        response.sendRedirect("ManageAccount?success=updated");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("ManageAccount?error=update_failed");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

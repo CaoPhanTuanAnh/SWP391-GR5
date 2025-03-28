@@ -351,10 +351,10 @@
                                     <label>ID Theater</label>
                                     <input value="${room.theater_id}" name="theaterId" type="text" class="form-control" readonly required>
                                 </div>
-
                                 <div class="form-group">
                                     <label>Room's Name</label>
-                                    <textarea name="name" class="form-control" required>${room.room_name}</textarea>
+                                    <textarea id="roomName" name="name" class="form-control" required onkeyup="checkRoomName()">${room.room_name}</textarea>
+                                    <small id="nameError" style="color: red; display: none;">Tên phòng đã tồn tại!</small>
                                 </div>
                                 <div class="form-group">
                                     <label>Capacity</label>
@@ -374,7 +374,7 @@
                         </table>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageRoom'">Cancel</button>
-                            <input type="submit" class="btn btn-info" value="Save">
+                            <input type="submit" id="saveButton" class="btn btn-info" value="Save">
                         </div>
                     </form>
                 </div>
@@ -387,17 +387,41 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script>
-                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
-                                    var managerListDiv = document.getElementById('managerListDiv');
 
-                                    // Toggle hiển thị/ẩn div managerListDiv
-                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
-                                        managerListDiv.style.display = 'block';  // Hiển thị div
+<script>
+                                var roomList = [];
+    <c:forEach var="room" items="${listR}">
+                                roomList.push("${room.room_name}");
+    </c:forEach>;
+
+                                function checkRoomName() {
+                                    var roomName = document.getElementById("roomName").value.trim();
+                                    var errorText = document.getElementById("nameError");
+                                    var saveButton = document.getElementById("saveButton");
+
+                                    // Kiểm tra trùng tên (trừ chính nó)
+                                    if (roomList.includes(roomName) && roomName !== "${room.room_name}") {
+                                        errorText.style.display = "inline";
+                                        saveButton.disabled = true;  // Vô hiệu hóa nút Save
                                     } else {
-                                        managerListDiv.style.display = 'none';  // Ẩn div
+                                        errorText.style.display = "none";
+                                        saveButton.disabled = false; // Kích hoạt lại nút Save
                                     }
-                                });
+                                }
+</script>
+
+
+<script>
+    document.getElementById('changeManagerBtn').addEventListener('click', function () {
+        var managerListDiv = document.getElementById('managerListDiv');
+
+        // Toggle hiển thị/ẩn div managerListDiv
+        if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
+            managerListDiv.style.display = 'block';  // Hiển thị div
+        } else {
+            managerListDiv.style.display = 'none';  // Ẩn div
+        }
+    });
 </script>
 
 <script>

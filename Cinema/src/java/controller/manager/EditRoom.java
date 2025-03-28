@@ -43,6 +43,7 @@ public class EditRoom extends HttpServlet {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
+        try {
         String id = request.getParameter("id");
         String name = request.getParameter("name");
         String capacity = request.getParameter("capacity");
@@ -50,7 +51,10 @@ public class EditRoom extends HttpServlet {
         int theaterId = Integer.parseInt(request.getParameter("theaterId"));
         roomsDAO roomsDAO = new roomsDAO();
         roomsDAO.editRoom(name, capacity, type, id);
-        response.sendRedirect("ManageRoomDetail?theaterId=" + theaterId);
+        response.sendRedirect("ManageRoomDetail?theaterId=" + theaterId+ "&success=updated");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

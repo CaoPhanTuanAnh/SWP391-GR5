@@ -343,6 +343,18 @@
                             </div>
                         </div>
                     </div>
+                    <c:if test="${param.success == 'added'}">
+                        <div class="alert alert-success">Thêm thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'add_failed'}">
+                        <div class="alert alert-danger">Thêm thất bại!</div>
+                    </c:if>
+                    <c:if test="${param.success == 'updated'}">
+                        <div class="alert alert-success">Edit thành công!</div>
+                    </c:if>
+                    <c:if test="${param.error == 'update_failed'}">
+                        <div class="alert alert-danger">Edit thất bại!</div>
+                    </c:if>
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -413,7 +425,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Name</label>
-                                <textarea name="roomname" class="form-control" required></textarea>
+                                <textarea id="roomName" name="roomname" class="form-control" required oninput="checkRoomName()"></textarea>
+                                <small id="nameError" style="color: red; display: none;">Tên phòng đã tồn tại!</small>
                             </div>
                             <div class="form-group">
                                 <label>Capacity</label>
@@ -430,7 +443,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
+                            <input type="submit" id="addButton" class="btn btn-success" value="Add" disabled>
                         </div>
                     </form>
                 </div>
@@ -445,23 +458,46 @@
 <script src="assets/js/easyResponsiveTabs.js"></script>
 
 <script>
-                        function validateForm() {
-                            // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
-                            var roomname = document.forms["theaterForm"]["roomname"].value;
-                            var capacity = document.forms["theaterForm"]["capacity"].value;
-                            var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
-                            var naturalNumber = /^[1-9]\d*$/
-                            if (specialCharOrNumber.test(roomname)) {
-                                alert("Tên phòng không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
-                                return false;
-                            }
-                            if (!naturalNumber.test(capacity)) {
-                                alert("Số lượng ghế chỉ là số tự nhiên. Vui lòng nhập lại.");
-                                return false;
-                            }
+                        var roomNames = [];
 
-                            return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
+    <c:forEach var="room" items="${listR}">
+                        roomNames.push("${room.room_name}");
+    </c:forEach>;
+
+                        function checkRoomName() {
+                            var roomName = document.getElementById("roomName").value.trim();
+                            var nameError = document.getElementById("nameError");
+                            var addButton = document.getElementById("addButton");
+
+                            if (roomNames.includes(roomName)) {
+                                nameError.style.display = "inline";
+                                addButton.disabled = true;  // Vô hiệu hóa nút Add
+                            } else {
+                                nameError.style.display = "none";
+                                addButton.disabled = false; // Kích hoạt lại nút Add
+                            }
                         }
+</script>
+
+
+<script>
+    function validateForm() {
+        // Kiểm tra trường Theater's Name và Theater's Address (các trường khác như trước)
+        var roomname = document.forms["theaterForm"]["roomname"].value;
+        var capacity = document.forms["theaterForm"]["capacity"].value;
+        var specialCharOrNumber = /^[0-9]+$|^[\W_]+$/;
+        var naturalNumber = /^[1-9]\d*$/
+        if (specialCharOrNumber.test(roomname)) {
+            alert("Tên phòng không được chỉ chứa kí tự đặc biệt hoặc chỉ số tự nhiên. Vui lòng nhập lại.");
+            return false;
+        }
+        if (!naturalNumber.test(capacity)) {
+            alert("Số lượng ghế chỉ là số tự nhiên. Vui lòng nhập lại.");
+            return false;
+        }
+
+        return true; // Nếu tất cả đều hợp lệ, gửi biểu mẫu
+    }
 </script>
 
 <script type="text/javascript">

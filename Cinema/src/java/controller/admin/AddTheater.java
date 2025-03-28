@@ -42,6 +42,7 @@ public class AddTheater extends HttpServlet {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
+        try {
         String idCity = request.getParameter("city");
         String idmanager = request.getParameter("manager");
         // Tách chuỗi để lấy giá trị ID
@@ -51,7 +52,11 @@ public class AddTheater extends HttpServlet {
         String theaterAddress = request.getParameter("address");
         DAO dao = new DAO();
         dao.insertTheater(idCity, idManager, theaterName, theaterAddress);
-        response.sendRedirect("ManageTheater");
+        response.sendRedirect("ManageTheater?success=added");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("ManageTheater?error=add_failed");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -366,15 +366,17 @@
                                         </c:forEach>
                                     </datalist>
                                 </div>
-
                                 <div class="form-group">
                                     <label>Theater's Name</label>
-                                    <textarea name="name" class="form-control" required>${theater.theater_name}</textarea>
+                                    <textarea id="theaterName" name="name" class="form-control" required oninput="checkTheater()">${theater.theater_name}</textarea>
+                                    <small id="nameError" style="color: red; display: none;">Tên rạp đã tồn tại!</small>
                                 </div>
                                 <div class="form-group">
                                     <label>Theater's Address</label>
-                                    <textarea name="address" class="form-control" required>${theater.address}</textarea>
+                                    <textarea id="theaterAddress" name="address" class="form-control" required oninput="checkTheater()">${theater.address}</textarea>
+                                    <small id="addressError" style="color: red; display: none;">Địa chỉ rạp đã tồn tại!</small>
                                 </div>
+
                                 <div class="form-group">
                                     <label>City</label>
                                     <select name="city" class="form-select" aria-label="Default select example">
@@ -389,7 +391,7 @@
                         </table>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" onclick="window.location.href = 'ManageTheater'">Cancel</button>
-                            <input type="submit" class="btn btn-info" value="Save">
+                            <input type="submit" id="saveButton" class="btn btn-info" value="Save" disabled>
                         </div>
                     </form>
                 </div>
@@ -402,17 +404,49 @@
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
-<script>
-                                document.getElementById('changeManagerBtn').addEventListener('click', function () {
-                                    var managerListDiv = document.getElementById('managerListDiv');
 
-                                    // Toggle hiển thị/ẩn div managerListDiv
-                                    if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
-                                        managerListDiv.style.display = 'block';  // Hiển thị div
-                                    } else {
-                                        managerListDiv.style.display = 'none';  // Ẩn div
-                                    }
-                                });
+<script>
+                                var theaterNames = [];
+                                var theaterAddresses = [];
+                                var currentTheaterId = "${theater.theater_id}";
+
+    <c:forEach var="o" items="${listP}">
+                                if ("${o.theater_id}" !== currentTheaterId) {
+                                    theaterNames.push("${o.theater_name}");
+                                    theaterAddresses.push("${o.address}");
+                                }
+    </c:forEach>;
+
+                                function checkTheater() {
+                                    var theaterName = document.getElementById("theaterName").value.trim();
+                                    var theaterAddress = document.getElementById("theaterAddress").value.trim();
+                                    var nameError = document.getElementById("nameError");
+                                    var addressError = document.getElementById("addressError");
+                                    var saveButton = document.getElementById("saveButton");
+
+                                    var isNameExists = theaterNames.includes(theaterName);
+                                    var isAddressExists = theaterAddresses.includes(theaterAddress);
+
+                                    nameError.style.display = isNameExists ? "inline" : "none";
+                                    addressError.style.display = isAddressExists ? "inline" : "none";
+
+                                    // Vô hiệu hóa nút Save nếu có lỗi
+                                    saveButton.disabled = isNameExists || isAddressExists;
+                                }
+</script>
+
+
+<script>
+    document.getElementById('changeManagerBtn').addEventListener('click', function () {
+        var managerListDiv = document.getElementById('managerListDiv');
+
+        // Toggle hiển thị/ẩn div managerListDiv
+        if (managerListDiv.style.display === 'none' || managerListDiv.style.display === '') {
+            managerListDiv.style.display = 'block';  // Hiển thị div
+        } else {
+            managerListDiv.style.display = 'none';  // Ẩn div
+        }
+    });
 </script>
 
 <script>
@@ -420,7 +454,7 @@
         // Kiểm tra trường Manager
         var managerInput = document.forms["theaterForm"]["manager"].value;
         var isValidManager = false;
-        
+
         // Kiểm tra xem giá trị người dùng nhập có tồn tại trong danh sách
         var managerOptions = document.getElementById("managerList").options;
         for (var i = 0; i < managerOptions.length; i++) {
