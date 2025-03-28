@@ -27,117 +27,74 @@
                 height: 400px; /* Đảm bảo chiều cao đồng nhất */
             }
 
+            /* CSS cho menu */
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            li a:hover {
+                background: #0056b3;
+                width: 100%;
+            }
+
+            /* CSS cho dropdown menu */
+            .dropdown {
+                display: none;
+                position: absolute;
+                top: 65%;
+                left: 57vw;
+                background: white;
+                border: 1px solid #ccc;
+                width: 150px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            }
+
+
+
+            /* Hi?n th? dropdown khi hover */
+            li:hover .dropdown {
+                display: block;
+            }
+            .dropdown li a {
+                display: block;
+                color: black; /* Màu ch? m?c ??nh */
+                background: white;
+                padding: 10px;
+                transition: color 0.1s ease; /* Hi?u ?ng chuy?n ??i màu */
+            }
+            .dropdown li a:hover {
+                color: var(--theme-rose); /* Chuy?n sang màu theme rose khi hover */
+                background: #f0f0f0;
+            }
+
+            .box16 figure img {
+                width: 100%; /* ??m b?o ?nh r?ng ??y khung */
+                height: 300px; /* C? ??nh chi?u cao */
+                object-fit: cover; /* C?t ?nh cho v?a khung mà không méo */
+                border-radius: 10px; /* Làm m?m góc ?nh n?u c?n */
+            }
+
+            .item.vhny-grid {
+                width: 100%;
+                max-width: 250px; /* ??t kích th??c t?i ?a cho m?i phim */
+            }
+            .box16 {
+                height: 400px; /* ??m b?o chi?u cao ??ng nh?t */
+            }
+
         </style>
     </head>
 
     <body>
         <!-- header -->
-        <header id="site-header" class="w3l-header fixed-top">
-            <!--/nav-->
-            <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
-                <div class="container">
-                    <h1><a class="navbar-brand" href="HomePage.jsp"><span class="fa fa-play icon-log"
-                                                                          aria-hidden="true"></span>
-                            MyShowz </a></h1>
-                    <!-- if logo is image enable this   
-                                            <a class="navbar-brand" href="#index.jsp">
-                                                    <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
-                                            </a> -->
-                    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <!-- <span class="navbar-toggler-icon"></span> -->
-                        <span class="fa icon-expand fa-bars"></span>
-                        <span class="fa icon-close fa-times"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="HomePage.jsp">Home</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="movies.jsp">Movies</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="about.jsp">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="Contact_Us.jsp">Contact</a>
-                            </li>
-                        </ul>
-
-                        <!--/search-right-->
-                        <!--/search-right-->
-                        <div class="search-right">
-                            <a href="#search" class="btn search-hny mr-lg-3 mt-lg-0 mt-4" title="search">Search <span
-                                    class="fa fa-search ml-3" aria-hidden="true"></span></a>
-                            <!-- search popup -->
-                            <div id="search" class="pop-overlay">
-                                <div class="popup">
-                                    <form action="#" method="post" class="search-box">
-                                        <input type="search" placeholder="Search your Keyword" name="search"
-                                               required="required" autofocus="">
-                                        <button type="submit" class="btn"><span class="fa fa-search"
-                                                                                aria-hidden="true"></span></button>
-                                    </form>
-                                    <div class="browse-items">
-                                        <h3 class="hny-title two mt-md-5 mt-4">Browse all:</h3>
-                                        <ul class="search-items">
-                                            <li><a href="movies.jsp">Action</a></li>
-                                            <li><a href="movies.jsp">Drama</a></li>
-                                            <li><a href="movies.jsp">Family</a></li>
-                                            <li><a href="movies.jsp">Thriller</a></li>
-                                            <li><a href="movies.jsp">Commedy</a></li>
-                                            <li><a href="movies.jsp">Romantic</a></li>
-                                            <li><a href="movies.jsp">Tv-Series</a></li>
-                                            <li><a href="movies.jsp">Horror</a></li>
-                                            <li><a href="movies.jsp">Action</a></li>
-                                            <li><a href="movies.jsp">Drama</a></li>
-                                            <li><a href="movies.jsp">Family</a></li>
-                                            <li><a href="movies.jsp">Thriller</a></li>
-                                            <li><a href="movies.jsp">Commedy</a></li>
-                                            <li><a href="movies.jsp">Romantic</a></li>
-                                            <li><a href="movies.jsp">Tv-Series</a></li>
-                                            <li><a href="movies.jsp">Horror</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <a class="close" href="#close">×</a>
-                            </div>
-                            <!-- /search popup -->
-                            <!--/search-right-->
-                        </div>
-                        <div class="Login_SignUp" id="login"
-                             style="font-size: 2rem ; display: inline-block; position: relative;">
-                            <!-- <li class="nav-item"> -->
-                            <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
-                            <!-- </li> -->
-                        </div>
-
-                    </div>
-                    <!-- toggle switch for light and dark theme -->
-                    <div class="mobile-position">
-                        <nav class="navigation">
-                            <div class="theme-switch-wrapper">
-                                <label class="theme-switch" for="checkbox">
-                                    <input type="checkbox" id="checkbox">
-                                    <div class="mode-container">
-                                        <i class="gg-sun"></i>
-                                        <i class="gg-moon"></i>
-                                    </div>
-                                </label>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </nav>
-        </header>
+        <%@ include file="header.jsp" %>
         <!--/breadcrumbs -->
         <div class="w3l-breadcrumbs">
             <nav id="breadcrumbs" class="breadcrumbs">
                 <div class="container page-wrapper">
-                    <a href="HomePage.jsp">Home</a> » <span class="breadcrumb_last" aria-current="page">movies</span>
+                    <a href="HomePageController">Home</a> » <span class="breadcrumb_last" aria-current="page">movies</span>
                 </div>
             </nav>
         </div>
@@ -343,36 +300,36 @@
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <script>
-                    $(document).ready(function () {
-                        $('.owl-four').owlCarousel({
-                            loop: true,
-                            margin: 20,
-                            nav: false,
-                            responsiveClass: true,
-                            autoplay: false,
-                            autoplayTimeout: 5000,
-                            autoplaySpeed: 1000,
-                            autoplayHoverPause: false,
-                            responsive: {
-                                0: {
-                                    items: 1,
-                                    nav: false
-                                },
-                                480: {
-                                    items: 2,
-                                    nav: true
-                                },
-                                667: {
-                                    items: 2,
-                                    nav: true
-                                },
-                                1000: {
-                                    items: 2,
-                                    nav: true
-                                }
-                            }
-                        })
-                    })
+    $(document).ready(function () {
+        $('.owl-four').owlCarousel({
+            loop: true,
+            margin: 20,
+            nav: false,
+            responsiveClass: true,
+            autoplay: false,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: false
+                },
+                480: {
+                    items: 2,
+                    nav: true
+                },
+                667: {
+                    items: 2,
+                    nav: true
+                },
+                1000: {
+                    items: 2,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {

@@ -42,7 +42,7 @@
                             <div class="col-md-6 col-sm-6 sub-two-right mt-5">
                                 <h6>Movies</h6>
                                 <ul>
-                                    <li><a href="FilterController">Find Movies</a></li>
+                                    <li><a href="ViewAllController">Find Movies</a></li>
                                     <li><a href="HomePageController#presenting">Presenting Movies</a></li>
                                     <li><a href="HomePageController#upcoming">Upcoming Movies</a></li>
                                     <li><a href="NewsListServlet">Movie News</a></li>
