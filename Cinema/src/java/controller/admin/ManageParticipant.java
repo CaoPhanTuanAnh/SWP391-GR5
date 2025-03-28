@@ -16,6 +16,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import service.TypeValidator;
 
 /**
  *
@@ -24,7 +27,6 @@ import java.util.List;
 @WebServlet(name = "ManageParticipant", urlPatterns = {"/participant_control"})
 public class ManageParticipant extends HttpServlet {
 
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -32,13 +34,13 @@ public class ManageParticipant extends HttpServlet {
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Manager
-        if (user == null || (user.getRole_id()!= 1)) {
+        if (user == null || (user.getRole_id() != 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         try (PrintWriter out = response.getWriter()) {
             users admin = (users) session.getAttribute("acc");
-            if (admin != null && admin.getRole_id()== 1) {
+            if (admin != null && admin.getRole_id() == 1) {
                 String service = request.getParameter("service");
                 if (service == null) {
                     service = "listParticipant";
@@ -108,34 +110,44 @@ public class ManageParticipant extends HttpServlet {
             mess = "participant name can't be null!";
         } else if (participantName.isBlank()) {
             mess = "participant name can't be empty!";
-        } else if (portrait== null) {
-            mess = "portrait name can't be empty!";
+        } else if (portrait == null) {
+            mess = "portrait image can't be empty!";
         } else if (portrait.isBlank()) {
-            mess = "portrait name can't be empty!";
-        } else if (birth_date== null) {
-            mess = "birth_date name can't be empty!";
+            mess = "portrait image can't be empty!";
+        } else if (birth_date == null) {
+            mess = "birth_date can't be empty!";
         } else if (birth_date.isBlank()) {
-            mess = "birth_date name can't be empty!";
-        } else if (nationality== null) {
-            mess = "nationality name can't be empty!";
+            mess = "birth_date can't be empty!";
+        } else if (nationality == null) {
+            mess = "nationality can't be empty!";
         } else if (nationality.isBlank()) {
-            mess = "nationality name can't be empty!";
+            mess = "nationality can't be empty!";
         } else if (about.isBlank()) {
-            mess = "about name can't be empty!";
-        } else if (about== null) {
-            mess = "about name can't be empty!";
-        } else {
-            //check name policy
-            participantDAO dao = new participantDAO();
-            
-            if (!dao.addParticipant(participantName, portrait, birth_date, nationality, about)) {
-                mess = "Participant already exist!";
+            mess = "about can't be empty!";
+        } else if (about == null) {
+            mess = "about can't be empty!";
+        } else try {
+            if (TypeValidator.validateBirthDate(birth_date)) {
+                participantDAO dao = new participantDAO();
+
+                if (!dao.addParticipant(participantName, portrait, birth_date, nationality, about)) {
+                    mess = "Participant already exist!";
+                } else {
+                    mess = "participant added successfully!";
+                }
             } else {
-                mess = "participant added successfully!";
+                mess = "birth_date is invalid";
+                request.setAttribute("mess", mess);
+                request.getRequestDispatcher("participant_control");
             }
-            
+        } catch (Exception ex) {
+            Logger.getLogger(ManageParticipant.class.getName()).log(Level.SEVERE, null, ex);
+            mess = "birth_date is invalid";
+            request.setAttribute("mess", mess);
+            request.getRequestDispatcher("participant_control");
         }
         request.setAttribute("mess", mess);
+
     }
 
     private void listParticipant(HttpServletRequest request) {
@@ -143,7 +155,6 @@ public class ManageParticipant extends HttpServlet {
         List<participants> participantList = dao.listParticipant();
         request.setAttribute("participantList", participantList);
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
