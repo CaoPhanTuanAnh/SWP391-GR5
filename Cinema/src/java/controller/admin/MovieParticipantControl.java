@@ -42,13 +42,13 @@ public class MovieParticipantControl extends HttpServlet {
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
         // Nếu chưa đăng nhập hoặc không phải Admin
-        if (user == null || (user.getRole_id()!= 1)) {
+        if (user == null || (user.getRole_id() != 1)) {
             response.sendRedirect("AccessDenied.jsp");
             return;
         }
         try (PrintWriter out = response.getWriter()) {
             users admin = (users) session.getAttribute("acc");
-            if (admin != null && admin.getRole_id()== 1) {
+            if (admin != null && admin.getRole_id() == 1) {
                 String service = request.getParameter("service");
                 if (service == null) {
                     service = "listMovie_participant";
@@ -75,13 +75,15 @@ public class MovieParticipantControl extends HttpServlet {
             int newMovieID = Integer.parseInt(request.getParameter("newMovieID"));
             int newParticipantID = Integer.parseInt(request.getParameter("newParticipantID"));
             movieparticipantDAO dao = new movieparticipantDAO();
-            if (!dao.editMovieParticipant( newMovieID,newParticipantID, role, MovieID, ParticipantID)) {
-                mess = "Something go wrong!";
+
+            if (!dao.editMovieParticipant(newMovieID, newParticipantID, role, MovieID, ParticipantID)) {
+                mess = "Movie participant is already exist!";
                 System.out.println("loi cho kia");
             } else {
                 mess = "edited successfully!";
                 System.out.println("ko loi j het");
             }
+
         } catch (NumberFormatException e) {
             mess = "Id not int ?????";
             System.out.println("loi cho nay");
@@ -95,7 +97,7 @@ public class MovieParticipantControl extends HttpServlet {
             int MovieID = Integer.parseInt(request.getParameter("movie_participantMovieID"));
             int ParticipantID = Integer.parseInt(request.getParameter("movie_participantParticipantID"));
             movieparticipantDAO dao = new movieparticipantDAO();
-            if (!dao.deleteMovieParticipant(MovieID,ParticipantID)) {
+            if (!dao.deleteMovieParticipant(MovieID, ParticipantID)) {
                 mess = "Something go wrong!";
             } else {
                 mess = "added successfully!";
@@ -111,10 +113,10 @@ public class MovieParticipantControl extends HttpServlet {
         int ParticipantID = Integer.parseInt(request.getParameter("movie_participantParticipantID"));
         String role = request.getParameter("role_type");
         String mess = "";
-        
+
         movieparticipantDAO dao = new movieparticipantDAO();
         if (!dao.addMovieParticipant(MovieID, ParticipantID, role)) {
-            mess = "Something go wrong!";
+            mess = "Movie participant is already exist!";
         } else {
             mess = "added successfully!";
         }
@@ -125,15 +127,13 @@ public class MovieParticipantControl extends HttpServlet {
         movieparticipantDAO dao = new movieparticipantDAO();
         List<movie_participants> MovieParticipantList = dao.listMovieParticipant();
         request.setAttribute("movie_participantList", MovieParticipantList);
-        
+
         List<participants> participantList = dao.listParticipant();
         List<movies> movieList = dao.listMovie();
         request.setAttribute("participantList", participantList);
         request.setAttribute("movieList", movieList);
-        
-        
+
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -331,6 +331,7 @@
         <!-- main-slider -->
         <div class="container-xl">
             <div class="table-responsive">
+                <p style="color: red;">${requestScope.mess==null||requestScope.mess.isBlank()?"":requestScope.mess}</p>
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="row">
@@ -358,8 +359,10 @@
                                     <td>${city.getCity_name()}</td>
                                     <td>${city.getNum_of_theater()}</td>
                                     <td>
-                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeCityInfo(${city.getCity_id()},'${city.getCity_name()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="city_control?service=deleteCity&cityID=${city.getCity_id()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" onclick="takeCityInfo(${city.getCity_id()}, '${city.getCity_name()}')" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <c:if test="${city.getNum_of_theater()==0}">
+                                            <a href="city_control?service=deleteCity&cityID=${city.getCity_id()}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -427,72 +430,72 @@
 
 </html>
 <script>
-    function takeCityInfo(oldCityID,oldCityName){
+    function takeCityInfo(oldCityID, oldCityName) {
         console.log("run");
-        document.getElementById("cityEditCityID").value=oldCityID;
-        document.getElementById("cityEditCityName").value=oldCityName;
+        document.getElementById("cityEditCityID").value = oldCityID;
+        document.getElementById("cityEditCityName").value = oldCityName;
     }
 </script>
 <!-- responsive tabs -->
 <script src="assets/js/jquery-1.9.1.min.js"></script>
 <script src="assets/js/easyResponsiveTabs.js"></script>
 <script type="text/javascript">
-            $(document).ready(function () {
-                //Horizontal Tab
-                $('#parentHorizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion
-                    width: 'auto', //auto or any width like 600px
-                    fit: true, // 100% fit in a container
-                    tabidentify: 'hor_1', // The tab groups identifier
-                    activate: function (event) { // Callback function if tab is switched
-                        var $tab = $(this);
-                        var $info = $('#nested-tabInfo');
-                        var $name = $('span', $info);
-                        $name.text($tab.text());
-                        $info.show();
-                    }
-                });
-            });
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
 </script>
 <!--/theme-change-->
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <!-- script for banner slider-->
 <script>
-            $(document).ready(function () {
-                $('.owl-one').owlCarousel({
-                    stagePadding: 280,
-                    loop: true,
-                    margin: 20,
-                    nav: true,
-                    responsiveClass: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    autoplaySpeed: 1000,
-                    autoplayHoverPause: false,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            stagePadding: 40,
-                            nav: false
-                        },
-                        480: {
-                            items: 1,
-                            stagePadding: 60,
-                            nav: true
-                        },
-                        667: {
-                            items: 1,
-                            stagePadding: 80,
-                            nav: true
-                        },
-                        1000: {
-                            items: 1,
-                            nav: true
-                        }
-                    }
-                })
-            })
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            stagePadding: 280,
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsiveClass: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 40,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    stagePadding: 60,
+                    nav: true
+                },
+                667: {
+                    items: 1,
+                    stagePadding: 80,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {

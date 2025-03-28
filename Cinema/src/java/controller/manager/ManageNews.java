@@ -39,7 +39,7 @@ public class ManageNews extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ManageNews</title>");            
+            out.println("<title>Servlet ManageNews</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ManageNews at " + request.getContextPath() + "</h1>");
@@ -58,75 +58,101 @@ public class ManageNews extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private final NewsDAO newsDAO = new NewsDAO();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       response.setContentType("text/html;charset=UTF-8");
-       try{
+        response.setContentType("text/html;charset=UTF-8");
+        try {
             // Lấy session và kiểm tra user
-        HttpSession session = request.getSession(false);
-        users user = (session != null) ? (users) session.getAttribute("acc") : null;
+            HttpSession session = request.getSession(false);
+            users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
-        // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole_id() != 2)) {
-            response.sendRedirect("AccessDenied.jsp");
-            return;
+            // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
+            if (user == null || (user.getRole_id() != 2)) {
+                response.sendRedirect("AccessDenied.jsp");
+                return;
+            }
+            String action = request.getParameter("action");
+            if ("edit".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                news news = newsDAO.getNewsById(id);
+                request.setAttribute("news", news);
+                request.getRequestDispatcher("edit_news.jsp").forward(request, response);
+            } else {
+                List<news> list = newsDAO.getAllNews();
+                request.setAttribute("newsList", list);
+                request.getRequestDispatcher("ManageNews.jsp").forward(request, response);
+            }
+        } catch (Exception ex) {
+
         }
-        String action = request.getParameter("action");
-        if ("edit".equals(action)) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            news news = newsDAO.getNewsById(id);
-            request.setAttribute("news", news);
-            request.getRequestDispatcher("edit_news.jsp").forward(request, response);
-        } else {
-            List<news> list = newsDAO.getAllNews();
-            request.setAttribute("newsList", list);
-            request.getRequestDispatcher("ManageNews.jsp").forward(request, response);
-        }
-       }catch(Exception ex){
-           
-       }
-       
-        
+
     }
 
-     @Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
+        try {
             HttpSession session = request.getSession(false);
-        users user = (session != null) ? (users) session.getAttribute("acc") : null;
+            users user = (session != null) ? (users) session.getAttribute("acc") : null;
 
-        // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
-        if (user == null || (user.getRole_id() != 1 && user.getRole_id() != 2)) {
-            response.sendRedirect("AccessDenied.jsp");
-            return;
-        }
-        String action = request.getParameter("action");
-        String userId = String.valueOf(user.getUser_id()); 
-        String title = request.getParameter("title");
-        String photoUrl = request.getParameter("photo_url");
-        String content = request.getParameter("content");
-        String contentType = request.getParameter("content_type");
+            // Nếu chưa đăng nhập hoặc không phải Admin/Manager thì chặn
+            if (user == null || (user.getRole_id() != 2)) {
+                response.sendRedirect("AccessDenied.jsp");
+                return;
+            }
+            String action = request.getParameter("action");
+            String userId = String.valueOf(user.getUser_id());
+            String title = request.getParameter("title").trim();
+            String photoUrl = request.getParameter("photo_url").trim();
+            String content = request.getParameter("content").trim();
+            String contentType = request.getParameter("content_type");
+            String mess = "";
+            if (title == null || title.isBlank()) {
+                request.setAttribute("error", "Title must not empty!");
+                request.getRequestDispatcher("create_news.jsp").forward(request, response);
+                return;
+            }
+            if (photoUrl == null || photoUrl.isBlank()) {
+                request.setAttribute("error", "PhotoUrl must not empty!");
+                request.getRequestDispatcher("create_news.jsp").forward(request, response);
+                return;
+            }
+            if (content == null || content.isBlank()) {
+                request.setAttribute("error", "Content must not empty!");
+                request.getRequestDispatcher("create_news.jsp").forward(request, response);
+                return;
+            }
+            if (title.length() > 100 || photoUrl.length() > 100) {
+                request.setAttribute("error", "Title or imageURL is too long!");
+                request.getRequestDispatcher("create_news.jsp").forward(request, response);
+                return;
+            }
 
-        if (title.length() > 100 || photoUrl.length() > 100) {
-            request.setAttribute("error", "Tiêu đề hoặc URL ảnh quá dài!");
-            request.getRequestDispatcher("create_news.jsp").forward(request, response);
-            return;
-        }
+            if ("update".equals(action)) {
+                int postId = Integer.parseInt(request.getParameter("post_id"));
+                news news = new news(postId, userId, title, photoUrl, content, null, contentType);
+                if (!newsDAO.updateNews(news)) {
+                    session.setAttribute("error", "News is already exist");
+                    response.sendRedirect("ManageNews");
+                } else {
+                    session.setAttribute("mess", "Edit News successfully");
+                    response.sendRedirect("ManageNews");
+                }
+            } else {
+                news news = new news(0, userId, title, photoUrl, content, null, contentType);
+                if (!newsDAO.insertNews(news)) {
+                    session.setAttribute("error", "News is already exist");
+                    response.sendRedirect("ManageNews");
+                } else {
+                    session.setAttribute("mess", "Add News successfully");
+                    response.sendRedirect("ManageNews");
+                }
+            }
 
-        if ("update".equals(action)) {
-            int postId = Integer.parseInt(request.getParameter("post_id"));
-            news news = new news(postId, userId, title, photoUrl, content, null, contentType);
-            newsDAO.updateNews(news);
-        } else {
-            news news = new news(0, userId, title, photoUrl, content, null, contentType);
-            newsDAO.insertNews(news);
+        } catch (Exception ex) {
+
         }
-        
-        response.sendRedirect("ManageNews");
-        }catch(Exception ex){
-           
-       }
     }
 
     /**

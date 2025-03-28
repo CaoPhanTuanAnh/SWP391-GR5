@@ -22,4 +22,10 @@ public class participants {
     private Date birth_date;
     private String nationality;
     private String about;
+    private String role;
+    
+    
+    
+    
+    
 }
