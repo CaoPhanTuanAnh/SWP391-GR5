@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
@@ -156,7 +155,7 @@
                                     <div class="col-md-3 col-sm-6 sub-two-right mt-5">
                                         <h6>Information</h6>
                                         <ul>
-                                            <li><a href="index.jsp
+                                            <li><a href="HomePageController
                                                    ">Home</a> </li>
                                             <li><a href="about.jsp
                                                    ">About</a> </li>

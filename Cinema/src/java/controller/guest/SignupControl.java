@@ -4,6 +4,7 @@
  */
 package controller.guest;
 
+import controller.customer.ResetPassword;
 import dao.DAO;
 import entity.users;
 import java.io.IOException;
@@ -16,8 +17,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import service.EmailService;
 import service.MaHoa;
+import service.TypeValidator;
 
 /**
  *
@@ -45,68 +49,91 @@ public class SignupControl extends HttpServlet {
         String email = request.getParameter("sign-up-email");
         String phone = request.getParameter("sign-up-phone");
         String birthdate = request.getParameter("sign-up-birthdate");
-        
-        if (user == null || user.trim().isEmpty() ||
-            pass == null || pass.trim().isEmpty() ||
-            re_pass == null || re_pass.trim().isEmpty() ||
-            fullname == null || fullname.trim().isEmpty() ||
-            email == null || email.trim().isEmpty() ||
-            phone == null || phone.trim().isEmpty()) {
+        String mess = "";
+
+        if (user == null || user.trim().isEmpty()
+                || pass == null || pass.trim().isEmpty()
+                || re_pass == null || re_pass.trim().isEmpty()
+                || fullname == null || fullname.trim().isEmpty()
+                || email == null || email.trim().isEmpty()
+                || phone == null || phone.trim().isEmpty()) {
 
             request.setAttribute("mess", "All fields must be filled.");
             request.getRequestDispatcher("sign_up.jsp").forward(request, response);
             return;
-        }else if(!pass.equals(re_pass)){
+        } else if (!pass.equals(re_pass)) {
             request.setAttribute("mess", "Password do not match.");
             request.getRequestDispatcher("sign_up.jsp").forward(request, response);
-        }else if (pass.contains(" ")) {
+        } else if (pass.contains(" ")) {
             request.setAttribute("mess", "Username should not contain spaces.");
             request.getRequestDispatcher("sign_up.jsp").forward(request, response);
         } else if (user.contains(" ")) {
             request.setAttribute("mess", "Password should not contain spaces.");
             request.getRequestDispatcher("sign_up.jsp").forward(request, response);
-        } else if (!pass.matches("[a-zA-Z0-9]+")) {  // Chỉ cho phép chữ cái và số
-            request.setAttribute("mess", "Password must not contain special characters.");
-            request.getRequestDispatcher("sign_up.jsp").forward(request, response);
-        }else{
-            
-            pass = MaHoa.toSHA1(pass);
-            
-            DAO dao = new DAO();
-            users a = dao.checkUserExist(user);
-            users b = dao.checkEmailExist(email);
-            
-            HttpSession session = request.getSession();
-            if(a==null&&b==null){
-                 String otp = String.format("%06d", new Random().nextInt(999999));
+        } else {
+            try {
+                if (TypeValidator.validatePassword(pass)) {
+                    try {
+                        if (TypeValidator.validatePhone(phone)) {
+                            pass = MaHoa.toSHA1(pass);
 
-                // Lưu OTP và thông tin vào session
-                users newUser = new users(user, pass, fullname, email, phone);
-                newUser.setRole_id(3);
-                newUser.setStatus("Active");
-                newUser.setBirth_date(birthdate);
-                session.setAttribute("otp", otp);
-             
-                session.setAttribute("signupUser", newUser);
-                session.setAttribute("otpExpireTime", System.currentTimeMillis() + 120000); // Hết hạn sau 2 phút
+                            DAO dao = new DAO();
+                            users a = dao.checkUserExist(user);
+                            users b = dao.checkEmailExist(email);
 
-                // Gửi OTP qua email
-                EmailService.sendOTP(email, otp);
+                            HttpSession session = request.getSession();
+                            if (a == null && b == null) {
+                                String otp = String.format("%06d", new Random().nextInt(999999));
 
-                response.sendRedirect("otp_verification.jsp");
-                //response.sendRedirect("home");
-            }else if(a!=null){
-                request.setAttribute("mess", "Username already exists.");
-                request.getRequestDispatcher("sign_up.jsp").forward(request, response);
-            }else if(b!=null){
-                request.setAttribute("mess", "Email already exists.");
-                request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+                                // Lưu OTP và thông tin vào session
+                                users newUser = new users(user, pass, fullname, email, phone);
+                                newUser.setRole_id(3);
+                                newUser.setStatus("Active");
+                                newUser.setBirth_date(birthdate);
+                                session.setAttribute("otp", otp);
+
+                                session.setAttribute("signupUser", newUser);
+                                session.setAttribute("otpExpireTime", System.currentTimeMillis() + 120000); // Hết hạn sau 2 phút
+
+                                // Gửi OTP qua email
+                                EmailService.sendOTP(email, otp);
+
+                                response.sendRedirect("otp_verification.jsp");
+                            } else if (a != null) {
+                                request.setAttribute("mess", "Username already exists.");
+                                request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+                            } else if (b != null) {
+                                request.setAttribute("mess", "Email already exists.");
+                                request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("mess", "error.");
+                                request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+                            }
+                        } else {
+                            mess = "Phone number has to be a ten digit number with a leading 0 ";
+                            request.setAttribute("mess", mess);
+                            request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+                        }
+                    } catch (Exception e) {
+                        Logger.getLogger(ResetPassword.class.getName()).log(Level.SEVERE, null, e);
+                        mess = "Phone number has to be a ten digit number with a leading 0";
+                        request.setAttribute("mess", mess);
+                        request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+                    }
+                } else {
+                    mess = "New password does not meet security requirements.";
+                    request.setAttribute("mess", mess);
+                    request.getRequestDispatcher("sign_up.jsp").forward(request, response);
                 }
-            else{
-                request.setAttribute("mess", "error.");
+            } catch (Exception e) {
+                Logger.getLogger(ResetPassword.class.getName()).log(Level.SEVERE, null, e);
+                mess = "Password must have 8-16 characters,\n"
+                        + "1 special character, 1 digit,\n"
+                        + "1 uppercase and 1 lowercase charater!";
+                request.setAttribute("mess", mess);
                 request.getRequestDispatcher("sign_up.jsp").forward(request, response);
             }
-    }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
