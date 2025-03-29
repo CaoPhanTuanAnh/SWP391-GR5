@@ -12,6 +12,7 @@ import entity.combos;
 import entity.rooms;
 import entity.theaters;
 import entity.movies;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,6 +20,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -39,6 +41,14 @@ public class BillController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Lấy session và kiểm tra user
+        HttpSession session = request.getSession(false);
+        users user = (session != null) ? (users) session.getAttribute("acc") : null;
+        // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
+        if (user == null || (user.getRole_id() != 2) || (user.getRole_id() != 1) || (user.getRole_id() != 3)) {
+            response.sendRedirect("sign_in.jsp");
+            return;
+        }
         String mid_raw = request.getParameter("mid");
         String branchId_raw = request.getParameter("branchId");
         String startDate_raw = request.getParameter("startDate");
@@ -49,7 +59,7 @@ public class BillController extends HttpServlet {
         theatersDAO b = new theatersDAO();
         roomsDAO c = new roomsDAO();
         combosDAO d = new combosDAO();
-        
+
         try {
             int mid = Integer.parseInt(mid_raw);
             int branchId = Integer.parseInt(branchId_raw);
@@ -59,9 +69,7 @@ public class BillController extends HttpServlet {
             theaters brand = b.getBrand(branchId);
             rooms room = c.getRoom(roomId);
             List<combos> e = d.listCombo();
-            
-            
-          
+
             request.setAttribute("room", room);
             request.setAttribute("movie", movie);
             request.setAttribute("brand", brand);
