@@ -10,7 +10,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-        <!--        <link rel="stylesheet" href="assets/css/style-starter.css">-->
         <link href="//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,600&display=swap"
               rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
@@ -88,6 +87,9 @@
                                         <c:when test="${seat.getStatus() eq 'Booked'}">
                                         <th style="color: red; font-weight: bold;">❌</th>
                                         </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Unavailable'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
                                         <c:when test="${seat.getStatus() eq 'Available'}">
                                         <th>
                                             <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
@@ -109,6 +111,9 @@
                                         <c:when test="${seat.getStatus() eq 'Booked'}">
                                         <th style="color: red; font-weight: bold;">❌</th>
                                         </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Unavailable'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
                                         <c:when test="${seat.getStatus() eq 'Available'}">
                                         <th>
                                             <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
@@ -122,8 +127,8 @@
                                 </c:choose>
                             </c:forEach>
                         </tr>
-                        
-                        
+
+
                         <tr>
                             <th>C</th>
                                 <c:forEach items="${listC}" var="seat">
@@ -131,25 +136,7 @@
                                         <c:when test="${seat.getStatus() eq 'Booked'}">
                                         <th style="color: red; font-weight: bold;">❌</th>
                                         </c:when>
-                                        <c:when test="${seat.getStatus() eq 'Available'}">
-                                        <th>
-                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
-                                        </th>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <th>
-                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
-                                        </th>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </tr>
-                        
-                           <tr>
-                            <th>D</th>
-                                <c:forEach items="${listD}" var="seat">
-                                    <c:choose>
-                                        <c:when test="${seat.getStatus() eq 'Booked'}">
+                                        <c:when test="${seat.getStatus() eq 'Unavailable'}">
                                         <th style="color: red; font-weight: bold;">❌</th>
                                         </c:when>
                                         <c:when test="${seat.getStatus() eq 'Available'}">
@@ -165,12 +152,39 @@
                                 </c:choose>
                             </c:forEach>
                         </tr>
-                        
-                           <tr>
+
+                        <tr>
+                            <th>D</th>
+                                <c:forEach items="${listD}" var="seat">
+                                    <c:choose>
+                                        <c:when test="${seat.getStatus() eq 'Booked'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Unavailable'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Available'}">
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
+                                        </th>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <th>
+                                            <input type="checkbox" class="largerCheckbox" name="seats" value="${seat.getSeat_id()}">
+                                        </th>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </tr>
+
+                        <tr>
                             <th>E</th>
                                 <c:forEach items="${listE}" var="seat">
                                     <c:choose>
                                         <c:when test="${seat.getStatus() eq 'Booked'}">
+                                        <th style="color: red; font-weight: bold;">❌</th>
+                                        </c:when>
+                                        <c:when test="${seat.getStatus() eq 'Unavailable'}">
                                         <th style="color: red; font-weight: bold;">❌</th>
                                         </c:when>
                                         <c:when test="${seat.getStatus() eq 'Available'}">
@@ -201,149 +215,6 @@
             </div>
         </div>
 
-        <br>
-
-
-
-
-        <!-- end of movie selections -->
-        <br>
-        <br>
-
     </body>
 
 </html>
-<!--<script src="assets/js/jquery-3.3.1.min.js"></script>-->
-<!--/theme-change-->
-<!--<script src="assets/js/theme-change.js"></script>
-<script src="assets/js/owl.carousel.js"></script>-->
-<!--<script>
-                    $(document).ready(function () {
-                        $('.owl-four').owlCarousel({
-                            loop: true,
-                            margin: 20,
-                            nav: false,
-                            responsiveClass: true,
-                            autoplay: false,
-                            autoplayTimeout: 5000,
-                            autoplaySpeed: 1000,
-                            autoplayHoverPause: false,
-                            responsive: {
-                                0: {
-                                    items: 1,
-                                    nav: false
-                                },
-                                480: {
-                                    items: 2,
-                                    nav: true
-                                },
-                                667: {
-                                    items: 2,
-                                    nav: true
-                                },
-                                1000: {
-                                    items: 2,
-                                    nav: true
-                                }
-                            }
-                        })
-                    })
-</script>
-<script>
-    $(document).ready(function () {
-        $('.owl-two').owlCarousel({
-            loop: true,
-            margin: 40,
-            nav: false,
-            responsiveClass: true,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            autoplaySpeed: 1000,
-            autoplayHoverPause: false,
-            responsive: {
-                0: {
-                    items: 1,
-                    nav: false
-                },
-                480: {
-                    items: 2,
-                    nav: true
-                },
-                667: {
-                    items: 2,
-                    margin: 20,
-                    nav: true
-                },
-                1000: {
-                    items: 3,
-                    nav: true
-                }
-            }
-        })
-    })
-</script>
- script for owlcarousel 
- disable body scroll which navbar is in active 
-<script>
-    $(function () {
-        $('.navbar-toggler').click(function () {
-            $('body').toggleClass('noscroll');
-        })
-    });
-</script>
- disable body scroll which navbar is in active 
-
-/MENU-JS
-<script>
-    $(window).on("scroll", function () {
-        var scroll = $(window).scrollTop();
-
-        if (scroll >= 80) {
-            $("#site-header").addClass("nav-fixed");
-        } else {
-            $("#site-header").removeClass("nav-fixed");
-        }
-    });
-
-    //Main navigation Active Class Add Remove
-    $(".navbar-toggler").on("click", function () {
-        $("header").toggleClass("active");
-    });
-    $(document).on("ready", function () {
-        if ($(window).width() > 991) {
-            $("header").removeClass("active");
-        }
-        $(window).on("resize", function () {
-            if ($(window).width() > 991) {
-                $("header").removeClass("active");
-            }
-        });
-    });
-</script>
-<script src="assets/js/easyResponsiveTabs.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        //Horizontal Tab
-        $('#parentHorizontalTab').easyResponsiveTabs({
-            type: 'default', //Types: default, vertical, accordion
-            width: 'auto', //auto or any width like 600px
-            fit: true, // 100% fit in a container
-            tabidentify: 'hor_1', // The tab groups identifier
-            activate: function (event) { // Callback function if tab is switched
-                var $tab = $(this);
-                var $info = $('#nested-tabInfo');
-                var $name = $('span', $info);
-                $name.text($tab.text());
-                $info.show();
-            }
-        });
-    });
-</script>
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-
-
-<script src="assets/js/bootstrap.min.js"></script>-->
