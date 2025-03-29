@@ -22,39 +22,24 @@ import java.util.List;
  */
 public class seatsDAO extends DBContext {
 
-    public List<seats> getAllSeatA(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+    public List<seats> getAllSeatA(int mid, int branchId, Date startDate, Time startTime, int roomId, int showtimeID) {
         List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
-                + "    se.seat_id, \n"
-                + "    se.seat_number, \n"
-                + "    se.seat_row, \n"
-                + "    se.status \n"
-                + "FROM movies m \n"
-                + "JOIN showtimes s ON m.movie_id = s.movie_id\n"
-                + "JOIN rooms r ON r.room_id = s.room_id\n"
-                + "JOIN theaters t ON t.theater_id = r.theater_id\n"
-                + "JOIN seats se ON se.room_id = r.room_id\n"
-                + "WHERE m.movie_id = ?\n"
-                + "    AND CONVERT(DATE, s.showtime) = ?\n"
-                + "    AND DATEPART(HOUR, s.showtime) = DATEPART(HOUR, ?)\n"
-                + "    AND DATEPART(MINUTE, s.showtime) = DATEPART(MINUTE, ?)\n"
-                + "    AND t.theater_id = ?\n"
-                + "    AND r.room_id = ?\n"
-                + "    AND se.seat_row = 'A';";
+                + "se.seat_id, \n"
+                + "se.seat_number, \n"
+                + "se.seat_row, \n"
+                + "t.status\n"
+                + "FROM showtimes s \n"
+                + "join tickets t on t.showtime_id=s.showtime_id\n"
+                + "join seats se on se.seat_id=t.seat_id\n"
+                + "where s.showtime_id=?\n"
+                + "AND se.seat_row = 'A';";
 
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
-            st.setInt(1, mid);
-            st.setInt(5, branchId);
-            st.setDate(2, startDate);
-
-            Timestamp startTimestamp = new Timestamp(startTime.getTime());
-            st.setTimestamp(3, startTimestamp);
-            st.setTimestamp(4, startTimestamp);
-            st.setInt(6, roomId);
-
+            st.setInt(1, showtimeID);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     int seat_id = rs.getInt("seat_id");
@@ -92,7 +77,7 @@ public class seatsDAO extends DBContext {
         int roomId = 4; // Thay bằng ID phòng thực tế
 
         // Gọi phương thức getAllSeatA
-        List<seats> seatsList = seatsDAO.getAllSeatA(movieId, branchId, startDate, startTime, roomId);
+        List<seats> seatsList = seatsDAO.getAllSeatA(movieId, branchId, startDate, startTime, roomId,1);
 
         // Kiểm tra kết quả
         if (seatsList.isEmpty()) {
@@ -108,38 +93,24 @@ public class seatsDAO extends DBContext {
         }
     }
 
-    public List<seats> getAllSeatB(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+    public List<seats> getAllSeatB(int mid, int branchId, Date startDate, Time startTime, int roomId, int showtimeID) {
         List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
-                + "    se.seat_id, \n"
-                + "    se.seat_number, \n"
-                + "    se.seat_row, \n"
-                + "    se.status \n"
-                + "FROM movies m \n"
-                + "JOIN showtimes s ON m.movie_id = s.movie_id\n"
-                + "JOIN rooms r ON r.room_id = s.room_id\n"
-                + "JOIN theaters t ON t.theater_id = r.theater_id\n"
-                + "JOIN seats se ON se.room_id = r.room_id\n"
-                + "WHERE m.movie_id = ?\n"
-                + "    AND CONVERT(DATE, s.showtime) = ?\n"
-                + "    AND DATEPART(HOUR, s.showtime) = DATEPART(HOUR, ?)\n"
-                + "    AND DATEPART(MINUTE, s.showtime) = DATEPART(MINUTE, ?)\n"
-                + "    AND t.theater_id = ?\n"
-                + "    AND r.room_id = ?\n"
-                + "    AND se.seat_row = 'B';";
+                + "se.seat_id, \n"
+                + "se.seat_number, \n"
+                + "se.seat_row, \n"
+                + "t.status\n"
+                + "FROM showtimes s \n"
+                + "join tickets t on t.showtime_id=s.showtime_id\n"
+                + "join seats se on se.seat_id=t.seat_id\n"
+                + "where s.showtime_id=?\n"
+                + "AND se.seat_row = 'B';";
 
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
-            st.setInt(1, mid);
-            st.setInt(5, branchId);
-            st.setDate(2, startDate);
-
-            Timestamp startTimestamp = new Timestamp(startTime.getTime());
-            st.setTimestamp(3, startTimestamp);
-            st.setTimestamp(4, startTimestamp);
-            st.setInt(6, roomId);
+            st.setInt(1, showtimeID);
 
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
@@ -166,38 +137,24 @@ public class seatsDAO extends DBContext {
         return movieList;
     }
 
-    public List<seats> getAllSeatC(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+    public List<seats> getAllSeatC(int mid, int branchId, Date startDate, Time startTime, int roomId, int showtimeID) {
         List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
-                + "    se.seat_id, \n"
-                + "    se.seat_number, \n"
-                + "    se.seat_row, \n"
-                + "    se.status \n"
-                + "FROM movies m \n"
-                + "JOIN showtimes s ON m.movie_id = s.movie_id\n"
-                + "JOIN rooms r ON r.room_id = s.room_id\n"
-                + "JOIN theaters t ON t.theater_id = r.theater_id\n"
-                + "JOIN seats se ON se.room_id = r.room_id\n"
-                + "WHERE m.movie_id = ?\n"
-                + "    AND CONVERT(DATE, s.showtime) = ?\n"
-                + "    AND DATEPART(HOUR, s.showtime) = DATEPART(HOUR, ?)\n"
-                + "    AND DATEPART(MINUTE, s.showtime) = DATEPART(MINUTE, ?)\n"
-                + "    AND t.theater_id = ?\n"
-                + "    AND r.room_id = ?\n"
-                + "    AND se.seat_row = 'C';";
-
+                + "se.seat_id, \n"
+                + "se.seat_number, \n"
+                + "se.seat_row, \n"
+                + "t.status\n"
+                + "FROM showtimes s \n"
+                + "join tickets t on t.showtime_id=s.showtime_id\n"
+                + "join seats se on se.seat_id=t.seat_id\n"
+                + "where s.showtime_id=?\n"
+                + "AND se.seat_row = 'C';";
+        
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
-            st.setInt(1, mid);
-            st.setInt(5, branchId);
-            st.setDate(2, startDate);
-
-            Timestamp startTimestamp = new Timestamp(startTime.getTime());
-            st.setTimestamp(3, startTimestamp);
-            st.setTimestamp(4, startTimestamp);
-            st.setInt(6, roomId);
+            st.setInt(1, showtimeID);
 
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
@@ -224,38 +181,24 @@ public class seatsDAO extends DBContext {
         return movieList;
     }
 
-    public List<seats> getAllSeatD(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+    public List<seats> getAllSeatD(int mid, int branchId, Date startDate, Time startTime, int roomId, int showtimeID) {
         List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
-                + "    se.seat_id, \n"
-                + "    se.seat_number, \n"
-                + "    se.seat_row, \n"
-                + "    se.status \n"
-                + "FROM movies m \n"
-                + "JOIN showtimes s ON m.movie_id = s.movie_id\n"
-                + "JOIN rooms r ON r.room_id = s.room_id\n"
-                + "JOIN theaters t ON t.theater_id = r.theater_id\n"
-                + "JOIN seats se ON se.room_id = r.room_id\n"
-                + "WHERE m.movie_id = ?\n"
-                + "    AND CONVERT(DATE, s.showtime) = ?\n"
-                + "    AND DATEPART(HOUR, s.showtime) = DATEPART(HOUR, ?)\n"
-                + "    AND DATEPART(MINUTE, s.showtime) = DATEPART(MINUTE, ?)\n"
-                + "    AND t.theater_id = ?\n"
-                + "    AND r.room_id = ?\n"
-                + "    AND se.seat_row = 'D';";
-
+                + "se.seat_id, \n"
+                + "se.seat_number, \n"
+                + "se.seat_row, \n"
+                + "t.status\n"
+                + "FROM showtimes s \n"
+                + "join tickets t on t.showtime_id=s.showtime_id\n"
+                + "join seats se on se.seat_id=t.seat_id\n"
+                + "where s.showtime_id=?\n"
+                + "AND se.seat_row = 'D';";
+        
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
-            st.setInt(1, mid);
-            st.setInt(5, branchId);
-            st.setDate(2, startDate);
-
-            Timestamp startTimestamp = new Timestamp(startTime.getTime());
-            st.setTimestamp(3, startTimestamp);
-            st.setTimestamp(4, startTimestamp);
-            st.setInt(6, roomId);
+            st.setInt(1, showtimeID);
 
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
@@ -282,38 +225,25 @@ public class seatsDAO extends DBContext {
         return movieList;
     }
 
-    public List<seats> getAllSeatE(int mid, int branchId, Date startDate, Time startTime, int roomId) {
+    public List<seats> getAllSeatE(int mid, int branchId, Date startDate, Time startTime, int roomId, int showtimeID) {
         List<seats> movieList = new ArrayList<>();
 
         // Câu SQL: So sánh `DATE` và kiểm tra `TIME` bằng cách lấy HOUR + MINUTE
         String sql = "SELECT \n"
-                + "    se.seat_id, \n"
-                + "    se.seat_number, \n"
-                + "    se.seat_row, \n"
-                + "    se.status \n"
-                + "FROM movies m \n"
-                + "JOIN showtimes s ON m.movie_id = s.movie_id\n"
-                + "JOIN rooms r ON r.room_id = s.room_id\n"
-                + "JOIN theaters t ON t.theater_id = r.theater_id\n"
-                + "JOIN seats se ON se.room_id = r.room_id\n"
-                + "WHERE m.movie_id = ?\n"
-                + "    AND CONVERT(DATE, s.showtime) = ?\n"
-                + "    AND DATEPART(HOUR, s.showtime) = DATEPART(HOUR, ?)\n"
-                + "    AND DATEPART(MINUTE, s.showtime) = DATEPART(MINUTE, ?)\n"
-                + "    AND t.theater_id = ?\n"
-                + "    AND r.room_id = ?\n"
-                + "    AND se.seat_row = 'E';";
+                + "se.seat_id, \n"
+                + "se.seat_number, \n"
+                + "se.seat_row, \n"
+                + "t.status\n"
+                + "FROM showtimes s \n"
+                + "join tickets t on t.showtime_id=s.showtime_id\n"
+                + "join seats se on se.seat_id=t.seat_id\n"
+                + "where s.showtime_id=?\n"
+                + "AND se.seat_row = 'E';";
 
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
 
-            st.setInt(1, mid);
-            st.setInt(5, branchId);
-            st.setDate(2, startDate);
+            st.setInt(1, showtimeID);
 
-            Timestamp startTimestamp = new Timestamp(startTime.getTime());
-            st.setTimestamp(3, startTimestamp);
-            st.setTimestamp(4, startTimestamp);
-            st.setInt(6, roomId);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     int seat_id = rs.getInt("seat_id");

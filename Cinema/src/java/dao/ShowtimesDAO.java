@@ -48,7 +48,7 @@ public class showtimesDAO extends DBContext {
                 + "JOIN showtimes s ON m.movie_id = s.movie_id "
                 + "JOIN rooms r ON r.room_id = s.room_id "
                 + "JOIN theaters t ON t.theater_id = r.theater_id "
-                + "WHERE s.movie_id = ? AND r.theater_id = ? "
+                + "WHERE s.movie_id = ? AND r.theater_id = ? AND s.status = 'Submitted'"
                 + "GROUP BY s.movie_id, CAST(s.showtime AS DATE), s.showtime_id, s.status;";
 
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
@@ -93,7 +93,7 @@ public class showtimesDAO extends DBContext {
                 + "JOIN showtimes s ON m.movie_id = s.movie_id "
                 + "JOIN rooms r ON r.room_id = s.room_id "
                 + "JOIN theaters t ON t.theater_id = r.theater_id "
-                + "WHERE s.movie_id = ? AND r.theater_id = ? "
+                + "WHERE s.movie_id = ? AND r.theater_id = ?  AND s.status = 'Submitted' "
                 + "GROUP BY s.movie_id, CAST(s.showtime AS DATE), CAST(s.showtime AS TIME), s.showtime_id, s.status;";
 
         try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
@@ -515,7 +515,7 @@ public class showtimesDAO extends DBContext {
         }
         return 0;
     }
-public showtimes getShowTimebyDateTime(Date startDate, Time startTime, int mid, int branch) {
+    public showtimes getShowTimebyDateTime(Date startDate, Time startTime, int mid, int branch) {
         showtimes showtime = null;
         String sql = "SELECT * FROM showtimes WHERE showtime = ? AND movie_id = ? AND room_id = ?";
 
@@ -551,4 +551,38 @@ public showtimes getShowTimebyDateTime(Date startDate, Time startTime, int mid, 
         }
         return showtime;
     }
+    
+    public int getShowTime(Date date, Time showtime, int room_id) {
+        String sql = "SELECT showtime_id FROM showtimes WHERE showtime = ? AND room_id = ?";
+
+        try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
+
+            // Hợp nhất thành LocalDateTime rồi chuyển sang Timestamp
+            // Chuyển startDate (java.sql.Date) thành LocalDate
+            LocalDate localDate = date.toLocalDate();
+
+            // Chuyển startTime (java.sql.Time) thành LocalTime
+            LocalTime localTime = showtime.toLocalTime();
+
+            // Hợp nhất thành LocalDateTime rồi chuyển sang Timestamp
+            LocalDateTime dateTime = LocalDateTime.of(localDate, localTime);
+            Timestamp sqlTimestamp = Timestamp.valueOf(dateTime);
+
+            // Set giá trị tham số
+            st.setTimestamp(1, sqlTimestamp);
+            st.setInt(2, room_id);
+
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi truy vấn getShowTimebyDateTime: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Lỗi kết nối DB: " + e.getMessage());
+        }
+        return 0;
+    }
+    
 }

@@ -8,6 +8,7 @@ import dao.ticketDAO;
 import entity.bookings;
 import entity.combos;
 import entity.showtimes;
+import entity.ticket;
 import entity.users;
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -60,6 +61,15 @@ public class PaymentController extends HttpServlet {
 
         String date = request.getParameter("date");
         String time = request.getParameter("time");
+        String ti = time;
+        try {
+            SimpleDateFormat sdf12 = new SimpleDateFormat("hh:mm:ss a");
+            SimpleDateFormat sdf24 = new SimpleDateFormat("HH:mm:ss");
+            java.util.Date parsedTime = sdf12.parse(time);
+            ti = sdf24.format(parsedTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         int mid = parseIntSafely(request.getParameter("mid"), "mid");
         int room = parseIntSafely(request.getParameter("room"), "room");
@@ -87,7 +97,18 @@ public class PaymentController extends HttpServlet {
         //bookings a = new bookings();
         //a = bookingsDAO.createBooking(acc.getUser_id(), date, Double.parseDouble(String.valueOf(amount)), "Booked");
         // Tạo booking với trạng thái "Pending"
-        bookings booking = bookingsDAO.createBooking(acc.getUser_id(), date, Double.parseDouble(String.valueOf(amount)), "Pending");
+        bookings booking = bookingsDAO.createBooking(acc.getUser_id(), date, 0, "Pending");
+        ticketDAO tikdao = new ticketDAO();
+        for(String sit: selectedSeats){
+            System.out.println("seatid"+sit);
+            System.out.println("date"+date);
+            System.out.println("ti"+ti);
+            List<Integer> tiklist = tikdao.getticket(date, ti, Integer.parseInt(sit));
+            for (Integer tik : tiklist) {
+                System.out.println(tik);
+                tikdao.updateTicket(booking.getBooking_id(),tik);
+            }
+        }
         combosDAO combosdao = new combosDAO();
         List<combos> comlist = combosdao.listCombo();
         for (combos com : comlist) {
@@ -144,26 +165,26 @@ public class PaymentController extends HttpServlet {
         
 
         // Tạo ticket và đặt ghế ở trạng thái "Pending"
-        seatsDAO seatsDAO = new seatsDAO();
-        for (String seat : selectedSeats) {
-            try {
-                int seatNumber = Integer.parseInt(seat.trim());
-                System.out.println("⏳ Đang tạo ticket cho seat: " + seatNumber);
-                ticketDAO.createTicket(
-                        showtime.getShowtime_id(),
-                        seatNumber,
-                        acc.getUser_id(),
-                        booking.getBooking_id(),
-                        Double.parseDouble(String.valueOf(amount / 100)),
-                        "Pending"
-                );
-                seatsDAO.updateSeatStatus(seat, "Pending"); // Trạng thái ghế ban đầu là "Pending"
-                System.out.println("✅ Ticket created for seat: " + seatNumber);
-            } catch (NumberFormatException e) {
-                System.out.println("❌ Lỗi: Seat không hợp lệ - " + seat);
-                e.printStackTrace();
-            }
-        }
+//        seatsDAO seatsDAO = new seatsDAO();
+//        for (String seat : selectedSeats) {
+//            try {
+//                int seatNumber = Integer.parseInt(seat.trim());
+//                System.out.println("⏳ Đang tạo ticket cho seat: " + seatNumber);
+//                ticketDAO.createTicket(
+//                        showtime.getShowtime_id(),
+//                        seatNumber,
+//                        acc.getUser_id(),
+//                        booking.getBooking_id(),
+//                        Double.parseDouble(String.valueOf(amount / 100)),
+//                        "Pending"
+//                );
+//                seatsDAO.updateSeatStatus(seat, "Pending"); // Trạng thái ghế ban đầu là "Pending"
+//                System.out.println("✅ Ticket created for seat: " + seatNumber);
+//            } catch (NumberFormatException e) {
+//                System.out.println("❌ Lỗi: Seat không hợp lệ - " + seat);
+//                e.printStackTrace();
+//            }
+//        }
 
         String queryUrl = query.toString();
         String vnp_SecureHash = PaymentConfig.hmacSHA512(PaymentConfig.vnp_HashSecret, hashData.toString());
@@ -201,6 +222,8 @@ public class PaymentController extends HttpServlet {
         } else {
             // Thanh toán thất bại hoặc bị hủy
             bookingDAO.updateBookingStatus(bookingId, "Cancelled");
+            ticketDAO.backTicket(bookingId);
+            System.out.println("bookingid"+bookingId);
             List<String> seatIds = ticketDAO.getSeatIdsByBookingId(bookingId);
             for (String seatId : seatIds) {
                 seatsDAO.updateSeatStatus(seatId, "Available"); // Trả ghế về trạng thái "Available"

@@ -1,6 +1,7 @@
 package controller.guest;
 
 import dao.seatsDAO;
+import dao.showtimesDAO;
 import entity.seats;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,12 +48,14 @@ public class SeatController extends HttpServlet {
             SimpleDateFormat sdf24 = new SimpleDateFormat("HH:mm:ss"); // Chuyển thành 24 giờ
             String formattedTime = sdf24.format(sdf12.parse(startTime_raw));
             Time startTime = Time.valueOf(formattedTime);
-
-            List<seats> listA = new seatsDAO().getAllSeatA(mid, branchId, startDate, startTime, roomId);
-            List<seats> listB = new seatsDAO().getAllSeatB(mid, branchId, startDate, startTime, roomId);
-            List<seats> listC = new seatsDAO().getAllSeatC(mid, branchId, startDate, startTime, roomId);
-            List<seats> listD = new seatsDAO().getAllSeatD(mid, branchId, startDate, startTime, roomId);
-            List<seats> listE = new seatsDAO().getAllSeatE(mid, branchId, startDate, startTime, roomId);
+            showtimesDAO dao = new showtimesDAO();
+            int showtimeID = dao.getShowTime(startDate, startTime, roomId);
+            System.out.println(startTime);
+            List<seats> listA = new seatsDAO().getAllSeatA(mid, branchId, startDate, startTime, roomId, showtimeID);
+            List<seats> listB = new seatsDAO().getAllSeatB(mid, branchId, startDate, startTime, roomId, showtimeID);
+            List<seats> listC = new seatsDAO().getAllSeatC(mid, branchId, startDate, startTime, roomId, showtimeID);
+            List<seats> listD = new seatsDAO().getAllSeatD(mid, branchId, startDate, startTime, roomId, showtimeID);
+            List<seats> listE = new seatsDAO().getAllSeatE(mid, branchId, startDate, startTime, roomId, showtimeID);
             request.setAttribute("listA", listA);
             request.setAttribute("listB", listB);
             request.setAttribute("listC", listC);

@@ -5,6 +5,7 @@ import dao.roomsDAO;
 import dao.theatersDAO;
 import dao.moviesDAO;
 import dao.seatsDAO;
+import dao.showtimesDAO;
 import entity.combos;
 import entity.rooms;
 import entity.theaters;
@@ -68,13 +69,14 @@ public class BillController extends HttpServlet {
                 SimpleDateFormat sdf24 = new SimpleDateFormat("HH:mm:ss");   // Định dạng 24 giờ
                 String formattedTime = sdf24.format(sdf12.parse(startTime_raw));
                 Time startTime = Time.valueOf(formattedTime);
-
+                showtimesDAO dao = new showtimesDAO();
+                int showtimeID = dao.getShowTime(startDate, startTime, roomId);
                 // Tải danh sách ghế cho từng hàng
-                request.setAttribute("listA", seatDAO.getAllSeatA(mid, branchId, startDate, startTime, roomId));
-                request.setAttribute("listB", seatDAO.getAllSeatB(mid, branchId, startDate, startTime, roomId));
-                request.setAttribute("listC", seatDAO.getAllSeatC(mid, branchId, startDate, startTime, roomId));
-                request.setAttribute("listD", seatDAO.getAllSeatD(mid, branchId, startDate, startTime, roomId));
-                request.setAttribute("listE", seatDAO.getAllSeatE(mid, branchId, startDate, startTime, roomId));
+                request.setAttribute("listA", seatDAO.getAllSeatA(mid, branchId, startDate, startTime, roomId, showtimeID));
+                request.setAttribute("listB", seatDAO.getAllSeatB(mid, branchId, startDate, startTime, roomId, showtimeID));
+                request.setAttribute("listC", seatDAO.getAllSeatC(mid, branchId, startDate, startTime, roomId, showtimeID));
+                request.setAttribute("listD", seatDAO.getAllSeatD(mid, branchId, startDate, startTime, roomId, showtimeID));
+                request.setAttribute("listE", seatDAO.getAllSeatE(mid, branchId, startDate, startTime, roomId, showtimeID));
 
             } catch (Exception e) {
                 log("Error loading seats in BillController: " + e.toString());

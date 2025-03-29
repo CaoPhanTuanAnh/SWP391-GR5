@@ -30,7 +30,7 @@ public class bookingsDAO {
                 + "	join movies m on m.movie_id = st.movie_id\n"
                 + ") as t on t.booking_id = b.booking_id\n"
                 + "left join booking_combos bc on bc.booking_id = b.booking_id\n"
-                + "where b.user_id = ?\n"
+                + "where b.user_id = ? and b.status='Booked'\n"
                 + "order by booking_date desc";
 //        String query_seat = "select s.seat_row,s.seat_number from tickets t\n"
 //                + "join seats s on s.seat_id = t.seat_id\n"
