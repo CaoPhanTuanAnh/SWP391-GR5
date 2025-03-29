@@ -30,7 +30,6 @@
 
     <body>
         <%@ include file="header.jsp" %>
-
         <!-- movie selections-->
         <br>
         <br>

@@ -31,8 +31,8 @@ public class BillController extends HttpServlet {
         // Lấy session và kiểm tra user
         HttpSession session = request.getSession(false);
         users user = (session != null) ? (users) session.getAttribute("acc") : null;
-        // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
-        if (user == null || (user.getRole_id() != 2) || (user.getRole_id() != 1) || (user.getRole_id() != 3)) {
+        // Nếu chưa đăng nhập thì chặn
+        if (user == null) {
             response.sendRedirect("sign_in.jsp");
             return;
         }
