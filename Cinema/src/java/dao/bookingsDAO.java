@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import context.DBContext;
@@ -17,10 +13,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author GIGABYTE
- */
 public class bookingsDAO {
 
     Connection conn = null; // kết nối vs sql
@@ -174,6 +166,7 @@ public class bookingsDAO {
         }
         return null;
     }
+    
  public static bookings createBooking(int user_id, String date, double totalAmount, String status) {
     Connection conn = null;
     PreparedStatement ps = null;
@@ -213,4 +206,26 @@ public class bookingsDAO {
     }
     return booking;
 }
+ public void updateBookingStatus(int bookingId, String status) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        String query = "UPDATE bookings SET status = ? WHERE booking_id = ?";
+        
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, bookingId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (Exception ex) {
+                Logger.getLogger(bookingsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

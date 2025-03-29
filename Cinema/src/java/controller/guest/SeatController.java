@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.guest;
 
 import dao.seatsDAO;
@@ -18,10 +14,6 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-/**
- *
- * @author PCASUS
- */
 @WebServlet(name = "SeatController", urlPatterns = {"/SeatController"})
 public class SeatController extends HttpServlet {
 

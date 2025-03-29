@@ -106,7 +106,7 @@
                     <h3 class="hny-title mb-3 text-center">Search Movies</h3>
                     <form action="FilterController" method="post" class="search-form">
                         <div class="row">
-                            <!-- Search by Director or Actor -->
+                            <!-- Search by Name -->
                             <div class="col-md-6 mb-3">
                                 <input type="text" id="productName" name="name" class="form-control" 
                                        placeholder="Enter movie name" >
