@@ -49,7 +49,7 @@
                                 <a class="nav-link" href="HomePageController">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="movies.jsp">movies</a>
+                                <a class="nav-link" href="ViewAllController">movies</a>
                             </li>
 
                             <li class="nav-item active">
@@ -57,9 +57,13 @@
                             </li>
 
                             <li class="nav-item">
+                                <a class="nav-link" href="NewsListServlet">News</a>
+                            </li>
+                            <li class="nav-item active">
                                 <a class="nav-link" href="Contact_Us.jsp">Contact</a>
                             </li>
                         </ul>
+                        
 
                         <!--/search-right-->
                         <!--/search-right-->
@@ -114,7 +118,7 @@
 
         <!-- **************** -->
         <!-- Image Slider for MEET US Section-->
-        <div class="swiper-container" style="background-color: var(--theme-bg);">
+        <div style="padding-bottom: 280px" class="swiper-container" style="background-color: var(--theme-bg);">
             <h1 id="swiper-container-h1">Meet Our Team</h1>
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -187,129 +191,6 @@
             <!-- Add Pagination -->
             <div class="swiper-pagination"></div>
         </div>
-        <section class="w3l-clients" id="clients">
-            <!-- /grids -->
-            <!-- <div class="cusrtomer-layout py-5"> -->
-            <div class="container py-lg-4">
-                <!-- <div class="headerhny-title">
-                        <h3 class="hny-title">Our Testimonials</h3>
-                </div> -->
-                <!-- /grids -->
-                <div class="testimonial-width">
-                    <div class="owl-clients owl-carousel owl-theme mb-lg-5">
-                        <div class="item">
-                            <div class="testimonial-content">
-                                <div class="testimonial">
-                                    <blockquote>
-                                        <q>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit beatae laudantium
-                                            voluptate rem ullam dolore!.</q>
-                                    </blockquote>
-                                    <div class="testi-des">
-                                        <div class="test-img"><img src="assets/images/team1.jpg" class="img-fluid" alt="/">
-                                        </div>
-                                        <div class="peopl align-self">
-                                            <h3>Johnson smith</h3>
-                                            <p class="indentity">Washington</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimonial-content">
-                                <div class="testimonial">
-                                    <blockquote>
-                                        <q>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit beatae laudantium
-                                            voluptate rem ullam dolore!.</q>
-                                    </blockquote>
-                                    <div class="testi-des">
-                                        <div class="test-img"><img src="assets/images/team2.jpg" class="img-fluid" alt="/">
-                                        </div>
-                                        <div class="peopl align-self">
-                                            <h3>Alexander leo</h3>
-                                            <p class="indentity">Washington</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimonial-content">
-                                <div class="testimonial">
-                                    <blockquote>
-                                        <q>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit beatae laudantium
-                                            voluptate rem ullam dolore!.</q>
-                                    </blockquote>
-                                    <div class="testi-des">
-                                        <div class="test-img"><img src="assets/images/team3.jpg" class="img-fluid" alt="/">
-                                        </div>
-                                        <div class="peopl align-self">
-                                            <h3>Roy Linderson</h3>
-                                            <p class="indentity">Washington</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimonial-content">
-                                <div class="testimonial">
-                                    <blockquote>
-                                        <q>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit beatae laudantium
-                                            voluptate rem ullam dolore!.</q>
-                                    </blockquote>
-                                    <div class="testi-des">
-                                        <div class="test-img"><img src="assets/images/team4.jpg" class="img-fluid" alt="/">
-                                        </div>
-                                        <div class="peopl align-self">
-                                            <h3>Mike Thyson</h3>
-                                            <p class="indentity">Washington</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimonial-content">
-                                <div class="testimonial">
-                                    <blockquote>
-                                        <q>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit beatae laudantium
-                                            voluptate rem ullam dolore!.</q>
-                                    </blockquote>
-                                    <div class="testi-des">
-                                        <div class="test-img"><img src="assets/images/team2.jpg" class="img-fluid" alt="/">
-                                        </div>
-                                        <div class="peopl align-self">
-                                            <h3>Laura gill</h3>
-                                            <p class="indentity">Washington</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimonial-content">
-                                <div class="testimonial">
-                                    <blockquote>
-                                        <q>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit beatae laudantium
-                                            voluptate rem ullam dolore!.</q>
-                                    </blockquote>
-                                    <div class="testi-des">
-                                        <div class="test-img"><img src="assets/images/team3.jpg" class="img-fluid" alt="/">
-                                        </div>
-                                        <div class="peopl align-self">
-                                            <h3>Smith Johnson</h3>
-                                            <p class="indentity">Washington</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /grids -->
-            </div>
-        </section>
 
         <%@ include file="footer.jsp" %>
     </body>
