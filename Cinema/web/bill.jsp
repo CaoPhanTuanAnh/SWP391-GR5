@@ -38,7 +38,7 @@
             }
 
             .combo-card input {
-                display: none;
+
             }
 
             .combo-card .radio-label {
@@ -126,42 +126,51 @@
                             </div>
                         </form>-->
 
-            <h3>Chọn Combo</h3>
-            <div class="row">
-                <c:forEach var="combo" items="${e}">
-                    <div class="col-md-4">
-                        <div class="card combo-card">
-                            <div class="card-header text-center">
-                                <input type="radio" name="comboId" value="${combo.getCombo_id()}" 
-                                       data-price="${combo.getCombo_price()}" 
-                                       id="combo${combo.getCombo_id()}" onclick="updatePaymentLink()">
-                                <label for="combo${combo.getCombo_id()}" class="radio-label"></label>
-                            </div>
-                            <div class="card-body text-center">
-                                <h5 class="card-title">${combo.getCombo_name()}</h5>
-                                <p class="card-text">${combo.getCombo_price()} VND</p>
+            <form action="payment-VNPay">
+                <input type="hidden" name="amount" value="${65000 * fn:length(selectedSeats)}">
+                <input type="hidden" name="date" value="${startDate}">
+                <input type="hidden" name="time" value="${fn:escapeXml(startTime)}">
+                <input type="hidden" name="seat" value="${fn:join(selectedSeats, ',')}">
+                <input type="hidden" name="mid" value="${movie.getMovie_id()}">
+                <input type="hidden" name="branch" value="${brand.getTheater_id()}">
+                <input type="hidden" name="room" value="${room.getRoom_id()}">
+                <h3>Chọn Combo</h3>
+                <div class="row">
+                    <c:forEach var="combo" items="${e}">
+                        <div class="col-md-4">
+                            <div class="card combo-card">
+                                <div class="card-header text-center">
+                                    <input type="number" min="0" name="comboId${combo.getCombo_id()}" value="0">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">${combo.getCombo_name()}</h5>
+                                        <p class="card-text">${combo.getCombo_price()} VND</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </c:forEach>
-            </div>
+                    </c:forEach>
+                </div>
+                <input type="submit" value="Thanh Toán" name="submit" id="paymentLink" class="btn btn-outline-danger btn-block">
 
-            <a id="paymentLink" href="payment-VNPay?amount=${65000 * fn:length(selectedSeats)}
-               &date=${startDate}&time=${fn:escapeXml(startTime)}&seat=${fn:join(selectedSeats, ',')}
-               &mid=${movie.getMovie_id()}&branch=${brand.getTheater_id()}&room=${room.getRoom_id()}
-               &combo=0" class="btn btn-outline-danger btn-block">Thanh Toán</a>
+
+
+                <!--<a id="paymentLink" href="payment-VNPay?amount=${65000 * fn:length(selectedSeats)}
+                   &date=${startDate}&time=${fn:escapeXml(startTime)}&seat=${fn:join(selectedSeats, ',')}
+                   &mid=${movie.getMovie_id()}&branch=${brand.getTheater_id()}&room=${room.getRoom_id()}
+                   &combo=0" class="btn btn-outline-danger btn-block">Thanh Toán</a>-->
 
         </div>
-        <br>
+    </form>
+    <br>
 
 
 
 
-        <!-- end of movie selections -->
-        <br>
-        <br>
-        <%@ include file="footer.jsp" %>
-    </body>
+    <!-- end of movie selections -->
+    <br>
+    <br>
+    <%@ include file="footer.jsp" %>
+</body>
 
 </html>
 <script src="assets/js/jquery-3.3.1.min.js"></script>
@@ -169,36 +178,36 @@
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <script>
-                    $(document).ready(function () {
-                        $('.owl-four').owlCarousel({
-                            loop: true,
-                            margin: 20,
-                            nav: false,
-                            responsiveClass: true,
-                            autoplay: false,
-                            autoplayTimeout: 5000,
-                            autoplaySpeed: 1000,
-                            autoplayHoverPause: false,
-                            responsive: {
-                                0: {
-                                    items: 1,
-                                    nav: false
-                                },
-                                480: {
-                                    items: 2,
-                                    nav: true
-                                },
-                                667: {
-                                    items: 2,
-                                    nav: true
-                                },
-                                1000: {
-                                    items: 2,
-                                    nav: true
-                                }
-                            }
-                        })
-                    })
+    $(document).ready(function () {
+        $('.owl-four').owlCarousel({
+            loop: true,
+            margin: 20,
+            nav: false,
+            responsiveClass: true,
+            autoplay: false,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: false
+                },
+                480: {
+                    items: 2,
+                    nav: true
+                },
+                667: {
+                    items: 2,
+                    nav: true
+                },
+                1000: {
+                    items: 2,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {
@@ -292,17 +301,16 @@
 </script>
 
 <script>
-    function updatePaymentLink() {
-        let selectedCombo = document.querySelector('input[name="comboId"]:checked');
-        let comboPrice = selectedCombo ? selectedCombo.getAttribute("data-price") : 0;
+    function updateComboPrice(id,baseprice,quantity) {
+        //let comboPrice = document.querySelector('input[name="comboId"]:checked');
 
-        let paymentLink = document.getElementById("paymentLink");
-        let baseUrl = "payment-VNPay?amount=${65000 * fn:length(selectedSeats)}" +
-                "&date=${startDate}&time=${fn:escapeXml(startTime)}" +
-                "&seat=${fn:join(selectedSeats, ',')}&mid=${movie.getMovie_id()}" +
-                "&branch=${brand.getTheater_id()}&room=${room.getRoom_id()}";
+        //let paymentLink = document.getElementById("paymentLink");
+        //let baseUrl = "payment-VNPay?amount=${65000 * fn:length(selectedSeats)}" +
+        //        "&date=${startDate}&time=${fn:escapeXml(startTime)}" +
+        //        "&seat=${fn:join(selectedSeats, ',')}&mid=${movie.getMovie_id()}" +
+        //        "&branch=${brand.getTheater_id()}&room=${room.getRoom_id()}";
 
-        paymentLink.href = baseUrl + "&combo=" + comboPrice;
+        //paymentLink.href = baseUrl + "&combo=" + comboPrice;
     }
 </script>
 

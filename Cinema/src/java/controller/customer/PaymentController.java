@@ -1,10 +1,12 @@
 package controller.customer;
 
 import dao.bookingsDAO;
+import dao.combosDAO;
 import dao.seatsDAO;
 import dao.showtimesDAO;
 import dao.ticketDAO;
 import entity.bookings;
+import entity.combos;
 import entity.showtimes;
 import entity.users;
 import java.io.IOException;
@@ -79,19 +81,33 @@ public class PaymentController extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        
+        //HttpSession session = request.getSession();
+        users acc = (users) session.getAttribute("acc");
+        //bookings a = new bookings();
+        //a = bookingsDAO.createBooking(acc.getUser_id(), date, Double.parseDouble(String.valueOf(amount)), "Booked");
+        // Tạo booking với trạng thái "Pending"
+        bookings booking = bookingsDAO.createBooking(acc.getUser_id(), date, Double.parseDouble(String.valueOf(amount)), "Pending");
+        combosDAO combosdao = new combosDAO();
+        List<combos> comlist = combosdao.listCombo();
+        for (combos com : comlist) {
+            int quantity = Integer.parseInt(request.getParameter("comboId" + com.getCombo_id()));
+            if (quantity > 0) {
+                amount += quantity * com.getCombo_price();
+                combosdao.addBookingCombo(booking.getBooking_id(), com.getCombo_id(), quantity);
+            }
+        }
 
         String orderId = PaymentConfig.getRandomNumber(3);
         amount = amount * 100;
-        combo = combo * 100;
-
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", PaymentConfig.VERSION);
         vnp_Params.put("vnp_Command", PaymentConfig.COMMAND);
         vnp_Params.put("vnp_TmnCode", PaymentConfig.vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(amount + combo));
+        vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_TxnRef", orderId);
-        vnp_Params.put("vnp_OrderInfo", "GYMM - Thanh toan hoa don");
+        vnp_Params.put("vnp_OrderInfo", "MTBS - Thanh toan hoa don");
         vnp_Params.put("vnp_OrderType", PaymentConfig.ORDER_TYPE);
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_BankCode", "VNBANK");
@@ -123,10 +139,9 @@ public class PaymentController extends HttpServlet {
 
         showtimesDAO showtimeDAO = new showtimesDAO();
         showtimes showtime = showtimeDAO.getShowTimebyDateTime(startDate, startTime, mid, room);
-        users acc = (users) session.getAttribute("acc");
+        //users acc = (users) session.getAttribute("acc");
 
-        // Tạo booking với trạng thái "Pending"
-        bookings booking = bookingsDAO.createBooking(acc.getUser_id(), date, Double.parseDouble(String.valueOf(amount + combo)) / 100, "Pending");
+        
 
         // Tạo ticket và đặt ghế ở trạng thái "Pending"
         seatsDAO seatsDAO = new seatsDAO();

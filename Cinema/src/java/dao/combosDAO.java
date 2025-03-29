@@ -84,4 +84,19 @@ public class combosDAO {
         }
         return false;
     }
+    
+    public int addBookingCombo(int booking_id, int combo_id, int quantity){
+        String query = "insert into booking_combos values(?,?,?)";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, booking_id);
+            ps.setInt(2,combo_id);
+            ps.setInt(3, quantity);
+            return ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(combosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 }

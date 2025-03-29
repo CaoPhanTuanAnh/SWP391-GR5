@@ -172,6 +172,7 @@ public class bookingsDAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
     bookings booking = null;
+    LocalDate now = LocalDate.now();
 
     String query = "INSERT INTO bookings (user_id, booking_date, total_amount, status) VALUES (?, ?, ?, ?)";
     
@@ -180,8 +181,8 @@ public class bookingsDAO {
         ps = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
         
         ps.setInt(1, user_id);
-        ps.setString(2, LocalDate.now().toString());
-        ps.setDouble(3, totalAmount/100);
+        ps.setString(2, now.toString());
+        ps.setDouble(3, totalAmount);
         ps.setString(4, status);
 
         int affectedRows = ps.executeUpdate();
@@ -190,7 +191,7 @@ public class bookingsDAO {
             rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 int booking_id = rs.getInt(1); // Lấy booking_id vừa tạo
-                booking = new bookings(booking_id, user_id, date, 0.0, 0, totalAmount, status); 
+                booking = new bookings(booking_id, user_id, now.toString(), 0.0, 0, totalAmount, status); 
             }
         }
     } catch (Exception e) {
