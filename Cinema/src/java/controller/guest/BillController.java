@@ -1,42 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.guest;
 
 import dao.combosDAO;
 import dao.roomsDAO;
 import dao.theatersDAO;
 import dao.moviesDAO;
+import dao.seatsDAO;
 import entity.combos;
 import entity.rooms;
 import entity.theaters;
 import entity.movies;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
-/**
- *
- * @author PCASUS
- */
 @WebServlet(name = "BillController", urlPatterns = {"/BillController"})
 public class BillController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String mid_raw = request.getParameter("mid");
@@ -45,11 +31,56 @@ public class BillController extends HttpServlet {
         String startTime_raw = request.getParameter("startTime");
         String roomId_raw = request.getParameter("roomId");
         String[] selectedSeats = request.getParameterValues("seats");
+
+        // Kiểm tra nếu không có ghế nào được chọn
+        if (selectedSeats == null || selectedSeats.length == 0) {
+            request.setAttribute("bookedError", "Vui lòng chọn ít nhất một ghế!");
+            // Giữ lại các thông tin để hiển thị lại trên seat.jsp
+            request.setAttribute("mid", mid_raw);
+            request.setAttribute("branchId", branchId_raw);
+            request.setAttribute("startDate", startDate_raw);
+            request.setAttribute("startTime", startTime_raw);
+            request.setAttribute("roomId", roomId_raw);
+
+            // Tải lại danh sách ghế
+            seatsDAO seatDAO = new seatsDAO();
+            try {
+                int mid = Integer.parseInt(mid_raw);
+                int branchId = Integer.parseInt(branchId_raw);
+                int roomId = Integer.parseInt(roomId_raw);
+
+                // Chuyển đổi startDate từ String sang java.sql.Date
+                Date startDate = Date.valueOf(startDate_raw);
+
+                // Chuyển đổi startTime từ định dạng 12 giờ (AM/PM) sang 24 giờ
+                SimpleDateFormat sdf12 = new SimpleDateFormat("hh:mm:ss a"); // Định dạng 12 giờ với AM/PM
+                SimpleDateFormat sdf24 = new SimpleDateFormat("HH:mm:ss");   // Định dạng 24 giờ
+                String formattedTime = sdf24.format(sdf12.parse(startTime_raw));
+                Time startTime = Time.valueOf(formattedTime);
+
+                // Tải danh sách ghế cho từng hàng
+                request.setAttribute("listA", seatDAO.getAllSeatA(mid, branchId, startDate, startTime, roomId));
+                request.setAttribute("listB", seatDAO.getAllSeatB(mid, branchId, startDate, startTime, roomId));
+                request.setAttribute("listC", seatDAO.getAllSeatC(mid, branchId, startDate, startTime, roomId));
+                request.setAttribute("listD", seatDAO.getAllSeatD(mid, branchId, startDate, startTime, roomId));
+                request.setAttribute("listE", seatDAO.getAllSeatE(mid, branchId, startDate, startTime, roomId));
+
+            } catch (Exception e) {
+                log("Error loading seats in BillController: " + e.toString());
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+                return;
+            }
+
+            request.getRequestDispatcher("seat.jsp").forward(request, response);
+            return;
+        }
+
+        // Xử lý khi có ghế được chọn
         moviesDAO a = new moviesDAO();
         theatersDAO b = new theatersDAO();
         roomsDAO c = new roomsDAO();
         combosDAO d = new combosDAO();
-        
+
         try {
             int mid = Integer.parseInt(mid_raw);
             int branchId = Integer.parseInt(branchId_raw);
@@ -59,9 +90,7 @@ public class BillController extends HttpServlet {
             theaters brand = b.getBrand(branchId);
             rooms room = c.getRoom(roomId);
             List<combos> e = d.listCombo();
-            
-            
-          
+
             request.setAttribute("room", room);
             request.setAttribute("movie", movie);
             request.setAttribute("brand", brand);
@@ -73,50 +102,27 @@ public class BillController extends HttpServlet {
             request.setAttribute("e", e);
             request.setAttribute("selectedSeats", selectedSeats);
 
-        } catch (Exception e) {
-            log("Error at HomeController: " + e.toString());
-        } finally {
             request.getRequestDispatcher("bill.jsp").forward(request, response);
+        } catch (Exception e) {
+            log("Error at BillController: " + e.toString());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }

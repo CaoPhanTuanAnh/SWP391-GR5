@@ -1,20 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import context.DBContext;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author PCASUS
- */
 public class ticketDAO extends DBContext {
 
     public static void createTicket(int showtime_id, int seat, int user_id, int booking_id, double price, String status) {
@@ -51,5 +46,58 @@ public class ticketDAO extends DBContext {
             }
         }
     }
+// Phương thức mới: Lấy danh sách seatId theo bookingId
+    public List<String> getSeatIdsByBookingId(int bookingId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<String> seatIds = new ArrayList<>();
+        String query = "SELECT seat_id FROM tickets WHERE booking_id = ?";
 
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, bookingId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                seatIds.add(rs.getString("seat_id")); // Chuyển seat_id thành String nếu cần
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ticketDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (Exception ex) {
+                Logger.getLogger(ticketDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return seatIds;
+    }
+
+    // Phương thức mới: Cập nhật trạng thái ticket
+    public void updateTicketStatus(int bookingId, String seatId, String status) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        String query = "UPDATE tickets SET status = ? WHERE booking_id = ? AND seat_id = ?";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, bookingId);
+            ps.setString(3, seatId); // seatId là String để đồng bộ với seatsDAO
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ticketDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (Exception ex) {
+                Logger.getLogger(ticketDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }
