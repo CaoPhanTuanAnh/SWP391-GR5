@@ -29,135 +29,33 @@
     </head>
 
     <body>
-        <!-- nav bar -->
-        <header id="site-header" class="w3l-header fixed-top">
-            <!--/nav-->
-            <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-3">
-                <div class="container">
-                    <h1><a class="navbar-brand" href="HomePage.jsp"><span class="fa fa-play icon-log"
-                                                                          aria-hidden="true"></span>
-                            MyShowz </a></h1>
-                    <!-- if logo is image enable this   
-                                            <a class="navbar-brand" href="#index.jsp">
-                                                    <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
-                                            </a> -->
-                    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <!-- <span class="navbar-toggler-icon"></span> -->
-                        <span class="fa icon-expand fa-bars"></span>
-                        <span class="fa icon-close fa-times"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="HomePage.jsp">Home</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="movies.jsp">Movies</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="about.jsp">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="Contact_Us.jsp">Contact</a>
-                            </li>
-                        </ul>
-
-                        <!--/search-right-->
-                        <!--/search-right-->
-                        <div class="search-right">
-                            <a href="#search" class="btn search-hny mr-lg-3 mt-lg-0 mt-4" title="search">Search <span
-                                    class="fa fa-search ml-3" aria-hidden="true"></span></a>
-                            <!-- search popup -->
-                            <div id="search" class="pop-overlay">
-                                <div class="popup">
-                                    <form action="#" method="post" class="search-box">
-                                        <input type="search" placeholder="Search your Keyword" name="search"
-                                               required="required" autofocus="">
-                                        <button type="submit" class="btn"><span class="fa fa-search"
-                                                                                aria-hidden="true"></span></button>
-                                    </form>
-                                    <div class="browse-items">
-                                        <h3 class="hny-title two mt-md-5 mt-4">Browse all:</h3>
-                                        <ul class="search-items">
-                                            <li><a href="movies.jsp">Action</a></li>
-                                            <li><a href="movies.jsp">Drama</a></li>
-                                            <li><a href="movies.jsp">Family</a></li>
-                                            <li><a href="movies.jsp">Thriller</a></li>
-                                            <li><a href="movies.jsp">Commedy</a></li>
-                                            <li><a href="movies.jsp">Romantic</a></li>
-                                            <li><a href="movies.jsp">Tv-Series</a></li>
-                                            <li><a href="movies.jsp">Horror</a></li>
-                                            <li><a href="movies.jsp">Action</a></li>
-                                            <li><a href="movies.jsp">Drama</a></li>
-                                            <li><a href="movies.jsp">Family</a></li>
-                                            <li><a href="movies.jsp">Thriller</a></li>
-                                            <li><a href="movies.jsp">Commedy</a></li>
-                                            <li><a href="movies.jsp">Romantic</a></li>
-                                            <li><a href="movies.jsp">Tv-Series</a></li>
-                                            <li><a href="movies.jsp">Horror</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <a class="close" href="#close">×</a>
-                            </div>
-                            <!-- /search popup -->
-                            <!--/search-right-->
-                        </div>
-                        <div class="Login_SignUp" id="login"
-                             style="font-size: 2rem ; display: inline-block; position: relative;">
-                            <!-- <li class="nav-item"> -->
-                            <a class="nav-link" href="sign_in.jsp"><i class="fa fa-user-circle-o"></i></a>
-                            <!-- </li> -->
-                        </div>
-
-                    </div>
-                    <!-- toggle switch for light and dark theme -->
-                    <div class="mobile-position">
-                        <nav class="navigation">
-                            <div class="theme-switch-wrapper">
-                                <label class="theme-switch" for="checkbox">
-                                    <input type="checkbox" id="checkbox">
-                                    <div class="mode-container">
-                                        <i class="gg-sun"></i>
-                                        <i class="gg-moon"></i>
-                                    </div>
-                                </label>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <!-- end of navbar -->
+        <%@ include file="header.jsp" %>
 
         <!-- movie selections-->
-      <br>
-<br>
-<br>
+        <br>
+        <br>
+        <br>
 
-<h2 class="container">Chọn Phòng</h2>
-<br><!-- comment -->
-<br>
+        <h2 class="container">Chọn Phòng</h2>
+        <br><!-- comment -->
+        <br>
 
-<div class="d-flex justify-content-between flex-wrap container">
-    <c:forEach items="${listrooms}" var="room">
-    <div class="card branch-item" style="width:500px; margin-bottom:50px">
-        <img class="card-img-top img-branch"
-             src="${room.getImg()}"
-             alt="Card image" style="width:100%">
-        <div class="card-body">
-            <h4 class="card-title"> ${room.getRoom_name()} </h4>
-            <p class="card-text">Sức chứa: ${room.getCapacity()} người </p>
-            <a href="SeatController?mid=${requestScope.mid}&branchId=${requestScope.branchId}&startDate=${requestScope.startDate}&startTime=${requestScope.startTime}&roomId=${room.getRoom_id()}"
-               class="btn btn-outline-danger btn-block">Chọn</a>
+        <div class="d-flex justify-content-between flex-wrap container">
+            <c:forEach items="${listrooms}" var="room">
+                <div class="card branch-item" style="width:500px; margin-bottom:50px">
+                    <img class="card-img-top img-branch"
+                         src="${room.getImg()}"
+                         alt="Card image" style="width:100%">
+                    <div class="card-body">
+                        <h4 class="card-title"> ${room.getRoom_name()} </h4>
+                        <p class="card-text">Sức chứa: ${room.getCapacity()} người </p>
+                        <a href="SeatController?mid=${requestScope.mid}&branchId=${requestScope.branchId}&startDate=${requestScope.startDate}&startTime=${requestScope.startTime}&roomId=${room.getRoom_id()}"
+                           class="btn btn-outline-danger btn-block">Chọn</a>
+                    </div>
+                </div>
+            </c:forEach>
+
         </div>
-    </div>
-    </c:forEach>
-
-</div>
 
         <br>
 
@@ -176,36 +74,36 @@
 <script src="assets/js/theme-change.js"></script>
 <script src="assets/js/owl.carousel.js"></script>
 <script>
-                    $(document).ready(function () {
-                        $('.owl-four').owlCarousel({
-                            loop: true,
-                            margin: 20,
-                            nav: false,
-                            responsiveClass: true,
-                            autoplay: false,
-                            autoplayTimeout: 5000,
-                            autoplaySpeed: 1000,
-                            autoplayHoverPause: false,
-                            responsive: {
-                                0: {
-                                    items: 1,
-                                    nav: false
-                                },
-                                480: {
-                                    items: 2,
-                                    nav: true
-                                },
-                                667: {
-                                    items: 2,
-                                    nav: true
-                                },
-                                1000: {
-                                    items: 2,
-                                    nav: true
-                                }
-                            }
-                        })
-                    })
+    $(document).ready(function () {
+        $('.owl-four').owlCarousel({
+            loop: true,
+            margin: 20,
+            nav: false,
+            responsiveClass: true,
+            autoplay: false,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: false
+                },
+                480: {
+                    items: 2,
+                    nav: true
+                },
+                667: {
+                    items: 2,
+                    nav: true
+                },
+                1000: {
+                    items: 2,
+                    nav: true
+                }
+            }
+        })
+    })
 </script>
 <script>
     $(document).ready(function () {
