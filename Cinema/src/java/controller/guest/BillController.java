@@ -9,6 +9,7 @@ import entity.combos;
 import entity.rooms;
 import entity.theaters;
 import entity.movies;
+import entity.users;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -19,12 +20,22 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 @WebServlet(name = "BillController", urlPatterns = {"/BillController"})
 public class BillController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Lấy session và kiểm tra user
+        HttpSession session = request.getSession(false);
+        users user = (session != null) ? (users) session.getAttribute("acc") : null;
+        // Nếu chưa đăng nhập thì chặn
+        if (user == null) {
+            response.sendRedirect("sign_in.jsp");
+            return;
+        }
         String mid_raw = request.getParameter("mid");
         String branchId_raw = request.getParameter("branchId");
         String startDate_raw = request.getParameter("startDate");

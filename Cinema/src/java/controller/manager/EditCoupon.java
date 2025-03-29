@@ -7,6 +7,7 @@ package controller.manager;
 import controller.admin.*;
 import dao.couponDAO;
 import entity.coupon;
+import entity.users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 
 /**
@@ -34,6 +36,15 @@ public class EditCoupon extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession(false);
+        users user = (session != null) ? (users) session.getAttribute("acc") : null;
+
+        // Nếu chưa đăng nhập hoặc không phải Manager thì chặn
+        if (user == null || (user.getRole_id() != 2)) {
+            response.sendRedirect("AccessDenied.jsp");
+            return;
+        }
         try {
             // Lấy dữ liệu từ form
             int couponID = Integer.parseInt(request.getParameter("couponID"));

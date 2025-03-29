@@ -35,21 +35,21 @@ public class LoginControl extends HttpServlet {
         try {
             String user = request.getParameter("username");
             String pass = request.getParameter("password");
-            
+
             pass = MaHoa.toSHA1(pass);
-            
+
             DAO dao = new DAO();
             users a = dao.login(user, pass);
-            if(a == null){
+            if (a == null) {
                 request.setAttribute("mess", "Wrong username or password");
                 request.getRequestDispatcher("sign_in.jsp").forward(request, response);
-            }else{
+            } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("acc", a);
                 session.setAttribute("managerId", a.getUser_id()); // Lưu ID của manager
                 response.sendRedirect("HomePageController");
             }
-        }catch(Exception e){
+        } catch (Exception e) {
         }
     }
 
@@ -81,26 +81,26 @@ public class LoginControl extends HttpServlet {
             throws ServletException, IOException {
         String user = request.getParameter("username");
         String pass = request.getParameter("password");
-        
+
         pass = MaHoa.toSHA1(pass);
-        
+
         DAO dao = new DAO();
         users a = dao.login(user, pass);
-        if(a == null){
-                request.setAttribute("mess", "Wrong username or password");
+        if (a == null) {
+            request.setAttribute("mess", "Wrong username or password");
+            request.getRequestDispatcher("sign_in.jsp").forward(request, response);
+        } else {
+            if (a.getStatus().equals("Active")) {
+                HttpSession session = request.getSession();
+                session.setAttribute("acc", a);
+                session.setAttribute("managerId", a.getUser_id()); // Lưu ID của manager
+                response.sendRedirect("HomePageController");
+            } else {
+                request.setAttribute("mess", "Account has been banned");
                 request.getRequestDispatcher("sign_in.jsp").forward(request, response);
-            }else{
-                if (a.getStatus().equals("Active")) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("acc", a);
-                    session.setAttribute("managerId", a.getUser_id()); // Lưu ID của manager
-                    response.sendRedirect("HomePageController");
-                }else{
-                    request.setAttribute("mess", "Account has been banned");
-                    request.getRequestDispatcher("sign_in.jsp").forward(request, response);
-                }
-                
             }
+
+        }
     }
 
     /**
