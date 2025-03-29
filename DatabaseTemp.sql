@@ -384,7 +384,7 @@ begin
 insert into tickets(showtime_id,seat_id,price,status)
 select i.showtime_id,seat_id, 65000,'Available' -- Cong thuc tinh tien ve co the cap nhat sau
 from inserted i
-join rooms r on r.room_id = i.showtime_id
+join rooms r on r.room_id = i.room_id
 join seats s on s.room_id = r.room_id
 where i.status = 'Submitted'
 end
