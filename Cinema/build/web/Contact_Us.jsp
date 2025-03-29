@@ -1,8 +1,3 @@
-<%-- 
-    Document   : Contact_Us
-    Created on : Feb 8, 2025, 3:59:40 PM
-    Author     : bolac
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,10 +18,7 @@
       <div class="container">
         <h1><a class="navbar-brand" href="HomePageController"><span class="fa fa-play icon-log" aria-hidden="true"></span>
           MyShowz </a></h1>
-        <!-- if logo is image enable this   
-                    <a class="navbar-brand" href="#index.jsp">
-                        <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
-                    </a> -->
+       
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
           data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
           aria-label="Toggle navigation">
